@@ -1,0 +1,133 @@
+{%- comment -%}
+  Simply Kids — referral attribution capture                      (OPTIONAL)
+  ---------------------------------------------------------------------------
+  READ THIS BEFORE INSTALLING IT.
+
+  DO NOT USE THIS IF YOU INSTALL AN AFFILIATE APP.
+  UpPromote, Refersion, GoAffPro, Social Snowball, LeadDyno and Shopify Collabs
+  all capture the referral themselves through their own app embed. Running this
+  as well means two things racing to own the same attribution, and when they
+  disagree you will not be able to tell which one paid the wrong affiliate.
+  Pick one. If you pick an app, delete this file.
+
+  WHAT THIS DOES
+  Captures a referral code from the URL (?ref=CODE), remembers it for a set
+  number of days, and writes it onto the cart as a cart attribute so it lands
+  on the order. In Shopify Admin the code then appears on the order under
+  "Additional details", and it comes through in an order export.
+
+  WHAT THIS DOES NOT DO — and cannot, from a theme
+  · Calculate commission.
+  · Pay anybody.
+  · Give affiliates a dashboard, a signup flow, or their own link.
+  · Detect fraud or self-referral.
+  · Survive a customer switching device or browser.
+  · Attribute anything if the customer blocks storage.
+
+  It is attribution capture only. It suits two situations:
+   1. You are paying affiliates manually from an order export, and you want
+      link attribution rather than only discount codes.
+   2. You are building a custom app later, and want the theme side already
+      in place and collecting.
+
+  HOW TO INSTALL
+  Add one line to snippets/sk-head.liquid, at the end:
+      {% render 'sk-affiliate-capture' %}
+  That keeps layout/theme.liquid at its single custom line.
+
+  HOW TO TEST
+  Visit  https://your-store.com/?ref=TESTCODE  then add something to the cart
+  and open /cart.js in the same tab — you should see
+  "attributes": { "Referral": "TESTCODE" }.
+  Place a test order and confirm the code appears on the order in Admin.
+{%- endcomment -%}
+
+{%- liquid
+  assign sk_ref_param = 'ref'
+  assign sk_ref_attribute = 'Referral'
+  assign sk_ref_days = 30
+-%}
+
+<script>
+  (function () {
+    'use strict';
+
+    var PARAM = {{ sk_ref_param | json }};
+    var ATTR = {{ sk_ref_attribute | json }};
+    var DAYS = {{ sk_ref_days | json }};
+    var KEY = 'sk_referral';
+
+    var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+
+    /* Accept only a conservative code shape. Without this, anything in the
+       query string ends up on an order and, later, in whatever you export it
+       to — a small but real injection surface. */
+    function clean(value) {
+      if (!value) return null;
+      value = String(value).trim().slice(0, 64);
+      return /^[A-Za-z0-9_-]+$/.test(value) ? value : null;
+    }
+
+    function read() {
+      try {
+        var raw = localStorage.getItem(KEY);
+        if (!raw) return null;
+        var saved = JSON.parse(raw);
+        if (!saved || !saved.code) return null;
+        if (Date.now() - saved.at > DAYS * 864e5) {
+          localStorage.removeItem(KEY);
+          return null;
+        }
+        return clean(saved.code);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function write(code) {
+      try {
+        localStorage.setItem(KEY, JSON.stringify({ code: code, at: Date.now() }));
+      } catch (e) {
+        /* Private window or storage blocked. The code still applies to this
+           page view via the cart attribute below; it just will not persist. */
+      }
+    }
+
+    /* First-touch wins: an affiliate who introduced the customer keeps the
+       credit if they come back through a different link inside the window.
+       To make it last-touch instead, drop the `if (!read())` guard. */
+    var fromUrl = null;
+    try {
+      fromUrl = clean(new URLSearchParams(window.location.search).get(PARAM));
+    } catch (e) {}
+
+    if (fromUrl && !read()) write(fromUrl);
+
+    var code = read() || fromUrl;
+    if (!code) return;
+
+    /* Cart attributes are cleared when an order completes, so this re-applies
+       on every page load rather than only when the code is first seen. */
+    function apply() {
+      fetch(root + 'cart.js', { headers: { Accept: 'application/json' } })
+        .then(function (r) { return r.json(); })
+        .then(function (cart) {
+          if (cart.attributes && cart.attributes[ATTR] === code) return;
+          var body = { attributes: {} };
+          body.attributes[ATTR] = code;
+          return fetch(root + 'cart/update.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(body),
+          });
+        })
+        .catch(function () { /* never block the storefront over attribution */ });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', apply);
+    } else {
+      apply();
+    }
+  })();
+</script>
