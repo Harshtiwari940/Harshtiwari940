@@ -1,0 +1,122 @@
+{%- comment -%}
+  Simply Kids — "just right zone" cards
+
+  The too mild / just right / too harsh comparison from v19-home. The middle
+  card is emphasised; on a phone it moves to the top (CSS `order: -1`) so the
+  recommended option is seen first rather than buried between the two it is
+  being compared against.
+
+  Deliberately blue-toned: this section is not on the brand book's sanctioned
+  pastel-accent list, which is limited to the announcement bar, PDP and
+  Community.
+{%- endcomment -%}
+
+{% render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+%}
+
+<div class="sk-section color-{{ section.settings.color_scheme }} gradient sk-section-{{ section.id }}">
+  <div class="sk-section__inner">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="sk-section__head sk-section__head--center">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="sk-section__title">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="sk-section__sub">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="sk-grid sk-grid--3">
+      {%- for block in section.blocks -%}
+        <div class="sk-zone sk-zone--{{ block.settings.tone }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.flag != blank -%}
+            <span class="sk-zone__flag">{{ block.settings.flag | escape }}</span>
+          {%- endif -%}
+
+          {%- if block.settings.title != blank -%}
+            <h3 class="sk-zone__title">{{ block.settings.title | escape }}</h3>
+          {%- endif -%}
+
+          {%- if block.settings.text != blank -%}
+            <div class="sk-zone__text">{{ block.settings.text }}</div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK · Zone cards",
+  "tag": "section",
+  "class": "sk-section-wrapper",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The just-right zone" },
+    { "type": "inline_richtext", "id": "subheading", "label": "Subheading" },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
+    {
+      "type": "range", "id": "padding_top",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "label": "t:sections.all.padding.padding_top", "default": 56
+    },
+    {
+      "type": "range", "id": "padding_bottom",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom", "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "zone",
+      "name": "Zone",
+      "settings": [
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Emphasis",
+          "options": [
+            { "value": "mild", "label": "Soft (left)" },
+            { "value": "right", "label": "Recommended (raised)" },
+            { "value": "harsh", "label": "Grey (right)" }
+          ],
+          "default": "mild"
+        },
+        { "type": "text", "id": "flag", "label": "Flag", "default": "Too mild" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Baby formulas" },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Built for skin that hasn't found its oil balance yet.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK · Zone cards",
+      "blocks": [
+        { "type": "zone", "settings": { "tone": "mild", "flag": "Too mild", "title": "Baby formulas" } },
+        { "type": "zone", "settings": { "tone": "right", "flag": "Just right", "title": "Simply Kids" } },
+        { "type": "zone", "settings": { "tone": "harsh", "flag": "Too harsh", "title": "Adult skincare" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

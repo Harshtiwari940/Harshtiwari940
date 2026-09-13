@@ -1,0 +1,34 @@
+{%- comment -%}
+  Simply Kids — per-section padding
+
+  Emits the same scoped padding rule Dawn uses on its own sections, so top and
+  bottom spacing is a theme-editor setting rather than a hardcoded value in
+  the markup. The previous build wrote `style="padding:96px 0"` inline on every
+  section, which no media query could override — which is why a separate
+  stylesheet existed to fight them with [style*="…"] selectors.
+
+  Usage, at the top of any sk- section:
+    {% render 'sk-section-padding', id: section.id,
+       top: section.settings.padding_top, bottom: section.settings.padding_bottom %}
+
+  Accepts: id (required), top, bottom — top/bottom in px, as Dawn's range
+  settings produce. Mobile gets 75% of the desktop value, matching Dawn.
+{%- endcomment -%}
+
+{%- liquid
+  assign pt = top | default: 48
+  assign pb = bottom | default: 48
+-%}
+{%- style -%}
+  .sk-section-{{ id }} {
+    padding-top: {{ pt | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ pb | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .sk-section-{{ id }} {
+      padding-top: {{ pt }}px;
+      padding-bottom: {{ pb }}px;
+    }
+  }
+{%- endstyle -%}

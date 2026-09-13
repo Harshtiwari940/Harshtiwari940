@@ -1,0 +1,63 @@
+{%- comment -%}
+  Judge.me widgets — fallback shim
+  ---------------------------------------------------------------------------
+  WHY THIS FILE EXISTS
+
+  Liquid has no way to test whether a snippet exists, so `{% render 'x' %}`
+  against a missing snippet is a FATAL error that takes down the whole page:
+  "Could not find asset snippets/judgeme_widgets.liquid".
+
+  The product card renders this snippet whenever ratings are switched on. The
+  real snippet is installed by the Judge.me app — so on any theme where the app
+  has not been installed yet (a fresh Dawn copy, a preview theme, a duplicate),
+  every collection page would 500 without this file.
+
+  This shim emits Judge.me's standard container markup, which the app's own
+  JavaScript hydrates once the Judge.me app embed is enabled. If you install or
+  reinstall Judge.me on this theme, its installer overwrites this file with the
+  real one and everything keeps working.
+
+  IF YOU DO NOT USE JUDGE.ME: leave this file in place and turn off "Show
+  product rating" in the section settings. Do not delete it — a later theme
+  copy could re-enable the setting and hit the fatal error again.
+
+  Accepts: widget_type, product. Other parameters the app passes
+  (concierge_install and friends) are accepted and ignored.
+{%- endcomment -%}
+
+{%- liquid
+  assign wt = widget_type | default: 'judgeme_preview_badge'
+  assign pid = product.id
+-%}
+
+{%- if pid -%}
+  {%- case wt -%}
+    {%- when 'judgeme_preview_badge' -%}
+      <div
+        class="jdgm-widget jdgm-preview-badge"
+        data-id="{{ pid }}"
+        data-template="index"
+        data-product-title="{{ product.title | escape }}"
+      ></div>
+
+    {%- when 'judgeme_product_reviews' -%}
+      <div
+        class="jdgm-widget jdgm-review-widget"
+        data-id="{{ pid }}"
+        data-product-title="{{ product.title | escape }}"
+      ></div>
+
+    {%- when 'judgeme_all_reviews_rating', 'judgeme_all_reviews_count' -%}
+      <div
+        class="jdgm-widget jdgm-all-reviews-rating"
+        data-average-rating="{{ product.metafields.reviews.rating.value.rating | default: '' }}"
+      ></div>
+
+    {%- else -%}
+      <div
+        class="jdgm-widget jdgm-preview-badge"
+        data-id="{{ pid }}"
+        data-product-title="{{ product.title | escape }}"
+      ></div>
+  {%- endcase -%}
+{%- endif -%}

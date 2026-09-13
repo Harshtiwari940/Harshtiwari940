@@ -1,0 +1,150 @@
+{
+  "sections": {
+    "hero": {
+      "type": "sk-hero",
+      "settings": {
+        "eyebrow": "Our science",
+        "heading": "Why pH <em>5.5</em> matters",
+        "heading_tag": "h1",
+        "subheading": "Children's skin sits at a different pH to an adult's, and reacts differently when you get it wrong.",
+        "button_label": "",
+        "color_scheme": "scheme-3",
+        "padding_top": 60,
+        "padding_bottom": 32
+      }
+    },
+    "stats": {
+      "type": "sk-stat-table",
+      "settings": {
+        "eyebrow": "The numbers",
+        "heading": "What the testing says",
+        "col_1": "Measure",
+        "col_2": "Result",
+        "col_3": "",
+        "chips_heading": "What goes in",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      },
+      "blocks": {
+        "r1": {
+          "type": "row",
+          "settings": {
+            "label": "Formula pH",
+            "value": "5.5",
+            "note": ""
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "label": "Dermatologically tested",
+            "value": "Ages 4-12",
+            "note": ""
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "label": "Reported irritation",
+            "value": "0 cases",
+            "note": ""
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "label": "Vegan and cruelty-free",
+            "value": "100%",
+            "note": ""
+          }
+        },
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "label": "Oat extract",
+            "tip": "Soothes and supports the skin barrier."
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "label": "Glycerin",
+            "tip": "Draws moisture into the skin and holds it there."
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "label": "Panthenol",
+            "tip": "Pro-vitamin B5, helps skin recover."
+          }
+        },
+        "c4": {
+          "type": "chip",
+          "settings": {
+            "label": "Calendula",
+            "tip": "Traditionally used to calm irritated skin."
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ]
+    },
+    "trust": {
+      "type": "sk-trust-badges",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_payments": true,
+        "payment_heading": "100% payment protection, easy return policy",
+        "payment_methods": "UPI, VISA, Mastercard, RuPay",
+        "padding_top": 48,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "b1": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-truck",
+            "title": "Free shipping",
+            "text": "On orders over Rs 999"
+          }
+        },
+        "b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-lock",
+            "title": "COD available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-return",
+            "title": "No questions asked",
+            "text": "Returns & exchange"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "stats",
+    "trust"
+  ]
+}

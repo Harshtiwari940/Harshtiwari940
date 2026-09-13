@@ -1,0 +1,207 @@
+{%- comment -%}
+  Simply Kids — FAQ accordion
+
+  Replaces the hardcoded five-question list in v19-faq (which existed twice,
+  in sections/ and snippets/). Each question is a block now, so support can add
+  one without a developer.
+
+  Uses <details>/<summary>, so it works before JavaScript loads and is keyboard
+  and screen-reader accessible with no extra code. Set "Allow only one open" to
+  give the group a shared `name`, which browsers turn into exclusive-accordion
+  behaviour natively.
+
+  Also emits FAQPage structured data, so the questions are eligible for rich
+  results in Google. That was absent from the previous build.
+{%- endcomment -%}
+
+{% render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+%}
+
+{%- assign faq_blocks = section.blocks | where: 'type', 'question' -%}
+
+<div class="sk-section color-{{ section.settings.color_scheme }} gradient sk-section-{{ section.id }}">
+  <div class="sk-section__inner">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="sk-section__head sk-section__head--center">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h1 class="sk-section__title">{{ section.settings.heading | escape }}</h1>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="sk-prose" style="max-width: 82rem; margin-inline: auto;">
+      {%- for block in faq_blocks -%}
+        {%- if block.settings.question != blank -%}
+          <details
+            class="sk-faq__item"
+            {% if section.settings.exclusive %}
+              name="faq-{{ section.id }}"
+            {% endif %}
+            {% if block.settings.open_by_default %}
+              open
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <summary class="sk-faq__q">{{ block.settings.question | escape }}</summary>
+            <div class="sk-faq__a">{{ block.settings.answer }}</div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{%- if section.settings.structured_data and faq_blocks.size > 0 -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for block in faq_blocks -%}
+          {%- if block.settings.question != blank -%}
+            {
+              "@type": "Question",
+              "name": {{ block.settings.question | strip_html | json }},
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": {{ block.settings.answer | strip_html | json }}
+              }
+            }{%- unless forloop.last -%},{%- endunless -%}
+          {%- endif -%}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SK · FAQ",
+  "tag": "section",
+  "class": "sk-section-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently asked questions"
+    },
+    {
+      "type": "checkbox",
+      "id": "exclusive",
+      "label": "Allow only one open at a time",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "structured_data",
+      "label": "Add FAQ structured data",
+      "info": "Makes these questions eligible for rich results in Google. Only enable this on one section per page.",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Is this safe for sensitive skin?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Yes — every product is pH 5.5-balanced and dermatologically tested on children in the 4-12 range.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK · FAQ",
+      "blocks": [
+        {
+          "type": "question",
+          "settings": {
+            "question": "Is this safe for sensitive skin?",
+            "answer": "<p>Yes — every product is pH 5.5-balanced and dermatologically tested on children in the 4-12 range.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "How is this different from baby products?",
+            "answer": "<p>Baby formulas are built for skin that hasn't developed its own oil balance yet. By age four that changes.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Do you test on animals?",
+            "answer": "<p>No. Every product is vegan and cruelty-free.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "What's your return policy?",
+            "answer": "<p>7-day returns on unopened, sealed products.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Do you offer cash on delivery?",
+            "answer": "<p>Yes, COD is available alongside UPI, cards, net banking, wallets, and no-cost EMI.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

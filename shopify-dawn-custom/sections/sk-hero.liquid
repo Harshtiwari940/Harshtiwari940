@@ -1,0 +1,196 @@
+{%- comment -%}
+  Simply Kids — hero
+
+  Serves the homepage hero and every page hero (affiliate, community, story,
+  science…), which were previously hardcoded separately inside each v19 file.
+
+  The age spectrum is optional and driven by blocks, so the age range can change
+  without touching code.
+
+  Wrap a word in the heading with <em> to render it in the brand script face —
+  the "warmth" treatment from the brand book. Keep it to one or two words.
+{%- endcomment -%}
+
+{% render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+%}
+
+{%- assign points = section.blocks | where: 'type', 'spectrum_point' -%}
+
+<div class="sk-section color-{{ section.settings.color_scheme }} gradient sk-section-{{ section.id }}">
+  <div class="sk-section__inner">
+    <div class="{% if section.settings.image != blank %}sk-hero__grid{% else %}sk-section__head--center{% endif %}">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          {%- if section.settings.heading_tag == 'h1' -%}
+            <h1 class="sk-hero__title">{{ section.settings.heading }}</h1>
+          {%- else -%}
+            <h2 class="sk-hero__title">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <p class="sk-hero__sub">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          <a
+            class="sk-btn sk-btn--{{ section.settings.button_style }}"
+            {% if section.settings.button_link != blank %}
+              href="{{ section.settings.button_link }}"
+            {% else %}
+              href="#"
+              aria-disabled="true"
+            {% endif %}
+          >
+            {{- section.settings.button_label | escape -}}
+          </a>
+        {%- endif -%}
+
+        {%- if points.size > 1 -%}
+          <div class="sk-spectrum">
+            <span>{{ points.first.settings.label | escape }}</span>
+            <span class="sk-spectrum__track">
+              {%- assign last_index = points.size | minus: 1 -%}
+              {%- for point in points -%}
+                {%- comment -%}
+                  Spread the dots across the full track: first at 0%, last at
+                  100%, the rest evenly between.
+                {%- endcomment -%}
+                {%- assign pos = forloop.index0 | times: 100.0 | divided_by: last_index | round -%}
+                <span
+                  class="sk-spectrum__dot"
+                  style="left: {{ pos }}%;"
+                  title="{{ point.settings.label | escape }}"
+                ></span>
+              {%- endfor -%}
+            </span>
+            <span>{{ points.last.settings.label | escape }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.image != blank -%}
+        <div class="sk-hero__media">
+          {{
+            section.settings.image
+            | image_url: width: 1400
+            | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              widths: '400, 600, 800, 1000, 1400',
+              sizes: '(min-width: 990px) 45vw, 100vw',
+              alt: section.settings.image.alt
+          }}
+
+          {%- if section.settings.badge != blank -%}
+            <span class="sk-hero__badge">{{ section.settings.badge | escape }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK · Hero",
+  "tag": "section",
+  "class": "sk-section-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Wrap a word in <em> to set it in the script face.",
+      "default": "Skincare built for <em>real</em> kids"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level",
+      "info": "Use H1 once per page, on the most important heading.",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "pH-balanced, dermatologically tested, and made for skin between four and twelve."
+    },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "badge", "label": "Image badge", "info": "Optional. Sits over the image." },
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_label", "label": "Label", "default": "Shop the range" },
+    { "type": "url", "id": "button_link", "label": "Link" },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Style",
+      "options": [
+        { "value": "hero", "label": "Hero" },
+        { "value": "primary", "label": "Primary" },
+        { "value": "outline", "label": "Outline" }
+      ],
+      "default": "hero"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spectrum_point",
+      "name": "Age spectrum point",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "4 yrs" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK · Hero",
+      "blocks": [
+        { "type": "spectrum_point", "settings": { "label": "4 yrs" } },
+        { "type": "spectrum_point", "settings": { "label": "8 yrs" } },
+        { "type": "spectrum_point", "settings": { "label": "12 yrs" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

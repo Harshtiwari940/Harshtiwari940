@@ -1,0 +1,152 @@
+{
+  "sections": {
+    "hero": {
+      "type": "sk-hero",
+      "settings": {
+        "eyebrow": "Our story",
+        "heading": "Started by parents, for <em>their</em> kids",
+        "heading_tag": "h1",
+        "subheading": "Simply Kids began with a question no product on the shelf could answer.",
+        "button_label": "",
+        "color_scheme": "scheme-3",
+        "padding_top": 60,
+        "padding_bottom": 32
+      }
+    },
+    "timeline": {
+      "type": "sk-timeline",
+      "settings": {
+        "eyebrow": "How we got here",
+        "heading": "Three generations",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      },
+      "blocks": {
+        "e1": {
+          "type": "entry",
+          "settings": {
+            "badge": "1",
+            "name": "The grandmother",
+            "role": "Where it starts",
+            "text": "<p>Home remedies, mixed in the kitchen, passed down without a label.</p>"
+          }
+        },
+        "e2": {
+          "type": "entry",
+          "settings": {
+            "badge": "2",
+            "name": "The mother",
+            "role": "The gap",
+            "text": "<p>Shelves full of baby products and adult formulas, with nothing in between.</p>"
+          }
+        },
+        "e3": {
+          "type": "entry",
+          "settings": {
+            "badge": "3",
+            "name": "The kids",
+            "role": "Who it's for",
+            "text": "<p>Products they can reach for themselves, made for the skin they actually have.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "e1",
+        "e2",
+        "e3"
+      ]
+    },
+    "values": {
+      "type": "sk-card-grid",
+      "settings": {
+        "eyebrow": "What we stand for",
+        "heading": "Our principles",
+        "align": "center",
+        "columns": 3,
+        "color_scheme": "scheme-3",
+        "padding_top": 56,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "icon": "icon-leaf",
+            "title": "Gentle by default",
+            "text": "<p>pH 5.5, every formula, without exception.</p>"
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "icon": "icon-heart",
+            "title": "Tested on kids' skin",
+            "text": "<p>Dermatologically tested on the age group it is made for.</p>"
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "icon": "icon-checkmark",
+            "title": "Nothing hidden",
+            "text": "<p>Full ingredient lists, in plain language, on every pack.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "trust": {
+      "type": "sk-trust-badges",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_payments": true,
+        "payment_heading": "100% payment protection, easy return policy",
+        "payment_methods": "UPI, VISA, Mastercard, RuPay",
+        "padding_top": 48,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "b1": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-truck",
+            "title": "Free shipping",
+            "text": "On orders over Rs 999"
+          }
+        },
+        "b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-lock",
+            "title": "COD available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-return",
+            "title": "No questions asked",
+            "text": "Returns & exchange"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "timeline",
+    "values",
+    "trust"
+  ]
+}

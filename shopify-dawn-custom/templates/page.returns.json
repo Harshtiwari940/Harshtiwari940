@@ -1,0 +1,125 @@
+{
+  "sections": {
+    "main": {
+      "type": "sk-rich-text",
+      "settings": {
+        "heading": "Returns & refunds",
+        "use_page_title": true,
+        "center_heading": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "h1": {
+          "type": "heading",
+          "settings": {
+            "text": "Our window",
+            "level": "h3"
+          }
+        },
+        "t1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>7-day returns on unopened, sealed products.</p>"
+          }
+        },
+        "h2": {
+          "type": "heading",
+          "settings": {
+            "text": "How to start a return",
+            "level": "h3"
+          }
+        },
+        "t2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Contact support with your order number and we'll arrange a pickup.</p>"
+          }
+        },
+        "h3": {
+          "type": "heading",
+          "settings": {
+            "text": "Refund timing",
+            "level": "h3"
+          }
+        },
+        "t3": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Refunds are issued to the original payment method once the item reaches us.</p>"
+          }
+        },
+        "h4": {
+          "type": "heading",
+          "settings": {
+            "text": "Damaged in transit",
+            "level": "h3"
+          }
+        },
+        "t4": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Send us a photo within 48 hours and we'll replace it.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "h1",
+        "t1",
+        "h2",
+        "t2",
+        "h3",
+        "t3",
+        "h4",
+        "t4"
+      ]
+    },
+    "trust": {
+      "type": "sk-trust-badges",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_payments": true,
+        "payment_heading": "100% payment protection, easy return policy",
+        "payment_methods": "UPI, VISA, Mastercard, RuPay",
+        "padding_top": 48,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "b1": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-truck",
+            "title": "Free shipping",
+            "text": "On orders over Rs 999"
+          }
+        },
+        "b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-lock",
+            "title": "COD available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-return",
+            "title": "No questions asked",
+            "text": "Returns & exchange"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "trust"
+  ]
+}

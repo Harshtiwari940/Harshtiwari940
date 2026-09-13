@@ -1,0 +1,178 @@
+{%- comment -%}
+  Simply Kids — sticky cart bar with milestone discounts
+
+  Replaces ~200 lines of inline CSS, markup and JavaScript in
+  layout/theme.liquid. Add it in Theme editor > Footer group.
+
+  The discount tiers were hardcoded constants in that script
+  (1399 / 1999 / 2799 / 3499 with matching copy). They are `tier` blocks now,
+  so marketing can change a threshold without a developer.
+
+  The bar hides itself on the cart page — there is no value in a
+  "go to cart" bar while you are looking at the cart.
+{%- endcomment -%}
+
+{%- unless request.page_type == 'cart' -%}
+  {%- liquid
+    assign tiers = ''
+    for block in section.blocks
+      if block.type == 'tier'
+        assign row = block.settings.threshold | append: '|' | append: block.settings.label
+        if tiers == ''
+          assign tiers = row
+        else
+          assign tiers = tiers | append: '~' | append: row
+        endif
+      endif
+    endfor
+  -%}
+
+  {%- capture sk_config -%}
+    {
+      "locale": {{ request.locale.iso_code | json }},
+      "currency": {{ cart.currency.iso_code | json }},
+      "baseLabel": {{ section.settings.base_label | json }},
+      "addMoreText": {{ section.settings.add_more_text | json }},
+      "maxedText": {{ section.settings.maxed_text | json }},
+      "bogoTag": {{ section.settings.bogo_tag | json }},
+      "confetti": {{ section.settings.confetti | json }},
+      "tiers": [
+        {%- assign rows = tiers | split: '~' -%}
+        {%- for row in rows -%}
+          {%- assign parts = row | split: '|' -%}
+          { "threshold": {{ parts[0] | plus: 0 }}, "label": {{ parts[1] | json }} }
+          {%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ]
+    }
+  {%- endcapture -%}
+
+  <div
+    id="SkStickyCart"
+    class="sk-sticky"
+    data-config="{{ sk_config | strip_newlines | escape }}"
+    hidden
+  >
+    {%- if section.blocks.size > 0 -%}
+      <div class="sk-sticky__top" data-sk-message aria-live="polite"></div>
+    {%- endif -%}
+
+    <button
+      class="sk-sticky__bar"
+      type="button"
+      onclick="window.location.href='{{ routes.cart_url }}'"
+    >
+      <span class="sk-sticky__left">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+        </svg>
+        <span data-sk-count>{{ cart.item_count }}</span>&nbsp;{{ section.settings.items_label | escape }}
+      </span>
+
+      <span class="sk-sticky__center">
+        <span class="sk-sticky__was" data-sk-was hidden></span>
+        <span class="sk-sticky__total" data-sk-total>{{ cart.total_price | money }}</span>
+      </span>
+
+      <span class="sk-sticky__right">
+        {{ section.settings.cart_label | escape }}
+        <span aria-hidden="true">&#9654;</span>
+      </span>
+    </button>
+  </div>
+
+  <script src="{{ 'sk-sticky-cart.js' | asset_url }}" defer="defer"></script>
+{%- endunless -%}
+
+{% schema %}
+{
+  "name": "SK · Sticky cart",
+  "tag": "aside",
+  "class": "sk-sticky-cart-section",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows a floating cart summary once the cart has items. Hidden on the cart page."
+    },
+    {
+      "type": "text",
+      "id": "items_label",
+      "label": "Word for \"items\"",
+      "default": "items"
+    },
+    {
+      "type": "text",
+      "id": "cart_label",
+      "label": "Word for \"cart\"",
+      "default": "Cart"
+    },
+    {
+      "type": "text",
+      "id": "base_label",
+      "label": "Message before any tier is reached",
+      "default": "15% OFF unlocked!"
+    },
+    {
+      "type": "text",
+      "id": "add_more_text",
+      "label": "Progress message",
+      "info": "Use {{amount}} for the remaining spend and {{reward}} for the next tier's label.",
+      "default": "Add {{amount}} more to unlock {{reward}}"
+    },
+    {
+      "type": "text",
+      "id": "maxed_text",
+      "label": "Top tier message",
+      "default": "That's the best discount unlocked."
+    },
+    {
+      "type": "text",
+      "id": "bogo_tag",
+      "label": "Exclude lines containing",
+      "info": "Line items whose description or properties contain this text do not count towards the tiers. Leave blank to count everything. Previously hardcoded as 'BOGO'.",
+      "default": "BOGO"
+    },
+    {
+      "type": "checkbox",
+      "id": "confetti",
+      "label": "Celebrate when a tier is reached",
+      "info": "Loads a small confetti library on demand, once per tier per session. Respects reduced-motion preferences.",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Discount tier",
+      "settings": [
+        {
+          "type": "number",
+          "id": "threshold",
+          "label": "Cart total to reach this tier",
+          "info": "In your store currency, excluding decimals."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Reward label",
+          "default": "20% OFF"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK · Sticky cart",
+      "blocks": [
+        { "type": "tier", "settings": { "threshold": 1399, "label": "20% OFF" } },
+        { "type": "tier", "settings": { "threshold": 1999, "label": "25% OFF" } },
+        { "type": "tier", "settings": { "threshold": 2799, "label": "30% OFF" } },
+        { "type": "tier", "settings": { "threshold": 3499, "label": "35% OFF" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

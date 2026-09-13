@@ -1,0 +1,56 @@
+{%- comment -%}
+  Simply Kids — head assets
+  ---------------------------------------------------------------------------
+  This snippet exists so that layout/theme.liquid — the only Dawn file that
+  carries a custom change — needs exactly ONE line:
+
+      {% render 'sk-head' %}
+
+  placed immediately after:
+
+      {{ 'base.css' | asset_url | stylesheet_tag }}
+
+  Anything you later want in <head> goes in here, not in theme.liquid. That
+  keeps the Dawn-side edit permanently at one line, so re-applying it after a
+  Dawn update stays trivial.
+
+  Fonts: linked, not embedded. The previous build inlined seven base64 WOFF2
+  faces into v19.css (158 KB) AND loaded the same families from Google Fonts
+  in theme.liquid — every visitor downloaded both.
+
+  EXPECTED theme-check WARNINGS
+  Shopify's theme-check reports four `RemoteAsset` warnings against this file —
+  "Asset should be served by the Shopify CDN for better performance." They are
+  the four Google Fonts lines below and they are deliberate. This theme is
+  otherwise clean: run against Dawn 16 it produces 9 offenses, and with every
+  Simply Kids file added it produces 13 — these four are the entire difference.
+
+  If you would rather remove them, Theme settings > Typography can serve
+  Nunito Sans from Shopify's own CDN. Two things to weigh first:
+
+   · Dancing Script — the brand's script face, used on the routine times and
+     on one or two words per heading — is not in Shopify's font library. You
+     would either drop that treatment or keep one Google Fonts request for it.
+   · Switching means repointing --sk-font-display / --sk-font-label /
+     --sk-font-copy in sk-brand.css at Dawn's --font-body-family and
+     --font-heading-family, rather than naming the families directly.
+
+  That is a brand decision, not a technical one, so it is left as it is.
+{%- endcomment -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&family=Dancing+Script:wght@600;700&display=swap"
+  media="print"
+  onload="this.media='all'"
+>
+<noscript>
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&family=Dancing+Script:wght@600;700&display=swap"
+  >
+</noscript>
+
+{{ 'sk-brand.css' | asset_url | stylesheet_tag }}

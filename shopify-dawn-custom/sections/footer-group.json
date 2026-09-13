@@ -1,0 +1,120 @@
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "newsletter_enable": true,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "sk-trust-badges": {
+      "type": "sk-trust-badges",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_payments": true,
+        "payment_heading": "100% payment protection, easy return policy",
+        "payment_methods": "UPI, VISA, Mastercard, RuPay",
+        "padding_top": 48,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "b1": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-truck",
+            "title": "Free shipping",
+            "text": "On orders over Rs 999"
+          }
+        },
+        "b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-lock",
+            "title": "COD available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-return",
+            "title": "No questions asked",
+            "text": "Returns & exchange"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ]
+    },
+    "sk-sticky-cart": {
+      "type": "sk-sticky-cart",
+      "settings": {
+        "items_label": "items",
+        "cart_label": "Cart",
+        "base_label": "15% OFF unlocked!",
+        "add_more_text": "Add {{amount}} more to unlock {{reward}}",
+        "maxed_text": "That's the best discount unlocked.",
+        "bogo_tag": "BOGO",
+        "confetti": true
+      },
+      "blocks": {
+        "t1": {
+          "type": "tier",
+          "settings": {
+            "threshold": 1399,
+            "label": "20% OFF"
+          }
+        },
+        "t2": {
+          "type": "tier",
+          "settings": {
+            "threshold": 1999,
+            "label": "25% OFF"
+          }
+        },
+        "t3": {
+          "type": "tier",
+          "settings": {
+            "threshold": 2799,
+            "label": "30% OFF"
+          }
+        },
+        "t4": {
+          "type": "tier",
+          "settings": {
+            "threshold": 3499,
+            "label": "35% OFF"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ]
+    }
+  },
+  "order": [
+    "sk-trust-badges",
+    "footer",
+    "sk-sticky-cart"
+  ]
+}

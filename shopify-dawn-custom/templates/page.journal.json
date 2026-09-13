@@ -1,0 +1,112 @@
+{
+  "sections": {
+    "hero": {
+      "type": "sk-hero",
+      "settings": {
+        "eyebrow": "Journal",
+        "heading": "Notes for parents",
+        "heading_tag": "h1",
+        "subheading": "Short, practical pieces on skin, routines and the questions we get asked most.",
+        "button_label": "",
+        "color_scheme": "scheme-3",
+        "padding_top": 56,
+        "padding_bottom": 24
+      }
+    },
+    "posts": {
+      "type": "sk-card-grid",
+      "settings": {
+        "heading": "",
+        "align": "center",
+        "columns": 3,
+        "color_scheme": "scheme-1",
+        "padding_top": 24,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "icon": "none",
+            "title": "When to start a routine",
+            "text": "<p>Most kids are ready around four. Here's what to look for.</p>",
+            "link_label": "Read",
+            "link": ""
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "icon": "none",
+            "title": "Reading an ingredient list",
+            "text": "<p>Five things worth checking before you buy anything.</p>",
+            "link_label": "Read",
+            "link": ""
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "icon": "none",
+            "title": "Winter skin",
+            "text": "<p>What changes when the air dries out, and what to do about it.</p>",
+            "link_label": "Read",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "trust": {
+      "type": "sk-trust-badges",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_payments": true,
+        "payment_heading": "100% payment protection, easy return policy",
+        "payment_methods": "UPI, VISA, Mastercard, RuPay",
+        "padding_top": 48,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "b1": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-truck",
+            "title": "Free shipping",
+            "text": "On orders over Rs 999"
+          }
+        },
+        "b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-lock",
+            "title": "COD available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-return",
+            "title": "No questions asked",
+            "text": "Returns & exchange"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "posts",
+    "trust"
+  ]
+}

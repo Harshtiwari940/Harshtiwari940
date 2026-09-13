@@ -1,0 +1,173 @@
+{
+  "sections": {
+    "tabs": {
+      "type": "sk-routine-tabs",
+      "settings": {
+        "eyebrow": "Build their routine",
+        "heading": "A routine that fits the day",
+        "subheading": "Three steps in the morning, three at night, and one thing once a week.",
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 40
+      },
+      "blocks": {
+        "t1": {
+          "type": "tab",
+          "settings": {
+            "label": "Morning"
+          }
+        },
+        "m1": {
+          "type": "moment",
+          "settings": {
+            "time": "7:00",
+            "title": "Gentle cleanse",
+            "text": "<p>A quick rinse to start the day.</p>"
+          }
+        },
+        "m2": {
+          "type": "moment",
+          "settings": {
+            "time": "7:05",
+            "title": "Moisturise",
+            "text": "<p>A light layer while the skin is still damp.</p>"
+          }
+        },
+        "t2": {
+          "type": "tab",
+          "settings": {
+            "label": "Evening"
+          }
+        },
+        "m3": {
+          "type": "moment",
+          "settings": {
+            "time": "19:30",
+            "title": "Wash the day off",
+            "text": "<p>After play, before dinner.</p>"
+          }
+        },
+        "m4": {
+          "type": "moment",
+          "settings": {
+            "time": "20:00",
+            "title": "Wind down",
+            "text": "<p>A richer cream before bed.</p>"
+          }
+        },
+        "t3": {
+          "type": "tab",
+          "settings": {
+            "label": "Weekly"
+          }
+        },
+        "m5": {
+          "type": "moment",
+          "settings": {
+            "time": "Sunday",
+            "title": "Hair and scalp",
+            "text": "<p>One deeper wash a week is plenty.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "m1",
+        "m2",
+        "t2",
+        "m3",
+        "m4",
+        "t3",
+        "m5"
+      ]
+    },
+    "quiz": {
+      "type": "sk-quiz",
+      "settings": {
+        "heading": "Not sure where to start?",
+        "subheading": "Pick an age.",
+        "color_scheme": "scheme-1",
+        "padding_top": 24,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "o1": {
+          "type": "option",
+          "settings": {
+            "label": "4-6",
+            "result_text": "Start gentle: a mild cleanser and a light moisturiser.",
+            "result_label": "Shop ages 4-6"
+          }
+        },
+        "o2": {
+          "type": "option",
+          "settings": {
+            "label": "7-9",
+            "result_text": "Add sun protection and a body wash they can use alone.",
+            "result_label": "Shop ages 7-9"
+          }
+        },
+        "o3": {
+          "type": "option",
+          "settings": {
+            "label": "10-12",
+            "result_text": "Pre-teen skin makes more oil. Add a gentle exfoliant.",
+            "result_label": "Shop ages 10-12"
+          }
+        }
+      },
+      "block_order": [
+        "o1",
+        "o2",
+        "o3"
+      ]
+    },
+    "trust": {
+      "type": "sk-trust-badges",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_payments": true,
+        "payment_heading": "100% payment protection, easy return policy",
+        "payment_methods": "UPI, VISA, Mastercard, RuPay",
+        "padding_top": 48,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "b1": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-truck",
+            "title": "Free shipping",
+            "text": "On orders over Rs 999"
+          }
+        },
+        "b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-lock",
+            "title": "COD available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-return",
+            "title": "No questions asked",
+            "text": "Returns & exchange"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ]
+    }
+  },
+  "order": [
+    "tabs",
+    "quiz",
+    "trust"
+  ]
+}

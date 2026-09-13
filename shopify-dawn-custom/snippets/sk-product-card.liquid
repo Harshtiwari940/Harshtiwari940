@@ -1,0 +1,141 @@
+{%- comment -%}
+  Simply Kids — product card with inline quick-add
+
+  Used by sections/sk-collection-grid.liquid and sections/sk-product-row.liquid.
+  Previously this markup was written out twice: once inside
+  main-collection-product-grid.liquid and again inside sk-quick-add-grid.liquid.
+
+  Accepts:
+    product           (required) a product object
+    lazy              boolean — true for cards below the fold
+    coins_percent     integer — cashback percentage to show, 0 to hide
+    show_rating       boolean — render the Judge.me preview badge
+    sizes             string  — the `sizes` attribute for the image
+
+  Behaviour notes:
+  · A product with more than one variant links through to the product page
+    rather than quick-adding, because a variant has to be chosen first.
+  · The quantity stepper is rendered but hidden; sk-quick-add.js reveals it
+    once the line is in the cart, and reconciles the number on page load.
+{%- endcomment -%}
+
+{%- liquid
+  assign loading_attr = 'eager'
+  if lazy
+    assign loading_attr = 'lazy'
+  endif
+
+  assign variant = product.selected_or_first_available_variant
+  assign tagline = product.metafields.custom.card_tagline | default: product.type
+  assign card_size = product.metafields.custom.card_size
+  assign img_sizes = sizes | default: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw'
+-%}
+
+<div class="sk-pcard">
+  <a class="sk-pcard__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+    {%- if product.compare_at_price > product.price -%}
+      {%- assign pct_off = product.compare_at_price
+        | minus: product.price
+        | times: 100.0
+        | divided_by: product.compare_at_price
+        | round
+      -%}
+      <span class="sk-badge sk-badge--sale">{{ pct_off }}% OFF</span>
+    {%- endif -%}
+
+    {%- if card_size != blank -%}
+      <span class="sk-badge sk-badge--size">{{ card_size }}</span>
+    {%- endif -%}
+
+    {%- if product.featured_media -%}
+      {{
+        product.featured_media
+        | image_url: width: 900
+        | image_tag:
+          class: 'sk-pcard__img',
+          loading: loading_attr,
+          widths: '270, 360, 540, 720, 900',
+          sizes: img_sizes,
+          alt: product.featured_media.alt
+      }}
+    {%- else -%}
+      {{ 'product-apparel-1' | placeholder_svg_tag: 'sk-pcard__img placeholder-svg' }}
+    {%- endif -%}
+  </a>
+
+  <h3 class="sk-pcard__title">
+    <a href="{{ product.url }}">{{ product.title | escape }}</a>
+  </h3>
+
+  {%- if tagline != blank -%}
+    <p class="sk-pcard__tagline">{{ tagline }}</p>
+  {%- endif -%}
+
+  <p class="sk-pcard__price">
+    {%- if product.compare_at_price > product.price -%}
+      <s>
+        <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+        {{ product.compare_at_price | money }}
+      </s>
+    {%- endif -%}
+    <span>
+      <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+      {{ product.price | money }}
+    </span>
+  </p>
+
+  <div class="sk-pcard__actions" data-sk-actions data-variant-id="{{ variant.id }}" data-qty="0">
+    {%- if product.variants.size > 1 -%}
+      <a class="sk-add" href="{{ product.url }}">
+        {{ 'products.product.choose_options' | t }}
+      </a>
+
+    {%- elsif variant.available == false -%}
+      <button class="sk-add" type="button" disabled>
+        {{ 'products.product.sold_out' | t }}
+      </button>
+
+    {%- else -%}
+      <button class="sk-add" type="button" data-sk-action="add">
+        <span class="svg-wrapper" aria-hidden="true">{{ 'icon-cart.svg' | inline_asset_content }}</span>
+        {{ 'products.product.add_to_cart' | t }}
+        <span class="visually-hidden">&nbsp;&mdash; {{ product.title | escape }}</span>
+      </button>
+
+      <div class="sk-qty" data-sk-qty role="group" aria-label="{{ 'products.product.quantity.label' | t }}">
+        <button
+          type="button"
+          data-sk-action="minus"
+          aria-label="{{ 'products.product.quantity.decrease' | t: product: product.title | escape }}"
+        >
+          &minus;
+        </button>
+        <span class="sk-qty__value" data-sk-qty-value aria-live="polite">1</span>
+        <button
+          type="button"
+          data-sk-action="plus"
+          aria-label="{{ 'products.product.quantity.increase' | t: product: product.title | escape }}"
+        >
+          +
+        </button>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if coins_percent > 0 or show_rating -%}
+    <div class="sk-pcard__meta">
+      {%- if coins_percent > 0 -%}
+        {%- assign cashback = product.price | times: coins_percent | divided_by: 100 -%}
+        <span class="sk-cashback">{{ cashback | money }} cashback</span>
+      {%- endif -%}
+
+      {%- if show_rating -%}
+        {% render 'judgeme_widgets',
+          widget_type: 'judgeme_preview_badge',
+          concierge_install: false,
+          product: product
+        %}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>

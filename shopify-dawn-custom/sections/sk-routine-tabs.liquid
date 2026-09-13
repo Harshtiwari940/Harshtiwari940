@@ -1,0 +1,180 @@
+{%- comment -%}
+  Simply Kids — routine builder
+
+  From v19-routine: morning / evening / weekly tabs, each listing a few timed
+  "moments". Previously hardcoded, mouse-only, and duplicated in the snippet.
+
+  Structure: a `tab` block opens a panel, and every `moment` block after it
+  belongs to that panel until the next `tab`. That keeps the theme editor's
+  flat block list usable for nested content — drag a moment between tabs and
+  it moves panels.
+
+  Used by: page.routine.json
+{%- endcomment -%}
+
+<script src="{{ 'sk-interactions.js' | asset_url }}" defer="defer"></script>
+
+{% render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+%}
+
+<div class="sk-section color-{{ section.settings.color_scheme }} gradient sk-section-{{ section.id }}">
+  <div class="sk-section__inner">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="sk-section__head sk-section__head--center">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h1 class="sk-section__title">{{ section.settings.heading | escape }}</h1>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="sk-section__sub">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- assign tabs = section.blocks | where: 'type', 'tab' -%}
+
+    {%- if tabs.size > 0 -%}
+      <sk-tabs style="display: block;">
+        <div class="sk-tabs" role="tablist" aria-label="{{ section.settings.heading | escape }}">
+          {%- for block in tabs -%}
+            <button
+              type="button"
+              class="sk-tab"
+              role="tab"
+              id="SkTab-{{ section.id }}-{{ forloop.index }}"
+              aria-controls="SkPanel-{{ section.id }}-{{ forloop.index }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {{- block.settings.label | escape -}}
+            </button>
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%}
+          Each panel is rendered by its own loop, so every <div> opens and
+          closes inside the same branch. Splitting one element across loop
+          iterations produces the same HTML but is invisible to static
+          analysis (theme-check reports it as an unclosed tag), and it breaks
+          the moment a block type is added between a Tab and its Moments.
+
+          The inner loop walks the flat block list and counts how many Tab
+          blocks it has passed, so a Moment belongs to whichever Tab precedes
+          it. Moments dragged above the first Tab have a count of 0, match no
+          panel, and are simply not rendered.
+        {%- endcomment -%}
+        {%- for tab in tabs -%}
+          {%- assign this_tab = forloop.index -%}
+          <div
+            class="sk-panel"
+            role="tabpanel"
+            id="SkPanel-{{ section.id }}-{{ this_tab }}"
+            aria-labelledby="SkTab-{{ section.id }}-{{ this_tab }}"
+            tabindex="0"
+          >
+            {%- assign tabs_seen = 0 -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'tab' -%}
+                {%- assign tabs_seen = tabs_seen | plus: 1 -%}
+              {%- elsif block.type == 'moment' and tabs_seen == this_tab -%}
+                <div class="sk-moment" {{ block.shopify_attributes }}>
+                  <div class="sk-moment__time">{{ block.settings.time | escape }}</div>
+                  <div>
+                    {%- if block.settings.title != blank -%}
+                      <h3 class="sk-moment__title">{{ block.settings.title | escape }}</h3>
+                    {%- endif -%}
+                    {%- if block.settings.text != blank -%}
+                      <div class="sk-moment__text">{{ block.settings.text }}</div>
+                    {%- endif -%}
+                    {%- if block.settings.product != blank -%}
+                      {%- assign moment_product = all_products[block.settings.product] -%}
+                      {%- if moment_product != blank and moment_product.title != blank -%}
+                        <a class="sk-card__link" href="{{ moment_product.url }}">
+                          {{- moment_product.title | escape }} &rarr;
+                        </a>
+                      {%- endif -%}
+                    {%- endif -%}
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </sk-tabs>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK · Routine tabs",
+  "tag": "section",
+  "class": "sk-section-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Build their routine" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A routine that fits the day" },
+    { "type": "inline_richtext", "id": "subheading", "label": "Subheading" },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
+    {
+      "type": "range", "id": "padding_top",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "label": "t:sections.all.padding.padding_top", "default": 56
+    },
+    {
+      "type": "range", "id": "padding_bottom",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom", "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Every Moment block below this one, until the next Tab, appears in this tab."
+        },
+        { "type": "text", "id": "label", "label": "Tab label", "default": "Morning" }
+      ]
+    },
+    {
+      "type": "moment",
+      "name": "Moment",
+      "settings": [
+        { "type": "text", "id": "time", "label": "Time", "default": "7:00" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Gentle cleanse" },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>A quick rinse to start the day.</p>"
+        },
+        { "type": "product", "id": "product", "label": "Linked product" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK · Routine tabs",
+      "blocks": [
+        { "type": "tab", "settings": { "label": "Morning" } },
+        { "type": "moment" },
+        { "type": "tab", "settings": { "label": "Evening" } },
+        { "type": "moment", "settings": { "time": "19:30", "title": "Wind down" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

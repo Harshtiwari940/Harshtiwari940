@@ -1,0 +1,239 @@
+{%- comment -%}
+  Simply Kids — rich text / policy page
+
+  ONE section replaces FOUR near-identical hardcoded files (v19-terms,
+  v19-returns, v19-shipping, v19-privacy), each of which also existed twice —
+  once in sections/ and once in snippets/ — for eight files in total. All four
+  pages had the same shape: a title, an intro, then repeated heading + body.
+
+  Content is blocks now, so legal copy is edited in the theme editor rather
+  than in code. That matters more here than anywhere else on the site: policy
+  text changes for legal reasons, often urgently, and should never need a
+  developer or a theme deploy.
+
+  Used by: page.terms.json, page.returns.json, page.shipping.json,
+  page.privacy.json — and anywhere else you need prose.
+{%- endcomment -%}
+
+{% render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+%}
+
+<div class="sk-section color-{{ section.settings.color_scheme }} gradient sk-section-{{ section.id }}">
+  <div class="sk-section__inner">
+    {%- liquid
+      assign heading = section.settings.heading
+      if heading == blank and section.settings.use_page_title
+        assign heading = page.title
+      endif
+    -%}
+
+    {%- if section.settings.eyebrow != blank or heading != blank -%}
+      <div class="sk-section__head{% if section.settings.center_heading %} sk-section__head--center{% endif %}">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+
+        {%- if heading != blank -%}
+          <h1 class="sk-section__title">{{ heading | escape }}</h1>
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <p class="sk-section__sub">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="sk-prose{% if section.settings.center_heading %} sk-prose--center{% endif %}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'heading' -%}
+            {%- if block.settings.text != blank -%}
+              {%- if block.settings.level == 'h2' -%}
+                <h2 {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</h2>
+              {%- else -%}
+                <h3 {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</h3>
+              {%- endif -%}
+            {%- endif -%}
+
+          {%- when 'text' -%}
+            {%- if block.settings.text != blank -%}
+              <div {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {%- endif -%}
+
+          {%- when 'page_content' -%}
+            {%- comment -%}
+              Pulls the body written on the Page in Admin. Lets you keep long
+              policy text in Pages (where it is versioned and searchable in
+              Admin) while the section controls the layout around it.
+            {%- endcomment -%}
+            {%- if page.content != blank -%}
+              <div {{ block.shopify_attributes }}>{{ page.content }}</div>
+            {%- endif -%}
+
+          {%- when 'button' -%}
+            {%- if block.settings.label != blank -%}
+              <p {{ block.shopify_attributes }}>
+                <a
+                  class="sk-btn sk-btn--{{ block.settings.style }}"
+                  {% if block.settings.link != blank %}
+                    href="{{ block.settings.link }}"
+                  {% else %}
+                    href="#"
+                    aria-disabled="true"
+                  {% endif %}
+                >
+                  {{- block.settings.label | escape -}}
+                </a>
+              </p>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK · Rich text",
+  "tag": "section",
+  "class": "sk-section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave blank to use the page title."
+    },
+    {
+      "type": "checkbox",
+      "id": "use_page_title",
+      "label": "Fall back to the page title",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "checkbox",
+      "id": "center_heading",
+      "label": "Center the heading",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Section heading"
+        },
+        {
+          "type": "select",
+          "id": "level",
+          "label": "t:sections.all.heading_size.label",
+          "options": [
+            { "value": "h2", "label": "Large" },
+            { "value": "h3", "label": "Small" }
+          ],
+          "default": "h3"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Share the details your customers need.</p>"
+        }
+      ]
+    },
+    {
+      "type": "page_content",
+      "name": "Page content from Admin",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Outputs the body of the page this template is applied to. Edit it under Content > Pages."
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label" },
+        { "type": "url", "id": "link", "label": "Link" },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            { "value": "primary", "label": "Primary" },
+            { "value": "outline", "label": "Outline" },
+            { "value": "hero", "label": "Hero" }
+          ],
+          "default": "primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK · Rich text",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "text" }
+      ]
+    }
+  ]
+}
+{% endschema %}

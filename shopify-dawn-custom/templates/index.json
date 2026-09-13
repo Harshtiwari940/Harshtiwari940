@@ -1,0 +1,298 @@
+{
+  "sections": {
+    "hero": {
+      "type": "sk-hero",
+      "settings": {
+        "eyebrow": "Ages 4-12",
+        "heading": "Skincare built for <em>real</em> kids",
+        "heading_tag": "h1",
+        "subheading": "pH-balanced, dermatologically tested, and made for the years between baby products and adult formulas.",
+        "button_label": "Shop the range",
+        "button_link": "shopify://collections/all",
+        "button_style": "hero",
+        "color_scheme": "scheme-1",
+        "padding_top": 60,
+        "padding_bottom": 40
+      },
+      "blocks": {
+        "p1": {
+          "type": "spectrum_point",
+          "settings": {
+            "label": "4 yrs"
+          }
+        },
+        "p2": {
+          "type": "spectrum_point",
+          "settings": {
+            "label": "8 yrs"
+          }
+        },
+        "p3": {
+          "type": "spectrum_point",
+          "settings": {
+            "label": "12 yrs"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ]
+    },
+    "zones": {
+      "type": "sk-zone-cards",
+      "settings": {
+        "eyebrow": "Why not baby or adult",
+        "heading": "The just-right zone",
+        "color_scheme": "scheme-3",
+        "padding_top": 56,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "z1": {
+          "type": "zone",
+          "settings": {
+            "tone": "mild",
+            "flag": "Too mild",
+            "title": "Baby formulas",
+            "text": "<p>Built for skin that hasn't developed its own oil balance yet. By age four, that has changed.</p>"
+          }
+        },
+        "z2": {
+          "type": "zone",
+          "settings": {
+            "tone": "right",
+            "flag": "Just right",
+            "title": "Simply Kids",
+            "text": "<p>pH 5.5-balanced and dermatologically tested on children aged four to twelve.</p>"
+          }
+        },
+        "z3": {
+          "type": "zone",
+          "settings": {
+            "tone": "harsh",
+            "flag": "Too harsh",
+            "title": "Adult skincare",
+            "text": "<p>Actives and fragrance loads that a child's skin barrier does not need.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "z1",
+        "z2",
+        "z3"
+      ]
+    },
+    "new_arrivals": {
+      "type": "sk-product-row",
+      "settings": {
+        "eyebrow": "Just landed",
+        "heading": "New arrivals",
+        "align": "center",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "show_view_all": true,
+        "show_rating": false,
+        "coins_percent": 0,
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "quiz": {
+      "type": "sk-quiz",
+      "settings": {
+        "heading": "How old are they?",
+        "subheading": "Pick an age and we'll point you at the right routine.",
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      },
+      "blocks": {
+        "o1": {
+          "type": "option",
+          "settings": {
+            "label": "4-6",
+            "result_text": "Start gentle: a mild cleanser and a light moisturiser, twice a day.",
+            "result_label": "See the routine"
+          }
+        },
+        "o2": {
+          "type": "option",
+          "settings": {
+            "label": "7-9",
+            "result_text": "Add sun protection and a body wash they can use on their own.",
+            "result_label": "See the routine"
+          }
+        },
+        "o3": {
+          "type": "option",
+          "settings": {
+            "label": "10-12",
+            "result_text": "Pre-teen skin starts producing more oil. Add a gentle exfoliant.",
+            "result_label": "See the routine"
+          }
+        }
+      },
+      "block_order": [
+        "o1",
+        "o2",
+        "o3"
+      ]
+    },
+    "ages": {
+      "type": "sk-age-cards",
+      "settings": {
+        "eyebrow": "Find their fit",
+        "heading": "Shop by age",
+        "color_scheme": "scheme-2",
+        "padding_top": 56,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "a1": {
+          "type": "age",
+          "settings": {
+            "label": "Ages 4-6",
+            "title": "The first routine",
+            "text": "<p>Two gentle steps that fit into bath time.</p>"
+          }
+        },
+        "a2": {
+          "type": "age",
+          "settings": {
+            "label": "Ages 7-9",
+            "title": "Doing it themselves",
+            "text": "<p>Simple enough to use without a grown-up standing over them.</p>"
+          }
+        },
+        "a3": {
+          "type": "age",
+          "settings": {
+            "label": "Ages 10-12",
+            "title": "Pre-teen changes",
+            "text": "<p>For skin that is starting to behave differently.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3"
+      ]
+    },
+    "essentials": {
+      "type": "sk-product-row",
+      "settings": {
+        "eyebrow": "Everyday",
+        "heading": "The essentials",
+        "align": "center",
+        "products_to_show": 5,
+        "columns_desktop": 4,
+        "show_view_all": true,
+        "show_rating": false,
+        "coins_percent": 0,
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "promises": {
+      "type": "sk-card-grid",
+      "settings": {
+        "eyebrow": "Our promise",
+        "heading": "What we will never do",
+        "align": "center",
+        "columns": 3,
+        "color_scheme": "scheme-3",
+        "padding_top": 56,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "icon": "icon-leaf",
+            "title": "No harsh actives",
+            "text": "<p>Nothing a child's skin barrier has to recover from.</p>"
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "icon": "icon-heart",
+            "title": "Vegan and cruelty-free",
+            "text": "<p>No animal testing, at any stage, anywhere.</p>"
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "icon": "icon-checkmark",
+            "title": "Dermatologically tested",
+            "text": "<p>Tested on children in the four to twelve range, not on adults.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "faq": {
+      "type": "sk-faq",
+      "settings": {
+        "eyebrow": "Before you ask",
+        "heading": "Common questions",
+        "exclusive": false,
+        "structured_data": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "Is this safe for sensitive skin?",
+            "answer": "<p>Yes — every product is pH 5.5-balanced and dermatologically tested on children in the 4-12 range.</p>",
+            "open_by_default": false
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "How is this different from baby products?",
+            "answer": "<p>Baby formulas are built for skin that hasn't developed its own oil balance yet. By age four that changes.</p>",
+            "open_by_default": false
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "Do you offer cash on delivery?",
+            "answer": "<p>Yes, COD is available alongside UPI, cards, net banking, wallets, and no-cost EMI.</p>",
+            "open_by_default": false
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "zones",
+    "new_arrivals",
+    "quiz",
+    "ages",
+    "essentials",
+    "promises",
+    "faq"
+  ]
+}

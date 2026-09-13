@@ -1,0 +1,95 @@
+{%- comment -%}
+  Simply Kids — promo / free-shipping bar
+
+  Replaces the fixed bar that was hardcoded at the bottom of layout/theme.liquid.
+
+  WHY IT IS NO LONGER position:fixed
+  The old bar was `position:fixed; top:0; height:44px; z-index:999999`, which
+  meant it painted OVER the top 44px of the page. Its clearance rule padded
+  `.header-wrapper` — but the V19 build had replaced Dawn's header with
+  `.pv-header`, so no element on the page carried that class, nothing was
+  pushed down, and the bar covered most of the header. A second stylesheet
+  then had to move the clearance onto <body> and re-stick the header at 44px.
+
+  Rendered from the header group instead, the bar is simply the first thing in
+  normal document flow, above the announcement bar and header. Nothing overlaps,
+  no clearance rule is needed, no z-index war, and Dawn's sticky header keeps
+  working untouched.
+
+  Add it in Theme editor > Header group, above Announcement bar.
+{%- endcomment -%}
+
+{%- if section.settings.text != blank -%}
+  <div class="sk-section color-{{ section.settings.color_scheme }} gradient">
+    {%- if section.settings.link != blank -%}
+      <a class="sk-promo-bar" href="{{ section.settings.link }}">
+    {%- else -%}
+      <div class="sk-promo-bar">
+    {%- endif -%}
+
+    {%- if section.settings.icon != 'none' -%}
+      <span class="sk-promo-bar__icon" aria-hidden="true">
+        {{ section.settings.icon | append: '.svg' | inline_asset_content }}
+      </span>
+    {%- endif -%}
+
+    <span>{{ section.settings.text }}</span>
+
+    {%- if section.settings.link != blank -%}
+      </a>
+    {%- else -%}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SK · Promo bar",
+  "tag": "section",
+  "class": "sk-promo-bar-section",
+  "enabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<strong>Free shipping</strong> on all orders"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link",
+      "info": "Optional. Makes the whole bar clickable."
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "icon-truck", "label": "Truck" },
+        { "value": "icon-plane", "label": "Plane" },
+        { "value": "icon-discount", "label": "Discount" },
+        { "value": "icon-return", "label": "Return" },
+        { "value": "icon-lock", "label": "Lock" },
+        { "value": "icon-star", "label": "Star" }
+      ],
+      "default": "icon-truck"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK · Promo bar"
+    }
+  ]
+}
+{% endschema %}

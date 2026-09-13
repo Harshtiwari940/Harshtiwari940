@@ -1,0 +1,154 @@
+{%- comment -%}
+  Simply Kids — stat table and ingredient chips
+
+  The "Our Science" page: a comparison table plus a row of ingredient chips
+  with hover tooltips. Both were hardcoded in v19-science.
+
+  The table is wrapped in an overflow container, so on a phone it scrolls
+  sideways inside its own box instead of forcing the whole page to scroll —
+  which is what the old fixed-width table did.
+
+  Used by: page.science.json
+{%- endcomment -%}
+
+{% render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+%}
+
+{%- assign rows = section.blocks | where: 'type', 'row' -%}
+{%- assign chips = section.blocks | where: 'type', 'chip' -%}
+
+<div class="sk-section color-{{ section.settings.color_scheme }} gradient sk-section-{{ section.id }}">
+  <div class="sk-section__inner">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="sk-section__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="sk-section__title">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="sk-section__sub">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if rows.size > 0 -%}
+      <div class="sk-table-scroll">
+        <table class="sk-stats">
+          <thead>
+            <tr>
+              <th scope="col">{{ section.settings.col_1 | escape }}</th>
+              <th scope="col">{{ section.settings.col_2 | escape }}</th>
+              {%- if section.settings.col_3 != blank -%}
+                <th scope="col">{{ section.settings.col_3 | escape }}</th>
+              {%- endif -%}
+            </tr>
+          </thead>
+          <tbody>
+            {%- for block in rows -%}
+              <tr {{ block.shopify_attributes }}>
+                <th scope="row" style="font-weight: 400;">{{ block.settings.label | escape }}</th>
+                <td class="sk-stats__value">{{ block.settings.value | escape }}</td>
+                {%- if section.settings.col_3 != blank -%}
+                  <td>{{ block.settings.note | escape }}</td>
+                {%- endif -%}
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    {%- endif -%}
+
+    {%- if chips.size > 0 -%}
+      {%- if section.settings.chips_heading != blank -%}
+        <h3 class="sk-card__title" style="margin-top: 3.2rem;">
+          {{ section.settings.chips_heading | escape }}
+        </h3>
+      {%- endif -%}
+
+      <div>
+        {%- for block in chips -%}
+          {%- if block.settings.tip != blank -%}
+            <span
+              class="sk-chip sk-chip__tip"
+              data-tip="{{ block.settings.tip | escape }}"
+              tabindex="0"
+              {{ block.shopify_attributes }}
+            >
+              {{- block.settings.label | escape -}}
+            </span>
+          {%- else -%}
+            <span class="sk-chip" {{ block.shopify_attributes }}>
+              {{- block.settings.label | escape -}}
+            </span>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK · Stat table",
+  "tag": "section",
+  "class": "sk-section-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our science" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What the numbers say" },
+    { "type": "inline_richtext", "id": "subheading", "label": "Subheading" },
+    { "type": "header", "content": "Table columns" },
+    { "type": "text", "id": "col_1", "label": "Column 1 heading", "default": "Measure" },
+    { "type": "text", "id": "col_2", "label": "Column 2 heading", "default": "Result" },
+    { "type": "text", "id": "col_3", "label": "Column 3 heading", "info": "Leave blank for a two-column table." },
+    { "type": "header", "content": "Ingredient chips" },
+    { "type": "text", "id": "chips_heading", "label": "Chips heading", "default": "What goes in" },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
+    {
+      "type": "range", "id": "padding_top",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "label": "t:sections.all.padding.padding_top", "default": 56
+    },
+    {
+      "type": "range", "id": "padding_bottom",
+      "min": 0, "max": 100, "step": 4, "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom", "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Table row",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "pH level" },
+        { "type": "text", "id": "value", "label": "Value", "default": "5.5" },
+        { "type": "text", "id": "note", "label": "Note" }
+      ]
+    },
+    {
+      "type": "chip",
+      "name": "Ingredient chip",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Oat extract" },
+        { "type": "text", "id": "tip", "label": "Tooltip", "info": "Shown on hover and keyboard focus." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK · Stat table",
+      "blocks": [{ "type": "row" }, { "type": "row" }, { "type": "chip" }, { "type": "chip" }]
+    }
+  ]
+}
+{% endschema %}

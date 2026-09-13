@@ -1,0 +1,109 @@
+{
+  "sections": {
+    "hero": {
+      "type": "sk-hero",
+      "settings": {
+        "eyebrow": "Affiliate programme",
+        "heading": "Share Simply Kids, earn on <em>every</em> order",
+        "heading_tag": "h1",
+        "subheading": "For parenting creators, bloggers and communities who already use us.",
+        "button_label": "Apply to become an affiliate",
+        "button_link": "",
+        "button_style": "primary",
+        "color_scheme": "scheme-3",
+        "padding_top": 60,
+        "padding_bottom": 32
+      }
+    },
+    "steps": {
+      "type": "sk-card-grid",
+      "settings": {
+        "eyebrow": "How it works",
+        "heading": "Three steps",
+        "align": "center",
+        "columns": 3,
+        "color_scheme": "scheme-1",
+        "padding_top": 40,
+        "padding_bottom": 40
+      },
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "icon": "icon-checkmark",
+            "title": "Sign up free",
+            "text": "<p>Apply in minutes through our affiliate portal — no cost to join.</p>"
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "icon": "icon-share",
+            "title": "Share your link",
+            "text": "<p>Get a unique referral link and creative assets for your audience.</p>"
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "icon": "icon-discount",
+            "title": "Earn commission",
+            "text": "<p>Track clicks and sales in real time, and get paid on every order you drive.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "trust": {
+      "type": "sk-trust-badges",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_payments": true,
+        "payment_heading": "100% payment protection, easy return policy",
+        "payment_methods": "UPI, VISA, Mastercard, RuPay",
+        "padding_top": 48,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "b1": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-truck",
+            "title": "Free shipping",
+            "text": "On orders over Rs 999"
+          }
+        },
+        "b2": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-lock",
+            "title": "COD available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "b3": {
+          "type": "badge",
+          "settings": {
+            "icon": "icon-return",
+            "title": "No questions asked",
+            "text": "Returns & exchange"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "steps",
+    "trust"
+  ]
+}
