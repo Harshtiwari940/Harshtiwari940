@@ -5,6 +5,18 @@
 {%- liquid
   assign logo = section.settings.logo | default: settings.logo
   assign logo_width = section.settings.logo_width | default: settings.logo_width
+
+  comment
+    Resolve the navigation. If the chosen menu handle does not exist in this
+    store (or holds no links) fall back to main-menu, so a handle mismatch
+    never leaves the header with an empty nav.
+  endcomment
+  assign nav = linklists[section.settings.menu]
+  assign nav_count = nav.links.size | default: 0
+  if nav_count == 0
+    assign nav = linklists['main-menu']
+    assign nav_count = nav.links.size | default: 0
+  endif
 -%}
 
 <header
@@ -18,13 +30,13 @@
   "
 >
   <div style="display:flex;align-items:center;gap:1.2rem;">
-    {%- if section.settings.show_mobile_menu and section.settings.menu != blank -%}
+    {%- if section.settings.show_mobile_menu and nav_count > 0 -%}
       <details class="sk-mobile-nav">
         <summary aria-label="Open menu" style="cursor:pointer;display:flex;align-items:center;list-style:none;">
           {% render 'icon', name: 'menu', size: 26, color: section.settings.text_color %}
         </summary>
         <nav class="sk-mobile-nav__panel" style="background: {{ section.settings.background }};">
-          {%- for link in linklists[section.settings.menu].links -%}
+          {%- for link in nav.links -%}
             <a href="{{ link.url }}" style="color:{{ section.settings.text_color }};">{{ link.title }}</a>
             {%- if link.links.size > 0 -%}
               {%- for child in link.links -%}
@@ -50,9 +62,9 @@
     </a>
   </div>
 
-  {%- if section.settings.menu != blank -%}
+  {%- if nav_count > 0 -%}
     <nav class="pv-nav">
-      {%- for link in linklists[section.settings.menu].links -%}
+      {%- for link in nav.links -%}
         <a href="{{ link.url }}" style="color:{{ section.settings.text_color }};">{{ link.title }}</a>
       {%- endfor -%}
     </nav>
