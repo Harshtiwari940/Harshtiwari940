@@ -1,0 +1,287 @@
+{%- comment -%}
+  Age picker. Each option is a block with its own result copy and link.
+  Works with no JavaScript: hidden radios are siblings of both the label row
+  and the result panels, so :checked ~ selectors can reach them.
+{%- endcomment -%}
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  <div class="page-width">
+    <div class="sk-quiz sk-quiz--picker" id="Quiz-{{ section.id }}">
+      {%- if section.settings.heading != blank -%}
+        <{{ section.settings.heading_tag }} class="sk-quiz__title">{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="sk-quiz__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      {%- if section.settings.question != blank -%}
+        <p style="font-family:var(--font-label);font-weight:600;margin-bottom:1rem;">{{ section.settings.question }}</p>
+      {%- endif -%}
+
+      {%- comment -%} Radios first, so they are siblings of everything below. {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        <input
+          class="sk-quiz__radio sk-visually-hidden"
+          type="radio"
+          name="Quiz-{{ section.id }}"
+          id="Quiz-{{ section.id }}-{{ forloop.index }}"
+          value="{{ forloop.index }}"
+          {% if forloop.first %}checked{% endif %}
+        >
+      {%- endfor -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="sk-quiz__options">
+          {%- for block in section.blocks -%}
+            <label
+              class="sk-quiz__opt sk-quiz__opt--{{ forloop.index }}"
+              for="Quiz-{{ section.id }}-{{ forloop.index }}"
+              {{ block.shopify_attributes }}
+            >{{ block.settings.label }}</label>
+          {%- endfor -%}
+        </div>
+
+        {%- for block in section.blocks -%}
+          <div class="sk-quiz__result sk-quiz__result--{{ forloop.index }}">
+            {%- if block.settings.result != blank -%}
+              <p style="margin:0 0 1.2rem;">{{ block.settings.result }}</p>
+            {%- endif -%}
+            {% render 'button', label: block.settings.button_label, link: block.settings.button_link, style: block.settings.button_style %}
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  #Quiz-{{ section.id }} .sk-quiz__options { display: flex; gap: 1rem; flex-wrap: wrap; }
+  #Quiz-{{ section.id }} .sk-quiz__opt { cursor: pointer; }
+  #Quiz-{{ section.id }} .sk-quiz__result { display: none; }
+  {%- for block in section.blocks -%}
+    {%- assign n = forloop.index -%}
+    #Quiz-{{ section.id }} .sk-quiz__radio:nth-of-type({{ n }}):checked ~ .sk-quiz__result--{{ n }} { display: block; }
+    #Quiz-{{ section.id }} .sk-quiz__radio:nth-of-type({{ n }}):checked ~ .sk-quiz__options .sk-quiz__opt--{{ n }} {
+      background: #fff;
+      color: var(--sk-blue-deep);
+      border-color: #fff;
+    }
+    #Quiz-{{ section.id }} .sk-quiz__radio:nth-of-type({{ n }}):focus-visible ~ .sk-quiz__options .sk-quiz__opt--{{ n }} {
+      outline: 2px solid var(--sk-blue-vivid);
+      outline-offset: 2px;
+    }
+  {%- endfor -%}
+</style>
+
+{% schema %}
+{
+  "name": "Age quiz",
+  "tag": "section",
+  "class": "sk-age-quiz-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Let's build the perfect routine"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level",
+      "info": "Use H1 when this is the first heading on the page.",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Tap their age — we'll match the stage."
+    },
+    {
+      "type": "text",
+      "id": "question",
+      "label": "Question",
+      "default": "How old is your child?"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 3.6
+    }
+  ],
+  "blocks": [
+    {
+      "type": "option",
+      "name": "Age option",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Option label",
+          "default": "4–6"
+        },
+        {
+          "type": "textarea",
+          "id": "result",
+          "label": "Result text",
+          "default": "Little Explorers: gentle, tear-free, and simple enough for them to start doing it themselves."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "See their routine"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "hero",
+              "label": "Hero"
+            },
+            {
+              "value": "outline",
+              "label": "Outline"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ],
+          "default": "primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Age quiz",
+      "blocks": [
+        {
+          "type": "option",
+          "settings": {
+            "label": "4–6"
+          }
+        },
+        {
+          "type": "option",
+          "settings": {
+            "label": "7–9",
+            "result": "Big Kids: cleansing that genuinely works after a full day outdoors."
+          }
+        },
+        {
+          "type": "option",
+          "settings": {
+            "label": "10–12",
+            "result": "Tweens: grown-up feel, without harsh adult actives."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

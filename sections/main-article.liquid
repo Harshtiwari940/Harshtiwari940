@@ -1,0 +1,224 @@
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  <article class="page-width" style="max-width:{{ section.settings.max_width }}rem;margin-left:auto;margin-right:auto;">
+    {%- if section.settings.show_breadcrumb -%}
+      <p class="pv-crumb" style="opacity:.6;">
+        <a href="{{ routes.root_url }}" style="color:inherit;">Home</a> /
+        <a href="{{ blog.url }}" style="color:inherit;">{{ blog.title }}</a>
+      </p>
+    {%- endif -%}
+
+    <h1 class="sk-section__title" style="font-size: {{ section.settings.heading_font_size }}rem;">{{ article.title }}</h1>
+
+    <div style="opacity:.6;font-size:1.3rem;margin-bottom:2rem;">
+      {%- if section.settings.show_date -%}{{ article.published_at | date: format: 'date' }}{%- endif -%}
+      {%- if section.settings.show_author and article.author != blank -%}
+        {% if section.settings.show_date %} · {% endif %}{{ article.author }}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_image and article.image -%}
+      {{ article.image | image_url: width: 1600 | image_tag:
+        loading: 'eager',
+        widths: '600,900,1200,1600',
+        alt: article.title,
+        class: 'sk-media',
+        style: 'margin-bottom:2.4rem;' }}
+    {%- endif -%}
+
+    <div class="sk-section__text sk-rte">{{ article.content }}</div>
+
+    {%- if section.settings.show_share -%}
+      <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(74,71,68,.12);">
+        <span class="sk-eyebrow">{{ section.settings.share_label }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if blog.comments_enabled? -%}
+      <div style="margin-top:3rem;">
+        {%- assign comment_count = article.comments_count | default: 0 -%}
+        {%- if comment_count > 0 -%}
+          <h2 style="font-size:1.8rem;">{{ comment_count }} comments</h2>
+          {%- for comment in article.comments -%}
+            <div class="sk-tool-card" style="margin-bottom:1.2rem;">
+              <div class="sk-section__text">{{ comment.content }}</div>
+              <strong>{{ comment.author }}</strong>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- form 'new_comment', article -%}
+          {%- if form.posted_successfully? -%}
+            <p class="sk-form-status sk-form-status--success">Thanks — your comment is awaiting approval.</p>
+          {%- elsif form.errors -%}
+            <p class="sk-form-status sk-form-status--error">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+          <label class="sk-label" for="CommentAuthor">Name</label>
+          <input class="sk-field" id="CommentAuthor" type="text" name="comment[author]" value="{{ form.author }}" required>
+          <label class="sk-label" for="CommentEmail">Email</label>
+          <input class="sk-field" id="CommentEmail" type="email" name="comment[email]" value="{{ form.email }}" required>
+          <label class="sk-label" for="CommentBody">Comment</label>
+          <textarea class="sk-field" id="CommentBody" name="comment[body]" rows="4" required>{{ form.body }}</textarea>
+          <button type="submit" class="sk-btn sk-btn--primary" style="margin-top:1.4rem;border:0;cursor:pointer;">Post comment</button>
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+  </article>
+</div>
+
+{% schema %}
+{
+  "name": "Article",
+  "tag": "section",
+  "class": "sk-main-article-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 1.6,
+      "max": 4.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Title size",
+      "default": 2.8
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 60,
+      "max": 120,
+      "step": 4,
+      "unit": "rem",
+      "label": "Content width",
+      "default": 80
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show featured image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "Show share row",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "share_label",
+      "label": "Share label",
+      "default": "Share this article"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 4.0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 5.0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article"
+    }
+  ]
+}
+{% endschema %}

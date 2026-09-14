@@ -1,0 +1,148 @@
+{%- comment -%}
+  Renders whatever is written in the Shopify page editor. Use this on pages
+  you want to write in admin rather than build from sections.
+{%- endcomment -%}
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  <div class="page-width" style="max-width:{{ section.settings.max_width }}rem;margin-left:auto;margin-right:auto;">
+    {%- if section.settings.show_title -%}
+      <h1 class="sk-section__title" style="font-size: {{ section.settings.heading_font_size }}rem;{% if section.settings.center_title %}text-align:center;{% endif %}">
+        {{ page.title }}
+      </h1>
+    {%- endif -%}
+    <div class="sk-section__text sk-rte">{{ page.content }}</div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page content",
+  "tag": "section",
+  "class": "sk-main-page-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show page title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "center_title",
+      "label": "Center the title",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 1.6,
+      "max": 4.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Title size",
+      "default": 2.8
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 60,
+      "max": 140,
+      "step": 4,
+      "unit": "rem",
+      "label": "Content width",
+      "default": 80
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 5.0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 5.0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page content"
+    }
+  ]
+}
+{% endschema %}

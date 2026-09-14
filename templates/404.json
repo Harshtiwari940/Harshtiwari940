@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "eyebrow": "404",
+        "heading": "We couldn't find that page",
+        "heading_font_size": 2.8,
+        "text": "<p>The link may be old, or the page may have moved. Try the shop, or search for what you need.</p>",
+        "button_label": "Shop the range",
+        "button_link": "/collections/all",
+        "button_2_label": "Back to home",
+        "button_2_link": "/",
+        "color_scheme": "1",
+        "padding_top": 6.0,
+        "padding_bottom": 6.0
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

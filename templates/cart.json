@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-cart",
+      "settings": {
+        "heading": "Review & checkout",
+        "heading_font_size": 2.4,
+        "show_breadcrumb": true,
+        "home_label": "Home",
+        "cart_label": "Bag",
+        "empty_text": "Your bag is empty.",
+        "empty_button_label": "Shop the range",
+        "empty_button_link": "/collections/all",
+        "remove_label": "Remove",
+        "update_label": "Update bag",
+        "note_label": "Order note",
+        "summary_heading": "Order summary",
+        "subtotal_label": "Subtotal",
+        "shipping_label": "Shipping",
+        "shipping_note": "Calculated at checkout",
+        "total_label": "Total",
+        "tax_note": "Taxes included. Shipping calculated at checkout.",
+        "checkout_label": "Place order",
+        "button_style": "hero",
+        "color_scheme": "1",
+        "padding_top": 3.6,
+        "padding_bottom": 3.6
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

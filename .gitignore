@@ -1,0 +1,8 @@
+# macOS / editor cruft that must never reach a Shopify theme upload
+.DS_Store
+Thumbs.db
+*.swp
+
+# Shopify CLI
+.shopify/
+node_modules/

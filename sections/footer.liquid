@@ -1,0 +1,441 @@
+{%- comment -%}
+  Footer. Columns are blocks: add a "Menu column" for each list of links,
+  a "Text" block for copy, or the "Contact" block for phone/email/address
+  and social icons. Everything is editable in the theme editor.
+{%- endcomment -%}
+{%- liquid
+  assign logo = section.settings.logo | default: settings.logo
+  assign logo_width = section.settings.logo_width | default: settings.footer_logo_width
+  assign col_count = section.blocks.size | plus: 0
+-%}
+
+<footer
+  class="pv-footer"
+  style="
+    background: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+    padding-top: {{ section.settings.padding_top }}rem;
+    padding-bottom: {{ section.settings.padding_bottom }}rem;
+    {% unless section.settings.rounded %}border-radius: 0;{% endunless %}
+    {% if section.settings.margin_top == 0 %}margin-top: 0;{% else %}margin-top: {{ section.settings.margin_top }}rem;{% endif %}
+  "
+>
+  {%- if col_count > 0 -%}
+    <div class="pv-footer-grid" style="grid-template-columns: repeat({{ col_count }}, minmax(0, 1fr));">
+      {%- for block in section.blocks -%}
+        <div {{ block.shopify_attributes }}>
+          {%- case block.type -%}
+
+            {%- when 'brand' -%}
+              {%- if block.settings.show_logo and logo != blank -%}
+                <a href="{{ routes.root_url }}" style="display:inline-block;margin-bottom:1rem;">
+                  {{ logo | image_url: width: 600 | image_tag:
+                    loading: 'lazy',
+                    widths: '130,195,260,390,520',
+                    alt: shop.name,
+                    class: 'sk-footer-logo' }}
+                </a>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div style="font-size:1.4rem;max-width:34rem;">{{ block.settings.text }}</div>
+              {%- endif -%}
+
+            {%- when 'menu' -%}
+              {%- if block.settings.heading != blank -%}
+                <h4>{{ block.settings.heading }}</h4>
+              {%- endif -%}
+              {%- if block.settings.menu != blank -%}
+                {%- comment -%} A Shopify menu is assigned, so it wins. {%- endcomment -%}
+                {%- for link in linklists[block.settings.menu].links -%}
+                  <a href="{{ link.url }}" style="color:{{ section.settings.text_color }};">{{ link.title }}</a>
+                {%- endfor -%}
+              {%- elsif block.settings.links != blank -%}
+                {%- comment -%} Otherwise fall back to the typed list. {%- endcomment -%}
+                {%- assign rows = block.settings.links | newline_to_br | split: '<br />' -%}
+                {%- for row in rows -%}
+                  {%- assign parts = row | strip | split: '|' -%}
+                  {%- if parts[0] != blank -%}
+                    <a href="{{ parts[1] | strip | default: '#' }}" style="color:{{ section.settings.text_color }};">{{ parts[0] | strip }}</a>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+
+            {%- when 'text' -%}
+              {%- if block.settings.heading != blank -%}
+                <h4>{{ block.settings.heading }}</h4>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div style="font-size:1.4rem;">{{ block.settings.text }}</div>
+              {%- endif -%}
+
+            {%- when 'contact' -%}
+              {%- if block.settings.heading != blank -%}
+                <h4>{{ block.settings.heading }}</h4>
+              {%- endif -%}
+              {%- if block.settings.show_phone and settings.contact_phone != blank -%}
+                <div style="font-size:1.4rem;margin-bottom:.7rem;">
+                  <a href="tel:{{ settings.contact_phone | remove: ' ' }}" style="display:inline;color:{{ section.settings.text_color }};">{{ settings.contact_phone }}</a>
+                </div>
+              {%- endif -%}
+              {%- if block.settings.show_email and settings.contact_email != blank -%}
+                <div style="font-size:1.4rem;margin-bottom:.7rem;">
+                  <a href="mailto:{{ settings.contact_email }}" style="display:inline;color:{{ section.settings.text_color }};">{{ settings.contact_email }}</a>
+                </div>
+              {%- endif -%}
+              {%- if block.settings.show_address and settings.contact_address != blank -%}
+                <div style="font-size:1.4rem;margin-bottom:.7rem;">{{ settings.contact_address }}</div>
+              {%- endif -%}
+              {%- if block.settings.show_social -%}
+                <div style="display:flex;gap:1rem;margin-top:1rem;">
+                  {%- if settings.social_instagram_link != blank -%}
+                    <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener" aria-label="Instagram" style="opacity:1;">{% render 'social-icon', name: 'instagram', color: section.settings.text_color %}</a>
+                  {%- endif -%}
+                  {%- if settings.social_pinterest_link != blank -%}
+                    <a href="{{ settings.social_pinterest_link }}" target="_blank" rel="noopener" aria-label="Pinterest" style="opacity:1;">{% render 'social-icon', name: 'pinterest', color: section.settings.text_color %}</a>
+                  {%- endif -%}
+                  {%- if settings.social_youtube_link != blank -%}
+                    <a href="{{ settings.social_youtube_link }}" target="_blank" rel="noopener" aria-label="YouTube" style="opacity:1;">{% render 'social-icon', name: 'youtube', color: section.settings.text_color %}</a>
+                  {%- endif -%}
+                  {%- if settings.social_facebook_link != blank -%}
+                    <a href="{{ settings.social_facebook_link }}" target="_blank" rel="noopener" aria-label="Facebook" style="opacity:1;">{% render 'social-icon', name: 'facebook', color: section.settings.text_color %}</a>
+                  {%- endif -%}
+                  {%- if settings.social_twitter_link != blank -%}
+                    <a href="{{ settings.social_twitter_link }}" target="_blank" rel="noopener" aria-label="X" style="opacity:1;">{% render 'social-icon', name: 'twitter', color: section.settings.text_color %}</a>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+            {%- when 'newsletter' -%}
+              {%- if block.settings.heading != blank -%}
+                <h4>{{ block.settings.heading }}</h4>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div style="font-size:1.4rem;margin-bottom:1rem;">{{ block.settings.text }}</div>
+              {%- endif -%}
+              {%- form 'customer', class: 'sk-footer-form' -%}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <label class="sk-visually-hidden" for="FooterEmail-{{ block.id }}">Email</label>
+                <input
+                  id="FooterEmail-{{ block.id }}"
+                  class="sk-field"
+                  type="email"
+                  name="contact[email]"
+                  placeholder="{{ block.settings.placeholder | default: 'your@email.com' }}"
+                  required
+                  style="border-radius:999px;margin-bottom:.8rem;"
+                >
+                <button type="submit" class="sk-btn sk-btn--primary" style="border:0;cursor:pointer;">
+                  {{ block.settings.button_label | default: 'Subscribe' }}
+                </button>
+                {%- if form.errors -%}
+                  <p class="sk-form-status sk-form-status--error">{{ form.errors.messages.email }}</p>
+                {%- elsif form.posted_successfully? -%}
+                  <p class="sk-form-status sk-form-status--success">Thanks for subscribing.</p>
+                {%- endif -%}
+              {%- endform -%}
+
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.bottom_left != blank or section.settings.bottom_right != blank or section.settings.show_payment_icons -%}
+    <div class="pv-footer-bottom">
+      <span>
+        {%- if section.settings.bottom_left != blank -%}
+          {%- assign current_year = 'now' | date: '%Y' -%}
+          {{ section.settings.bottom_left | replace: '[year]', current_year }}
+        {%- endif -%}
+      </span>
+      {%- if section.settings.show_payment_icons -%}
+        <span>{{ shop.enabled_payment_types | payment_type_svg_tag: class: 'sk-payment-icon' }}</span>
+      {%- endif -%}
+      {%- if section.settings.bottom_right != blank -%}
+        <span>{{ section.settings.bottom_right }}</span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</footer>
+
+<style>
+  .pv-footer .sk-footer-logo { height: auto; width: {{ logo_width }}px; max-width: 100%; }
+  .pv-footer .pv-footer-bottom .sk-payment-icon { height: 2rem; width: auto; margin-right: .6rem; }
+  .pv-footer .sk-footer-form .sk-field { color: var(--sk-ink); }
+  @media screen and (max-width: 749px) {
+    .pv-footer .pv-footer-grid { grid-template-columns: 1fr 1fr !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "footer",
+  "class": "sk-footer-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Leave empty to use the logo from Theme settings > Logo."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 60,
+      "max": 320,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 130
+    },
+    {
+      "type": "header",
+      "content": "Bottom bar"
+    },
+    {
+      "type": "text",
+      "id": "bottom_left",
+      "label": "Left text",
+      "info": "Use [year] to insert the current year automatically.",
+      "default": "© 2026 Simply Kids · a division of Omakase Enterprises LLP"
+    },
+    {
+      "type": "text",
+      "id": "bottom_right",
+      "label": "Right text",
+      "default": "Free shipping over ₹999 · Ships across India"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "linear-gradient(180deg, #004987 0%, #003666 100%)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "rounded",
+      "label": "Rounded top corners",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Space above footer",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 2
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Logo and text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_logo",
+          "label": "Show logo",
+          "default": true
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Proven, gentle self-care made only for growing kids, ages 4–12. Nani's love, clinically kept.</p>"
+        }
+      ]
+    },
+    {
+      "type": "menu",
+      "name": "Menu column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Shop"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "info": "Pick a menu from Navigation. Leave empty to use the typed links below."
+        },
+        {
+          "type": "textarea",
+          "id": "links",
+          "label": "Links",
+          "info": "Used only when no menu is picked above. One per line as: label | /url",
+          "default": "Link one | /\nLink two | /"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "About"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Share what makes your brand different.</p>"
+        }
+      ]
+    },
+    {
+      "type": "contact",
+      "name": "Contact and social",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Phone, email and address come from Theme settings > Contact details. Social links come from Theme settings > Social media."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Care"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_phone",
+          "label": "Show phone",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_email",
+          "label": "Show email",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_address",
+          "label": "Show address",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social",
+          "label": "Show social icons",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Email signup",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Newsletter"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Expert tips and new launches. No spam.</p>"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Field placeholder",
+          "default": "your@email.com"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Subscribe"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        {
+          "type": "brand"
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "heading": "Shop"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "heading": "Our Story"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "heading": "Policies"
+          }
+        },
+        {
+          "type": "contact"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

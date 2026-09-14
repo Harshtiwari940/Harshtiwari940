@@ -1,0 +1,53 @@
+<div class="color-scheme-1" style="padding:5rem 0;">
+  <div class="page-width" style="max-width:100rem;margin:0 auto;">
+    <p class="pv-crumb"><a href="{{ routes.account_url }}" style="color:inherit;">{{ 'customer.account.title' | t | default: 'My account' }}</a></p>
+    <h1 class="sk-section__title">{{ 'customer.order.title' | t: name: order.name | default: order.name }}</h1>
+    <p style="opacity:.7;">{{ order.created_at | date: format: 'date_at_time' }}</p>
+
+    {%- if order.cancelled -%}
+      <p class="sk-form-status sk-form-status--error">{{ order.cancel_reason_label }} — {{ order.cancelled_at | date: format: 'date' }}</p>
+    {%- endif -%}
+
+    <div style="overflow-x:auto;margin-top:2rem;">
+      <table class="sk-science-stats" style="width:100%;">
+        <thead>
+          <tr>
+            <th>{{ 'customer.order.product' | t | default: 'Product' }}</th>
+            <th>{{ 'customer.order.quantity' | t | default: 'Qty' }}</th>
+            <th>{{ 'customer.order.total' | t | default: 'Total' }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for line_item in order.line_items -%}
+            <tr>
+              <td><a href="{{ line_item.product.url }}">{{ line_item.title }}</a></td>
+              <td>{{ line_item.quantity }}</td>
+              <td>{{ line_item.final_line_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+        <tfoot>
+          <tr><td colspan="2">{{ 'customer.order.subtotal' | t | default: 'Subtotal' }}</td><td>{{ order.line_items_subtotal_price | money }}</td></tr>
+          {%- for shipping_method in order.shipping_methods -%}
+            <tr><td colspan="2">{{ 'customer.order.shipping' | t | default: 'Shipping' }} ({{ shipping_method.title }})</td><td>{{ shipping_method.price | money }}</td></tr>
+          {%- endfor -%}
+          {%- for tax_line in order.tax_lines -%}
+            <tr><td colspan="2">{{ 'customer.order.tax' | t | default: 'Tax' }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</td><td>{{ tax_line.price | money }}</td></tr>
+          {%- endfor -%}
+          <tr><td colspan="2"><strong>{{ 'customer.order.total' | t | default: 'Total' }}</strong></td><td><strong>{{ order.total_net_amount | money_with_currency }}</strong></td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="sk-grid sk-grid--2" style="margin-top:3rem;">
+      <div class="sk-tool-card">
+        <h2 style="font-size:1.6rem;">{{ 'customer.order.billing_address' | t | default: 'Billing address' }}</h2>
+        <p style="opacity:.8;">{{ order.billing_address | format_address }}</p>
+      </div>
+      <div class="sk-tool-card">
+        <h2 style="font-size:1.6rem;">{{ 'customer.order.shipping_address' | t | default: 'Shipping address' }}</h2>
+        <p style="opacity:.8;">{{ order.shipping_address | format_address }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,250 @@
+{%- comment -%}
+  Email signup. Submits to Shopify's real customer form, so subscribers land
+  in Customers with the "newsletter" tag.
+{%- endcomment -%}
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="
+    padding-top: {{ section.settings.padding_top }}rem;
+    padding-bottom: {{ section.settings.padding_bottom }}rem;
+    text-align:center;
+    {% if section.settings.custom_background != blank %}background: {{ section.settings.custom_background }};{% endif %}
+  "
+>
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <{{ section.settings.heading_tag }} class="sk-section__title" style="font-size: {{ section.settings.heading_font_size }}rem;">{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <div class="sk-section__text" style="opacity:.8;">{{ section.settings.text }}</div>
+    {%- endif -%}
+
+    {%- assign form_id = 'Newsletter-' | append: section.id -%}
+    {%- form 'customer', id: form_id -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="pv-subscribe-row" style="max-width:36rem;margin:1.4rem auto 0;">
+        <label class="sk-visually-hidden" for="NewsletterEmail-{{ section.id }}">Email</label>
+        <input
+          id="NewsletterEmail-{{ section.id }}"
+          type="email"
+          name="contact[email]"
+          value="{{ form.email }}"
+          placeholder="{{ section.settings.placeholder }}"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="email"
+          required
+          style="flex:1;min-width:0;border-radius:999px;border:1.5px solid rgba(18,59,74,.2);padding:1rem 1.4rem;font-family:var(--font-copy);"
+        >
+        <button type="submit" class="sk-btn sk-btn--{{ section.settings.button_style }}" style="border:0;cursor:pointer;">
+          {{ section.settings.button_label }}
+        </button>
+      </div>
+
+      {%- if form.errors -%}
+        <p class="sk-form-status sk-form-status--error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+      {%- elsif form.posted_successfully? -%}
+        <p class="sk-form-status sk-form-status--success">{{ section.settings.success_text }}</p>
+      {%- endif -%}
+    {%- endform -%}
+
+    {%- if section.settings.disclaimer != blank -%}
+      <div class="sk-section__text" style="font-size:1.2rem;opacity:.6;margin-top:1rem;">{{ section.settings.disclaimer }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Email signup",
+  "tag": "section",
+  "class": "sk-newsletter-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "10% off your first order"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 1.4,
+      "max": 4.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 2.0
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Expert tips, new launches, and stories for growing kids. No spam — ever.</p>"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Field placeholder",
+      "default": "your@email.com"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "hero",
+          "label": "Hero"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Success message",
+      "default": "Thanks for subscribing. Your discount is on its way."
+    },
+    {
+      "type": "richtext",
+      "id": "disclaimer",
+      "label": "Small print"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "9"
+    },
+    {
+      "type": "color_background",
+      "id": "custom_background",
+      "label": "Custom background",
+      "info": "Overrides the color scheme.",
+      "default": "linear-gradient(160deg, #FCE9F2 0%, #FEFBFC 100%)"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 3.4
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 3.4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Email signup"
+    }
+  ]
+}
+{% endschema %}

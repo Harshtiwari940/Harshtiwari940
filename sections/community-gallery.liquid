@@ -1,0 +1,277 @@
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="sk-section__title" style="text-align:center;font-size: {{ section.settings.heading_font_size }}rem;">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="sk-gallery-grid">
+      {%- for block in section.blocks -%}
+        <div
+          class="sk-gallery-card color-scheme-{{ block.settings.color_scheme }}"
+          {{ block.shopify_attributes }}
+          style="{% if block.settings.image != blank %}padding:0;{% endif %}"
+        >
+          {%- if block.settings.image != blank or block.settings.image_asset != blank -%}
+            {% render 'image-or-asset',
+              image: block.settings.image,
+              asset: block.settings.image_asset,
+              alt: block.settings.name,
+              widths: '200,300,400,600,800',
+              img_style: 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;' %}
+          {%- endif -%}
+          {%- if block.settings.name != blank -%}
+            <div class="sk-gallery-card__name">{{ block.settings.name }}</div>
+          {%- endif -%}
+          {%- if block.settings.age != blank -%}
+            <div class="sk-gallery-card__age">{{ block.settings.age }}</div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Community gallery",
+  "tag": "section",
+  "class": "sk-community-gallery-section",
+  "max_blocks": 24,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Meet our young creators"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 1.4,
+      "max": 3.4,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 1.8
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 3.0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 3.0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "creator",
+      "name": "Creator",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Artwork"
+        },
+        {
+          "type": "text",
+          "id": "image_asset",
+          "label": "Built-in image file",
+          "info": "Falls back to an image file shipped with the theme when no image is chosen above. Clear it to show nothing.",
+          "default": ""
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Anagha"
+        },
+        {
+          "type": "text",
+          "id": "age",
+          "label": "Age",
+          "default": "Age 8"
+        },
+        {
+          "type": "select",
+          "id": "color_scheme",
+          "label": "Card color",
+          "options": [
+            {
+              "value": "1",
+              "label": "1 — White"
+            },
+            {
+              "value": "2",
+              "label": "2 — White"
+            },
+            {
+              "value": "3",
+              "label": "3 — Pale blue fade"
+            },
+            {
+              "value": "4",
+              "label": "4 — Pale blue"
+            },
+            {
+              "value": "5",
+              "label": "5 — Blue gradient (light text)"
+            },
+            {
+              "value": "6",
+              "label": "6 — Deep blue (light text)"
+            },
+            {
+              "value": "7",
+              "label": "7 — Blue wash fade"
+            },
+            {
+              "value": "8",
+              "label": "8 — Blue fade"
+            },
+            {
+              "value": "9",
+              "label": "9 — Blue wash to white"
+            },
+            {
+              "value": "10",
+              "label": "10 — Deep blue (light text)"
+            },
+            {
+              "value": "11",
+              "label": "11 — Pink gradient"
+            },
+            {
+              "value": "12",
+              "label": "12 — Pink fade"
+            },
+            {
+              "value": "13",
+              "label": "13 — Blue (light text)"
+            }
+          ],
+          "default": "4"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Community gallery",
+      "blocks": [
+        {
+          "type": "creator",
+          "settings": {
+            "name": "Anagha",
+            "age": "Age 8",
+            "color_scheme": "4"
+          }
+        },
+        {
+          "type": "creator",
+          "settings": {
+            "name": "Shaurya",
+            "age": "Age 6",
+            "color_scheme": "9"
+          }
+        },
+        {
+          "type": "creator",
+          "settings": {
+            "name": "Abhimanyu",
+            "age": "Age 10",
+            "color_scheme": "8"
+          }
+        },
+        {
+          "type": "creator",
+          "settings": {
+            "name": "Saranya",
+            "age": "Age 10",
+            "color_scheme": "3"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

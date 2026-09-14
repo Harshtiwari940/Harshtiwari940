@@ -1,0 +1,59 @@
+<div class="color-scheme-1" style="padding:5rem 0;">
+  <div class="page-width" style="max-width:100rem;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+      <h1 class="sk-section__title" style="margin:0;">{{ 'customer.account.title' | t | default: 'My account' }}</h1>
+      <a href="{{ routes.account_logout_url }}" class="sk-btn sk-btn--outline">{{ 'customer.log_out' | t | default: 'Log out' }}</a>
+    </div>
+
+    <div class="sk-grid sk-grid--2" style="margin-top:3rem;">
+      <div>
+        <h2 style="font-size:1.8rem;">{{ 'customer.orders.title' | t | default: 'Order history' }}</h2>
+        {%- paginate customer.orders by 20 -%}
+          {%- if customer.orders.size > 0 -%}
+            <div style="overflow-x:auto;">
+              <table class="sk-science-stats" style="width:100%;">
+                <thead>
+                  <tr>
+                    <th>{{ 'customer.orders.order_number' | t | default: 'Order' }}</th>
+                    <th>{{ 'customer.orders.date' | t | default: 'Date' }}</th>
+                    <th>{{ 'customer.orders.payment_status' | t | default: 'Payment' }}</th>
+                    <th>{{ 'customer.orders.total' | t | default: 'Total' }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%- for order in customer.orders -%}
+                    <tr>
+                      <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+                      <td>{{ order.created_at | date: format: 'date' }}</td>
+                      <td>{{ order.financial_status_label }}</td>
+                      <td>{{ order.total_net_amount | money }}</td>
+                    </tr>
+                  {%- endfor -%}
+                </tbody>
+              </table>
+            </div>
+            {%- if paginate.pages > 1 -%}
+              <nav style="display:flex;gap:1rem;margin-top:2rem;">
+                {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">Previous</a>{%- endif -%}
+                {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Next</a>{%- endif -%}
+              </nav>
+            {%- endif -%}
+          {%- else -%}
+            <p style="opacity:.75;">{{ 'customer.orders.none' | t | default: "You haven't placed any orders yet." }}</p>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+
+      <div class="sk-tool-card">
+        <h2 style="font-size:1.8rem;">{{ 'customer.account.details' | t | default: 'Account details' }}</h2>
+        <p style="opacity:.8;">{{ customer.name }}<br>{{ customer.email }}</p>
+        {%- if customer.default_address -%}
+          <p style="opacity:.8;">{{ customer.default_address | format_address }}</p>
+        {%- endif -%}
+        <a href="{{ routes.account_addresses_url }}" class="sk-btn sk-btn--primary">
+          {{ 'customer.account.view_addresses' | t | default: 'View addresses' }} ({{ customer.addresses_count }})
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+{
+  "sections": {
+    "main": {
+      "type": "legal-text",
+      "blocks": {
+        "cl-1": {
+          "type": "clause",
+          "settings": {
+            "heading": "What we collect",
+            "text": "<p>Order and contact details you provide at checkout (name, address, phone, email); browsing data via cookies and analytics; and, where you choose to share it, your child's first name and age for personalisation features such as the Community gallery or age-based product recommendations.</p>"
+          }
+        },
+        "cl-2": {
+          "type": "clause",
+          "settings": {
+            "heading": "Children's data",
+            "text": "<p>Simply Kids products are for children aged 4–12, but our website and accounts are operated by parents/guardians. We do not knowingly collect personal data directly from children without verified parental consent, and any child-related information (like a first name and age submitted to \"Be the Pride\") is provided by the parent or guardian at their discretion, for the sole purpose of that feature.</p>"
+          }
+        },
+        "cl-3": {
+          "type": "clause",
+          "settings": {
+            "heading": "How we use your data",
+            "text": "<p>To process and ship orders, respond to queries, personalise the shopping experience, and — only with consent via cookie preferences — for marketing and analytics.</p>"
+          }
+        },
+        "cl-4": {
+          "type": "clause",
+          "settings": {
+            "heading": "Your rights",
+            "text": "<p>You may request access to, correction of, or deletion of your personal data at any time by writing to support@simplykids.in.</p>"
+          }
+        },
+        "cl-5": {
+          "type": "clause",
+          "settings": {
+            "heading": "Contact",
+            "text": "<p>Omakase Enterprises LLP, Primarc Chambers, Unit OU-114, 1839 Laskarhat, Tagore Park, E. M. Bypass, Kolkata – 700039. support@simplykids.in · +91-6297450751</p>"
+          }
+        }
+      },
+      "block_order": [
+        "cl-1",
+        "cl-2",
+        "cl-3",
+        "cl-4",
+        "cl-5"
+      ],
+      "settings": {
+        "heading": "Privacy Policy",
+        "use_page_title": true,
+        "heading_tag": "h1",
+        "heading_font_size": 2.8,
+        "updated": "Last updated: January 2026",
+        "intro": "<p>Omakase Enterprises LLP (\"Simply Kids\", \"we\", \"us\") is committed to protecting the privacy of everyone who visits simplykids.in, including children whose parents or guardians shop with us on their behalf.</p>",
+        "show_page_content": false,
+        "color_scheme": "1",
+        "content_width": "medium",
+        "padding_top": 5.0,
+        "padding_bottom": 5.0
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

@@ -1,0 +1,224 @@
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  <div class="page-width">
+    <div style="text-align:center;max-width:64rem;margin:0 auto 3rem;">
+      <h1 class="sk-section__title" style="font-size: {{ section.settings.heading_font_size }}rem;">{{ section.settings.heading }}</h1>
+      <form action="{{ routes.search_url }}" method="get" role="search" style="display:flex;gap:1rem;margin-top:1.6rem;">
+        <label class="sk-visually-hidden" for="SearchInput">{{ section.settings.placeholder }}</label>
+        <input
+          class="sk-field"
+          id="SearchInput"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ section.settings.placeholder }}"
+          style="border-radius:999px;"
+        >
+        <button type="submit" class="sk-btn sk-btn--primary" style="border:0;cursor:pointer;">{{ section.settings.button_label }}</button>
+      </form>
+    </div>
+
+    {%- if search.performed -%}
+      {%- if search.results_count == 0 -%}
+        <p style="text-align:center;opacity:.75;padding:3rem 0;">{{ section.settings.no_results }}</p>
+      {%- else -%}
+        <p style="text-align:center;opacity:.7;margin-bottom:2.4rem;">
+          {{ search.results_count }} {% if search.results_count == 1 %}result{% else %}results{% endif %} for “{{ search.terms }}”
+        </p>
+        {%- paginate search.results by section.settings.results_per_page -%}
+          <div class="sk-grid sk-grid--{{ section.settings.columns }}">
+            {%- for item in search.results -%}
+              {%- if item.object_type == 'product' -%}
+                {% render 'product-card',
+                  card_product: item,
+                  show_rating: false,
+                  show_price: true,
+                  button_label: section.settings.card_button_label %}
+              {%- else -%}
+                <div class="sk-tool-card">
+                  <h3 style="font-size:1.6rem;">
+                    <a href="{{ item.url }}" style="color:inherit;text-decoration:none;">{{ item.title }}</a>
+                  </h3>
+                  <p style="opacity:.7;font-size:1.3rem;">{{ item.content | default: item.excerpt | strip_html | truncate: 140 }}</p>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <nav style="display:flex;gap:1rem;justify-content:center;margin-top:3rem;flex-wrap:wrap;align-items:center;">
+              {%- if paginate.previous -%}<a class="sk-btn sk-btn--outline" href="{{ paginate.previous.url }}">Previous</a>{%- endif -%}
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" style="padding:.7rem 1.2rem;font-family:var(--font-label);">{{ part.title }}</a>
+                {%- else -%}
+                  <span style="padding:.7rem 1.2rem;font-family:var(--font-label);font-weight:800;">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if paginate.next -%}<a class="sk-btn sk-btn--outline" href="{{ paginate.next.url }}">Next</a>{%- endif -%}
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Search results",
+  "tag": "section",
+  "class": "sk-main-search-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Search"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 1.6,
+      "max": 4.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 2.6
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Field placeholder",
+      "default": "What are you looking for?"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Search"
+    },
+    {
+      "type": "text",
+      "id": "no_results",
+      "label": "No results message",
+      "default": "No results found. Try a different word."
+    },
+    {
+      "type": "text",
+      "id": "card_button_label",
+      "label": "Product card button",
+      "default": "Add to bag"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Columns on desktop",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "results_per_page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "label": "Results per page",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 4.0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 5.0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search results"
+    }
+  ]
+}
+{% endschema %}

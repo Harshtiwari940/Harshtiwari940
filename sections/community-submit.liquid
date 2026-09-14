@@ -1,0 +1,280 @@
+{%- comment -%}
+  Submission form. Posts through Shopify's contact form so entries arrive by
+  email, tagged so you can filter them.
+{%- endcomment -%}
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  <div class="page-width" style="max-width:64rem;">
+    <div class="sk-submit-form">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="sk-section__title" style="text-align:center;">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="sk-section__text" style="text-align:center;opacity:.8;">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      {%- assign form_id = 'CommunityForm-' | append: section.id -%}
+      {%- form 'contact', id: form_id -%}
+        {%- if form.posted_successfully? -%}
+          <p class="sk-form-status sk-form-status--success">{{ section.settings.success_text }}</p>
+        {%- elsif form.errors -%}
+          <p class="sk-form-status sk-form-status--error">{{ form.errors | default_errors }}</p>
+        {%- endif -%}
+
+        <input type="hidden" name="contact[Submission type]" value="{{ section.settings.submission_tag }}">
+
+        <label for="CommunityName-{{ section.id }}">{{ section.settings.label_name }}</label>
+        <input id="CommunityName-{{ section.id }}" type="text" name="contact[Child first name]" required>
+
+        <label for="CommunityAge-{{ section.id }}">{{ section.settings.label_age }}</label>
+        <select id="CommunityAge-{{ section.id }}" name="contact[Child age]">
+          <option value="">{{ section.settings.age_placeholder }}</option>
+          {%- assign ages = section.settings.age_options | split: ',' -%}
+          {%- for age in ages -%}
+            <option value="{{ age | strip }}">{{ age | strip }}</option>
+          {%- endfor -%}
+        </select>
+
+        <label for="CommunityEmail-{{ section.id }}">{{ section.settings.label_email }}</label>
+        <input id="CommunityEmail-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" required>
+
+        {%- if section.settings.show_message -%}
+          <label for="CommunityBody-{{ section.id }}">{{ section.settings.label_message }}</label>
+          <textarea id="CommunityBody-{{ section.id }}" name="contact[body]" rows="3"></textarea>
+        {%- endif -%}
+
+        {%- if section.settings.consent_text != blank -%}
+          <label style="display:flex;gap:.8rem;align-items:flex-start;margin-top:1.4rem;font-weight:400;">
+            <input type="checkbox" name="contact[Parental consent]" value="Yes" required style="margin-top:.4rem;">
+            <span style="font-size:1.2rem;opacity:.8;">{{ section.settings.consent_text }}</span>
+          </label>
+        {%- endif -%}
+
+        <button type="submit" class="sk-btn sk-btn--{{ section.settings.button_style }}" style="width:100%;margin-top:1.6rem;border:0;cursor:pointer;">
+          {{ section.settings.button_label }}
+        </button>
+      {%- endform -%}
+
+      {%- if section.settings.guidelines != blank -%}
+        <div class="sk-submit-guidelines">{{ section.settings.guidelines }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Community submission",
+  "tag": "section",
+  "class": "sk-community-submit-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Share your little one's magic"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "submission_tag",
+      "label": "Submission label",
+      "info": "Included in the email so you can filter entries.",
+      "default": "Be the Pride gallery entry"
+    },
+    {
+      "type": "header",
+      "content": "Fields"
+    },
+    {
+      "type": "text",
+      "id": "label_name",
+      "label": "Name label",
+      "default": "Child's first name"
+    },
+    {
+      "type": "text",
+      "id": "label_age",
+      "label": "Age label",
+      "default": "Child's age"
+    },
+    {
+      "type": "text",
+      "id": "age_placeholder",
+      "label": "Age placeholder",
+      "default": "Select age"
+    },
+    {
+      "type": "text",
+      "id": "age_options",
+      "label": "Age options",
+      "info": "Separate with commas.",
+      "default": "4, 5, 6, 7, 8, 9, 10, 11, 12"
+    },
+    {
+      "type": "text",
+      "id": "label_email",
+      "label": "Email label",
+      "default": "Parent/guardian email"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_message",
+      "label": "Show message field",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "label_message",
+      "label": "Message label",
+      "default": "Tell us about the artwork"
+    },
+    {
+      "type": "textarea",
+      "id": "consent_text",
+      "label": "Consent checkbox text",
+      "default": "I am the parent or guardian and I consent to Simply Kids sharing this entry."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Submit entry"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "hero",
+          "label": "Hero"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "hero"
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Success message",
+      "default": "Thank you. We'll be in touch before anything is published."
+    },
+    {
+      "type": "richtext",
+      "id": "guidelines",
+      "label": "Guidelines"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 3.6
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 3.6
+    }
+  ],
+  "presets": [
+    {
+      "name": "Community submission"
+    }
+  ]
+}
+{% endschema %}

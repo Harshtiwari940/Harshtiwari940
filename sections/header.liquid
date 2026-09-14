@@ -1,0 +1,210 @@
+{%- comment -%}
+  Header. The navigation is a real Shopify menu (Navigation > Main menu),
+  and every element can be toggled from the theme editor.
+{%- endcomment -%}
+{%- liquid
+  assign logo = section.settings.logo | default: settings.logo
+  assign logo_width = section.settings.logo_width | default: settings.logo_width
+-%}
+
+<header
+  class="pv-header"
+  style="
+    background: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+    {% unless section.settings.sticky %}position: relative;{% endunless %}
+    padding-top: {{ section.settings.padding_vertical }}rem;
+    padding-bottom: {{ section.settings.padding_vertical }}rem;
+  "
+>
+  <div style="display:flex;align-items:center;gap:1.2rem;">
+    {%- if section.settings.show_mobile_menu and section.settings.menu != blank -%}
+      <details class="sk-mobile-nav">
+        <summary aria-label="Open menu" style="cursor:pointer;display:flex;align-items:center;list-style:none;">
+          {% render 'icon', name: 'menu', size: 26, color: section.settings.text_color %}
+        </summary>
+        <nav class="sk-mobile-nav__panel" style="background: {{ section.settings.background }};">
+          {%- for link in linklists[section.settings.menu].links -%}
+            <a href="{{ link.url }}" style="color:{{ section.settings.text_color }};">{{ link.title }}</a>
+            {%- if link.links.size > 0 -%}
+              {%- for child in link.links -%}
+                <a href="{{ child.url }}" style="color:{{ section.settings.text_color }};opacity:.75;padding-left:1.6rem;">{{ child.title }}</a>
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </nav>
+      </details>
+    {%- endif -%}
+
+    <a href="{{ routes.root_url }}" style="display:flex;align-items:center;">
+      {%- if logo != blank -%}
+        {{ logo | image_url: width: 600 | image_tag:
+          loading: 'eager',
+          widths: '150,225,300,450,600',
+          alt: shop.name }}
+      {%- else -%}
+        <span style="font-family:var(--font-display);font-weight:800;font-size:1.9rem;color:inherit;">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+  </div>
+
+  {%- if section.settings.menu != blank -%}
+    <nav class="pv-nav">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <a href="{{ link.url }}" style="color:{{ section.settings.text_color }};">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+  {%- endif -%}
+
+  <div class="pv-header-icons">
+    {%- if section.settings.show_rating -%}
+      <span><span class="stars">★</span> {{ settings.rating_value }} · {{ settings.rating_count }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.show_search -%}
+      <a href="{{ routes.search_url }}" aria-label="Search" style="display:flex;color:inherit;">
+        {% render 'icon', name: 'search', size: 20, color: section.settings.text_color %}
+      </a>
+    {%- endif -%}
+
+    {%- if section.settings.show_account -%}
+      <a
+        href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+        aria-label="Account"
+        style="display:flex;color:inherit;"
+      >
+        {% render 'icon', name: 'account', size: 20, color: section.settings.text_color %}
+      </a>
+    {%- endif -%}
+
+    {%- if section.settings.show_cart -%}
+      <a href="{{ routes.cart_url }}" aria-label="Cart" style="display:flex;align-items:center;gap:.4rem;color:inherit;">
+        {% render 'icon', name: 'bag', size: 20, color: section.settings.text_color %}
+        <span>{{ cart.item_count }}</span>
+      </a>
+    {%- endif -%}
+  </div>
+</header>
+
+<style>
+  .pv-header img { height: auto; width: {{ logo_width }}px; max-width: 100%; }
+  .sk-mobile-nav { display: none; position: relative; }
+  .sk-mobile-nav summary::-webkit-details-marker { display: none; }
+  .sk-mobile-nav__panel {
+    position: absolute; top: calc(100% + 1rem); left: 0; min-width: 24rem;
+    padding: 1.6rem; border-radius: 0 0 16px 16px;
+    box-shadow: 0 18px 40px -12px rgba(0,73,135,.35); z-index: 40;
+  }
+  .sk-mobile-nav__panel a {
+    display: block; text-decoration: none; font-family: var(--font-label);
+    font-weight: 700; font-size: 1.5rem; padding: .7rem 0;
+  }
+  @media screen and (max-width: 749px) {
+    .sk-mobile-nav { display: block; }
+    .pv-header img { width: {{ logo_width | times: 0.8 | round }}px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "header",
+  "class": "sk-header-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Leave empty to use the logo from Theme settings > Logo."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 60,
+      "max": 320,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 150
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "#E8F5FB"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text and icons",
+      "default": "#4A4744"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Stick to top when scrolling",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 0.5,
+      "max": 4,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Vertical padding",
+      "default": 1.4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_mobile_menu",
+      "label": "Show menu button on mobile",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating badge",
+      "info": "Edit the numbers in Theme settings > Reviews badge.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show account",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Show cart",
+      "default": true
+    }
+  ],
+  "presets": [{ "name": "Header" }]
+}
+{% endschema %}

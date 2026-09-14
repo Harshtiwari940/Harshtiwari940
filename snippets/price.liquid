@@ -1,0 +1,25 @@
+{%- comment -%}
+  Price line. Pass a real product/variant, or price_text/compare_text for
+  manually entered cards.
+  Usage: {% render 'price', product: product, tax_note: 'Incl. of all taxes' %}
+{%- endcomment -%}
+<div class="sk-price" style="font-size:1.5rem;">
+  {%- if product != blank -%}
+    {%- liquid
+      assign p_price = product.price | default: 0
+      assign p_compare = product.compare_at_price | default: 0
+    -%}
+    {%- if p_compare > p_price -%}
+      <s style="color:var(--sk-price-was);">{{ product.compare_at_price | money }}</s>
+      <strong style="color:var(--sk-blue-deep);">{{ product.price | money }}</strong>
+    {%- else -%}
+      <strong style="color:var(--sk-blue-deep);">{{ product.price | money }}</strong>
+    {%- endif -%}
+  {%- else -%}
+    {%- if compare_text != blank -%}<s style="color:var(--sk-price-was);">{{ compare_text }}</s> {% endif -%}
+    {%- if price_text != blank -%}<strong style="color:var(--sk-blue-deep);">{{ price_text }}</strong>{%- endif -%}
+  {%- endif -%}
+  {%- if tax_note != blank -%}
+    <span style="opacity:.6;font-size:1.1rem;"> {{ tax_note }}</span>
+  {%- endif -%}
+</div>

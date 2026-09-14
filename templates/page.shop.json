@@ -1,0 +1,75 @@
+{
+  "sections": {
+    "banner": {
+      "type": "page-banner",
+      "settings": {
+        "heading": "Shop All",
+        "heading_font_size": 2.6,
+        "text": "<p>Five essentials. Dermatologically tested, pH 5.5, toxin-free — made only for ages 4–12.</p>",
+        "show_breadcrumb": true,
+        "home_label": "Home",
+        "color_scheme": "1",
+        "text_align": "center",
+        "padding_top": 3.0,
+        "padding_bottom": 3.0
+      }
+    },
+    "products": {
+      "type": "collection-products",
+      "blocks": {
+        "fl-1": {
+          "type": "filter",
+          "settings": {
+            "label": "All",
+            "link": "/collections/all"
+          }
+        },
+        "fl-2": {
+          "type": "filter",
+          "settings": {
+            "label": "Hair & scalp",
+            "link": ""
+          }
+        },
+        "fl-3": {
+          "type": "filter",
+          "settings": {
+            "label": "Body & bath",
+            "link": ""
+          }
+        },
+        "fl-4": {
+          "type": "filter",
+          "settings": {
+            "label": "Bedtime & massage",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "fl-1",
+        "fl-2",
+        "fl-3",
+        "fl-4"
+      ],
+      "settings": {
+        "columns": 4,
+        "products_per_page": 24,
+        "show_sort": true,
+        "sort_prefix": "Sort: ",
+        "show_rating": true,
+        "rating_label": "reviews",
+        "show_price": true,
+        "tax_note": "Incl. of all taxes",
+        "button_label": "Add to bag",
+        "color_scheme": "1",
+        "padding_top": 2.4,
+        "padding_bottom": 2.4
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "products"
+  ]
+}

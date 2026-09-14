@@ -1,0 +1,367 @@
+{%- comment -%}
+  Alternating image / text rows. Each row is a block with its own image,
+  label, heading, text and ingredient chips.
+{%- endcomment -%}
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+    <div style="text-align:center;max-width:70rem;margin:0 auto {{ section.settings.header_gap }}rem;padding:0 3rem;">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="sk-eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="sk-section__title" style="font-size: {{ section.settings.heading_font_size }}rem;">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign reverse = false
+      assign parity = forloop.index0 | modulo: 2
+      if section.settings.alternate and parity == 1
+        assign reverse = true
+      endif
+      if block.settings.layout == 'text_first'
+        assign reverse = true
+      elsif block.settings.layout == 'image_first'
+        assign reverse = false
+      endif
+    -%}
+    <div
+      class="sk-ritual-grid{% if reverse %} sk-ritual-grid--rev{% endif %}"
+      {{ block.shopify_attributes }}
+      style="padding:0 4rem {% if forloop.last %}0{% else %}{{ section.settings.row_gap }}rem{% endif %};"
+    >
+      <div style="border-radius:16px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,73,135,.35);">
+        {% render 'image-or-asset',
+          image: block.settings.image,
+          asset: block.settings.image_asset,
+          alt: block.settings.heading,
+          widths: '400,600,800,1000,1400',
+          img_style: 'width:100%;display:block;height:auto;',
+          placeholder: 'Ritual image',
+          ratio: '4/3' %}
+      </div>
+
+      <div>
+        {%- if block.settings.label != blank -%}
+          <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:800;color:var(--sk-blue-mid);letter-spacing:.1em;margin-bottom:1rem;">
+            {{ block.settings.label }}
+          </div>
+        {%- endif -%}
+        {%- if block.settings.heading != blank -%}
+          <h3 style="font-size: {{ section.settings.card_heading_size }}rem;margin-bottom:1.2rem;">{{ block.settings.heading }}</h3>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <div class="sk-section__text" style="font-size: {{ section.settings.card_text_size }}rem;opacity:.85;margin-bottom:2rem;">
+            {{ block.settings.text }}
+          </div>
+        {%- endif -%}
+        {%- if block.settings.chips != blank -%}
+          <div style="display:flex;gap:.8rem;flex-wrap:wrap;">
+            {%- assign chip_list = block.settings.chips | split: ',' -%}
+            {%- for chip in chip_list -%}
+              <span style="background:#fff;border:1px solid var(--sk-blue-wash);color:var(--sk-blue-deep);font-family:var(--font-label);font-weight:700;font-size:1.1rem;padding:.6rem 1.3rem;border-radius:999px;">
+                {{ chip | strip }}
+              </span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        {%- if block.settings.button_label != blank -%}
+          <div style="margin-top:2rem;">
+            {% render 'button', label: block.settings.button_label, link: block.settings.button_link, style: block.settings.button_style %}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Ritual rows",
+  "tag": "section",
+  "class": "sk-ritual-lines-section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "The Simply Kids ritual system"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Three rituals. Nine years. One routine that actually fits."
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 1.8,
+      "max": 5.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 3.4
+    },
+    {
+      "type": "range",
+      "id": "header_gap",
+      "min": 0,
+      "max": 8,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Space below heading",
+      "default": 5.0
+    },
+    {
+      "type": "header",
+      "content": "Rows"
+    },
+    {
+      "type": "checkbox",
+      "id": "alternate",
+      "label": "Alternate image side automatically",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "min": 0,
+      "max": 12,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Space between rows",
+      "default": 7.0
+    },
+    {
+      "type": "range",
+      "id": "card_heading_size",
+      "min": 1.6,
+      "max": 4.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Row heading size",
+      "default": 2.8
+    },
+    {
+      "type": "range",
+      "id": "card_text_size",
+      "min": 1.2,
+      "max": 2.4,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Row text size",
+      "default": 1.6
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 7.0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 7.0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ritual",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_asset",
+          "label": "Built-in image file",
+          "info": "Falls back to an image file shipped with the theme when no image is chosen above. Clear it to show nothing.",
+          "default": "ritual-wash-day.jpg"
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Image side",
+          "options": [
+            {
+              "value": "auto",
+              "label": "Automatic"
+            },
+            {
+              "value": "image_first",
+              "label": "Image left"
+            },
+            {
+              "value": "text_first",
+              "label": "Image right"
+            }
+          ],
+          "default": "auto"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "RITUAL 01 — THE WASH-DAY FIX"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "2-in-1 Shampoo + Conditioner"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Bhringraj and Japa strengthen the hair shaft while Jatamansi calms the scalp — cleanses and conditions in one step, so wash day stops being a fight over tangles.</p>"
+        },
+        {
+          "type": "text",
+          "id": "chips",
+          "label": "Ingredient chips",
+          "info": "Separate with commas.",
+          "default": "Bhringraj, Japa, Jatamansi"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "hero",
+              "label": "Hero"
+            },
+            {
+              "value": "outline",
+              "label": "Outline"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ],
+          "default": "primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ritual rows",
+      "blocks": [
+        {
+          "type": "ritual"
+        },
+        {
+          "type": "ritual"
+        },
+        {
+          "type": "ritual"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,146 @@
+{
+  "name": "Footer",
+  "type": "footer",
+  "sections": {
+    "trust-icons": {
+      "type": "trust-icons",
+      "blocks": {
+        "col-1": {
+          "type": "column",
+          "settings": {
+            "icon": "shipping",
+            "heading": "Free Shipping",
+            "text": "On orders over ₹999"
+          }
+        },
+        "col-2": {
+          "type": "column",
+          "settings": {
+            "icon": "card",
+            "heading": "COD Available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "col-3": {
+          "type": "column",
+          "settings": {
+            "icon": "return",
+            "heading": "No Question Asked",
+            "text": "Returns & Exchange"
+          }
+        },
+        "pay-1": {
+          "type": "payment",
+          "settings": {
+            "label": "UPI"
+          }
+        },
+        "pay-2": {
+          "type": "payment",
+          "settings": {
+            "label": "VISA",
+            "italic": true
+          }
+        },
+        "pay-3": {
+          "type": "payment",
+          "settings": {
+            "label": "Mastercard"
+          }
+        },
+        "pay-4": {
+          "type": "payment",
+          "settings": {
+            "label": "RuPay"
+          }
+        }
+      },
+      "block_order": [
+        "col-1",
+        "col-2",
+        "col-3",
+        "pay-1",
+        "pay-2",
+        "pay-3",
+        "pay-4"
+      ],
+      "settings": {
+        "note": "100% Payment Protection, Easy Return Policy",
+        "note_icon": "lock",
+        "color_scheme": "1",
+        "icon_color": "#004987",
+        "padding_top": 4,
+        "padding_bottom": 4
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "brand": {
+          "type": "brand",
+          "settings": {
+            "show_logo": true,
+            "text": "<p>Proven, gentle self-care made only for growing kids, ages 4–12. Nani's love, clinically kept.</p>"
+          }
+        },
+        "shop": {
+          "type": "menu",
+          "settings": {
+            "heading": "Shop",
+            "menu": "",
+            "links": "Shampoo | /collections/all\nHair Oil | /collections/all\nBody Wash | /collections/all\nBody Lotion | /collections/all\nBody Oil | /collections/all"
+          }
+        },
+        "story": {
+          "type": "menu",
+          "settings": {
+            "heading": "Our Story",
+            "menu": "",
+            "links": "About Us | /pages/story\nJournal | /pages/journal\nAffiliate | /pages/affiliate\nFAQ | /pages/faq"
+          }
+        },
+        "policies": {
+          "type": "menu",
+          "settings": {
+            "heading": "Policies",
+            "menu": "",
+            "links": "Privacy Policy | /pages/privacy\nReturn & Refund Policy | /pages/returns\nShipping Policy | /pages/shipping\nTerms & Conditions | /pages/terms"
+          }
+        },
+        "care": {
+          "type": "contact",
+          "settings": {
+            "heading": "Care",
+            "show_phone": true,
+            "show_email": true,
+            "show_address": true,
+            "show_social": true
+          }
+        }
+      },
+      "block_order": [
+        "brand",
+        "shop",
+        "story",
+        "policies",
+        "care"
+      ],
+      "settings": {
+        "logo_width": 130,
+        "bottom_left": "© [year] Simply Kids · a division of Omakase Enterprises LLP",
+        "bottom_right": "Free shipping over ₹999 · Ships across India",
+        "show_payment_icons": false,
+        "background": "linear-gradient(180deg, #004987 0%, #003666 100%)",
+        "text_color": "#FFFFFF",
+        "rounded": true,
+        "margin_top": 4,
+        "padding_top": 4,
+        "padding_bottom": 2
+      }
+    }
+  },
+  "order": [
+    "trust-icons",
+    "footer"
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "sections": {
+    "banner": {
+      "type": "page-banner",
+      "settings": {
+        "heading": "",
+        "heading_font_size": 2.6,
+        "eyebrow": "The range",
+        "text": "<p>Five essentials. Dermatologically tested, pH 5.5, toxin-free — made only for ages 4–12.</p>",
+        "text_font_size": 1.6,
+        "show_breadcrumb": true,
+        "home_label": "Home",
+        "color_scheme": "4",
+        "text_align": "center",
+        "padding_top": 4.0,
+        "padding_bottom": 3.0
+      }
+    },
+    "products": {
+      "type": "featured-products",
+      "blocks": {
+        "p-1": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-shampoo.jpg",
+            "title": "2-in-1 Kids Shampoo + Conditioner",
+            "price_text": "₹514",
+            "compare_text": "₹714",
+            "badge": "Save 28%",
+            "rating_label": "21 reviews",
+            "link": "/collections/all"
+          }
+        },
+        "p-2": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-hair-oil.jpg",
+            "title": "Nourishing Kids Hair Oil",
+            "price_text": "₹673",
+            "compare_text": "₹935",
+            "badge": "Save 28%",
+            "rating_label": "16 reviews",
+            "link": "/collections/all"
+          }
+        },
+        "p-3": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-body-wash.jpg",
+            "title": "Gentle Kids Body Wash",
+            "price_text": "₹569",
+            "compare_text": "₹790",
+            "badge": "Save 28%",
+            "rating_label": "22 reviews",
+            "link": "/collections/all"
+          }
+        },
+        "p-4": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-body-lotion.jpg",
+            "title": "Deep Hydration Kids Body Lotion",
+            "price_text": "₹547",
+            "compare_text": "₹760",
+            "badge": "Save 28%",
+            "rating_label": "25 reviews",
+            "link": "/collections/all"
+          }
+        },
+        "p-5": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-massage-oil.jpg",
+            "title": "Nourishing Body Massage Oil",
+            "price_text": "₹677",
+            "compare_text": "₹940",
+            "badge": "Save 28%",
+            "rating_label": "28 reviews",
+            "link": "/collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "p-1",
+        "p-2",
+        "p-3",
+        "p-4",
+        "p-5"
+      ],
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "columns": 5,
+        "products_to_show": 5,
+        "show_rating": true,
+        "show_price": true,
+        "tax_note": "Incl. of all taxes",
+        "button_label": "View product",
+        "color_scheme": "1",
+        "padding_top": 2.0,
+        "padding_bottom": 4.0
+      }
+    },
+    "why": {
+      "type": "card-grid",
+      "blocks": {
+        "w-1": {
+          "type": "card",
+          "settings": {
+            "icon": "drop",
+            "heading": "pH 5.5-balanced",
+            "text": "<p>Every formula sits at the same pH as healthy skin, so it cleans without stripping a barrier that is still developing.</p>"
+          }
+        },
+        "w-2": {
+          "type": "card",
+          "settings": {
+            "icon": "leaf",
+            "heading": "Nani's botanicals",
+            "text": "<p>Bhringraj, Japa and Jatamansi, measured into formulas blended in-house by our R&amp;D team.</p>"
+          }
+        },
+        "w-3": {
+          "type": "card",
+          "settings": {
+            "icon": "check",
+            "heading": "Tested on 4–12s",
+            "text": "<p>Dermatologically tested, then tested again on children in the 4–12 range — not on adults and scaled down.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "w-1",
+        "w-2",
+        "w-3"
+      ],
+      "settings": {
+        "eyebrow": "Why 4 to 12 matters",
+        "heading": "Built for the in-between years",
+        "heading_font_size": 2.4,
+        "header_gap": 3.0,
+        "columns": 3,
+        "card_align": "left",
+        "card_heading_size": 1.8,
+        "card_text_size": 1.5,
+        "color_scheme": "3",
+        "padding_top": 5.0,
+        "padding_bottom": 5.0
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q-1": {
+          "type": "question",
+          "settings": {
+            "icon": "✓",
+            "question": "Why it works",
+            "open": true,
+            "answer": "<p>A gentle 2-in-1 that cleanses and conditions in one step. Bhringraj and Japa strengthen the hair shaft while Jatamansi soothes the scalp.</p>"
+          }
+        },
+        "q-2": {
+          "type": "question",
+          "settings": {
+            "icon": "💧",
+            "question": "Full ingredients & safety",
+            "answer": "<p>Free from parabens, sulfates, silicones, alcohol, dyes and mineral oil.</p>"
+          }
+        },
+        "q-3": {
+          "type": "question",
+          "settings": {
+            "icon": "🌿",
+            "question": "How to use",
+            "answer": "<p>Add your usage directions here.</p>"
+          }
+        },
+        "q-4": {
+          "type": "question",
+          "settings": {
+            "icon": "🚚",
+            "question": "Shipping & returns",
+            "answer": "<p>Free shipping over ₹999. 7-day returns on unopened, sealed products.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q-1",
+        "q-2",
+        "q-3",
+        "q-4"
+      ],
+      "settings": {
+        "heading": "Good to know",
+        "heading_tag": "h2",
+        "heading_font_size": 2.2,
+        "text_align": "center",
+        "color_scheme": "1",
+        "content_width": "narrow",
+        "padding_top": 4.0,
+        "padding_bottom": 5.0
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "products",
+    "why",
+    "faq"
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "breadcrumb": {
+          "type": "breadcrumb",
+          "settings": {
+            "home_label": "Home"
+          }
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "text": "21 reviews"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "font_size": 2.6
+          }
+        },
+        "tagline": {
+          "type": "tagline",
+          "settings": {
+            "text": "Fewer tangles, less breakage — wash-day tears, gone."
+          }
+        },
+        "chips": {
+          "type": "chips",
+          "settings": {
+            "chips": "Bhringraj, Japa, Jatamansi"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_savings": true,
+            "note": "MRP incl. of all taxes · 175 ml"
+          }
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "button_label": "Add to bag",
+            "sold_out_label": "Sold out",
+            "button_style": "hero",
+            "secondary_label": "View bag",
+            "show_quantity": false,
+            "quantity_label": "Quantity",
+            "variant_label": "Size",
+            "show_dynamic_checkout": true
+          }
+        },
+        "icons": {
+          "type": "icon_row",
+          "settings": {
+            "items": "🌿 | Dermatologically tested\n💙 | Vegan & cruelty-free\n📌 | Made in India"
+          }
+        },
+        "why": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "✓",
+            "heading": "Why it works",
+            "open": true,
+            "text": "<p>A gentle 2-in-1 that cleanses and conditions in one step. Bhringraj and Japa strengthen the hair shaft while Jatamansi soothes the scalp.</p>"
+          }
+        },
+        "ingredients": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "💧",
+            "heading": "Full ingredients & safety",
+            "text": "",
+            "use_description": true
+          }
+        },
+        "howto": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "🌿",
+            "heading": "How to use",
+            "text": "<p>Add your usage directions here.</p>"
+          }
+        },
+        "shipping": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "🚚",
+            "heading": "Shipping & returns",
+            "text": "<p>Free shipping over ₹999. 7-day returns on unopened, sealed products.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "breadcrumb",
+        "rating",
+        "title",
+        "tagline",
+        "chips",
+        "price",
+        "buy",
+        "icons",
+        "why",
+        "ingredients",
+        "howto",
+        "shipping"
+      ],
+      "settings": {
+        "show_thumbnails": true,
+        "color_scheme": "4",
+        "custom_background": "linear-gradient(180deg, rgba(250,211,230,.5) 0%, #FEF8FB 62%)",
+        "padding_top": 2.4,
+        "padding_bottom": 3.0
+      }
+    },
+    "pairs-with": {
+      "type": "featured-products",
+      "blocks": {
+        "pw-1": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-hair-oil.jpg",
+            "title": "Nourishing Hair Oil",
+            "price_text": "₹673",
+            "compare_text": "",
+            "link": "/collections/all"
+          }
+        },
+        "pw-2": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-body-wash.jpg",
+            "title": "Gentle Body Wash",
+            "price_text": "₹569",
+            "compare_text": "",
+            "link": "/collections/all"
+          }
+        },
+        "pw-3": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-body-lotion.jpg",
+            "title": "Deep Hydration Lotion",
+            "price_text": "₹547",
+            "compare_text": "",
+            "link": "/collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "pw-1",
+        "pw-2",
+        "pw-3"
+      ],
+      "settings": {
+        "heading": "Pairs well with",
+        "heading_tag": "h2",
+        "heading_font_size": 1.8,
+        "subheading": "",
+        "columns": 3,
+        "products_to_show": 3,
+        "show_rating": false,
+        "show_price": true,
+        "color_scheme": "8",
+        "padding_top": 3.0,
+        "padding_bottom": 3.0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "pairs-with"
+  ]
+}

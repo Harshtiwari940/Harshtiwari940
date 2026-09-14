@@ -1,0 +1,345 @@
+<div
+  class="sk-hero color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  <div class="sk-hero__grid">
+    <div class="sk-hero__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="sk-eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <{{ section.settings.heading_tag }} class="sk-hero__title">{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <div class="sk-hero__sub">{{ section.settings.subheading }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank or section.settings.button_2_label != blank -%}
+        <div class="sk-buttons">
+          {% render 'button', label: section.settings.button_label, link: section.settings.button_link, style: section.settings.button_style %}
+          {% render 'button', label: section.settings.button_2_label, link: section.settings.button_2_link, style: section.settings.button_2_style %}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_spectrum -%}
+        <div class="sk-hero__spectrum">
+          <span>{{ section.settings.spectrum_start }}</span>
+          <div class="sk-hero__spectrum-track">
+            <span class="sk-hero__spectrum-dot" style="left:0%"></span>
+            <span class="sk-hero__spectrum-dot" style="left:50%"></span>
+            <span class="sk-hero__spectrum-dot" style="left:100%"></span>
+          </div>
+          <span>{{ section.settings.spectrum_end }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.footnote != blank -%}
+        <p style="font-size:1.3rem;opacity:.7;margin-top:.6rem;">{{ section.settings.footnote }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.show_rating -%}
+        <div style="display:flex;align-items:center;gap:.8rem;margin-top:2rem;font-family:var(--font-label);font-size:1.4rem;">
+          <span style="color:{{ settings.color_star }};">★★★★★</span>
+          <span>{{ section.settings.rating_text | replace: '[rating]', settings.rating_value | replace: '[count]', settings.rating_count }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="sk-hero__media">
+      {% render 'image-or-asset',
+        image: section.settings.image,
+        asset: section.settings.image_asset,
+        alt: shop.name,
+        loading: 'eager',
+        widths: '400,600,800,1000,1400',
+        placeholder: 'Hero image',
+        ratio: '4/5',
+        img_style: 'border-radius:24px;' %}
+
+      {%- if section.settings.badge_text != blank -%}
+        <div class="sk-hero__stat-badge">{{ section.settings.badge_text }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero with age range",
+  "tag": "section",
+  "class": "sk-hero-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Only for the ages 4–12"
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Basic HTML is allowed, e.g. <br> for a line break and <em> for the highlighted style.",
+      "default": "Growing-up care,<br/>made <em>kid-safe</em>."
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Text",
+      "default": "<p>Dermatologically tested, pH 5.5-balanced formulas for the in-between years — proven gentle enough to trust, effective enough to work.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_asset",
+      "label": "Built-in image file",
+      "info": "Falls back to an image file shipped with the theme when no image is chosen above. Clear it to show nothing.",
+      "default": "hero.jpg"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Image badge",
+      "default": "95% smoother hair*"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button 1 label",
+      "default": "Find their stage"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button 1 style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "hero",
+          "label": "Hero"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "hero"
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Button 2 label",
+      "default": "Shop bestsellers"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "select",
+      "id": "button_2_style",
+      "label": "Button 2 style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "hero",
+          "label": "Hero"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "outline"
+    },
+    {
+      "type": "header",
+      "content": "Age spectrum"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_spectrum",
+      "label": "Show age spectrum",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "spectrum_start",
+      "label": "Start age",
+      "default": "4"
+    },
+    {
+      "type": "text",
+      "id": "spectrum_end",
+      "label": "End age",
+      "default": "12"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "Baby care's too mild. Adult care's too harsh. We built for the nine years in between."
+    },
+    {
+      "type": "header",
+      "content": "Rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating row",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "info": "Use [rating] and [count] to pull the numbers from Theme settings > Reviews badge.",
+      "default": "[rating] · [count] verified parent reviews"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero with age range"
+    }
+  ]
+}
+{% endschema %}

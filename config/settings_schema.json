@@ -1,0 +1,346 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Simply Kids",
+    "theme_version": "2.0.0",
+    "theme_author": "Simply Kids",
+    "theme_documentation_url": "https://help.shopify.com/en/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/en/manual/online-store/themes"
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image",
+        "info": "Used in the header, the footer and as the favicon fallback."
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 60,
+        "max": 320,
+        "step": 5,
+        "unit": "px",
+        "label": "Header logo width",
+        "default": 150
+      },
+      {
+        "type": "range",
+        "id": "footer_logo_width",
+        "min": 60,
+        "max": 320,
+        "step": 5,
+        "unit": "px",
+        "label": "Footer logo width",
+        "default": 130
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Brand blues"
+      },
+      {
+        "type": "color",
+        "id": "color_blue_deep",
+        "label": "Deep blue (headings, buttons)",
+        "default": "#004987"
+      },
+      {
+        "type": "color",
+        "id": "color_blue_deep_hover",
+        "label": "Deep blue hover",
+        "default": "#003666"
+      },
+      {
+        "type": "color",
+        "id": "color_blue_vivid",
+        "label": "Vivid blue",
+        "default": "#2DB2DE"
+      },
+      {
+        "type": "color",
+        "id": "color_blue_mid",
+        "label": "Mid blue (eyebrow labels)",
+        "default": "#4886C6"
+      },
+      {
+        "type": "color",
+        "id": "color_blue_wash",
+        "label": "Blue wash (borders, tints)",
+        "default": "#CFEDFD"
+      },
+      {
+        "type": "color",
+        "id": "color_blue_pale",
+        "label": "Blue pale (section grounds)",
+        "default": "#E8F5FB"
+      },
+      {
+        "type": "header",
+        "content": "Accents"
+      },
+      {
+        "type": "color",
+        "id": "color_pink_pastel",
+        "label": "Pastel pink",
+        "default": "#FAD3E6"
+      },
+      {
+        "type": "color",
+        "id": "color_pink_light",
+        "label": "Light pink",
+        "default": "#FCE9F2"
+      },
+      {
+        "type": "color",
+        "id": "color_star",
+        "label": "Review star",
+        "default": "#F4B400"
+      },
+      {
+        "type": "header",
+        "content": "Text"
+      },
+      {
+        "type": "color",
+        "id": "color_ink",
+        "label": "Body text",
+        "default": "#4A4744"
+      },
+      {
+        "type": "color",
+        "id": "color_ink_strong",
+        "label": "Strong text",
+        "default": "#2E2B29"
+      },
+      {
+        "type": "color",
+        "id": "color_ink_soft",
+        "label": "Muted text",
+        "default": "#7D7D7D"
+      },
+      {
+        "type": "color",
+        "id": "color_price_was",
+        "label": "Compare-at price",
+        "default": "#757575"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "nunito_sans_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "nunito_sans_n4"
+      },
+      {
+        "type": "checkbox",
+        "id": "use_theme_fonts",
+        "label": "Use the fonts bundled with the theme",
+        "info": "On: uses the Nunito Sans and Dancing Script files shipped in assets. Off: uses the Shopify fonts picked above.",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "heading_scale",
+        "min": 80,
+        "max": 130,
+        "step": 5,
+        "unit": "%",
+        "label": "Heading size scale",
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "body_scale",
+        "min": 80,
+        "max": 130,
+        "step": 5,
+        "unit": "%",
+        "label": "Body size scale",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "min": 100,
+        "max": 160,
+        "step": 2,
+        "unit": "rem",
+        "label": "Page width",
+        "default": 124
+      },
+      {
+        "type": "range",
+        "id": "card_radius",
+        "min": 0,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "label": "Card corner radius",
+        "default": 20
+      }
+    ]
+  },
+  {
+    "name": "Contact details",
+    "settings": [
+      {
+        "type": "text",
+        "id": "contact_phone",
+        "label": "Phone",
+        "default": "+91-6297450751"
+      },
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Email",
+        "default": "support@simplykids.in"
+      },
+      {
+        "type": "textarea",
+        "id": "contact_address",
+        "label": "Address",
+        "default": "Primarc Chambers, Unit OU-114, 1839 Laskarhat, Tagore Park, E. M. Bypass, Kolkata – 700039"
+      },
+      {
+        "type": "text",
+        "id": "legal_entity",
+        "label": "Legal entity name",
+        "default": "Omakase Enterprises LLP"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "default": "https://instagram.com/simplykidsofficial"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest",
+        "default": "https://www.pinterest.com/simplykidsofficial/"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "default": "https://www.youtube.com/@simplykidsofficial"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "default": "https://www.facebook.com/simplykidsofficial"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "X (Twitter)"
+      }
+    ]
+  },
+  {
+    "name": "Reviews badge",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Shown in the header and anywhere the theme prints a store-wide rating."
+      },
+      {
+        "type": "text",
+        "id": "rating_value",
+        "label": "Rating",
+        "default": "4.8"
+      },
+      {
+        "type": "text",
+        "id": "rating_count",
+        "label": "Number of reviews",
+        "default": "112"
+      }
+    ]
+  },
+  {
+    "name": "WhatsApp button",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "whatsapp_enabled",
+        "label": "Show floating WhatsApp button",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "WhatsApp number",
+        "info": "Digits only, including country code. Example: 916297450751",
+        "default": "916297450751"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_message",
+        "label": "Pre-filled message",
+        "default": "Hi Simply Kids! I have a question about"
+      }
+    ]
+  },
+  {
+    "name": "Currency format",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "currency_code_enabled",
+        "label": "Show currency codes",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_cart_note",
+        "label": "Enable order notes",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "free_shipping_threshold_text",
+        "label": "Free shipping note",
+        "default": "Free shipping over ₹999"
+      }
+    ]
+  }
+]

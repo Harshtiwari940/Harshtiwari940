@@ -1,0 +1,483 @@
+{
+  "sections": {
+    "hero": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Clinically Tested, Premium Self Care for Growing Kids (4–12 years)",
+        "heading_tag": "h1",
+        "heading_font_size": 3.4,
+        "subheading": "<p>Conscious care crafted by a Granny’s wisdom and a Mom’s love — for gentle, natural, ‘home tested’ and safe solutions for skin and hair concerns.</p>",
+        "text_font_size": 1.7,
+        "color_scheme": "1",
+        "text_align": "center",
+        "content_width": "medium",
+        "padding_top": 5.0,
+        "padding_bottom": 4.0
+      }
+    },
+    "promise": {
+      "type": "card-grid",
+      "blocks": {
+        "c-1": {
+          "type": "card",
+          "settings": {
+            "heading": "Conscious & Clean",
+            "text": "<p>Free from parabens, sulfates, silicones, alcohol, dyes, mineral oil — no compromises ever.</p>"
+          }
+        },
+        "c-2": {
+          "type": "card",
+          "settings": {
+            "heading": "Highest Quality Standards",
+            "text": "<p>Blended in-house by our R&amp;D scientists to maintain the highest standards of quality and care.</p>"
+          }
+        },
+        "c-3": {
+          "type": "card",
+          "settings": {
+            "heading": "Human Efficacy Tested",
+            "text": "<p>Tested and proven effective — inclusive of all skin and hair types, even combination &amp; sensitive.</p>"
+          }
+        },
+        "c-4": {
+          "type": "card",
+          "settings": {
+            "heading": "Vegan & Cruelty Free",
+            "text": "<p>Ethically created, plant-powered formulations — nothing from or tested on animals.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "c-1",
+        "c-2",
+        "c-3",
+        "c-4"
+      ],
+      "settings": {
+        "eyebrow": "Our Promise",
+        "heading": "No-Nonsense Proven Products. Every Time for Each Kid",
+        "heading_font_size": 2.6,
+        "header_gap": 3.0,
+        "columns": 4,
+        "card_align": "left",
+        "card_heading_size": 1.7,
+        "card_text_size": 1.4,
+        "color_scheme": "3",
+        "padding_top": 5.0,
+        "padding_bottom": 5.0
+      }
+    },
+    "founders": {
+      "type": "founders",
+      "blocks": {
+        "f-1": {
+          "type": "person",
+          "settings": {
+            "badge": "1",
+            "name": "Pratibha Gupta",
+            "role": "M.Sc. Botanical Sciences, Medical Plants Expert — “The Brain”",
+            "text": "<p>A visionary in medicinal plants and sustainability, she brings over 20 years of expertise to every formulation — guiding the R&amp;D team with wisdom, purpose, and a deep passion for conscious care.</p>",
+            "image_asset": ""
+          }
+        },
+        "f-2": {
+          "type": "person",
+          "settings": {
+            "badge": "2",
+            "name": "Keshni Gupta",
+            "role": "B.E. &amp; M.B.A — “The Heart”",
+            "text": "<p>A thinker, doer, and devoted mother, she brings 15+ years of global industry experience — leading with empathy, instinct, and purpose to build a brand rooted in safety, mindfulness, and care.</p>",
+            "image_asset": ""
+          }
+        },
+        "f-3": {
+          "type": "person",
+          "settings": {
+            "badge": "3",
+            "name": "Anagha Gupta",
+            "role": "A super kid with a golden heart — “The Soul”",
+            "text": "<p>With years of experience in fun, and being her wonderful self, she’s the heart of our why — our purpose and everything we believe in. She is the change agent, and our biggest cheerleader.</p>",
+            "image_asset": ""
+          }
+        }
+      },
+      "block_order": [
+        "f-1",
+        "f-2",
+        "f-3"
+      ],
+      "settings": {
+        "eyebrow": "Meet Our Founders",
+        "color_scheme": "1",
+        "content_width": "medium",
+        "padding_top": 6.0,
+        "padding_bottom": 6.0
+      }
+    },
+    "values": {
+      "type": "card-grid",
+      "blocks": {
+        "v-1": {
+          "type": "card",
+          "settings": {
+            "heading": "Trust Over Fear",
+            "heading_color": "#004987",
+            "text": "<p>We choose trust over fear, honesty over hype. Every decision is intentional — grounded in sustainability, safety, and a commitment to doing what’s right for kids and the planet.</p>"
+          }
+        },
+        "v-2": {
+          "type": "card",
+          "settings": {
+            "heading": "Always Honest",
+            "heading_color": "#004987",
+            "text": "<p>We stand by our honest, value-based system — every ingredient is safe, nani-approved, and human efficacy tested to ensure maximum impact without compromise.</p>"
+          }
+        },
+        "v-3": {
+          "type": "card",
+          "settings": {
+            "heading": "Driven by Intention",
+            "heading_color": "#004987",
+            "text": "<p>We are on a mission to raise awareness among parents, grandparents and caregivers about the importance of using age-appropriate products, ensuring the best care for kids as they grow.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "v-1",
+        "v-2",
+        "v-3"
+      ],
+      "settings": {
+        "eyebrow": "Our Core Values",
+        "heading": "",
+        "header_gap": 3.0,
+        "columns": 3,
+        "card_align": "left",
+        "card_heading_size": 1.8,
+        "card_text_size": 1.5,
+        "color_scheme": "7",
+        "padding_top": 6.0,
+        "padding_bottom": 6.0
+      }
+    },
+    "experts": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "Tested by Experts. Trusted by Moms. Loved by Kids.",
+        "heading_tag": "h2",
+        "heading_font_size": 2.6,
+        "subheading": "<p>Simply Kids is 100% dermatologically tested, pH 5.5–6.6, toxin-free, and backed by real human efficacy tests — because your child’s skin deserves more than “safe.” Crafted by experts (with wisdom from Nani ♥), our in-house formulas are made for kids aged 4–12 with the highest standards of care.</p><p>No guesswork. No compromises. Just clean, effective skin &amp; hair care made for growing bodies. Mindful Parenting Starts Here. #4to12matters</p>",
+        "text_font_size": 1.6,
+        "color_scheme": "10",
+        "text_align": "center",
+        "content_width": "medium",
+        "padding_top": 5.0,
+        "padding_bottom": 5.0
+      }
+    },
+    "journey": {
+      "type": "timeline",
+      "blocks": {
+        "y-2018": {
+          "type": "milestone",
+          "settings": {
+            "label": "2018",
+            "text": "<p>I started noticing serious concerns with my little one’s hair and skin — something had to be done! It hit me that kids aged 4–12 need products made just for them. My amazing mother, Nani (also a medicinal plants expert), stepped in and began whipping up homemade shampoos and lotions.</p>"
+          }
+        },
+        "y-2019": {
+          "type": "milestone",
+          "settings": {
+            "label": "2019",
+            "text": "<p>After a bunch of lab tests, we got five essential products ready for my little one — just the basics but exactly what we needed to nurture and nourish her delicate, developing skin and hair texture.</p>"
+          }
+        },
+        "y-2020": {
+          "type": "milestone",
+          "settings": {
+            "label": "2020",
+            "text": "<p>Friends and family couldn’t help but notice the difference — smooth, shiny, and super healthy hair and skin! Talking to other moms, I realized there was a real need for products like these, so the idea for a 4–12 kids’ brand started to take shape.</p>"
+          }
+        },
+        "y-2021": {
+          "type": "milestone",
+          "settings": {
+            "label": "2021",
+            "text": "<p>Countless late nights were spent brainstorming, planning, and envisioning how many ways we could reach every parent and caregiver for this age group and help them achieve their 4–12 year olds’ personal care goals. #4to12matters</p>"
+          }
+        },
+        "y-2022": {
+          "type": "milestone",
+          "settings": {
+            "label": "2022",
+            "text": "<p>Our brand “Simply Kids” was born — a name that perfectly captured and resonated with our mission and vision together!</p>"
+          }
+        },
+        "y-2024": {
+          "type": "milestone",
+          "settings": {
+            "label": "2024",
+            "text": "<p>We finally launched our first Body and Hair range for 4–12-year-olds on Amazon, ready to share the love with more families! #Granny’sLoveInABottle</p>"
+          }
+        }
+      },
+      "block_order": [
+        "y-2018",
+        "y-2019",
+        "y-2020",
+        "y-2021",
+        "y-2022",
+        "y-2024"
+      ],
+      "settings": {
+        "eyebrow": "Our Journey",
+        "heading": "From a mother’s worry to a brand for the 4–12 years no one else made.",
+        "heading_font_size": 2.6,
+        "label_size": 2.0,
+        "color_scheme": "1",
+        "content_width": "medium",
+        "padding_top": 6.0,
+        "padding_bottom": 6.0
+      }
+    },
+    "bioscope": {
+      "type": "rich-text",
+      "blocks": {
+        "pl-1": {
+          "type": "pill",
+          "settings": {
+            "label": "Safe"
+          }
+        },
+        "pl-2": {
+          "type": "pill",
+          "settings": {
+            "label": "Effective"
+          }
+        },
+        "pl-3": {
+          "type": "pill",
+          "settings": {
+            "label": "Age-appropriate"
+          }
+        }
+      },
+      "block_order": [
+        "pl-1",
+        "pl-2",
+        "pl-3"
+      ],
+      "settings": {
+        "eyebrow": "Ingredient Bioscope",
+        "heading": "Mindfully sourced ingredients. Optimally combined formulations.",
+        "heading_tag": "h2",
+        "heading_font_size": 2.6,
+        "subheading": "<p>Retaining the goodness of nature and the efficacy of science — to deliver results as promised, each time, every time.</p>",
+        "text_font_size": 1.6,
+        "button_label": "Check Our Ingredients",
+        "button_link": "/pages/science",
+        "button_style": "primary",
+        "color_scheme": "9",
+        "text_align": "center",
+        "content_width": "medium",
+        "padding_top": 6.0,
+        "padding_bottom": 6.0
+      }
+    },
+    "commitment": {
+      "type": "card-grid",
+      "blocks": {
+        "m-1": {
+          "type": "card",
+          "settings": {
+            "heading": "Our Commitment",
+            "text": "<p>Sustainability @ Simply Kids means eco-friendly packaging, recyclable materials, and cruelty-free products — all made with responsibly sourced ingredients to protect your child’s skin and the planet.</p>",
+            "footnote": "#SafeForKidsSafeForPlanet"
+          }
+        },
+        "m-2": {
+          "type": "card",
+          "settings": {
+            "heading": "Our Responsibility",
+            "text": "<p>Small but impactful social initiatives at Simply Kids is our way of giving back. With every purchase, a part of proceeds supports underprivileged kids through development programs. You buy, we give — together, we create brighter futures.</p>",
+            "footnote": "#EveryLifeMatters"
+          }
+        },
+        "m-3": {
+          "type": "card",
+          "settings": {
+            "heading": "Be The Pride",
+            "text": "<p>A community ‘of the kids, by the kids, for the kids’ — where parents and caregivers know that care comes first. #WeShareBecauseWeCare</p>",
+            "background": "#FAD3E6",
+            "button_label": "Join our community",
+            "button_link": "/pages/community",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "m-1",
+        "m-2",
+        "m-3"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "header_gap": 0,
+        "columns": 3,
+        "card_align": "left",
+        "card_heading_size": 1.8,
+        "card_text_size": 1.5,
+        "color_scheme": "1",
+        "padding_top": 6.0,
+        "padding_bottom": 6.0
+      }
+    },
+    "reviews": {
+      "type": "reviews",
+      "blocks": {
+        "sr-1": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "“My son Amey got relief from dry, itchy scalp after using Simply Kids Shampoo. The Shampoo and Hair oil are just great.”",
+            "author": "Priyanka Khaitan",
+            "meta": "Mom of 4 y.o., Gurgaon"
+          }
+        },
+        "sr-2": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "“The ingredients used in Simply Kids products are really kid friendly, safe and effective. You will surely love it.”",
+            "author": "Aditi Beria",
+            "meta": "Mom of 8 y.o., Kolkata"
+          }
+        },
+        "sr-3": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "“Body wash with ingredients like Haldi, Neem, and Tulsi is perfect for my children’s sensitive skin. A bathroom staple for us now.”",
+            "author": "Nitin Kumar",
+            "meta": "Dad of 5 & 8 y.o., Mumbai"
+          }
+        },
+        "sr-4": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "“Blessing for children. Adults can use as well. We have completely adopted the entire range for our family.”",
+            "author": "Anshul Gupta",
+            "meta": "Dad of 8 y.o., Kolkata"
+          }
+        },
+        "sr-5": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "“I finally found a resolution of cradle cap and irritation problems since switching to this shampoo. Highly recommended.”",
+            "author": "Navin K. Gupta",
+            "meta": "Dad of 8 y.o., Kolkata"
+          }
+        },
+        "sr-6": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "“I received the product in time. Shampoo texture is very good. Doesn’t burn my child’s eyes.”",
+            "author": "Lavanya",
+            "meta": "Mom of 4 y.o., Gurgaon"
+          }
+        }
+      },
+      "block_order": [
+        "sr-1",
+        "sr-2",
+        "sr-3",
+        "sr-4",
+        "sr-5",
+        "sr-6"
+      ],
+      "settings": {
+        "eyebrow": "Only The Truth",
+        "heading": "Loved By Little Ones. Trusted By Parents.",
+        "heading_font_size": 2.4,
+        "columns": 3,
+        "show_stars": true,
+        "color_scheme": "8",
+        "padding_top": 6.0,
+        "padding_bottom": 6.0
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "sf-1": {
+          "type": "question",
+          "settings": {
+            "question": "What are the “Naniji ke Nuskhe” that you talk about?",
+            "answer": "<p>We are a mother-daughter duo with a legacy of care. All our products are toxin-free, safe, and dermatologically tested.</p>"
+          }
+        },
+        "sf-2": {
+          "type": "question",
+          "settings": {
+            "question": "Why should I prefer Simply Kids over any other product available in the market?",
+            "answer": "<p>The market is flooded with baby products, but there are pretty much no products made specifically for children once they grow past toddlerhood into the pre-teen years. Our products are dermatologically tested and contain only the finest, ethically sourced, minimally processed ingredients.</p>"
+          }
+        },
+        "sf-3": {
+          "type": "question",
+          "settings": {
+            "question": "What is the recommended age range for Simply Kids products?",
+            "answer": "<p>The Simply Kids range has been specially developed for children aged 4–12 years.</p>"
+          }
+        },
+        "sf-4": {
+          "type": "question",
+          "settings": {
+            "question": "Can babies, teenagers and adults also use your products?",
+            "answer": "<p>As the name would suggest, Simply Kids products are formulated to specifically suit the personal care requirements of your 4–12 year olds.</p>"
+          }
+        },
+        "sf-5": {
+          "type": "question",
+          "settings": {
+            "question": "Do your products use natural ingredients?",
+            "answer": "<p>As far as possible, yes. Our range of natural ingredients includes almond oil, jojoba oil, bhringraj, and many more.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "sf-1",
+        "sf-2",
+        "sf-3",
+        "sf-4",
+        "sf-5"
+      ],
+      "settings": {
+        "eyebrow": "Frequently Asked Questions",
+        "heading": "",
+        "heading_tag": "h2",
+        "text_align": "center",
+        "color_scheme": "1",
+        "content_width": "narrow",
+        "padding_top": 6.0,
+        "padding_bottom": 6.0
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "promise",
+    "founders",
+    "values",
+    "experts",
+    "journey",
+    "bioscope",
+    "commitment",
+    "reviews",
+    "faq"
+  ]
+}

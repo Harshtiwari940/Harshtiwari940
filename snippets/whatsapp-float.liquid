@@ -1,0 +1,19 @@
+{%- comment -%}
+  Floating WhatsApp button. Toggle, number and message live in
+  Theme settings > WhatsApp button.
+{%- endcomment -%}
+{%- if settings.whatsapp_enabled and settings.whatsapp_number != blank -%}
+  {%- assign wa_number = settings.whatsapp_number | remove: ' ' | remove: '+' | remove: '-' -%}
+  <a
+    class="sk-whatsapp-fab"
+    href="https://wa.me/{{ wa_number }}{% if settings.whatsapp_message != blank %}?text={{ settings.whatsapp_message | url_encode }}{% endif %}"
+    target="_blank"
+    rel="noopener"
+    aria-label="Chat with us on WhatsApp"
+    title="Chat with us on WhatsApp"
+  >
+    <svg viewbox="0 0 32 32" aria-hidden="true" focusable="false">
+      <path d="M16.001 3C9.096 3 3.5 8.596 3.5 15.5c0 2.36.655 4.566 1.792 6.452L3 29l7.222-2.254A12.44 12.44 0 0016 28c6.905 0 12.5-5.596 12.5-12.5S22.906 3 16.001 3z" fill="#fff"></path>
+    </svg>
+  </a>
+{%- endif -%}

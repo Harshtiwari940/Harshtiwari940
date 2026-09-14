@@ -1,0 +1,136 @@
+{
+  "sections": {
+    "quiz": {
+      "type": "age-quiz",
+      "blocks": {
+        "rq-1": {
+          "type": "option",
+          "settings": {
+            "label": "4–6",
+            "result": "Little Explorers: gentle, tear-free, and simple enough for them to start doing it themselves.",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "rq-2": {
+          "type": "option",
+          "settings": {
+            "label": "7–9",
+            "result": "Big Kids: cleansing that genuinely works after a full day outdoors.",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "rq-3": {
+          "type": "option",
+          "settings": {
+            "label": "10–12",
+            "result": "Tweens: grown-up feel, without harsh adult actives.",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "rq-1",
+        "rq-2",
+        "rq-3"
+      ],
+      "settings": {
+        "heading": "Build their routine",
+        "subheading": "Three questions, and that's the whole quiz. How old is your child?",
+        "question": "",
+        "color_scheme": "1",
+        "padding_top": 3.0,
+        "padding_bottom": 0,
+        "heading_tag": "h1"
+      }
+    },
+    "routines": {
+      "type": "routine-builder",
+      "blocks": {
+        "rt-1": {
+          "type": "routine",
+          "settings": {
+            "tab_label": "Ages 4–6 · Little Explorers",
+            "moments": "Morning | A quick rinse with the Gentle Body Wash — fast enough that it doesn't turn into a wrestling match.\nBath time | 2-in-1 Shampoo + Conditioner so wash day stops being a fight over tangles.\nBedtime | A little Nourishing Body Massage Oil worked in while you read one more story.",
+            "button_label": "Shop the Little Explorers routine",
+            "button_link": "/pages/shop",
+            "button_style": "primary"
+          }
+        },
+        "rt-2": {
+          "type": "routine",
+          "settings": {
+            "tab_label": "Ages 7–9 · Big Kids",
+            "moments": "Morning | Gentle Body Wash before school, quick enough to keep the morning moving.\nAfter play | A proper wash that clears a full day of playground grime without stripping young skin.\nBedtime | Nourishing Hair Oil massaged in twice a week to keep hair strong.",
+            "button_label": "Shop the Big Kids routine",
+            "button_link": "/pages/shop",
+            "button_style": "primary"
+          }
+        },
+        "rt-3": {
+          "type": "routine",
+          "settings": {
+            "tab_label": "Ages 10–12 · Tweens",
+            "moments": "Morning | 2-in-1 Shampoo + Conditioner for oilier hair, without harsh adult actives.\nAfter sport | Gentle Body Wash that handles sweat and still respects a developing barrier.\nBedtime | Deep Hydration Body Lotion for skin that's starting to change.",
+            "button_label": "Shop the Tweens routine",
+            "button_link": "/pages/shop",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "rt-1",
+        "rt-2",
+        "rt-3"
+      ],
+      "settings": {
+        "eyebrow": "Ready-made routines",
+        "heading": "Three moments, that's the whole routine",
+        "heading_font_size": 2.2,
+        "color_scheme": "1",
+        "padding_top": 2.0,
+        "padding_bottom": 3.0
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "rf-1": {
+          "type": "question",
+          "settings": {
+            "question": "How old does my child need to be to start?",
+            "answer": "<p>Every product in the range is formulated for ages 4–12.</p>"
+          }
+        },
+        "rf-2": {
+          "type": "question",
+          "settings": {
+            "question": "Can I mix and match across age stages?",
+            "answer": "<p>Yes — the age stages are a starting guide, not a strict rule.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "rf-1",
+        "rf-2"
+      ],
+      "settings": {
+        "heading": "Quick answers",
+        "heading_tag": "h2",
+        "heading_font_size": 1.8,
+        "text_align": "center",
+        "color_scheme": "1",
+        "content_width": "narrow",
+        "padding_top": 3.0,
+        "padding_bottom": 4.0
+      }
+    }
+  },
+  "order": [
+    "quiz",
+    "routines",
+    "faq"
+  ]
+}

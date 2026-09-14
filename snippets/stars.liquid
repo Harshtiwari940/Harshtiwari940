@@ -1,0 +1,9 @@
+{%- comment -%}
+  Star row + optional review count.
+  Usage: {% render 'stars', count: 5, label: '21 reviews' %}
+{%- endcomment -%}
+{%- assign star_count = count | default: 5 -%}
+<div class="sk-stars" style="font-family:var(--font-label);font-size:1.2rem;color:{{ settings.color_star }};">
+  {%- for i in (1..star_count) -%}★{%- endfor -%}
+  {%- if label != blank -%}<span style="color:inherit;"> {{ label }}</span>{%- endif -%}
+</div>

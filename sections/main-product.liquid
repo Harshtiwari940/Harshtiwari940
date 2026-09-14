@@ -1,0 +1,575 @@
+{%- comment -%}
+  Product page. Blocks control what appears in the right-hand column and in
+  what order — drag them in the theme editor.
+{%- endcomment -%}
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="{% if section.settings.custom_background != blank %}background: {{ section.settings.custom_background }};{% endif %}"
+>
+  <div
+    class="page-width pv-pdp-grid"
+    style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+  >
+    <div>
+      {%- if product.featured_media -%}
+        {{ product.featured_media | image_url: width: 1400 | image_tag:
+          loading: 'eager',
+          widths: '400,600,800,1000,1400',
+          alt: product.title,
+          style: 'border-radius:24px;width:100%;height:auto;' }}
+      {%- else -%}
+        <div style="aspect-ratio:1/1;background:var(--sk-blue-wash);border-radius:24px;"></div>
+      {%- endif -%}
+
+      {%- if section.settings.show_thumbnails and product.media.size > 1 -%}
+        <div class="sk-grid sk-grid--4" style="gap:1rem;margin-top:1rem;">
+          {%- for media in product.media limit: 8 -%}
+            {{ media | image_url: width: 400 | image_tag:
+              loading: 'lazy',
+              widths: '100,200,400',
+              alt: media.alt | default: product.title,
+              style: 'border-radius:12px;width:100%;height:auto;' }}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div>
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+
+          {%- when 'breadcrumb' -%}
+            <p class="pv-crumb" {{ block.shopify_attributes }}>
+              <a href="{{ routes.root_url }}" style="color:inherit;">{{ block.settings.home_label }}</a>
+              {%- if collection.title != blank -%}
+                / <a href="{{ collection.url }}" style="color:inherit;">{{ collection.title }}</a>
+              {%- endif -%}
+              / {{ product.title }}
+            </p>
+
+          {%- when 'rating' -%}
+            <div {{ block.shopify_attributes }}>
+              {% render 'stars', count: 5, label: block.settings.text %}
+            </div>
+
+          {%- when 'title' -%}
+            <h1 style="font-size: {{ block.settings.font_size }}rem;margin:.6rem 0;" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+
+          {%- when 'tagline' -%}
+            <p style="font-style:italic;opacity:.8;" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+
+          {%- when 'chips' -%}
+            <div style="margin:1rem 0;display:flex;gap:.6rem;flex-wrap:wrap;" {{ block.shopify_attributes }}>
+              {%- assign chip_list = block.settings.chips | split: ',' -%}
+              {%- for chip in chip_list -%}
+                <span class="sk-pill sk-pill--age">{{ chip | strip }}</span>
+              {%- endfor -%}
+            </div>
+
+          {%- when 'price' -%}
+            {%- liquid
+              assign p_price = product.price | default: 0
+              assign p_compare = product.compare_at_price | default: 0
+            -%}
+            <div style="font-size:1.8rem;margin:1rem 0;" {{ block.shopify_attributes }}>
+              {%- if p_compare > p_price -%}
+                <s style="color:var(--sk-price-was);font-size:1.2rem;">{{ product.compare_at_price | money }}</s>
+                <strong style="color:var(--sk-blue-deep);">{{ product.price | money }}</strong>
+                {%- if block.settings.show_savings -%}
+                  {%- assign saved = p_compare | minus: p_price | times: 100 | divided_by: p_compare -%}
+                  <span class="sk-pill--save" style="font-size:1.2rem;">Save {{ saved }}%</span>
+                {%- endif -%}
+              {%- else -%}
+                <strong style="color:var(--sk-blue-deep);">{{ product.price | money }}</strong>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.note != blank -%}
+              <p style="font-size:1.3rem;opacity:.6;">{{ block.settings.note }}</p>
+            {%- endif -%}
+
+          {%- when 'buy_buttons' -%}
+            <div {{ block.shopify_attributes }}>
+              {%- assign form_id = 'ProductForm-' | append: section.id -%}
+              {%- form 'product', product, id: form_id -%}
+                {%- if product.variants.size > 1 -%}
+                  <label class="sk-label" for="Variant-{{ section.id }}">{{ block.settings.variant_label }}</label>
+                  <select class="sk-field" id="Variant-{{ section.id }}" name="id" style="margin-bottom:1.2rem;">
+                    {%- for variant in product.variants -%}
+                      <option
+                        value="{{ variant.id }}"
+                        {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+                        {% unless variant.available %}disabled{% endunless %}
+                      >
+                        {{ variant.title }} — {{ variant.price | money }}{% unless variant.available %} (sold out){% endunless %}
+                      </option>
+                    {%- endfor -%}
+                  </select>
+                {%- else -%}
+                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                {%- endif -%}
+
+                {%- if block.settings.show_quantity -%}
+                  <label class="sk-label" for="Quantity-{{ section.id }}">{{ block.settings.quantity_label }}</label>
+                  <input class="sk-field" id="Quantity-{{ section.id }}" type="number" name="quantity" value="1" min="1" style="max-width:10rem;margin-bottom:1.2rem;">
+                {%- endif -%}
+
+                <div style="display:flex;gap:1rem;margin:1.6rem 0;flex-wrap:wrap;">
+                  <button
+                    type="submit"
+                    name="add"
+                    class="sk-btn sk-btn--{{ block.settings.button_style }}"
+                    style="border:0;cursor:pointer;"
+                    {% unless product.available %}disabled{% endunless %}
+                  >
+                    {%- if product.available -%}{{ block.settings.button_label }}{%- else -%}{{ block.settings.sold_out_label }}{%- endif -%}
+                  </button>
+                  {% render 'button', label: block.settings.secondary_label, link: routes.cart_url, style: 'outline' %}
+                </div>
+
+                {%- if block.settings.show_dynamic_checkout -%}
+                  {{ form | payment_button }}
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+
+          {%- when 'icon_row' -%}
+            <div
+              style="display:flex;gap:2rem;margin:2rem 0;padding:1.6rem 0;border-top:1px solid rgba(18,59,74,.1);border-bottom:1px solid rgba(18,59,74,.1);flex-wrap:wrap;"
+              {{ block.shopify_attributes }}
+            >
+              {%- assign rows = block.settings.items | newline_to_br | split: '<br />' -%}
+              {%- for row in rows -%}
+                {%- assign parts = row | strip | split: '|' -%}
+                {%- if parts[0] != blank -%}
+                  <div style="text-align:center;font-size:1.2rem;">
+                    <div style="font-size:1.4rem;">{{ parts[0] | strip }}</div>
+                    {{ parts[1] | strip }}
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+          {%- when 'collapsible' -%}
+            <details class="sk-details" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+              <summary>
+                {%- if block.settings.icon != blank -%}{{ block.settings.icon }} {% endif -%}
+                {{ block.settings.heading }}
+              </summary>
+              <div class="sk-details__answer">
+                {%- if block.settings.text != blank -%}{{ block.settings.text }}{%- endif -%}
+                {%- if block.settings.use_description -%}{{ product.description }}{%- endif -%}
+              </div>
+            </details>
+
+          {%- when 'description' -%}
+            <div class="sk-section__text" {{ block.shopify_attributes }}>{{ product.description }}</div>
+
+          {%- when 'text' -%}
+            <div class="sk-section__text" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product information",
+  "tag": "section",
+  "class": "sk-product-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Show image thumbnails",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "color_background",
+      "id": "custom_background",
+      "label": "Custom background",
+      "info": "Overrides the color scheme.",
+      "default": "linear-gradient(180deg, rgba(250,211,230,.5) 0%, #FEF8FB 62%)"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 2.4
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 3.0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "breadcrumb",
+      "name": "Breadcrumb",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "home_label",
+          "label": "Home label",
+          "default": "Home"
+        }
+      ]
+    },
+    {
+      "type": "rating",
+      "name": "Star rating",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "21 reviews"
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 1.6,
+          "max": 4.0,
+          "step": 0.1,
+          "unit": "rem",
+          "label": "Size",
+          "default": 2.6
+        }
+      ]
+    },
+    {
+      "type": "tagline",
+      "name": "Tagline",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Fewer tangles, less breakage — wash-day tears, gone."
+        }
+      ]
+    },
+    {
+      "type": "chips",
+      "name": "Ingredient chips",
+      "settings": [
+        {
+          "type": "text",
+          "id": "chips",
+          "label": "Chips",
+          "info": "Separate with commas.",
+          "default": "Bhringraj, Japa, Jatamansi"
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_savings",
+          "label": "Show savings badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note below price",
+          "default": "MRP incl. of all taxes"
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Add to cart label",
+          "default": "Add to bag"
+        },
+        {
+          "type": "text",
+          "id": "sold_out_label",
+          "label": "Sold out label",
+          "default": "Sold out"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "hero",
+              "label": "Hero"
+            },
+            {
+              "value": "outline",
+              "label": "Outline"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ],
+          "default": "hero"
+        },
+        {
+          "type": "text",
+          "id": "secondary_label",
+          "label": "Secondary button label",
+          "default": "View bag"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_quantity",
+          "label": "Show quantity selector",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "quantity_label",
+          "label": "Quantity label",
+          "default": "Quantity"
+        },
+        {
+          "type": "text",
+          "id": "variant_label",
+          "label": "Variant label",
+          "default": "Size"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Show dynamic checkout buttons",
+          "info": "Shows Shop Pay, GPay and similar accelerated checkout buttons.",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "icon_row",
+      "name": "Icon row",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "items",
+          "label": "Items",
+          "info": "One per line as: icon | label. Example: 🌿 | Dermatologically tested",
+          "default": "🌿 | Dermatologically tested\n💙 | Vegan & cruelty-free\n📌 | Made in India"
+        }
+      ]
+    },
+    {
+      "type": "collapsible",
+      "name": "Collapsible row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Prefix",
+          "default": "✓"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Why it works"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>A gentle 2-in-1 that cleanses and conditions in one step.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_description",
+          "label": "Also show the product description",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "open",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Product description",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "text",
+      "name": "Custom text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Add any extra detail here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product information",
+      "blocks": [
+        {
+          "type": "breadcrumb"
+        },
+        {
+          "type": "rating"
+        },
+        {
+          "type": "title"
+        },
+        {
+          "type": "tagline"
+        },
+        {
+          "type": "chips"
+        },
+        {
+          "type": "price"
+        },
+        {
+          "type": "buy_buttons"
+        },
+        {
+          "type": "icon_row"
+        },
+        {
+          "type": "collapsible",
+          "settings": {
+            "icon": "✓",
+            "heading": "Why it works",
+            "open": true
+          }
+        },
+        {
+          "type": "collapsible",
+          "settings": {
+            "icon": "💧",
+            "heading": "Full ingredients & safety"
+          }
+        },
+        {
+          "type": "collapsible",
+          "settings": {
+            "icon": "🌿",
+            "heading": "How to use"
+          }
+        },
+        {
+          "type": "collapsible",
+          "settings": {
+            "icon": "🚚",
+            "heading": "Shipping & returns"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

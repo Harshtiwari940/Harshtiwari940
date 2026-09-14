@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "show_title": true,
+        "eyebrow": "The Journal",
+        "heading": "",
+        "heading_font_size": 2.8,
+        "text": "<p>Skincare science, routines, and honest parenting notes — written for the age group everyone else skips.</p>",
+        "columns": 3,
+        "articles_per_page": 12,
+        "show_excerpt": true,
+        "show_date": true,
+        "image_placeholder": "Article photo",
+        "color_scheme": "1",
+        "padding_top": 5.0,
+        "padding_bottom": 5.0
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

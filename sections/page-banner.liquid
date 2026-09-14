@@ -1,0 +1,247 @@
+{%- comment -%}
+  Page heading band. Falls back to the Shopify page title so a new page gets
+  a correct H1 with no editing.
+{%- endcomment -%}
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;text-align:{{ section.settings.text_align }};"
+>
+  <div class="page-width" style="max-width:80rem;{% if section.settings.text_align == 'center' %}margin-left:auto;margin-right:auto;{% endif %}">
+    {%- if section.settings.show_breadcrumb -%}
+      <p class="pv-crumb" style="opacity:.6;">
+        <a href="{{ routes.root_url }}" style="color:inherit;">{{ section.settings.home_label }}</a>
+        / {{ section.settings.heading | default: page.title | default: collection.title | default: blog.title }}
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="sk-eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+
+    {%- assign banner_heading = section.settings.heading | default: page.title | default: collection.title | default: blog.title -%}
+    {%- if banner_heading != blank -%}
+      <h1 class="sk-section__title" style="font-size: {{ section.settings.heading_font_size }}rem;">{{ banner_heading }}</h1>
+    {%- endif -%}
+
+    {%- assign banner_text = section.settings.text | default: collection.description -%}
+    {%- if banner_text != blank -%}
+      <div class="sk-section__text" style="opacity:.8;font-size: {{ section.settings.text_font_size }}rem;">{{ banner_text }}</div>
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <div class="sk-buttons{% if section.settings.text_align == 'center' %} sk-buttons--center{% endif %}" style="margin-top:1.6rem;">
+        {% render 'button', label: section.settings.button_label, link: section.settings.button_link, style: section.settings.button_style %}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Page banner",
+  "tag": "section",
+  "class": "sk-page-banner-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave empty to use the page, collection or blog title."
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 1.6,
+      "max": 5.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 2.6
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "info": "On a collection page, leave empty to use the collection description."
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "min": 1.2,
+      "max": 2.4,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Text size",
+      "default": 1.6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "home_label",
+      "label": "Home label",
+      "default": "Home"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "hero",
+          "label": "Hero"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 3.0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 3.0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page banner"
+    }
+  ]
+}
+{% endschema %}

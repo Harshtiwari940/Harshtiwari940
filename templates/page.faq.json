@@ -1,0 +1,64 @@
+{
+  "sections": {
+    "main": {
+      "type": "faq",
+      "blocks": {
+        "fq-1": {
+          "type": "question",
+          "settings": {
+            "question": "Is this safe for sensitive skin?",
+            "answer": "<p>Yes — every product is pH 5.5-balanced and dermatologically tested on children in the 4–12 range.</p>"
+          }
+        },
+        "fq-2": {
+          "type": "question",
+          "settings": {
+            "question": "How is this different from baby products?",
+            "answer": "<p>Baby formulas are built for skin that hasn't developed its own oil balance yet. By age four that changes.</p>"
+          }
+        },
+        "fq-3": {
+          "type": "question",
+          "settings": {
+            "question": "Do you test on animals?",
+            "answer": "<p>No. Every product is vegan and cruelty-free.</p>"
+          }
+        },
+        "fq-4": {
+          "type": "question",
+          "settings": {
+            "question": "What's your return policy?",
+            "answer": "<p>7-day returns on unopened, sealed products.</p>"
+          }
+        },
+        "fq-5": {
+          "type": "question",
+          "settings": {
+            "question": "Do you offer cash on delivery?",
+            "answer": "<p>Yes, COD is available alongside UPI, cards, net banking, wallets, and no-cost EMI.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "fq-1",
+        "fq-2",
+        "fq-3",
+        "fq-4",
+        "fq-5"
+      ],
+      "settings": {
+        "heading": "Frequently asked questions",
+        "heading_tag": "h1",
+        "heading_font_size": 2.6,
+        "text_align": "center",
+        "color_scheme": "1",
+        "content_width": "narrow",
+        "padding_top": 3.6,
+        "padding_bottom": 3.6
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

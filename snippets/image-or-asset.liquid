@@ -1,0 +1,60 @@
+{%- comment -%}
+  Renders an image chosen in the theme editor. When none is chosen it falls
+  back to one of the image files bundled with the theme, and failing that to
+  a labelled placeholder box. This is what lets the theme look finished on a
+  fresh install while every image stays replaceable.
+
+  Params: image, asset, alt, img_class, img_style, widths, sizes, loading,
+          placeholder, ratio
+{%- endcomment -%}
+{%- liquid
+  assign img_widths = widths | default: '300,450,600,900,1200,1600'
+  assign img_loading = loading | default: 'lazy'
+  assign img_alt = alt | default: shop.name
+-%}
+{%- if image != blank -%}
+  {{ image | image_url: width: 1600 | image_tag:
+    loading: img_loading,
+    widths: img_widths,
+    sizes: sizes,
+    alt: img_alt,
+    class: img_class,
+    style: img_style }}
+{%- elsif asset != blank -%}
+  {%- comment -%}
+    Intrinsic size of the image files bundled with the theme, so the fallback
+    can emit width/height and avoid layout shift. A file that isn't listed
+    falls back to a square, which the CSS aspect-ratio then corrects.
+    `render` has an isolated scope, so this lookup has to live inline.
+  {%- endcomment -%}
+  {%- case asset -%}
+    {%- when 'logo.png' -%}
+      {%- assign fallback_w = 560 -%}{%- assign fallback_h = 238 -%}
+    {%- when 'hero.jpg' -%}
+      {%- assign fallback_w = 1600 -%}{%- assign fallback_h = 1600 -%}
+    {%- when 'banner-why-4-to-12.jpg' -%}
+      {%- assign fallback_w = 1800 -%}{%- assign fallback_h = 1800 -%}
+    {%- when 'product-shampoo.jpg', 'product-hair-oil.jpg', 'product-body-wash.jpg', 'product-body-lotion.jpg', 'product-massage-oil.jpg' -%}
+      {%- assign fallback_w = 700 -%}{%- assign fallback_h = 700 -%}
+    {%- when 'ritual-wash-day.jpg', 'ritual-body-lotion.jpg', 'ritual-massage-oil.jpg' -%}
+      {%- assign fallback_w = 1400 -%}{%- assign fallback_h = 1400 -%}
+    {%- when 'badge-dermatologically-tested.svg', 'badge-ph-balanced.svg', 'badge-vegan-cruelty-free.svg', 'badge-made-in-india.svg', 'badge-dpiit-recognised.svg', 'badge-udyam-registered.svg' -%}
+      {%- assign fallback_w = 120 -%}{%- assign fallback_h = 120 -%}
+    {%- else -%}
+      {%- assign fallback_w = 1200 -%}{%- assign fallback_h = 1200 -%}
+  {%- endcase -%}
+  <img
+    src="{{ asset | asset_url }}"
+    alt="{{ img_alt | escape }}"
+    width="{{ fallback_w }}"
+    height="{{ fallback_h }}"
+    loading="{{ img_loading }}"
+    {% if img_class != blank %}class="{{ img_class }}"{% endif %}
+    {% if img_style != blank %}style="{{ img_style }}"{% endif %}
+  >
+{%- else -%}
+  <div
+    {% if img_class != blank %}class="{{ img_class }}"{% endif %}
+    style="{{ img_style }}{% if ratio != blank %}aspect-ratio:{{ ratio }};{% endif %}background:var(--sk-blue-wash);display:flex;align-items:center;justify-content:center;color:var(--sk-blue-deep);font-family:var(--font-label);font-weight:700;text-align:center;padding:1rem;"
+  >{{ placeholder | default: 'Image' }}</div>
+{%- endif -%}

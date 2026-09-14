@@ -1,0 +1,27 @@
+<div class="color-scheme-1" style="padding:5rem 0;">
+  <div class="page-width" style="max-width:48rem;margin:0 auto;">
+    <h1 class="sk-section__title" style="text-align:center;">{{ 'customer.activate_account.title' | t | default: 'Activate your account' }}</h1>
+    <p style="text-align:center;opacity:.8;">{{ 'customer.activate_account.subtext' | t | default: 'Create your password to activate your account.' }}</p>
+
+    {%- form 'activate_customer_password' -%}
+      {%- if form.errors -%}
+        <p class="sk-form-status sk-form-status--error">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+
+      <label class="sk-label" for="ActivatePassword">{{ 'customer.activate_account.password' | t | default: 'Password' }}</label>
+      <input class="sk-field" id="ActivatePassword" type="password" name="customer[password]" autocomplete="new-password" required>
+
+      <label class="sk-label" for="ActivatePasswordConfirm">{{ 'customer.activate_account.password_confirm' | t | default: 'Confirm password' }}</label>
+      <input class="sk-field" id="ActivatePasswordConfirm" type="password" name="customer[password_confirmation]" autocomplete="new-password" required>
+
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.6rem;">
+        <button type="submit" class="sk-btn sk-btn--primary" style="border:0;cursor:pointer;">
+          {{ 'customer.activate_account.submit' | t | default: 'Activate account' }}
+        </button>
+        <button type="submit" name="decline" class="sk-btn sk-btn--outline" style="border:0;cursor:pointer;">
+          {{ 'customer.activate_account.decline' | t | default: 'Decline invitation' }}
+        </button>
+      </div>
+    {%- endform -%}
+  </div>
+</div>

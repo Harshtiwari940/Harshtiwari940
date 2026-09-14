@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "show_title": true,
+        "center_title": false,
+        "heading_font_size": 2.8,
+        "max_width": 80,
+        "color_scheme": "1",
+        "padding_top": 5.0,
+        "padding_bottom": 5.0
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

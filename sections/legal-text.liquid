@@ -1,0 +1,260 @@
+{%- liquid
+  case section.settings.content_width
+    when 'narrow'
+      assign wrap_style = 'max-width:76rem;margin-left:auto;margin-right:auto;'
+    when 'medium'
+      assign wrap_style = 'max-width:100rem;margin-left:auto;margin-right:auto;'
+    when 'full'
+      assign wrap_style = 'max-width:none;'
+    else
+      assign wrap_style = ''
+  endcase
+-%}
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  <div class="page-width" style="{{ wrap_style }}">
+    {%- if section.settings.heading != blank -%}
+      <{{ section.settings.heading_tag }} class="sk-section__title" style="font-size: {{ section.settings.heading_font_size }}rem;">{{ section.settings.heading }}</{{ section.settings.heading_tag }}>
+    {%- elsif section.settings.use_page_title and page.title != blank -%}
+      <h1 class="sk-section__title" style="font-size: {{ section.settings.heading_font_size }}rem;">{{ page.title }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.updated != blank -%}
+      <p style="opacity:.6;font-size:1.2rem;">{{ section.settings.updated }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.intro != blank -%}
+      <div class="sk-section__text">{{ section.settings.intro }}</div>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      <div {{ block.shopify_attributes }}>
+        {%- if block.settings.heading != blank -%}
+          <h3>{{ block.settings.heading }}</h3>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <div class="sk-section__text">{{ block.settings.text }}</div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+
+    {%- if section.settings.show_page_content and page.content != blank -%}
+      <div class="sk-section__text">{{ page.content }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Policy text",
+  "tag": "section",
+  "class": "sk-legal-section",
+  "max_blocks": 30,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Privacy Policy"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_page_title",
+      "label": "Fall back to the page title",
+      "info": "Used when the heading above is empty.",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 1.6,
+      "max": 4.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 2.8
+    },
+    {
+      "type": "text",
+      "id": "updated",
+      "label": "Last updated line",
+      "default": "Last updated: January 2026"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Intro paragraph"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_page_content",
+      "label": "Also show the page's own content",
+      "info": "Appends whatever is written in the Shopify page editor below the blocks.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Content width",
+      "options": [
+        {
+          "value": "narrow",
+          "label": "Narrow"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "page",
+          "label": "Page width"
+        },
+        {
+          "value": "full",
+          "label": "Full width"
+        }
+      ],
+      "default": "narrow"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 5.0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 5.0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "clause",
+      "name": "Section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "What we collect"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Add your policy text here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Policy text",
+      "blocks": [
+        {
+          "type": "clause"
+        },
+        {
+          "type": "clause"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

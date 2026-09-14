@@ -1,0 +1,76 @@
+{%- comment -%}
+  One product card. Works two ways so merchants can choose:
+    - card_product: a real Shopify product (live title, image, price, link)
+    - otherwise the manual fields (image, title, price_text, ...) from a block
+  Params: card_product, image, image_asset, title, subtitle, price_text, compare_text,
+          badge, rating_count, rating_label, button_label, button_link,
+          show_rating, show_price, tax_note, square
+{%- endcomment -%}
+{%- liquid
+  if card_product != blank and card_product != null
+    assign p_title = card_product.title
+    assign p_url = card_product.url
+    assign p_image = card_product.featured_image
+  else
+    assign p_title = title
+    assign p_url = button_link | default: '#'
+    assign p_image = null
+  endif
+-%}
+<div class="sk-product-card" style="position:relative;">
+  {%- if badge != blank -%}
+    <span class="sk-pill--save" style="position:absolute;top:1rem;left:1rem;z-index:2;">{{ badge }}</span>
+  {%- endif -%}
+
+  <a href="{{ p_url }}" style="display:block;">
+    {%- if p_image -%}
+      {{ p_image | image_url: width: 800 | image_tag:
+        loading: 'lazy',
+        widths: '200,300,400,600,800',
+        alt: p_title,
+        class: 'sk-media',
+        style: 'margin-bottom:.8rem;' }}
+    {%- else -%}
+      {% render 'image-or-asset',
+        image: image,
+        asset: image_asset,
+        alt: p_title,
+        widths: '200,300,400,600,800',
+        img_class: 'sk-media',
+        img_style: 'margin-bottom:.8rem;aspect-ratio:1/1;object-fit:cover;',
+        placeholder: 'Product image',
+        ratio: '1/1' %}
+    {%- endif -%}
+  </a>
+
+  {%- if show_rating -%}
+    {%- assign rc = rating_count | default: 5 -%}
+    {% render 'stars', count: rc, label: rating_label %}
+  {%- endif -%}
+
+  <a href="{{ p_url }}" style="text-decoration:none;color:inherit;">
+    <strong style="font-size:1.5rem;display:block;margin:.3rem 0;">{{ p_title }}</strong>
+  </a>
+  {%- if subtitle != blank -%}
+    <div style="opacity:.7;font-size:1.3rem;">{{ subtitle }}</div>
+  {%- endif -%}
+
+  {%- if show_price -%}
+    {% render 'price', product: card_product, price_text: price_text, compare_text: compare_text, tax_note: tax_note %}
+  {%- endif -%}
+
+  {%- if button_label != blank -%}
+    <div style="margin-top:.8rem;">
+      {%- if card_product != blank and card_product != null and card_product.available -%}
+        {%- form 'product', card_product, id: null, class: 'sk-card-form' -%}
+          <input type="hidden" name="id" value="{{ card_product.selected_or_first_available_variant.id }}">
+          <button type="submit" class="sk-btn sk-btn--primary" style="width:100%;border:0;cursor:pointer;">{{ button_label }}</button>
+        {%- endform -%}
+      {%- elsif card_product != blank and card_product != null -%}
+        <span class="sk-btn sk-btn--outline" style="width:100%;text-align:center;box-sizing:border-box;">{{ 'products.product.sold_out' | t | default: 'Sold out' }}</span>
+      {%- else -%}
+        {% render 'button', label: button_label, link: button_link, style: 'primary', full: true %}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>

@@ -1,0 +1,59 @@
+{
+  "sections": {
+    "main": {
+      "type": "legal-text",
+      "blocks": {
+        "cl-1": {
+          "type": "clause",
+          "settings": {
+            "heading": "7-day returns",
+            "text": "<p>If you're not happy with your order, you can return any unopened, sealed product within 7 days of delivery for a full refund or exchange — no questions asked.</p>"
+          }
+        },
+        "cl-2": {
+          "type": "clause",
+          "settings": {
+            "heading": "How to start a return",
+            "text": "<p>Write to support@simplykids.in with your order number, or use the Contact Us form. Our team will arrange a reverse pickup where available, or share drop-off instructions.</p>"
+          }
+        },
+        "cl-3": {
+          "type": "clause",
+          "settings": {
+            "heading": "Refunds",
+            "text": "<p>Once we receive and inspect the returned item, refunds are processed to your original payment method within 5–7 business days. COD orders are refunded via bank transfer or UPI.</p>"
+          }
+        },
+        "cl-4": {
+          "type": "clause",
+          "settings": {
+            "heading": "Damaged or incorrect items",
+            "text": "<p>If your order arrives damaged or incorrect, contact us within 48 hours of delivery with photos, and we'll replace it at no extra cost.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "cl-1",
+        "cl-2",
+        "cl-3",
+        "cl-4"
+      ],
+      "settings": {
+        "heading": "Return & Refund Policy",
+        "use_page_title": true,
+        "heading_tag": "h1",
+        "heading_font_size": 2.8,
+        "updated": "No question asked returns & exchange",
+        "intro": "",
+        "show_page_content": false,
+        "color_scheme": "1",
+        "content_width": "medium",
+        "padding_top": 5.0,
+        "padding_bottom": 5.0
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

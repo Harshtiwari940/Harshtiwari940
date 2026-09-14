@@ -1,0 +1,205 @@
+{%- comment -%}
+  Icon + text trust row with an optional payment-badge strip below.
+  Each column and each payment badge is a block.
+{%- endcomment -%}
+{%- liquid
+  assign icon_cols = section.blocks | where: 'type', 'column'
+  assign pay_badges = section.blocks | where: 'type', 'payment'
+-%}
+
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  {%- if icon_cols.size > 0 -%}
+    <div
+      class="page-width sk-trust-grid"
+      style="
+        text-align: center;
+        {% if pay_badges.size > 0 or section.settings.note != blank %}
+          border-bottom: 1px solid rgba(74,71,68,.1);
+          padding-bottom: 3rem;
+          margin-bottom: 3rem;
+        {% endif %}
+      "
+    >
+      {%- for block in icon_cols -%}
+        <div {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 120 | image_tag:
+              loading: 'lazy',
+              widths: '40,80,120',
+              alt: block.settings.heading,
+              style: 'width:40px;height:auto;margin:0 auto .8rem;display:block;' }}
+          {%- else -%}
+            <div style="margin:0 auto .8rem;display:flex;justify-content:center;">
+              {% render 'icon', name: block.settings.icon, size: 40, color: section.settings.icon_color %}
+            </div>
+          {%- endif -%}
+          {%- if block.settings.heading != blank -%}
+            <strong style="font-size:1.5rem;display:block;">{{ block.settings.heading }}</strong>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <span style="opacity:.7;font-size:1.2rem;">{{ block.settings.text }}</span>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.note != blank or pay_badges.size > 0 -%}
+    <div class="page-width" style="text-align:center;">
+      {%- if section.settings.note != blank -%}
+        <span class="sk-eyebrow" style="display:flex;align-items:center;justify-content:center;gap:.6rem;">
+          {%- if section.settings.note_icon != 'none' -%}
+            {% render 'icon', name: section.settings.note_icon, size: 16, color: section.settings.icon_color %}
+          {%- endif -%}
+          {{ section.settings.note }}
+        </span>
+      {%- endif -%}
+
+      {%- if pay_badges.size > 0 -%}
+        <div style="display:flex;gap:1.2rem;justify-content:center;margin-top:1.4rem;flex-wrap:wrap;">
+          {%- for block in pay_badges -%}
+            <span
+              {{ block.shopify_attributes }}
+              style="
+                border:1px solid rgba(74,71,68,.15);border-radius:8px;padding:.7rem 1.6rem;
+                font-family:var(--font-label);font-weight:800;font-size:1.2rem;
+                color:{{ section.settings.icon_color }};
+                {% if block.settings.italic %}font-style:italic;{% endif %}
+              "
+            >{{ block.settings.label }}</span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Trust icons",
+  "tag": "section",
+  "class": "sk-trust-icons-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Note above payment badges",
+      "default": "100% Payment Protection, Easy Return Policy"
+    },
+    {
+      "type": "select",
+      "id": "note_icon",
+      "label": "Note icon",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "lock", "label": "Lock" },
+        { "value": "check", "label": "Check" },
+        { "value": "shipping", "label": "Shipping" },
+        { "value": "card", "label": "Card" },
+        { "value": "return", "label": "Return" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "leaf", "label": "Leaf" }
+      ],
+      "default": "lock"
+    },
+    { "type": "header", "content": "Appearance" },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "1", "label": "1 — White" },
+        { "value": "2", "label": "2 — White" },
+        { "value": "3", "label": "3 — Pale blue fade" },
+        { "value": "4", "label": "4 — Pale blue" },
+        { "value": "5", "label": "5 — Blue gradient (light text)" },
+        { "value": "6", "label": "6 — Deep blue (light text)" },
+        { "value": "7", "label": "7 — Blue wash fade" },
+        { "value": "8", "label": "8 — Blue fade" },
+        { "value": "9", "label": "9 — Blue wash to white" },
+        { "value": "10", "label": "10 — Deep blue (light text)" },
+        { "value": "11", "label": "11 — Pink gradient" },
+        { "value": "12", "label": "12 — Pink fade" },
+        { "value": "13", "label": "13 — Blue (light text)" }
+      ],
+      "default": "1"
+    },
+    { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#004987" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 12,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 12,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Icon column",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shipping", "label": "Shipping" },
+            { "value": "card", "label": "Card" },
+            { "value": "return", "label": "Return" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "drop", "label": "Drop" },
+            { "value": "pin", "label": "Pin" },
+            { "value": "check", "label": "Check" },
+            { "value": "star", "label": "Star" }
+          ],
+          "default": "shipping"
+        },
+        { "type": "image_picker", "id": "image", "label": "Custom icon image", "info": "Overrides the icon above." },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Free Shipping" },
+        { "type": "text", "id": "text", "label": "Text", "default": "On orders over ₹999" }
+      ]
+    },
+    {
+      "type": "payment",
+      "name": "Payment badge",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "UPI" },
+        { "type": "checkbox", "id": "italic", "label": "Italic", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust icons",
+      "blocks": [
+        { "type": "column", "settings": { "icon": "shipping", "heading": "Free Shipping", "text": "On orders over ₹999" } },
+        { "type": "column", "settings": { "icon": "card", "heading": "COD Available", "text": "Pay when it arrives" } },
+        { "type": "column", "settings": { "icon": "return", "heading": "No Question Asked", "text": "Returns & Exchange" } },
+        { "type": "payment", "settings": { "label": "UPI" } },
+        { "type": "payment", "settings": { "label": "VISA", "italic": true } },
+        { "type": "payment", "settings": { "label": "Mastercard" } },
+        { "type": "payment", "settings": { "label": "RuPay" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

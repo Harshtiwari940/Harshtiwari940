@@ -1,0 +1,70 @@
+{
+  "sections": {
+    "hero": {
+      "type": "rich-text",
+      "settings": {
+        "eyebrow": "Affiliate Programme",
+        "heading": "Share Simply Kids, earn on every order.",
+        "heading_tag": "h1",
+        "heading_font_size": 2.8,
+        "subheading": "<p>Join our affiliate programme and earn a commission on every sale you refer — perfect for parenting creators, mom bloggers, and communities who already love us.</p>",
+        "text_font_size": 1.6,
+        "button_label": "Apply to become an affiliate",
+        "button_link": "",
+        "button_style": "primary",
+        "color_scheme": "3",
+        "text_align": "center",
+        "content_width": "narrow",
+        "padding_top": 6.0,
+        "padding_bottom": 6.0
+      }
+    },
+    "steps": {
+      "type": "card-grid",
+      "blocks": {
+        "s-1": {
+          "type": "card",
+          "settings": {
+            "heading": "Sign up free",
+            "text": "<p>Apply in minutes through our affiliate portal — no cost to join.</p>"
+          }
+        },
+        "s-2": {
+          "type": "card",
+          "settings": {
+            "heading": "Share your link",
+            "text": "<p>Get a unique referral link and creative assets to share with your audience.</p>"
+          }
+        },
+        "s-3": {
+          "type": "card",
+          "settings": {
+            "heading": "Earn commission",
+            "text": "<p>Track clicks and sales in real time, and get paid on every order you drive.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "s-1",
+        "s-2",
+        "s-3"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "header_gap": 0,
+        "columns": 3,
+        "card_align": "left",
+        "card_heading_size": 1.7,
+        "card_text_size": 1.5,
+        "color_scheme": "1",
+        "padding_top": 6.0,
+        "padding_bottom": 6.0
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "steps"
+  ]
+}

@@ -1,0 +1,218 @@
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  {%- if section.settings.heading != blank -%}
+    <div class="page-width" style="text-align:center;margin-bottom:2.4rem;">
+      <h2 class="sk-section__title">{{ section.settings.heading }}</h2>
+    </div>
+  {%- endif -%}
+
+  <div class="sk-age-grid">
+    {%- for block in section.blocks -%}
+      <div class="sk-age-card" {{ block.shopify_attributes }}>
+        {%- if block.settings.label != blank -%}
+          <span class="sk-age-card__label">{{ block.settings.label }}</span>
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+          <h3 class="sk-age-card__title">{{ block.settings.title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <p class="sk-age-card__desc">{{ block.settings.text }}</p>
+        {%- endif -%}
+        {% render 'button', label: block.settings.button_label, link: block.settings.button_link, style: block.settings.button_style %}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shop by age",
+  "tag": "section",
+  "class": "sk-age-cards-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 3.6
+    }
+  ],
+  "blocks": [
+    {
+      "type": "age",
+      "name": "Age card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Age label",
+          "default": "Ages 4–6"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Little Explorers"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Delicate skin that dries fast and messy hair days. This is where they learn to do it themselves."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop this stage"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "hero",
+              "label": "Hero"
+            },
+            {
+              "value": "outline",
+              "label": "Outline"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ],
+          "default": "primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by age",
+      "blocks": [
+        {
+          "type": "age",
+          "settings": {
+            "label": "Ages 4–6",
+            "title": "Little Explorers"
+          }
+        },
+        {
+          "type": "age",
+          "settings": {
+            "label": "Ages 7–9",
+            "title": "Big Kids",
+            "text": "Active, sweaty and independent. They need cleansing that genuinely works after a full day outdoors."
+          }
+        },
+        {
+          "type": "age",
+          "settings": {
+            "label": "Ages 10–12",
+            "title": "Tweens",
+            "text": "Changing skin and oilier hair. They want products that feel grown-up — without harsh adult actives."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

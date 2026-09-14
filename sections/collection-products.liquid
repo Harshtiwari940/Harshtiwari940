@@ -1,0 +1,314 @@
+{%- comment -%}
+  Product grid for a collection page. Uses the live collection when rendered
+  on a collection template, or the collection picked below on a page.
+{%- endcomment -%}
+{%- liquid
+  assign grid_collection = collection
+  if section.settings.collection != blank
+    assign grid_collection = collections[section.settings.collection]
+  endif
+  assign grid_count = grid_collection.products_count | default: 0
+-%}
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  <div class="page-width">
+    <div
+      style="
+        display:flex;justify-content:space-between;align-items:center;
+        margin-bottom:2rem;flex-wrap:wrap;gap:1rem;
+      "
+    >
+      {%- if section.blocks.size > 0 -%}
+        <div style="display:flex;gap:.8rem;flex-wrap:wrap;">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign pill_url = block.settings.link
+              if block.settings.collection != blank
+                assign pill_url = collections[block.settings.collection].url
+              endif
+              assign is_active = false
+              if grid_collection.handle == block.settings.collection
+                assign is_active = true
+              endif
+            -%}
+            <a
+              class="sk-pill sk-pill--age"
+              href="{{ pill_url | default: '#' }}"
+              {{ block.shopify_attributes }}
+              style="text-decoration:none;{% if is_active %}background:var(--sk-ink-strong);color:#fff;{% endif %}"
+            >{{ block.settings.label }}</a>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div></div>
+      {%- endif -%}
+
+      {%- if section.settings.show_sort and grid_collection.handle != blank -%}
+        <form method="get" action="{{ grid_collection.url }}" id="SortForm-{{ section.id }}">
+          <label class="sk-visually-hidden" for="SortBy-{{ section.id }}">Sort by</label>
+          <select
+            name="sort_by"
+            id="SortBy-{{ section.id }}"
+            onchange="this.form.submit()"
+            style="border-radius:999px;border:1.5px solid rgba(18,59,74,.18);padding:.7rem 1.4rem;font-family:var(--font-label);font-size:1.3rem;"
+          >
+            {%- assign current_sort = grid_collection.sort_by | default: grid_collection.default_sort_by -%}
+            {%- for option in grid_collection.sort_options -%}
+              <option value="{{ option.value }}" {% if option.value == current_sort %}selected{% endif %}>
+                {{ section.settings.sort_prefix }}{{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+          <noscript><button type="submit" class="sk-btn sk-btn--outline">Sort</button></noscript>
+        </form>
+      {%- endif -%}
+    </div>
+
+    {%- if grid_count > 0 -%}
+      {%- paginate grid_collection.products by section.settings.products_per_page -%}
+        <div class="sk-grid sk-grid--{{ section.settings.columns }}">
+          {%- for product in grid_collection.products -%}
+            {% render 'product-card',
+              card_product: product,
+              show_rating: section.settings.show_rating,
+              rating_label: section.settings.rating_label,
+              show_price: section.settings.show_price,
+              tax_note: section.settings.tax_note,
+              button_label: section.settings.button_label %}
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="sk-pagination" style="display:flex;gap:1rem;justify-content:center;margin-top:3rem;flex-wrap:wrap;align-items:center;">
+            {%- if paginate.previous -%}
+              <a class="sk-btn sk-btn--outline" href="{{ paginate.previous.url }}">Previous</a>
+            {%- endif -%}
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" style="padding:.7rem 1.2rem;font-family:var(--font-label);">{{ part.title }}</a>
+              {%- else -%}
+                <span style="padding:.7rem 1.2rem;font-family:var(--font-label);font-weight:800;">{{ part.title }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if paginate.next -%}
+              <a class="sk-btn sk-btn--outline" href="{{ paginate.next.url }}">Next</a>
+            {%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- else -%}
+      <p style="text-align:center;opacity:.7;padding:4rem 0;">{{ section.settings.empty_text }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection products",
+  "tag": "section",
+  "class": "sk-collection-section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Sorting and the category pills use real Shopify collections, so they stay in sync with your catalogue."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Leave empty on a collection template to use the collection being viewed."
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Columns on desktop",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "label": "Products per page",
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sort",
+      "label": "Show sort dropdown",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sort_prefix",
+      "label": "Sort label prefix",
+      "default": "Sort: "
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Empty collection message",
+      "default": "No products here yet. Check back soon."
+    },
+    {
+      "type": "header",
+      "content": "Card content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show star rating",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_label",
+      "label": "Rating text",
+      "default": "reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tax_note",
+      "label": "Price note",
+      "default": "Incl. of all taxes"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Card button label",
+      "default": "Add to bag"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 2.4
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 2.4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "filter",
+      "name": "Category pill",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "All"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom link",
+          "info": "Used when no collection is picked."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection products"
+    }
+  ]
+}
+{% endschema %}

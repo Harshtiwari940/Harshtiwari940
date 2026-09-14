@@ -1,0 +1,161 @@
+{
+  "sections": {
+    "hero": {
+      "type": "community-hero",
+      "blocks": {
+        "st-1": {
+          "type": "stat",
+          "settings": {
+            "label": "247 young creators"
+          }
+        },
+        "st-2": {
+          "type": "stat",
+          "settings": {
+            "label": "609 artworks shared"
+          }
+        },
+        "st-3": {
+          "type": "stat",
+          "settings": {
+            "label": "429 families"
+          }
+        }
+      },
+      "block_order": [
+        "st-1",
+        "st-2",
+        "st-3"
+      ],
+      "settings": {
+        "eyebrow": "A humble abode",
+        "heading": "Pride of",
+        "heading_accent": "Simply Kids",
+        "heading_tag": "h1",
+        "heading_font_size": 2.8,
+        "text": "<p>Welcome to every child's brighter corner — where colourful drawings, joyful laughter, and the moments that make us stop and smile are celebrated.</p>",
+        "accent_color": "#FBC4DE",
+        "color_scheme": "13",
+        "padding_top": 5.0,
+        "padding_bottom": 5.0
+      }
+    },
+    "gallery": {
+      "type": "community-gallery",
+      "blocks": {
+        "g-1": {
+          "type": "creator",
+          "settings": {
+            "name": "Anagha",
+            "age": "Age 8",
+            "color_scheme": "4"
+          }
+        },
+        "g-2": {
+          "type": "creator",
+          "settings": {
+            "name": "Shaurya",
+            "age": "Age 6",
+            "color_scheme": "9"
+          }
+        },
+        "g-3": {
+          "type": "creator",
+          "settings": {
+            "name": "Abhimanyu",
+            "age": "Age 10",
+            "color_scheme": "8"
+          }
+        },
+        "g-4": {
+          "type": "creator",
+          "settings": {
+            "name": "Saranya",
+            "age": "Age 10",
+            "color_scheme": "3"
+          }
+        }
+      },
+      "block_order": [
+        "g-1",
+        "g-2",
+        "g-3",
+        "g-4"
+      ],
+      "settings": {
+        "heading": "Meet our young creators",
+        "heading_font_size": 1.8,
+        "color_scheme": "1",
+        "padding_top": 3.0,
+        "padding_bottom": 0
+      }
+    },
+    "tools": {
+      "type": "tool-cards",
+      "blocks": {
+        "tl-1": {
+          "type": "tool",
+          "settings": {
+            "heading": "What does their skin need today?",
+            "text": "<p>Pick their birthday and we'll share a tip for the season.</p>",
+            "output": "",
+            "button_label": "Show my tip",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        },
+        "tl-2": {
+          "type": "tool",
+          "settings": {
+            "heading": "What should I draw today?",
+            "text": "",
+            "output": "Draw your favourite animal wearing a superhero cape.",
+            "button_label": "Give me an idea",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "tl-1",
+        "tl-2"
+      ],
+      "settings": {
+        "heading": "Two little things to play with",
+        "heading_font_size": 1.6,
+        "columns": 2,
+        "color_scheme": "1",
+        "padding_top": 3.6,
+        "padding_bottom": 0
+      }
+    },
+    "submit": {
+      "type": "community-submit",
+      "settings": {
+        "heading": "Share your little one's magic",
+        "text": "",
+        "submission_tag": "Be the Pride gallery entry",
+        "label_name": "Child's first name",
+        "label_age": "Child's age",
+        "age_placeholder": "Select age",
+        "age_options": "4, 5, 6, 7, 8, 9, 10, 11, 12",
+        "label_email": "Parent/guardian email",
+        "show_message": true,
+        "label_message": "Tell us about the artwork",
+        "consent_text": "I am the parent or guardian and I consent to Simply Kids sharing this entry.",
+        "button_label": "Submit entry",
+        "button_style": "hero",
+        "success_text": "Thank you. We'll be in touch before anything is published.",
+        "color_scheme": "1",
+        "padding_top": 3.6,
+        "padding_bottom": 3.6
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "gallery",
+    "tools",
+    "submit"
+  ]
+}

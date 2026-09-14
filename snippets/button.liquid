@@ -1,0 +1,13 @@
+{%- comment -%}
+  Renders a themed button/link.
+  Usage: {% render 'button', label: block.settings.button_label, link: block.settings.button_link, style: block.settings.button_style, full: true %}
+  Renders nothing when the label is blank, so merchants can hide a button by clearing its text.
+{%- endcomment -%}
+{%- if label != blank -%}
+  {%- assign btn_style = style | default: 'primary' -%}
+  <a
+    class="sk-btn sk-btn--{{ btn_style }}"
+    href="{{ link | default: '#' }}"
+    {% if full %}style="width:100%;text-align:center;box-sizing:border-box;"{% endif %}
+  >{{ label }}</a>
+{%- endif -%}

@@ -1,0 +1,38 @@
+{%- comment -%}
+  Customer login. Wording is editable in Theme settings > Contact details and
+  through the storefront locale files; the layout is intentionally plain.
+{%- endcomment -%}
+<div class="color-scheme-1" style="padding:5rem 0;">
+  <div class="page-width" style="max-width:48rem;margin:0 auto;">
+    <h1 class="sk-section__title" style="text-align:center;">{{ 'customer.login_page.title' | t | default: 'Login' }}</h1>
+
+    {%- form 'recover_customer_password' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="sk-form-status sk-form-status--success">{{ 'customer.recover_password.success' | t | default: 'We have sent you an email with a link to update your password.' }}</p>
+      {%- endif -%}
+    {%- endform -%}
+
+    {%- form 'customer_login' -%}
+      {%- if form.errors -%}
+        <p class="sk-form-status sk-form-status--error">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+
+      <label class="sk-label" for="CustomerEmail">{{ 'customer.login_page.email' | t | default: 'Email' }}</label>
+      <input class="sk-field" id="CustomerEmail" type="email" name="customer[email]" autocomplete="email" autocapitalize="off" required>
+
+      {%- if form.password_needed -%}
+        <label class="sk-label" for="CustomerPassword">{{ 'customer.login_page.password' | t | default: 'Password' }}</label>
+        <input class="sk-field" id="CustomerPassword" type="password" name="customer[password]" autocomplete="current-password" required>
+        <p style="margin-top:.8rem;"><a href="{{ routes.account_recover_url }}">{{ 'customer.login_page.forgot_password' | t | default: 'Forgot your password?' }}</a></p>
+      {%- endif -%}
+
+      <button type="submit" class="sk-btn sk-btn--primary" style="width:100%;margin-top:1.6rem;border:0;cursor:pointer;">
+        {{ 'customer.login_page.sign_in' | t | default: 'Sign in' }}
+      </button>
+    {%- endform -%}
+
+    <p style="text-align:center;margin-top:2rem;">
+      <a href="{{ routes.account_register_url }}">{{ 'customer.login_page.create_account' | t | default: 'Create account' }}</a>
+    </p>
+  </div>
+</div>

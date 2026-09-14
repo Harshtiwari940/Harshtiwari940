@@ -1,0 +1,141 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_blue_deep }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- assign favicon_source = settings.favicon | default: settings.logo -%}
+    {%- if favicon_source != blank -%}
+      <link rel="icon" type="image/png" href="{{ favicon_source | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    {%- render 'meta-tags' -%}
+
+    {{ content_for_header }}
+
+    {%- unless settings.use_theme_fonts -%}
+      {% assign heading_font = settings.font_heading %}
+      {% assign body_font = settings.font_body %}
+      {{ heading_font | font_face: font_display: 'swap' }}
+      {{ body_font | font_face: font_display: 'swap' }}
+      {{ body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+      {{ body_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+    {%- endunless -%}
+
+    {{ 'affiliate.css' | asset_url | stylesheet_tag }}
+
+    <style>
+      :root {
+        --sk-white: #FFFFFF;
+        --sk-ink: {{ settings.color_ink }};
+        --sk-ink-soft: {{ settings.color_ink_soft }};
+        --sk-ink-strong: {{ settings.color_ink_strong }};
+
+        --sk-blue-vivid: {{ settings.color_blue_vivid }};
+        --sk-blue-deep: {{ settings.color_blue_deep }};
+        --sk-blue-deep-hover: {{ settings.color_blue_deep_hover }};
+        --sk-blue-mid: {{ settings.color_blue_mid }};
+        --sk-blue-wash: {{ settings.color_blue_wash }};
+        --sk-blue-pale: {{ settings.color_blue_pale }};
+
+        --sk-pink-pastel: {{ settings.color_pink_pastel }};
+        --sk-pink-light: {{ settings.color_pink_light }};
+        --sk-pink-accent: {{ settings.color_pink_pastel }};
+        --sk-cyclamen-pastel: {{ settings.color_pink_light }};
+        --sk-star: {{ settings.color_star }};
+
+        --sk-price-was: {{ settings.color_price_was }};
+        --sk-cta: {{ settings.color_blue_deep }};
+        --sk-cta-hover: {{ settings.color_blue_deep_hover }};
+
+        --sk-page-width: {{ settings.page_width }}rem;
+        --sk-card-radius: {{ settings.card_radius }}px;
+        --sk-heading-scale: {{ settings.heading_scale | divided_by: 100.0 }};
+        --sk-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
+
+        {%- unless settings.use_theme_fonts -%}
+        --font-display: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+        --font-label: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+        --font-copy: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+        {%- endunless -%}
+      }
+
+      .page-width { max-width: var(--sk-page-width); }
+      .sk-tool-card,
+      .sk-age-card,
+      .sk-gallery-card { border-radius: var(--sk-card-radius); }
+
+      h1, .sk-h1 { font-size: calc(2.8rem * var(--sk-heading-scale)); }
+      h2, .sk-h2 { font-size: calc(2.2rem * var(--sk-heading-scale)); }
+      h3, .sk-h3 { font-size: calc(1.7rem * var(--sk-heading-scale)); }
+      body { font-size: calc(1.6rem * var(--sk-body-scale)); }
+
+      .sk-section { position: relative; }
+      .sk-section__header { max-width: 76rem; }
+      .sk-section__header--center { margin-left: auto; margin-right: auto; text-align: center; }
+      .sk-section__title { margin-top: 0; }
+      .sk-section__text > *:first-child { margin-top: 0; }
+      .sk-section__text > *:last-child { margin-bottom: 0; }
+      .sk-buttons { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+      .sk-buttons--center { justify-content: center; }
+      .sk-grid { display: grid; gap: 2.4rem; }
+      .sk-grid--1 { grid-template-columns: 1fr; }
+      .sk-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .sk-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .sk-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .sk-grid--5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+      @media screen and (max-width: 989px) {
+        .sk-grid--4, .sk-grid--5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .sk-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media screen and (max-width: 749px) {
+        .sk-grid--2, .sk-grid--3, .sk-grid--4, .sk-grid--5 { grid-template-columns: 1fr; }
+      }
+      .sk-media { display: block; width: 100%; height: auto; border-radius: var(--sk-card-radius); }
+      .sk-visually-hidden {
+        position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+        clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+      }
+      .sk-field { width: 100%; border: 1.5px solid rgba(18,59,74,.18); border-radius: 8px; padding: 1rem; font-family: var(--font-copy); font-size: 1.4rem; }
+      .sk-label { font-family: var(--font-label); font-weight: 700; font-size: 1.2rem; display: block; margin: 1.2rem 0 .4rem; }
+      .sk-form-status { font-size: 1.3rem; margin: 1rem 0 0; }
+      .sk-form-status--error { color: #B3261E; }
+      .sk-form-status--success { color: var(--sk-blue-deep); }
+      .sk-details { border-bottom: 1px solid rgba(74,71,68,.12); padding: 1.2rem 0; }
+      .sk-details summary { cursor: pointer; font-family: var(--font-label); font-weight: 700; list-style: none; }
+      .sk-details summary::-webkit-details-marker { display: none; }
+      .sk-details__answer { padding-top: .8rem; opacity: .8; }
+      .sk-details__answer > *:first-child { margin-top: 0; }
+    </style>
+
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+  </head>
+
+  <body class="template-{{ request.page_type | handle }}">
+    <a class="sk-visually-hidden" href="#MainContent">{{ 'accessibility.skip_to_text' | t | default: 'Skip to content' }}</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {%- render 'whatsapp-float' -%}
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<div class="color-scheme-1" style="padding:5rem 0;">
+  <div class="page-width" style="max-width:48rem;margin:0 auto;">
+    <h1 class="sk-section__title" style="text-align:center;">{{ 'customer.register.title' | t | default: 'Create account' }}</h1>
+
+    {%- form 'create_customer' -%}
+      {%- if form.errors -%}
+        <p class="sk-form-status sk-form-status--error">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+
+      <label class="sk-label" for="RegisterFirstName">{{ 'customer.register.first_name' | t | default: 'First name' }}</label>
+      <input class="sk-field" id="RegisterFirstName" type="text" name="customer[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+
+      <label class="sk-label" for="RegisterLastName">{{ 'customer.register.last_name' | t | default: 'Last name' }}</label>
+      <input class="sk-field" id="RegisterLastName" type="text" name="customer[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+
+      <label class="sk-label" for="RegisterEmail">{{ 'customer.register.email' | t | default: 'Email' }}</label>
+      <input class="sk-field" id="RegisterEmail" type="email" name="customer[email]" value="{{ form.email }}" autocomplete="email" autocapitalize="off" required>
+
+      <label class="sk-label" for="RegisterPassword">{{ 'customer.register.password' | t | default: 'Password' }}</label>
+      <input class="sk-field" id="RegisterPassword" type="password" name="customer[password]" autocomplete="new-password" required>
+
+      <button type="submit" class="sk-btn sk-btn--primary" style="width:100%;margin-top:1.6rem;border:0;cursor:pointer;">
+        {{ 'customer.register.submit' | t | default: 'Create account' }}
+      </button>
+    {%- endform -%}
+
+    <p style="text-align:center;margin-top:2rem;">
+      <a href="{{ routes.account_login_url }}">{{ 'customer.register.login' | t | default: 'Already have an account? Sign in' }}</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{{ 'gift_cards.issued.title' | t: value: gift_card.initial_value | money | default: 'Gift card' }} — {{ shop.name }}</title>
+    {{ 'affiliate.css' | asset_url | stylesheet_tag }}
+    <style>
+      body { background: {{ settings.color_blue_pale }}; color: {{ settings.color_ink }}; }
+      .gc-wrap { max-width: 52rem; margin: 0 auto; padding: 5rem 2rem; text-align: center; }
+      .gc-card { background: #fff; border-radius: 24px; padding: 3rem; box-shadow: 0 24px 60px -24px rgba(0,73,135,.35); }
+      .gc-code { font-family: var(--font-label); font-size: 2.2rem; font-weight: 800; letter-spacing: .08em; color: {{ settings.color_blue_deep }}; word-break: break-all; }
+    </style>
+  </head>
+  <body>
+    <div class="gc-wrap">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 360 | image_tag:
+          loading: 'eager', widths: '160,320,360', alt: shop.name,
+          style: 'width:160px;height:auto;margin:0 auto 2.4rem;display:block;' }}
+      {%- else -%}
+        <h1>{{ shop.name }}</h1>
+      {%- endif -%}
+
+      <div class="gc-card">
+        <h1 style="font-size:2.2rem;">{{ 'gift_cards.issued.subtext' | t | default: 'Here is your gift card!' }}</h1>
+        <p style="font-size:3.2rem;font-weight:800;color:{{ settings.color_blue_deep }};margin:1rem 0;">
+          {{ gift_card.balance | money }}
+        </p>
+        {%- if gift_card.enabled == false or gift_card.expired -%}
+          <p style="color:#B3261E;">{{ 'gift_cards.issued.expired' | t | default: 'This gift card has expired.' }}</p>
+        {%- endif -%}
+
+        {{ gift_card.qr_identifier }}
+
+        <p class="gc-code">{{ gift_card.code | format_code }}</p>
+
+        {%- if gift_card.expires_on -%}
+          <p style="opacity:.7;font-size:1.3rem;">
+            {{ 'gift_cards.issued.expiration_date' | t: expires_on: gift_card.expires_on | date: format: 'date' | default: gift_card.expires_on }}
+          </p>
+        {%- endif -%}
+
+        <a href="{{ shop.url }}" class="sk-btn sk-btn--primary" style="margin-top:1.6rem;">
+          {{ 'gift_cards.issued.shop_link' | t | default: 'Start shopping' }}
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+{
+  "sections": {
+    "main": {
+      "type": "legal-text",
+      "blocks": {
+        "cl-1": {
+          "type": "clause",
+          "settings": {
+            "heading": "About us",
+            "text": "<p>simplykids.in is operated by Omakase Enterprises LLP. By using this site or placing an order, you agree to these terms.</p>"
+          }
+        },
+        "cl-2": {
+          "type": "clause",
+          "settings": {
+            "heading": "Products & use",
+            "text": "<p>Simply Kids products are formulated for children aged 4–12 and are intended for external use only, as directed on the product label. Discontinue use and consult a doctor if irritation occurs.</p>"
+          }
+        },
+        "cl-3": {
+          "type": "clause",
+          "settings": {
+            "heading": "Orders & pricing",
+            "text": "<p>All prices are in INR and inclusive of applicable taxes. We reserve the right to correct pricing errors and to cancel orders placed at an incorrect price, with a full refund.</p>"
+          }
+        },
+        "cl-4": {
+          "type": "clause",
+          "settings": {
+            "heading": "Intellectual property",
+            "text": "<p>All content on this site — including the Simply Kids name, logo, and product formulations — is the property of Omakase Enterprises LLP and may not be reproduced without permission.</p>"
+          }
+        },
+        "cl-5": {
+          "type": "clause",
+          "settings": {
+            "heading": "Governing law",
+            "text": "<p>These terms are governed by the laws of India, with courts in Kolkata, West Bengal having exclusive jurisdiction.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "cl-1",
+        "cl-2",
+        "cl-3",
+        "cl-4",
+        "cl-5"
+      ],
+      "settings": {
+        "heading": "Terms & Conditions",
+        "use_page_title": true,
+        "heading_tag": "h1",
+        "heading_font_size": 2.8,
+        "updated": "Last updated: January 2026",
+        "intro": "",
+        "show_page_content": false,
+        "color_scheme": "1",
+        "content_width": "medium",
+        "padding_top": 5.0,
+        "padding_bottom": 5.0
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

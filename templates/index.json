@@ -1,0 +1,539 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-age-spectrum",
+      "settings": {
+        "eyebrow": "Only for the ages 4–12",
+        "heading": "Growing-up care,<br/>made <em>kid-safe</em>.",
+        "heading_tag": "h1",
+        "subheading": "<p>Dermatologically tested, pH 5.5-balanced formulas for the in-between years — proven gentle enough to trust, effective enough to work.</p>",
+        "image_asset": "hero.jpg",
+        "badge_text": "95% smoother hair*",
+        "button_label": "Find their stage",
+        "button_link": "/pages/routine",
+        "button_style": "hero",
+        "button_2_label": "Shop bestsellers",
+        "button_2_link": "/pages/shop",
+        "button_2_style": "outline",
+        "show_spectrum": true,
+        "spectrum_start": "4",
+        "spectrum_end": "12",
+        "footnote": "Baby care's too mild. Adult care's too harsh. We built for the nine years in between.",
+        "show_rating": true,
+        "rating_text": "[rating] · [count] verified parent reviews",
+        "color_scheme": "1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "shop-by-age": {
+      "type": "age-cards",
+      "blocks": {
+        "age-1": {
+          "type": "age",
+          "settings": {
+            "label": "Ages 4–6",
+            "title": "Little Explorers",
+            "text": "Delicate skin that dries fast and messy hair days. This is where they learn to do it themselves.",
+            "button_label": "Shop this stage",
+            "button_link": "/pages/shop",
+            "button_style": "primary"
+          }
+        },
+        "age-2": {
+          "type": "age",
+          "settings": {
+            "label": "Ages 7–9",
+            "title": "Big Kids",
+            "text": "Active, sweaty and independent. They need cleansing that genuinely works after a full day outdoors.",
+            "button_label": "Shop this stage",
+            "button_link": "/pages/shop",
+            "button_style": "primary"
+          }
+        },
+        "age-3": {
+          "type": "age",
+          "settings": {
+            "label": "Ages 10–12",
+            "title": "Tweens",
+            "text": "Changing skin and oilier hair. They want products that feel grown-up — without harsh adult actives.",
+            "button_label": "Shop this stage",
+            "button_link": "/pages/shop",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "age-1",
+        "age-2",
+        "age-3"
+      ],
+      "settings": {
+        "heading": "",
+        "color_scheme": "3",
+        "padding_top": 1.2,
+        "padding_bottom": 3.6
+      }
+    },
+    "age-quiz": {
+      "type": "age-quiz",
+      "blocks": {
+        "q-1": {
+          "type": "option",
+          "settings": {
+            "label": "4–6",
+            "result": "Little Explorers: gentle, tear-free, and simple enough for them to start doing it themselves.",
+            "button_label": "See their routine",
+            "button_link": "/pages/routine",
+            "button_style": "primary"
+          }
+        },
+        "q-2": {
+          "type": "option",
+          "settings": {
+            "label": "7–9",
+            "result": "Big Kids: cleansing that genuinely works after a full day outdoors, without stripping young skin.",
+            "button_label": "See their routine",
+            "button_link": "/pages/routine",
+            "button_style": "primary"
+          }
+        },
+        "q-3": {
+          "type": "option",
+          "settings": {
+            "label": "10–12",
+            "result": "Tweens: products that feel grown-up, formulated without the harsh actives adult ranges rely on.",
+            "button_label": "See their routine",
+            "button_link": "/pages/routine",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "q-1",
+        "q-2",
+        "q-3"
+      ],
+      "settings": {
+        "heading": "Let's build the perfect routine",
+        "subheading": "Tap their age — we'll match the stage.",
+        "question": "How old is your child?",
+        "color_scheme": "1",
+        "padding_top": 0,
+        "padding_bottom": 3.6
+      }
+    },
+    "essentials": {
+      "type": "featured-products",
+      "blocks": {
+        "p-1": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-shampoo.jpg",
+            "title": "2-in-1 Shampoo + Conditioner",
+            "price_text": "₹514",
+            "compare_text": "₹714",
+            "rating_label": "21 reviews",
+            "link": "/collections/all"
+          }
+        },
+        "p-2": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-hair-oil.jpg",
+            "title": "Nourishing Hair Oil",
+            "price_text": "₹673",
+            "compare_text": "₹935",
+            "rating_label": "16 reviews",
+            "link": "/collections/all"
+          }
+        },
+        "p-3": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-body-wash.jpg",
+            "title": "Gentle Body Wash",
+            "price_text": "₹569",
+            "compare_text": "₹790",
+            "rating_label": "22 reviews",
+            "link": "/collections/all"
+          }
+        },
+        "p-4": {
+          "type": "product",
+          "settings": {
+            "image_asset": "product-body-lotion.jpg",
+            "title": "Deep Hydration Lotion",
+            "price_text": "₹547",
+            "compare_text": "₹760",
+            "rating_label": "25 reviews",
+            "link": "/collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "p-1",
+        "p-2",
+        "p-3",
+        "p-4"
+      ],
+      "settings": {
+        "heading": "The Essentials",
+        "heading_tag": "h2",
+        "heading_font_size": 2.4,
+        "subheading": "<p>Dermatologically tested, pH 5.5, made only for ages 4–12.</p>",
+        "products_to_show": 4,
+        "columns": 4,
+        "show_rating": true,
+        "show_price": true,
+        "color_scheme": "2",
+        "padding_top": 3.6,
+        "padding_bottom": 2.4
+      }
+    },
+    "rituals": {
+      "type": "ritual-lines",
+      "blocks": {
+        "r-1": {
+          "type": "ritual",
+          "settings": {
+            "image_asset": "ritual-wash-day.jpg",
+            "layout": "image_first",
+            "label": "RITUAL 01 — THE WASH-DAY FIX",
+            "heading": "2-in-1 Shampoo + Conditioner",
+            "text": "<p>Bhringraj and Japa strengthen the hair shaft while Jatamansi calms the scalp — cleanses and conditions in one step, so wash day stops being a fight over tangles.</p>",
+            "chips": "Bhringraj, Japa, Jatamansi"
+          }
+        },
+        "r-2": {
+          "type": "ritual",
+          "settings": {
+            "image_asset": "ritual-body-lotion.jpg",
+            "layout": "text_first",
+            "label": "RITUAL 02 — THE ALL-DAY SHIELD",
+            "heading": "Deep Hydration Body Lotion",
+            "text": "<p>Kesar, lotus and rose in a fast-absorbing lotion that holds moisture for a full day of play — no greasy film, no chalky finish.</p>",
+            "chips": "Kesar, Lotus, Rose"
+          }
+        },
+        "r-3": {
+          "type": "ritual",
+          "settings": {
+            "image_asset": "ritual-massage-oil.jpg",
+            "layout": "image_first",
+            "label": "RITUAL 03 — THE BEDTIME SLOW-DOWN",
+            "heading": "Nourishing Body Massage Oil",
+            "text": "<p>Light, fast-sinking almond and jojoba oil for the pre-bath or bedtime massage — the five minutes of the day built for slowing down together.</p>",
+            "chips": "Almond, Jojoba"
+          }
+        }
+      },
+      "block_order": [
+        "r-1",
+        "r-2",
+        "r-3"
+      ],
+      "settings": {
+        "eyebrow": "The Simply Kids ritual system",
+        "heading": "Three rituals. Nine years. One routine that actually fits.",
+        "heading_font_size": 3.4,
+        "header_gap": 5.0,
+        "alternate": true,
+        "row_gap": 7.0,
+        "card_heading_size": 2.8,
+        "card_text_size": 1.6,
+        "color_scheme": "3",
+        "padding_top": 7.0,
+        "padding_bottom": 7.0
+      }
+    },
+    "science": {
+      "type": "science-stats",
+      "blocks": {
+        "chips": {
+          "type": "chips",
+          "settings": {
+            "heading": "",
+            "chips": "Bhringraj\nJatamansi\nHaldi"
+          }
+        },
+        "stats": {
+          "type": "stats",
+          "settings": {
+            "heading": "",
+            "col_1": "Result",
+            "col_2": "Product",
+            "col_3": "Study",
+            "rows": "95% smoother hair | Hair Oil | 4-week\n93% fewer rashes | Body Wash | from first wash"
+          }
+        }
+      },
+      "block_order": [
+        "chips",
+        "stats"
+      ],
+      "settings": {
+        "eyebrow": "Why 4 to 12 matters",
+        "heading": "The in-between years, finally taken seriously.",
+        "heading_tag": "h2",
+        "heading_font_size": 2.2,
+        "text": "<p>By age four, a child's skin picks up its own oil profile. By twelve, that same skin is nearly adult. Most brands skip both moments and sell the years in between.</p>",
+        "button_label": "Explore the science",
+        "button_link": "/pages/science",
+        "button_style": "primary",
+        "color_scheme": "7",
+        "content_width": "narrow",
+        "padding_top": 3.6,
+        "padding_bottom": 3.6
+      }
+    },
+    "just-right": {
+      "type": "just-right-zone",
+      "blocks": {
+        "z-1": {
+          "type": "zone",
+          "settings": {
+            "zone": "mild",
+            "flag": "✕ Not for 4–12",
+            "heading": "Baby care",
+            "text": "Gentle, yes — but it stops working once real playground grime shows up."
+          }
+        },
+        "z-2": {
+          "type": "zone",
+          "settings": {
+            "zone": "right",
+            "flag": "✓ Just right",
+            "heading": "Simply Kids",
+            "text": "Strong enough through a full day out, gentle enough for a barrier that's still developing."
+          }
+        },
+        "z-3": {
+          "type": "zone",
+          "settings": {
+            "zone": "harsh",
+            "flag": "✕ Not for 4–12",
+            "heading": "Adult care",
+            "text": "Strong actives and fragrance built for a barrier that's already mature."
+          }
+        }
+      },
+      "block_order": [
+        "z-1",
+        "z-2",
+        "z-3"
+      ],
+      "settings": {
+        "heading": "Not too mild. Not too harsh. Just right for 4–12.",
+        "heading_font_size": 2.2,
+        "heading_color": "#4A4744",
+        "color_scheme": "2",
+        "padding_top": 3.6,
+        "padding_bottom": 3.6
+      }
+    },
+    "photo-break": {
+      "type": "image-banner",
+      "settings": {
+        "image_asset": "banner-why-4-to-12.jpg",
+        "min_height": 50,
+        "eyebrow": "Why 4 to 12 matters",
+        "heading": "Baby care's too mild. Adult care's too harsh.",
+        "heading_tag": "h2",
+        "heading_font_size": 3.4,
+        "text": "<p>We formulate for the nine years everyone else skips — tested on the children it's actually made for, not adults scaled down.</p>",
+        "text_font_size": 1.6,
+        "text_color": "#FFFFFF",
+        "eyebrow_color": "#BEE7F5",
+        "overlay_color": "#001E3A",
+        "overlay_style": "radial",
+        "overlay_opacity": 85
+      }
+    },
+    "reviews": {
+      "type": "reviews",
+      "blocks": {
+        "rv-1": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "“The 2-in-1 shampoo cut our wash-day tantrums down to almost nothing.”",
+            "author": "Priyanka R."
+          }
+        },
+        "rv-2": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "“The ingredient list is genuinely thoughtful, and the results speak for themselves.”",
+            "author": "Rohini S."
+          }
+        },
+        "rv-3": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "quote": "“Finally, a brand that treats growing skin like it deserves better.”",
+            "author": "Manasi J."
+          }
+        }
+      },
+      "block_order": [
+        "rv-1",
+        "rv-2",
+        "rv-3"
+      ],
+      "settings": {
+        "heading": "Care parents talk about",
+        "heading_font_size": 2.0,
+        "columns": 3,
+        "show_stars": true,
+        "color_scheme": "8",
+        "padding_top": 3.6,
+        "padding_bottom": 3.6
+      }
+    },
+    "journal": {
+      "type": "blog-cards",
+      "blocks": {
+        "a-1": {
+          "type": "article",
+          "settings": {
+            "heading": "Why 4–12 is a real, distinct life stage for skin and hair",
+            "text": "The science behind why this age group needs its own formulas.",
+            "link": "/pages/journal"
+          }
+        },
+        "a-2": {
+          "type": "article",
+          "settings": {
+            "heading": "Reading an ingredient label like a dermatologist",
+            "text": "What to look for, and what to leave on the shelf.",
+            "link": "/pages/journal"
+          }
+        },
+        "a-3": {
+          "type": "article",
+          "settings": {
+            "heading": "Building a wash-day routine kids actually stick to",
+            "text": "Small changes that end the daily bathroom battle.",
+            "link": "/pages/journal"
+          }
+        }
+      },
+      "block_order": [
+        "a-1",
+        "a-2",
+        "a-3"
+      ],
+      "settings": {
+        "eyebrow": "From the Journal",
+        "heading": "Real answers for the 4–12 years.",
+        "heading_tag": "h2",
+        "heading_font_size": 2.4,
+        "columns": 3,
+        "articles_to_show": 3,
+        "show_excerpt": true,
+        "image_placeholder": "Article photo",
+        "view_all_label": "View all articles",
+        "view_all_link": "/pages/journal",
+        "color_scheme": "1",
+        "padding_top": 6.0,
+        "padding_bottom": 6.0
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "10% off your first order",
+        "heading_tag": "h2",
+        "heading_font_size": 2.0,
+        "text": "<p>Expert tips, new launches, and stories for growing kids. No spam — ever.</p>",
+        "placeholder": "your@email.com",
+        "button_label": "Subscribe",
+        "button_style": "primary",
+        "color_scheme": "9",
+        "custom_background": "linear-gradient(160deg, #FCE9F2 0%, #FEFBFC 100%)",
+        "padding_top": 3.4,
+        "padding_bottom": 3.4
+      }
+    },
+    "trust-badges": {
+      "type": "trust-badges",
+      "blocks": {
+        "b-1": {
+          "type": "badge",
+          "settings": {
+            "image_asset": "badge-dermatologically-tested.svg",
+            "label": "Dermatologically Tested"
+          }
+        },
+        "b-2": {
+          "type": "badge",
+          "settings": {
+            "image_asset": "badge-ph-balanced.svg",
+            "label": "pH 5.5 Balanced"
+          }
+        },
+        "b-3": {
+          "type": "badge",
+          "settings": {
+            "image_asset": "badge-vegan-cruelty-free.svg",
+            "label": "Vegan & Cruelty-Free"
+          }
+        },
+        "b-4": {
+          "type": "badge",
+          "settings": {
+            "image_asset": "badge-made-in-india.svg",
+            "label": "Made in India"
+          }
+        },
+        "b-5": {
+          "type": "badge",
+          "settings": {
+            "image_asset": "badge-dpiit-recognised.svg",
+            "label": "DPIIT Recognised"
+          }
+        },
+        "b-6": {
+          "type": "badge",
+          "settings": {
+            "image_asset": "badge-udyam-registered.svg",
+            "label": "Udyam Registered"
+          }
+        }
+      },
+      "block_order": [
+        "b-1",
+        "b-2",
+        "b-3",
+        "b-4",
+        "b-5",
+        "b-6"
+      ],
+      "settings": {
+        "heading": "",
+        "color_scheme": "2",
+        "badge_size": 90,
+        "gap": 2.6,
+        "padding_top": 2.4,
+        "padding_bottom": 2.4
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "shop-by-age",
+    "age-quiz",
+    "essentials",
+    "rituals",
+    "science",
+    "just-right",
+    "photo-break",
+    "reviews",
+    "journal",
+    "newsletter",
+    "trust-badges"
+  ]
+}

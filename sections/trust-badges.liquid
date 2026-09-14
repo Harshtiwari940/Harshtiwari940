@@ -1,0 +1,228 @@
+{%- comment -%}
+  Row of certification medallions. Each badge is a block, so merchants can
+  swap the images, reorder them, or add their own.
+{%- endcomment -%}
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  {%- if section.settings.heading != blank -%}
+    <div class="page-width" style="text-align:center;margin-bottom:2.4rem;">
+      <h2 class="sk-section__title">{{ section.settings.heading }}</h2>
+    </div>
+  {%- endif -%}
+
+  <div class="page-width sk-medallion-row" style="gap: {{ section.settings.gap }}rem;">
+    {%- for block in section.blocks -%}
+      <div class="sk-medallion" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank or block.settings.image_asset != blank -%}
+          {%- assign badge_style = 'width:' | append: section.settings.badge_size | append: 'px;height:auto;' -%}
+          {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{%- endif -%}
+            {% render 'image-or-asset',
+              image: block.settings.image,
+              asset: block.settings.image_asset,
+              alt: block.settings.label,
+              widths: '90,180,270,360',
+              img_style: badge_style %}
+          {%- if block.settings.link != blank -%}</a>{%- endif -%}
+        {%- elsif block.settings.label != blank -%}
+          <span class="sk-pill sk-pill--trust">{{ block.settings.label }}</span>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust badges",
+  "tag": "section",
+  "class": "sk-trust-badges-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "badge_size",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Badge size",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0.5,
+      "max": 6,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Space between badges",
+      "default": 2.6
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 2.4
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 2.4
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_asset",
+          "label": "Built-in image file",
+          "info": "Falls back to an image file shipped with the theme when no image is chosen above. Clear it to show nothing.",
+          "default": ""
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "info": "Used as the image alt text, or shown as a pill when no image is set."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust badges",
+      "blocks": [
+        {
+          "type": "badge",
+          "settings": {
+            "label": "Dermatologically Tested"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "label": "pH 5.5 Balanced"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "label": "Vegan & Cruelty-Free"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "label": "Made in India"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "label": "DPIIT Recognised"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "label": "Udyam Registered"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

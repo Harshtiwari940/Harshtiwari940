@@ -1,0 +1,221 @@
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  {%- if section.settings.heading != blank -%}
+    <div class="page-width" style="text-align:center;margin-bottom:2.4rem;">
+      <h2 class="sk-section__title" style="font-size: {{ section.settings.heading_font_size }}rem;{% if section.settings.heading_color != blank %}color:{{ section.settings.heading_color }};{% endif %}">
+        {{ section.settings.heading }}
+      </h2>
+    </div>
+  {%- endif -%}
+
+  <div class="sk-jrz-grid">
+    {%- for block in section.blocks -%}
+      <div class="sk-jrz-zone sk-jrz-zone--{{ block.settings.zone }}" {{ block.shopify_attributes }}>
+        {%- if block.settings.flag != blank -%}
+          <span class="sk-jrz-flag">{{ block.settings.flag }}</span>
+        {%- endif -%}
+        {%- if block.settings.heading != blank -%}
+          <h3>{{ block.settings.heading }}</h3>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <p>{{ block.settings.text }}</p>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Comparison zones",
+  "tag": "section",
+  "class": "sk-jrz-section",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Not too mild. Not too harsh. Just right for 4–12."
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 1.6,
+      "max": 4.0,
+      "step": 0.1,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 2.2
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#4A4744"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 3.6
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 3.6
+    }
+  ],
+  "blocks": [
+    {
+      "type": "zone",
+      "name": "Zone",
+      "settings": [
+        {
+          "type": "select",
+          "id": "zone",
+          "label": "Zone style",
+          "options": [
+            {
+              "value": "mild",
+              "label": "Too mild (left)"
+            },
+            {
+              "value": "right",
+              "label": "Just right (highlighted)"
+            },
+            {
+              "value": "harsh",
+              "label": "Too harsh (right)"
+            }
+          ],
+          "default": "mild"
+        },
+        {
+          "type": "text",
+          "id": "flag",
+          "label": "Flag label",
+          "default": "✕ Not for 4–12"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Baby care"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Gentle, yes — but it stops working once real playground grime shows up."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison zones",
+      "blocks": [
+        {
+          "type": "zone",
+          "settings": {
+            "zone": "mild"
+          }
+        },
+        {
+          "type": "zone",
+          "settings": {
+            "zone": "right",
+            "flag": "✓ Just right",
+            "heading": "Simply Kids",
+            "text": "Strong enough through a full day out, gentle enough for a barrier that's still developing."
+          }
+        },
+        {
+          "type": "zone",
+          "settings": {
+            "zone": "harsh",
+            "heading": "Adult care",
+            "text": "Strong actives and fragrance built for a barrier that's already mature."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,113 @@
+<div class="color-scheme-1" style="padding:5rem 0;">
+  <div class="page-width" style="max-width:80rem;margin:0 auto;">
+    <p class="pv-crumb"><a href="{{ routes.account_url }}" style="color:inherit;">{{ 'customer.account.title' | t | default: 'My account' }}</a></p>
+    <h1 class="sk-section__title">{{ 'customer.addresses.title' | t | default: 'Addresses' }}</h1>
+
+    {%- paginate customer.addresses by 10 -%}
+      {%- form 'customer_address', customer.new_address -%}
+        <div class="sk-tool-card" style="margin-bottom:2.4rem;">
+          <h2 style="font-size:1.6rem;">{{ 'customer.addresses.add_new' | t | default: 'Add a new address' }}</h2>
+
+          <label class="sk-label" for="AddressFirstNameNew">{{ 'customer.addresses.first_name' | t | default: 'First name' }}</label>
+          <input class="sk-field" id="AddressFirstNameNew" type="text" name="address[first_name]" autocomplete="given-name">
+
+          <label class="sk-label" for="AddressLastNameNew">{{ 'customer.addresses.last_name' | t | default: 'Last name' }}</label>
+          <input class="sk-field" id="AddressLastNameNew" type="text" name="address[last_name]" autocomplete="family-name">
+
+          <label class="sk-label" for="AddressAddress1New">{{ 'customer.addresses.address1' | t | default: 'Address' }}</label>
+          <input class="sk-field" id="AddressAddress1New" type="text" name="address[address1]" autocomplete="address-line1">
+
+          <label class="sk-label" for="AddressAddress2New">{{ 'customer.addresses.address2' | t | default: 'Apartment, suite, etc.' }}</label>
+          <input class="sk-field" id="AddressAddress2New" type="text" name="address[address2]" autocomplete="address-line2">
+
+          <label class="sk-label" for="AddressCityNew">{{ 'customer.addresses.city' | t | default: 'City' }}</label>
+          <input class="sk-field" id="AddressCityNew" type="text" name="address[city]" autocomplete="address-level2">
+
+          <label class="sk-label" for="AddressCountryNew">{{ 'customer.addresses.country' | t | default: 'Country' }}</label>
+          <select class="sk-field" id="AddressCountryNew" name="address[country]" data-default="{{ form.country }}">{{ all_country_option_tags }}</select>
+
+          <div id="AddressProvinceContainerNew" hidden>
+            <label class="sk-label" for="AddressProvinceNew">{{ 'customer.addresses.province' | t | default: 'State' }}</label>
+            <select class="sk-field" id="AddressProvinceNew" name="address[province]" data-default="{{ form.province }}"></select>
+          </div>
+
+          <label class="sk-label" for="AddressZipNew">{{ 'customer.addresses.zip' | t | default: 'PIN code' }}</label>
+          <input class="sk-field" id="AddressZipNew" type="text" name="address[zip]" autocapitalize="characters" autocomplete="postal-code">
+
+          <label class="sk-label" for="AddressPhoneNew">{{ 'customer.addresses.phone' | t | default: 'Phone' }}</label>
+          <input class="sk-field" id="AddressPhoneNew" type="tel" name="address[phone]" autocomplete="tel">
+
+          <label style="display:flex;gap:.8rem;align-items:center;margin-top:1.4rem;">
+            {{ form.set_as_default_checkbox }}
+            <span>{{ 'customer.addresses.set_default' | t | default: 'Set as default address' }}</span>
+          </label>
+
+          <button type="submit" class="sk-btn sk-btn--primary" style="margin-top:1.6rem;border:0;cursor:pointer;">
+            {{ 'customer.addresses.add' | t | default: 'Add address' }}
+          </button>
+        </div>
+      {%- endform -%}
+
+      {%- for address in customer.addresses -%}
+        <div class="sk-tool-card" style="margin-bottom:1.6rem;">
+          {%- if address == customer.default_address -%}
+            <span class="sk-pill sk-pill--trust">{{ 'customer.addresses.default' | t | default: 'Default' }}</span>
+          {%- endif -%}
+          <p style="opacity:.85;">{{ address | format_address }}</p>
+          {%- form 'customer_address', address -%}
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit" class="sk-btn sk-btn--outline" style="border:0;cursor:pointer;">
+              {{ 'customer.addresses.delete' | t | default: 'Delete' }}
+            </button>
+          {%- endform -%}
+        </div>
+      {%- endfor -%}
+
+      {%- if paginate.pages > 1 -%}
+        <nav style="display:flex;gap:1rem;margin-top:2rem;">
+          {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">Previous</a>{%- endif -%}
+          {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Next</a>{%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</div>
+
+<script>
+  // Self-contained state selector: `all_country_option_tags` puts each
+  // country's provinces on the option as data-provinces, so no external
+  // script is needed.
+  (function () {
+    var country = document.getElementById('AddressCountryNew');
+    var province = document.getElementById('AddressProvinceNew');
+    var wrapper = document.getElementById('AddressProvinceContainerNew');
+    if (!country || !province || !wrapper) return;
+
+    function syncProvinces() {
+      var selected = country.options[country.selectedIndex];
+      var raw = selected ? selected.getAttribute('data-provinces') : null;
+      var list = [];
+      try { list = raw ? JSON.parse(raw) : []; } catch (e) { list = []; }
+
+      province.innerHTML = '';
+      if (!list.length) {
+        wrapper.hidden = true;
+        return;
+      }
+      var want = province.getAttribute('data-default') || '';
+      list.forEach(function (pair) {
+        var opt = document.createElement('option');
+        opt.value = pair[0];
+        opt.textContent = pair[1];
+        if (pair[0] === want || pair[1] === want) opt.selected = true;
+        province.appendChild(opt);
+      });
+      wrapper.hidden = false;
+    }
+
+    var preferred = country.getAttribute('data-default');
+    if (preferred) country.value = preferred;
+    syncProvinces();
+    country.addEventListener('change', syncProvinces);
+  })();
+</script>

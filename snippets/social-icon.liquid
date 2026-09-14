@@ -1,0 +1,16 @@
+{%- comment -%}
+  Social platform glyph. Usage: {% render 'social-icon', name: 'instagram', color: '#fff' %}
+{%- endcomment -%}
+{%- assign c = color | default: '#ffffff' -%}
+{%- case name -%}
+  {%- when 'instagram' -%}
+    <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="{{ c }}" stroke-width="1.8" aria-hidden="true" focusable="false"><rect height="18" rx="5" width="18" x="3" y="3"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle></svg>
+  {%- when 'pinterest' -%}
+    <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="{{ c }}" stroke-width="1.8" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"></circle><path d="M9 18c1-3 1.5-6 2-9a2.5 2.5 0 015 .5c0 2-1 4-3 4"></path></svg>
+  {%- when 'youtube' -%}
+    <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="{{ c }}" stroke-width="1.8" aria-hidden="true" focusable="false"><rect height="14" rx="3" width="20" x="2" y="5"></rect><path d="M10 9l5 3-5 3z" fill="{{ c }}" stroke="none"></path></svg>
+  {%- when 'facebook' -%}
+    <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="{{ c }}" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M15 3h-2a4 4 0 00-4 4v3H7v4h2v7h4v-7h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg>
+  {%- when 'twitter' -%}
+    <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="{{ c }}" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M4 4l7.6 9.6L4.6 20h2.2l5.7-5.9L17 20h3l-7.8-9.9L19.4 4h-2.2l-5.3 5.5L7 4z"></path></svg>
+{%- endcase -%}

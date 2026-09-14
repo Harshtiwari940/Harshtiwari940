@@ -1,0 +1,95 @@
+{
+  "sections": {
+    "banner": {
+      "type": "page-banner",
+      "settings": {
+        "eyebrow": "The Journal",
+        "heading": "Real answers for the 4–12 years.",
+        "heading_font_size": 2.8,
+        "text": "<p>Skincare science, routines, and honest parenting notes — written for the age group everyone else skips.</p>",
+        "text_font_size": 1.6,
+        "color_scheme": "1",
+        "text_align": "center",
+        "padding_top": 5.0,
+        "padding_bottom": 0
+      }
+    },
+    "articles": {
+      "type": "blog-cards",
+      "blocks": {
+        "jn-1": {
+          "type": "article",
+          "settings": {
+            "heading": "Why 4–12 is a real, distinct life stage for skin and hair",
+            "text": "The science behind why this age group needs its own formulas.",
+            "link": ""
+          }
+        },
+        "jn-2": {
+          "type": "article",
+          "settings": {
+            "heading": "Reading an ingredient label like a dermatologist",
+            "text": "What to look for, and what to leave on the shelf.",
+            "link": ""
+          }
+        },
+        "jn-3": {
+          "type": "article",
+          "settings": {
+            "heading": "Building a wash-day routine kids actually stick to",
+            "text": "Small changes that end the daily bathroom battle.",
+            "link": ""
+          }
+        },
+        "jn-4": {
+          "type": "article",
+          "settings": {
+            "heading": "pH 5.5: what it means and why it matters for kids",
+            "text": "A plain-language explainer on your child's acid mantle.",
+            "link": ""
+          }
+        },
+        "jn-5": {
+          "type": "article",
+          "settings": {
+            "heading": "Bhringraj, Jatamansi, Haldi: Nani's ingredients, explained",
+            "text": "The botanicals behind the formulas, and what each one does.",
+            "link": ""
+          }
+        },
+        "jn-6": {
+          "type": "article",
+          "settings": {
+            "heading": "Packing a travel routine for 4–12 year olds",
+            "text": "What to bring so bath time works on the road too.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "jn-1",
+        "jn-2",
+        "jn-3",
+        "jn-4",
+        "jn-5",
+        "jn-6"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "columns": 3,
+        "articles_to_show": 6,
+        "show_excerpt": true,
+        "image_placeholder": "Article photo",
+        "view_all_label": "",
+        "color_scheme": "1",
+        "padding_top": 3.0,
+        "padding_bottom": 5.0
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "articles"
+  ]
+}

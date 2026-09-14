@@ -1,0 +1,41 @@
+{%- comment -%}
+  Renders one of the theme's inline SVG icons.
+  Usage: {% render 'icon', name: 'shipping', size: 40, color: '#004987' %}
+  Icon names are exposed as a select in the sections that use them.
+{%- endcomment -%}
+{%- liquid
+  assign icon_size = size | default: 40
+  assign icon_color = color | default: settings.color_blue_deep
+-%}
+{%- case name -%}
+  {%- when 'shipping' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M3 3h2l2.4 12.2a2 2 0 002 1.8h8.2a2 2 0 002-1.6L21 8H6"></path><circle cx="9" cy="20" fill="{{ icon_color }}" r="1.4"></circle><circle cx="17" cy="20" fill="{{ icon_color }}" r="1.4"></circle></svg>
+  {%- when 'card' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.6" aria-hidden="true" focusable="false"><rect height="11" rx="1.5" width="20" x="2" y="7"></rect><circle cx="12" cy="12.5" r="2.5"></circle><path d="M2 10h2M20 10h2M2 15h2M20 15h2"></path></svg>
+  {%- when 'return' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 0114-5.3M20 12a8 8 0 01-14 5.3"></path><path d="M18 3v4h-4M6 21v-4h4"></path></svg>
+  {%- when 'lock' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="2" aria-hidden="true" focusable="false"><rect height="10" rx="2" width="16" x="4" y="10"></rect><path d="M8 10V7a4 4 0 018 0v3"></path></svg>
+  {%- when 'leaf' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M4 20c0-8 6-14 16-15 1 10-5 16-13 16H4z"></path><path d="M4 20C8 16 12 13 18 10"></path></svg>
+  {%- when 'heart' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.6-7-9.4A4.1 4.1 0 0112 8a4.1 4.1 0 017 2.6C19 15.4 12 20 12 20z"></path></svg>
+  {%- when 'drop' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M12 3c3.5 4.2 6 7.3 6 10.2A6 6 0 016 13.2C6 10.3 8.5 7.2 12 3z"></path></svg>
+  {%- when 'pin' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M12 21s7-6.3 7-11a7 7 0 10-14 0c0 4.7 7 11 7 11z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
+  {%- when 'check' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="2" aria-hidden="true" focusable="false"><path d="M4 12.5l5 5L20 6.5"></path></svg>
+  {%- when 'star' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="{{ icon_color }}" aria-hidden="true" focusable="false"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5 6.1 20.6l1.2-6.5L2.5 9.5l6.6-.9z"></path></svg>
+  {%- when 'search' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.8" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5L21 21"></path></svg>
+  {%- when 'account' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.8" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"></circle><path d="M4.5 21a7.5 7.5 0 0115 0"></path></svg>
+  {%- when 'bag' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M5 8h14l-1.2 12.2a1 1 0 01-1 .8H7.2a1 1 0 01-1-.8z"></path><path d="M9 8V6.5a3 3 0 016 0V8"></path></svg>
+  {%- when 'menu' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+  {%- when 'close' -%}
+    <svg class="sk-icon" width="{{ icon_size }}" height="{{ icon_size }}" viewbox="0 0 24 24" fill="none" stroke="{{ icon_color }}" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+{%- endcase -%}

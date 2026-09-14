@@ -1,0 +1,369 @@
+{%- comment -%}
+  Contact form. Posts through Shopify's contact form, so messages arrive at
+  the store's sender email.
+{%- endcomment -%}
+<div
+  class="color-scheme-{{ section.settings.color_scheme }}"
+  style="padding-top: {{ section.settings.padding_top }}rem; padding-bottom: {{ section.settings.padding_bottom }}rem;"
+>
+  <div class="page-width sk-grid sk-grid--{{ section.settings.columns }}" style="max-width:100rem;">
+    <div class="sk-tool-card">
+      {%- if section.settings.form_heading != blank -%}
+        <h3>{{ section.settings.form_heading }}</h3>
+      {%- endif -%}
+      {%- if section.settings.form_text != blank -%}
+        <div class="sk-section__text" style="opacity:.8;">{{ section.settings.form_text }}</div>
+      {%- endif -%}
+
+      {%- assign form_id = 'ContactForm-' | append: section.id -%}
+      {%- form 'contact', id: form_id -%}
+        {%- if form.posted_successfully? -%}
+          <p class="sk-form-status sk-form-status--success">{{ section.settings.success_text }}</p>
+        {%- elsif form.errors -%}
+          <p class="sk-form-status sk-form-status--error">{{ form.errors | default_errors }}</p>
+        {%- endif -%}
+
+        <label class="sk-label" for="ContactName-{{ section.id }}">{{ section.settings.label_name }}</label>
+        <input class="sk-field" id="ContactName-{{ section.id }}" type="text" name="contact[{{ section.settings.label_name }}]" value="{{ form.name }}">
+
+        <label class="sk-label" for="ContactEmail-{{ section.id }}">{{ section.settings.label_email }}</label>
+        <input class="sk-field" id="ContactEmail-{{ section.id }}" type="email" name="contact[email]" value="{{ form.email }}" autocomplete="email" required>
+
+        {%- if section.settings.show_phone_field -%}
+          <label class="sk-label" for="ContactPhone-{{ section.id }}">{{ section.settings.label_phone }}</label>
+          <input class="sk-field" id="ContactPhone-{{ section.id }}" type="tel" name="contact[{{ section.settings.label_phone }}]" autocomplete="tel">
+        {%- endif -%}
+
+        {%- if section.settings.show_order_field -%}
+          <label class="sk-label" for="ContactOrder-{{ section.id }}">{{ section.settings.label_order }}</label>
+          <input class="sk-field" id="ContactOrder-{{ section.id }}" type="text" name="contact[{{ section.settings.label_order }}]">
+        {%- endif -%}
+
+        <label class="sk-label" for="ContactBody-{{ section.id }}">{{ section.settings.label_message }}</label>
+        <textarea class="sk-field" id="ContactBody-{{ section.id }}" rows="{{ section.settings.message_rows }}" name="contact[body]" required>{{ form.body }}</textarea>
+
+        <button type="submit" class="sk-btn sk-btn--{{ section.settings.button_style }}" style="width:100%;margin-top:1.4rem;border:0;cursor:pointer;">
+          {{ section.settings.button_label }}
+        </button>
+      {%- endform -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="sk-tool-card">
+        {%- if section.settings.info_heading != blank -%}
+          <h3>{{ section.settings.info_heading }}</h3>
+        {%- endif -%}
+        {%- for block in section.blocks -%}
+          <p {{ block.shopify_attributes }} {% if forloop.first %}style="margin-top:1.4rem;"{% endif %}>
+            <strong>{{ block.settings.label }}</strong><br/>
+            <span style="opacity:.8;">
+              {%- case block.settings.source -%}
+                {%- when 'phone' -%}
+                  <a href="tel:{{ settings.contact_phone | remove: ' ' }}" style="color:inherit;">{{ settings.contact_phone }}</a>
+                {%- when 'email' -%}
+                  <a href="mailto:{{ settings.contact_email }}" style="color:inherit;">{{ settings.contact_email }}</a>
+                {%- when 'address' -%}
+                  {%- if settings.legal_entity != blank -%}{{ settings.legal_entity }}, {% endif -%}{{ settings.contact_address }}
+                {%- else -%}
+                  {{ block.settings.text }}
+              {%- endcase -%}
+            </span>
+          </p>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact form",
+  "tag": "section",
+  "class": "sk-contact-section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form heading",
+      "default": "Write to us"
+    },
+    {
+      "type": "richtext",
+      "id": "form_text",
+      "label": "Form text",
+      "default": "<p>Send your order number and query, and our team will get back to you.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Send message"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "hero",
+          "label": "Hero"
+        },
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Success message",
+      "default": "Thanks for getting in touch. We usually reply within one business day."
+    },
+    {
+      "type": "header",
+      "content": "Fields"
+    },
+    {
+      "type": "text",
+      "id": "label_name",
+      "label": "Name label",
+      "default": "Name"
+    },
+    {
+      "type": "text",
+      "id": "label_email",
+      "label": "Email label",
+      "default": "Email"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone_field",
+      "label": "Show phone field",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "label_phone",
+      "label": "Phone label",
+      "default": "Phone"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_order_field",
+      "label": "Show order number field",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "label_order",
+      "label": "Order number label",
+      "default": "Order number"
+    },
+    {
+      "type": "text",
+      "id": "label_message",
+      "label": "Message label",
+      "default": "Message"
+    },
+    {
+      "type": "range",
+      "id": "message_rows",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "label": "Message field height",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Details card"
+    },
+    {
+      "type": "text",
+      "id": "info_heading",
+      "label": "Heading",
+      "default": "Other ways to reach us"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "label": "Columns on desktop",
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 — White"
+        },
+        {
+          "value": "2",
+          "label": "2 — White"
+        },
+        {
+          "value": "3",
+          "label": "3 — Pale blue fade"
+        },
+        {
+          "value": "4",
+          "label": "4 — Pale blue"
+        },
+        {
+          "value": "5",
+          "label": "5 — Blue gradient (light text)"
+        },
+        {
+          "value": "6",
+          "label": "6 — Deep blue (light text)"
+        },
+        {
+          "value": "7",
+          "label": "7 — Blue wash fade"
+        },
+        {
+          "value": "8",
+          "label": "8 — Blue fade"
+        },
+        {
+          "value": "9",
+          "label": "9 — Blue wash to white"
+        },
+        {
+          "value": "10",
+          "label": "10 — Deep blue (light text)"
+        },
+        {
+          "value": "11",
+          "label": "11 — Pink gradient"
+        },
+        {
+          "value": "12",
+          "label": "12 — Pink fade"
+        },
+        {
+          "value": "13",
+          "label": "13 — Blue (light text)"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Top padding",
+      "default": 5.0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Bottom padding",
+      "default": 5.0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Contact detail",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Phone"
+        },
+        {
+          "type": "select",
+          "id": "source",
+          "label": "Value",
+          "info": "Phone, email and address pull from Theme settings > Contact details.",
+          "options": [
+            {
+              "value": "phone",
+              "label": "Phone from theme settings"
+            },
+            {
+              "value": "email",
+              "label": "Email from theme settings"
+            },
+            {
+              "value": "address",
+              "label": "Address from theme settings"
+            },
+            {
+              "value": "custom",
+              "label": "Custom text"
+            }
+          ],
+          "default": "phone"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Custom text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact form",
+      "blocks": [
+        {
+          "type": "detail",
+          "settings": {
+            "label": "Phone",
+            "source": "phone"
+          }
+        },
+        {
+          "type": "detail",
+          "settings": {
+            "label": "Email",
+            "source": "email"
+          }
+        },
+        {
+          "type": "detail",
+          "settings": {
+            "label": "Registered Office",
+            "source": "address"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
