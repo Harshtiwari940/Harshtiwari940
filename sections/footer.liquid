@@ -27,14 +27,17 @@
           {%- case block.type -%}
 
             {%- when 'brand' -%}
-              {%- if block.settings.show_logo and logo != blank -%}
-                <a href="{{ routes.root_url }}" style="display:inline-block;margin-bottom:1rem;">
-                  {{ logo | image_url: width: 600 | image_tag:
-                    loading: 'lazy',
-                    widths: '130,195,260,390,520',
-                    alt: shop.name,
-                    class: 'sk-footer-logo' }}
-                </a>
+              {%- if block.settings.show_logo -%}
+                {%- if logo != blank or section.settings.logo_asset != blank -%}
+                  <a href="{{ routes.root_url }}" style="display:inline-block;margin-bottom:1rem;">
+                    {% render 'image-or-asset',
+                      image: logo,
+                      asset: section.settings.logo_asset,
+                      alt: shop.name,
+                      widths: '130,195,260,390,520',
+                      img_class: 'sk-footer-logo' %}
+                  </a>
+                {%- endif -%}
               {%- endif -%}
               {%- if block.settings.text != blank -%}
                 <div style="font-size:1.4rem;max-width:34rem;">{{ block.settings.text }}</div>
@@ -179,6 +182,13 @@
       "id": "logo",
       "label": "Logo",
       "info": "Leave empty to use the logo from Theme settings > Logo."
+    },
+    {
+      "type": "text",
+      "id": "logo_asset",
+      "label": "Built-in logo file",
+      "info": "Falls back to a logo file shipped with the theme when no logo is chosen. Clear it to show the store name as text instead.",
+      "default": "logo.png"
     },
     {
       "type": "range",

@@ -5,11 +5,30 @@
     "announcement": {
       "type": "announcement-bar",
       "blocks": {
-        "msg-1": { "type": "message", "settings": { "text": "Free shipping over ₹999" } },
-        "msg-2": { "type": "message", "settings": { "text": "Cash on delivery" } },
-        "msg-3": { "type": "message", "settings": { "text": "Rated 4.8 across 112 verified reviews" } }
+        "msg-1": {
+          "type": "message",
+          "settings": {
+            "text": "Free shipping over ₹999"
+          }
+        },
+        "msg-2": {
+          "type": "message",
+          "settings": {
+            "text": "Cash on delivery"
+          }
+        },
+        "msg-3": {
+          "type": "message",
+          "settings": {
+            "text": "Rated 4.8 across 112 verified reviews"
+          }
+        }
       },
-      "block_order": ["msg-1", "msg-2", "msg-3"],
+      "block_order": [
+        "msg-1",
+        "msg-2",
+        "msg-3"
+      ],
       "settings": {
         "background": "linear-gradient(100deg, #FCE0EC 0%, #FAD3E6 50%, #F6B1D4 100%)",
         "text_color": "#4A4744",
@@ -30,9 +49,13 @@
         "show_rating": true,
         "show_search": true,
         "show_account": true,
-        "show_cart": true
+        "show_cart": true,
+        "logo_asset": "logo.png"
       }
     }
   },
-  "order": ["announcement", "header"]
+  "order": [
+    "announcement",
+    "header"
+  ]
 }

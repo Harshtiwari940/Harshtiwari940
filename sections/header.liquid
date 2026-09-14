@@ -37,11 +37,13 @@
     {%- endif -%}
 
     <a href="{{ routes.root_url }}" style="display:flex;align-items:center;">
-      {%- if logo != blank -%}
-        {{ logo | image_url: width: 600 | image_tag:
+      {%- if logo != blank or section.settings.logo_asset != blank -%}
+        {% render 'image-or-asset',
+          image: logo,
+          asset: section.settings.logo_asset,
+          alt: shop.name,
           loading: 'eager',
-          widths: '150,225,300,450,600',
-          alt: shop.name }}
+          widths: '150,225,300,450,600' %}
       {%- else -%}
         <span style="font-family:var(--font-display);font-weight:800;font-size:1.9rem;color:inherit;">{{ shop.name }}</span>
       {%- endif -%}
@@ -116,6 +118,13 @@
       "id": "logo",
       "label": "Logo",
       "info": "Leave empty to use the logo from Theme settings > Logo."
+    },
+    {
+      "type": "text",
+      "id": "logo_asset",
+      "label": "Built-in logo file",
+      "info": "Falls back to a logo file shipped with the theme when no logo is chosen. Clear it to show the store name as text instead.",
+      "default": "logo.png"
     },
     {
       "type": "range",
@@ -205,6 +214,10 @@
       "default": true
     }
   ],
-  "presets": [{ "name": "Header" }]
+  "presets": [
+    {
+      "name": "Header"
+    }
+  ]
 }
 {% endschema %}
