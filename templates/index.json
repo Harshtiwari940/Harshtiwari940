@@ -13,7 +13,7 @@
         "button_link": "/pages/routine",
         "button_style": "hero",
         "button_2_label": "Shop bestsellers",
-        "button_2_link": "/pages/shop",
+        "button_2_link": "/collections/all",
         "button_2_style": "outline",
         "show_spectrum": true,
         "spectrum_start": "4",
@@ -36,7 +36,7 @@
             "title": "Little Explorers",
             "text": "Delicate skin that dries fast and messy hair days. This is where they learn to do it themselves.",
             "button_label": "Shop this stage",
-            "button_link": "/pages/shop",
+            "button_link": "/collections/all",
             "button_style": "primary"
           }
         },
@@ -47,7 +47,7 @@
             "title": "Big Kids",
             "text": "Active, sweaty and independent. They need cleansing that genuinely works after a full day outdoors.",
             "button_label": "Shop this stage",
-            "button_link": "/pages/shop",
+            "button_link": "/collections/all",
             "button_style": "primary"
           }
         },
@@ -58,7 +58,7 @@
             "title": "Tweens",
             "text": "Changing skin and oilier hair. They want products that feel grown-up — without harsh adult actives.",
             "button_label": "Shop this stage",
-            "button_link": "/pages/shop",
+            "button_link": "/collections/all",
             "button_style": "primary"
           }
         }
