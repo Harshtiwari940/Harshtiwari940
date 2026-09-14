@@ -1,0 +1,168 @@
+{%- comment -%}
+  Simply Kids — Just-right zone.
+  The three-way comparison (baby care / Simply Kids / adult care). The middle
+  "just right" zone is emphasised; on mobile it moves to the top.
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank -%}
+      <div class="page-width sk-center" style="margin-bottom: 2.4rem;">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        <h2 class="sk-section__title {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="sk-jrz-grid">
+      {%- for block in section.blocks -%}
+        <div
+          class="sk-jrz-zone sk-jrz-zone--{{ block.settings.tone }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+            style="--animation-order: {{ forloop.index }};"
+          {% endif %}
+          {{ block.shopify_attributes }}
+        >
+          {%- if block.settings.flag != blank -%}
+            <span class="sk-jrz-flag">
+              <span aria-hidden="true">{% if block.settings.tone == 'right' %}&#10003;{% else %}&#10005;{% endif %}</span>
+              {{ block.settings.flag | escape }}
+            </span>
+          {%- endif -%}
+          {%- if block.settings.title != blank -%}
+            <h3>{{ block.settings.title | escape }}</h3>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <p>{{ block.settings.text | escape }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Just-right zone",
+  "tag": "section",
+  "class": "section sk-shopify-section",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Not too mild. Not too harsh. Just right for 4–12."
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "zone",
+      "name": "Zone",
+      "settings": [
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Zone type",
+          "options": [
+            { "value": "mild", "label": "Too mild" },
+            { "value": "right", "label": "Just right (emphasised)" },
+            { "value": "harsh", "label": "Too harsh" }
+          ],
+          "default": "mild"
+        },
+        {
+          "type": "text",
+          "id": "flag",
+          "label": "Flag",
+          "default": "Not for 4–12"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Baby care"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Gentle, yes — but it stops working once real playground grime shows up."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Just-right zone",
+      "blocks": [
+        { "type": "zone", "settings": { "tone": "mild" } },
+        { "type": "zone", "settings": { "tone": "right" } },
+        { "type": "zone", "settings": { "tone": "harsh" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

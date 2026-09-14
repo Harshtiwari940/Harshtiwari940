@@ -1,0 +1,139 @@
+{%- comment -%}
+  Simply Kids — Collection pills.
+  Category shortcuts styled as brand pills, above Dawn's own product grid.
+  These are ordinary links to collections, so Dawn's native sorting and
+  filtering (facets) on the grid below are untouched.
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- if section.blocks.size > 0 -%}
+  <div class="color-{{ section.settings.color_scheme }} gradient">
+    <div class="page-width section-{{ section.id }}-padding">
+      <nav aria-label="{{ section.settings.aria_label | escape }}">
+        <ul class="sk-collection-pills">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign pill_collection = block.settings.collection
+              assign pill_url = block.settings.link
+              if pill_url == blank and pill_collection != blank
+                assign pill_url = pill_collection.url
+              endif
+              assign pill_label = block.settings.label
+              if pill_label == blank and pill_collection != blank
+                assign pill_label = pill_collection.title
+              endif
+              assign is_current = false
+              if pill_collection != blank and collection.id == pill_collection.id
+                assign is_current = true
+              endif
+            -%}
+            <li {{ block.shopify_attributes }}>
+              <a
+                href="{{ pill_url | default: '#' }}"
+                class="sk-pill{% if is_current %} sk-pill--active{% else %} sk-pill--age{% endif %}"
+                {% if is_current %}aria-current="page"{% endif %}
+              >
+                {{- pill_label | escape -}}
+              </a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SK Collection pills",
+  "tag": "section",
+  "class": "section sk-shopify-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Navigation label for screen readers",
+      "default": "Product categories"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 8
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Pill",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "info": "Defaults to the collection title."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom link",
+          "info": "Overrides the collection link."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Collection pills",
+      "blocks": [
+        { "type": "pill" },
+        { "type": "pill" },
+        { "type": "pill" }
+      ]
+    }
+  ]
+}
+{% endschema %}

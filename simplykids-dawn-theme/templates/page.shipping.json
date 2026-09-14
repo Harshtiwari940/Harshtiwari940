@@ -1,0 +1,180 @@
+{
+  "sections": {
+    "sk_hero": {
+      "type": "sk-page-hero",
+      "settings": {
+        "show_heading": true,
+        "color_scheme": "scheme-1",
+        "text_align": "left",
+        "narrow": true,
+        "heading": "Shipping Policy",
+        "heading_tag": "h1",
+        "heading_size": "h1",
+        "padding_top": 80,
+        "padding_bottom": 16
+      }
+    },
+    "sk_body": {
+      "type": "sk-rich-content",
+      "blocks": {
+        "h_1": {
+          "type": "heading",
+          "settings": {
+            "text": "Free shipping over ₹999",
+            "level": "h3"
+          }
+        },
+        "t_1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Orders above ₹999 ship free across India. Orders below this threshold carry a flat shipping fee, shown at checkout before you pay.</p>"
+          }
+        },
+        "h_2": {
+          "type": "heading",
+          "settings": {
+            "text": "Dispatch & delivery times",
+            "level": "h3"
+          }
+        },
+        "t_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Orders are dispatched within 1–2 business days. Delivery typically takes 3–7 business days depending on your location, and a tracking link is emailed and texted once your order ships.</p>"
+          }
+        },
+        "h_3": {
+          "type": "heading",
+          "settings": {
+            "text": "Cash on Delivery",
+            "level": "h3"
+          }
+        },
+        "t_3": {
+          "type": "text",
+          "settings": {
+            "text": "<p>COD is available on all orders across India, subject to a small COD handling fee shown at checkout.</p>"
+          }
+        },
+        "h_4": {
+          "type": "heading",
+          "settings": {
+            "text": "Where we ship",
+            "level": "h3"
+          }
+        },
+        "t_4": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We currently ship across India. For international shipping enquiries, write to support@simplykids.in.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "h_1",
+        "t_1",
+        "h_2",
+        "t_2",
+        "h_3",
+        "t_3",
+        "h_4",
+        "t_4"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "max_width": 80,
+        "padding_top": 0,
+        "padding_bottom": 80
+      }
+    },
+    "sk_page_body": {
+      "type": "sk-page-content",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "max_width": 80,
+        "center": false,
+        "padding_top": 0,
+        "padding_bottom": 48
+      }
+    },
+    "sk_trust": {
+      "type": "sk-trust-badges",
+      "blocks": {
+        "promise_shipping": {
+          "type": "promise",
+          "settings": {
+            "icon": "cart",
+            "title": "Free Shipping",
+            "text": "On orders over ₹999"
+          }
+        },
+        "promise_cod": {
+          "type": "promise",
+          "settings": {
+            "icon": "cash",
+            "title": "COD Available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "promise_returns": {
+          "type": "promise",
+          "settings": {
+            "icon": "return",
+            "title": "No Question Asked",
+            "text": "Returns & Exchange"
+          }
+        },
+        "pay_upi": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "UPI",
+            "italic": false
+          }
+        },
+        "pay_visa": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "VISA",
+            "italic": true
+          }
+        },
+        "pay_mc": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "Mastercard",
+            "italic": false
+          }
+        },
+        "pay_rupay": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "RuPay",
+            "italic": false
+          }
+        }
+      },
+      "block_order": [
+        "promise_shipping",
+        "promise_cod",
+        "promise_returns",
+        "pay_upi",
+        "pay_visa",
+        "pay_mc",
+        "pay_rupay"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "columns": 3,
+        "protection_text": "100% Payment Protection, Easy Return Policy",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "sk_hero",
+    "sk_body",
+    "sk_page_body",
+    "sk_trust"
+  ]
+}

@@ -1,0 +1,25 @@
+{%- comment -%}
+  Simply Kids — floating WhatsApp button.
+  Driven entirely by theme settings (Theme settings > Simply Kids), so the
+  merchant can change the number, prefilled message or turn it off without
+  touching code. Hidden when no number is configured.
+{%- endcomment -%}
+
+{%- if settings.sk_whatsapp_enabled and settings.sk_whatsapp_number != blank -%}
+  {%- liquid
+    assign wa_number = settings.sk_whatsapp_number | remove: ' ' | remove: '+' | remove: '-' | remove: '(' | remove: ')'
+    assign wa_message = settings.sk_whatsapp_message | default: '' | url_encode
+  -%}
+  <a
+    class="sk-whatsapp-fab"
+    href="https://wa.me/{{ wa_number }}{% if wa_message != blank %}?text={{ wa_message }}{% endif %}"
+    target="_blank"
+    rel="noopener"
+    aria-label="{{ settings.sk_whatsapp_label | default: 'Chat with us on WhatsApp' | escape }}"
+    title="{{ settings.sk_whatsapp_label | default: 'Chat with us on WhatsApp' | escape }}"
+  >
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <path d="M16.001 3C9.096 3 3.5 8.596 3.5 15.5c0 2.36.655 4.566 1.792 6.452L3 29l7.222-2.254A12.44 12.44 0 0016 28c6.905 0 12.5-5.596 12.5-12.5S22.906 3 16.001 3zm0 22.5c-1.94 0-3.75-.55-5.283-1.5l-.379-.235-4.287 1.338 1.36-4.176-.247-.394A9.44 9.44 0 016.5 15.5c0-5.238 4.263-9.5 9.501-9.5 5.238 0 9.499 4.262 9.499 9.5s-4.261 9.5-9.499 9.5zm5.216-7.096c-.286-.143-1.69-.834-1.952-.929-.261-.095-.452-.143-.642.143-.19.286-.737.929-.904 1.12-.166.19-.333.214-.619.071-.285-.143-1.206-.444-2.297-1.417-.849-.757-1.422-1.692-1.589-1.978-.166-.286-.018-.44.125-.583.129-.128.286-.333.428-.5.143-.166.19-.285.286-.476.095-.19.048-.357-.024-.5-.071-.143-.642-1.548-.88-2.12-.232-.556-.467-.48-.642-.489l-.547-.01a1.05 1.05 0 00-.762.357c-.262.286-1 .977-1 2.382 0 1.405 1.024 2.763 1.166 2.953.143.19 2.015 3.077 4.883 4.313.682.295 1.214.47 1.629.601.684.218 1.307.187 1.799.114.549-.082 1.69-.691 1.928-1.358.238-.667.238-1.239.166-1.358-.071-.12-.261-.19-.547-.333z"/>
+    </svg>
+  </a>
+{%- endif -%}

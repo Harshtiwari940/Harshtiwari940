@@ -1,0 +1,206 @@
+{%- comment -%}
+  Simply Kids — Rich content.
+  A brand-styled long-form block used for the policy pages, the science copy
+  and any other body text. Content is a rich-text setting, so it is fully
+  editable in the Theme Editor; use the default `page` template instead if the
+  copy should live on the page record in Shopify Admin.
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .sk-rich-content {
+    max-width: {{ section.settings.max_width }}rem;
+  }
+
+  #shopify-section-{{ section.id }} .sk-rich-content h2,
+  #shopify-section-{{ section.id }} .sk-rich-content h3 {
+    font-family: var(--sk-font-display);
+    margin-top: 2.4rem;
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="sk-rich-content">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'heading' -%}
+            {%- if block.settings.level == 'h1' -%}
+              <h1 class="sk-section__title" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</h1>
+            {%- elsif block.settings.level == 'h2' -%}
+              <h2 class="sk-section__title" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</h2>
+            {%- else -%}
+              <h3 class="sk-section__title" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</h3>
+            {%- endif -%}
+          {%- when 'text' -%}
+            <div class="sk-section__text" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+          {%- when 'meta' -%}
+            <p style="opacity: 0.6; font-size: 1.2rem;" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+          {%- when 'liquid' -%}
+            <div {{ block.shopify_attributes }}>{{ block.settings.custom_liquid }}</div>
+          {%- when 'button' -%}
+            <a
+              class="sk-btn sk-btn--primary"
+              style="margin-top: 1.6rem;"
+              {% if block.settings.link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ block.settings.link }}"
+              {% endif %}
+              {{ block.shopify_attributes }}
+            >
+              {{- block.settings.label | escape -}}
+            </a>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Rich content",
+  "tag": "section",
+  "class": "section sk-shopify-section",
+  "max_blocks": 40,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 50,
+      "max": 130,
+      "step": 2,
+      "unit": "rem",
+      "label": "Maximum width",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "level",
+          "label": "Level",
+          "options": [
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" }
+          ],
+          "default": "h3"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Share the details your customers need here.</p>"
+        }
+      ]
+    },
+    {
+      "type": "meta",
+      "name": "Small print",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Last updated: January 2026"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Shop the range"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "liquid",
+      "name": "Custom Liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom Liquid"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Rich content",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "text" }
+      ]
+    }
+  ]
+}
+{% endschema %}

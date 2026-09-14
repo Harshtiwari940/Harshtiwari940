@@ -1,0 +1,253 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        },
+        "sk_rating": {
+          "type": "rating",
+          "settings": {}
+        },
+        "sk_tagline": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.custom.tagline }}",
+            "text_style": "subtitle"
+          }
+        },
+        "sk_benefits": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "horizontal",
+            "icon_1": "leaf",
+            "heading_1": "Dermatologically tested",
+            "icon_2": "heart",
+            "heading_2": "Vegan & cruelty-free",
+            "icon_3": "map_pin",
+            "heading_3": "Made in India"
+          }
+        },
+        "sk_tab_why": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Why it works",
+            "icon": "check_mark",
+            "content": "<p>A gentle formula made only for ages 4–12 — proven gentle enough to trust, effective enough to work.</p>",
+            "page": ""
+          }
+        },
+        "sk_tab_ingredients": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Full ingredients & safety",
+            "icon": "leaf",
+            "content": "<p>pH 5.5-balanced, dermatologically tested, and free from parabens, sulphates and phthalates. Add the full INCI list here.</p>",
+            "page": ""
+          }
+        },
+        "sk_tab_how": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How to use",
+            "icon": "plant",
+            "content": "<p>Describe the routine step this product belongs to, and how much to use.</p>",
+            "page": ""
+          }
+        },
+        "sk_tab_shipping": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping & returns",
+            "icon": "truck",
+            "content": "<p>Free shipping over ₹999. Cash on delivery available. 7-day returns on unopened, sealed products.</p>",
+            "page": ""
+          }
+        },
+        "sk_complementary": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Pairs well with",
+            "make_collapsible_row": false,
+            "icon": "none",
+            "product_list_limit": 3,
+            "products_per_page": 3,
+            "pagination_style": "counter",
+            "image_ratio": "square",
+            "enable_quick_add": true
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "sk_rating",
+        "title",
+        "sk_tagline",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "sk_benefits",
+        "sk_tab_why",
+        "sk_tab_ingredients",
+        "sk_tab_how",
+        "sk_tab_shipping",
+        "description",
+        "sk_complementary",
+        "share"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-12",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "sk_trust": {
+      "type": "sk-trust-badges",
+      "blocks": {
+        "promise_shipping": {
+          "type": "promise",
+          "settings": {
+            "icon": "cart",
+            "title": "Free Shipping",
+            "text": "On orders over ₹999"
+          }
+        },
+        "promise_cod": {
+          "type": "promise",
+          "settings": {
+            "icon": "cash",
+            "title": "COD Available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "promise_returns": {
+          "type": "promise",
+          "settings": {
+            "icon": "return",
+            "title": "No Question Asked",
+            "text": "Returns & Exchange"
+          }
+        },
+        "pay_upi": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "UPI",
+            "italic": false
+          }
+        },
+        "pay_visa": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "VISA",
+            "italic": true
+          }
+        },
+        "pay_mc": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "Mastercard",
+            "italic": false
+          }
+        },
+        "pay_rupay": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "RuPay",
+            "italic": false
+          }
+        }
+      },
+      "block_order": [
+        "promise_shipping",
+        "promise_cod",
+        "promise_returns",
+        "pay_upi",
+        "pay_visa",
+        "pay_mc",
+        "pay_rupay"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "columns": 3,
+        "protection_text": "100% Payment Protection, Easy Return Policy",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related-products",
+    "sk_trust"
+  ]
+}

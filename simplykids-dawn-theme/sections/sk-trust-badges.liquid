@@ -1,0 +1,244 @@
+{%- comment -%}
+  Simply Kids — Trust badges + payment marks.
+  The band that closes every page of the affiliate site: shipping / COD /
+  returns promises, the payment-protection line and accepted payment marks.
+  Promise items and payment marks are blocks, and the icons are inline SVG so
+  no extra request is made.
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .sk-trust-grid {
+    grid-template-columns: repeat({{ section.settings.columns }}, minmax(0, 1fr));
+  }
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} .sk-trust-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign promises = section.blocks | where: 'type', 'promise'
+  assign marks = section.blocks | where: 'type', 'payment_mark'
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="section-{{ section.id }}-padding">
+    {%- if promises.size > 0 -%}
+      <div class="page-width sk-trust-grid">
+        {%- for block in promises -%}
+          <div {{ block.shopify_attributes }}>
+            {%- case block.settings.icon -%}
+              {%- when 'cart' -%}
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+                  <path d="M3 3h2l2.4 12.2a2 2 0 002 1.8h8.2a2 2 0 002-1.6L21 8H6"/>
+                  <circle cx="9" cy="20" r="1.4" fill="currentColor"/>
+                  <circle cx="17" cy="20" r="1.4" fill="currentColor"/>
+                </svg>
+              {%- when 'cash' -%}
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+                  <rect x="2" y="7" width="20" height="11" rx="1.5"/>
+                  <circle cx="12" cy="12.5" r="2.5"/>
+                  <path d="M2 10h2M20 10h2M2 15h2M20 15h2"/>
+                </svg>
+              {%- when 'return' -%}
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+                  <path d="M4 12a8 8 0 0114-5.3M20 12a8 8 0 01-14 5.3"/>
+                  <path d="M18 3v4h-4M6 21v-4h4"/>
+                </svg>
+              {%- when 'truck' -%}
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+                  <path d="M2 7h11v10H2zM13 10h4l4 3.5V17h-8z"/>
+                  <circle cx="6.5" cy="19" r="1.6"/>
+                  <circle cx="17.5" cy="19" r="1.6"/>
+                </svg>
+              {%- when 'leaf' -%}
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+                  <path d="M4 20c0-8 5-14 16-15 0 10-5 15-12 15H4z"/>
+                  <path d="M9 16c2-4 5-6 9-7"/>
+                </svg>
+              {%- when 'shield' -%}
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
+                  <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>
+                  <path d="M9 12l2 2 4-4"/>
+                </svg>
+            {%- endcase -%}
+            <strong>{{ block.settings.title | escape }}</strong>
+            <span>{{ block.settings.text | escape }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.protection_text != blank or marks.size > 0 -%}
+      <div class="page-width sk-center">
+        {%- if section.settings.protection_text != blank -%}
+          <span class="sk-eyebrow sk-trust-lock">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+              <rect x="4" y="10" width="16" height="10" rx="2"/>
+              <path d="M8 10V7a4 4 0 018 0v3"/>
+            </svg>
+            {{ section.settings.protection_text | escape }}
+          </span>
+        {%- endif -%}
+
+        {%- if marks.size > 0 -%}
+          <div class="sk-payment-row">
+            {%- for block in marks -%}
+              <span
+                class="sk-payment-mark{% if block.settings.italic %} sk-payment-mark--visa{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                {{- block.settings.label | escape -}}
+              </span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Trust badges",
+  "tag": "section",
+  "class": "section sk-shopify-section",
+  "max_blocks": 16,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Promise columns on desktop",
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "protection_text",
+      "label": "Payment protection line",
+      "default": "100% Payment Protection, Easy Return Policy"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promise",
+      "name": "Promise",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "cart", "label": "Cart" },
+            { "value": "cash", "label": "Cash" },
+            { "value": "return", "label": "Return" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "shield", "label": "Shield" }
+          ],
+          "default": "cart"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "On orders over ₹999"
+        }
+      ]
+    },
+    {
+      "type": "payment_mark",
+      "name": "Payment mark",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "UPI"
+        },
+        {
+          "type": "checkbox",
+          "id": "italic",
+          "label": "Italic",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Trust badges",
+      "blocks": [
+        {
+          "type": "promise",
+          "settings": { "icon": "cart", "title": "Free Shipping", "text": "On orders over ₹999" }
+        },
+        {
+          "type": "promise",
+          "settings": { "icon": "cash", "title": "COD Available", "text": "Pay when it arrives" }
+        },
+        {
+          "type": "promise",
+          "settings": { "icon": "return", "title": "No Question Asked", "text": "Returns & Exchange" }
+        },
+        { "type": "payment_mark", "settings": { "label": "UPI" } },
+        { "type": "payment_mark", "settings": { "label": "VISA", "italic": true } },
+        { "type": "payment_mark", "settings": { "label": "Mastercard" } },
+        { "type": "payment_mark", "settings": { "label": "RuPay" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,218 @@
+{
+  "sections": {
+    "sk_science": {
+      "type": "sk-science-stats",
+      "blocks": {
+        "t_ph": {
+          "type": "text",
+          "settings": {
+            "heading": "pH 5.5-balanced",
+            "text": "<p>A child's acid mantle is still developing. Every formula sits at the same pH as healthy skin, so it cleans without stripping.</p>"
+          }
+        },
+        "t_derm": {
+          "type": "text",
+          "settings": {
+            "heading": "Dermatologically tested",
+            "text": "<p>Every product is tested for safety on young skin, then tested again on children in the 4–12 range — not on adults and scaled down.</p>"
+          }
+        },
+        "chips": {
+          "type": "chips",
+          "settings": {
+            "heading": "Nani's botanicals, validated",
+            "chips": "Bhringraj | Strengthens the hair shaft from root to tip.\nJapa (Hibiscus) | Adds shine and softness.\nJatamansi | Soothes an irritated scalp.\nHaldi | Calms and clarifies skin.\nNeem | Naturally purifying.\nTulsi | Gently refreshes and soothes."
+          }
+        },
+        "t_leaveout": {
+          "type": "text",
+          "settings": {
+            "heading": "What we leave out",
+            "text": "<ul><li>No parabens, sulphates or phthalates</li><li>No harsh actives a young barrier isn't ready for</li><li>Vegan and cruelty-free, made in India</li></ul>"
+          }
+        },
+        "stats": {
+          "type": "stats",
+          "settings": {
+            "heading": "",
+            "col_1": "Result",
+            "col_2": "Product",
+            "col_3": "Study",
+            "rows": "95% smoother hair | Hair Oil | 4-week\n93% fewer rashes | Body Wash | from first wash\n94% less chapped skin | Body Lotion | 4-week\n95% reduced hair fall | Shampoo | 4-week",
+            "disclaimer": "*Based on a self-assessed consumer study. Individual results vary."
+          }
+        }
+      },
+      "block_order": [
+        "t_ph",
+        "t_derm",
+        "chips",
+        "t_leaveout",
+        "stats"
+      ],
+      "settings": {
+        "color_scheme": "scheme-7",
+        "eyebrow": "Why 4 to 12 matters",
+        "heading": "Proven gentle. Actually effective.",
+        "heading_tag": "h1",
+        "heading_size": "h0",
+        "intro": "<p>Baby formulas stop working by age four. Adult formulas are too harsh until well past twelve. We formulate for the nine years everyone else skips.</p>",
+        "max_width": 80,
+        "button_label": "Shop the range",
+        "button_link": "shopify://collections/all",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "sk_page_body": {
+      "type": "sk-page-content",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "max_width": 80,
+        "center": true,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "sk_medallions": {
+      "type": "sk-medallion-row",
+      "blocks": {
+        "badge_derm": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-dermatologically-tested.svg",
+            "label": "Dermatologically Tested"
+          }
+        },
+        "badge_ph": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-ph-balanced.svg",
+            "label": "pH 5.5 Balanced"
+          }
+        },
+        "badge_vegan": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-vegan-cruelty-free.svg",
+            "label": "Vegan & Cruelty-Free"
+          }
+        },
+        "badge_india": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-made-in-india.svg",
+            "label": "Made in India"
+          }
+        },
+        "badge_dpiit": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-dpiit-recognised.svg",
+            "label": "DPIIT Recognised"
+          }
+        },
+        "badge_udyam": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-udyam-registered.svg",
+            "label": "Udyam Registered"
+          }
+        }
+      },
+      "block_order": [
+        "badge_derm",
+        "badge_ph",
+        "badge_vegan",
+        "badge_india",
+        "badge_dpiit",
+        "badge_udyam"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "badge_size": 90,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "sk_trust": {
+      "type": "sk-trust-badges",
+      "blocks": {
+        "promise_shipping": {
+          "type": "promise",
+          "settings": {
+            "icon": "cart",
+            "title": "Free Shipping",
+            "text": "On orders over ₹999"
+          }
+        },
+        "promise_cod": {
+          "type": "promise",
+          "settings": {
+            "icon": "cash",
+            "title": "COD Available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "promise_returns": {
+          "type": "promise",
+          "settings": {
+            "icon": "return",
+            "title": "No Question Asked",
+            "text": "Returns & Exchange"
+          }
+        },
+        "pay_upi": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "UPI",
+            "italic": false
+          }
+        },
+        "pay_visa": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "VISA",
+            "italic": true
+          }
+        },
+        "pay_mc": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "Mastercard",
+            "italic": false
+          }
+        },
+        "pay_rupay": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "RuPay",
+            "italic": false
+          }
+        }
+      },
+      "block_order": [
+        "promise_shipping",
+        "promise_cod",
+        "promise_returns",
+        "pay_upi",
+        "pay_visa",
+        "pay_mc",
+        "pay_rupay"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "columns": 3,
+        "protection_text": "100% Payment Protection, Easy Return Policy",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "sk_science",
+    "sk_page_body",
+    "sk_medallions",
+    "sk_trust"
+  ]
+}

@@ -1,0 +1,115 @@
+{%- comment -%}
+  Simply Kids product card.
+
+  Renders a real Shopify product in the affiliate design (rounded media, save
+  pill, strikethrough compare-at price, "Add to bag"). Add-to-cart posts to
+  Shopify's own Cart AJAX API through <sk-quick-add>, and hands the response to
+  Dawn's cart drawer / cart notification, so nothing about Dawn's cart is
+  re-implemented here. With JavaScript unavailable the form posts normally to
+  /cart/add, which is Shopify's standard non-JS path.
+
+  Accepts:
+    product        {Object}  required — a Shopify product
+    show_rating    {Boolean} show the metafield / review star line
+    show_add       {Boolean} render the add-to-bag form
+    show_tax_note  {Boolean} show the "Incl. of all taxes" note
+    show_badge     {Boolean} show the "Save x%" pill
+{%- endcomment -%}
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+    assign save_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price
+  endif
+-%}
+
+<div class="sk-product-card">
+  {%- if show_badge and on_sale -%}
+    <span class="sk-pill sk-pill--save sk-product-card__badge">
+      {{- 'sk.product_card.save' | t }} {{ save_pct }}%
+    </span>
+  {%- endif -%}
+
+  <a class="sk-product-card__media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+    {%- if product.featured_media -%}
+      {{
+        product.featured_media
+        | image_url: width: 900
+        | image_tag:
+          loading: 'lazy',
+          widths: '300, 450, 600, 750, 900',
+          sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+          alt: product.featured_media.alt
+      }}
+    {%- else -%}
+      {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </a>
+
+  {%- if show_rating and product.metafields.reviews.rating.value != blank -%}
+    {%- liquid
+      assign rating = product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value
+      assign rating_count = product.metafields.reviews.rating_count.value
+      assign rating_rounded = rating | round
+    -%}
+    <div class="sk-product-card__rating">
+      <span aria-hidden="true">
+        {%- for i in (1..5) -%}{% if i <= rating_rounded %}&#9733;{% else %}&#9734;{% endif %}{%- endfor -%}
+      </span>
+      <span class="visually-hidden">
+        {{- 'accessibility.star_reviews_info' | t: rating_value: rating, rating_max: 5 -}}
+      </span>
+      {%- if rating_count -%}
+        {{ rating_count }} {{ 'sk.product_card.reviews' | t }}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <h3 class="sk-product-card__title">
+    <a href="{{ product.url }}">{{ product.title | escape }}</a>
+  </h3>
+
+  <div class="sk-product-card__price">
+    {%- if on_sale -%}
+      <s>{{ product.compare_at_price | money }}</s>
+    {%- endif -%}
+    <strong>{{ product.price | money }}</strong>
+    {%- if show_tax_note -%}
+      <span class="sk-product-card__tax">{{ 'sk.product_card.tax_note' | t }}</span>
+    {%- endif -%}
+  </div>
+
+  {%- if show_add -%}
+    <div class="sk-product-card__actions">
+      {%- if product.variants.size > 1 -%}
+        <a class="sk-btn sk-btn--primary" href="{{ product.url }}">
+          {{- 'products.product.choose_options' | t -}}
+        </a>
+      {%- elsif variant.available == false -%}
+        <button class="sk-btn sk-btn--primary" type="button" disabled>
+          {{- 'products.product.sold_out' | t -}}
+        </button>
+      {%- else -%}
+        <sk-quick-add>
+          {%- assign sk_form_id = 'SkQuickAdd-' | append: product.id -%}
+          {%- form 'product',
+            product,
+            id: sk_form_id,
+            class: 'sk-quick-add-form',
+            data-sk-quick-add-form: 'true',
+            novalidate: 'novalidate'
+          -%}
+            <input type="hidden" name="id" value="{{ variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" name="add" class="sk-btn sk-btn--primary sk-btn--full">
+              {{- 'sk.product_card.add_to_bag' | t -}}
+            </button>
+            <small class="sk-product-card__error" data-sk-quick-add-error role="status"></small>
+          {%- endform -%}
+        </sk-quick-add>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>

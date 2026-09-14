@@ -1,0 +1,225 @@
+{%- comment -%}
+  Simply Kids — Community tools.
+  Two small interactive widgets from the affiliate Community page:
+    • "What does their skin need today?" — a date of birth maps to an age band
+      and its care tip (<sk-dob-tip>).
+    • "What should I draw today?" — a random creativity prompt
+      (<sk-creativity-spark>).
+  Both are client-side only; nothing is stored or sent anywhere.
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank -%}
+      <div class="sk-center" style="margin-bottom: 1.6rem;">
+        <h2 class="sk-section__title h2">{{ section.settings.heading | escape }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="sk-grid sk-grid--2" style="max-width: 80rem; margin: 0 auto;">
+      {%- if section.settings.show_dob_tool -%}
+        <sk-dob-tip class="sk-card sk-form sk-form--plain" style="display: block; padding: 2.8rem;">
+          <h3>{{ section.settings.dob_heading | escape }}</h3>
+          <label for="SkDob-{{ section.id }}">{{ section.settings.dob_label | escape }}</label>
+          <input id="SkDob-{{ section.id }}" type="date" style="border-radius: 12px;">
+          <div class="sk-spark-output" data-sk-dob-output role="status">{{ section.settings.dob_empty | escape }}</div>
+          <button type="button" class="sk-btn sk-btn--primary sk-btn--full" data-sk-dob-button>
+            {{- section.settings.dob_button | escape -}}
+          </button>
+          <script type="application/json" data-sk-dob-tips>
+            {
+              "empty": {{ section.settings.dob_empty | json }},
+              "under": {{ section.settings.dob_tip_under | json }},
+              "4-6": {{ section.settings.dob_tip_4_6 | json }},
+              "7-9": {{ section.settings.dob_tip_7_9 | json }},
+              "10-12": {{ section.settings.dob_tip_10_12 | json }},
+              "over": {{ section.settings.dob_tip_over | json }}
+            }
+          </script>
+        </sk-dob-tip>
+      {%- endif -%}
+
+      {%- if section.settings.show_spark_tool -%}
+        <sk-creativity-spark class="sk-card" style="display: block;">
+          <h3>{{ section.settings.spark_heading | escape }}</h3>
+          <div class="sk-spark-output" data-sk-spark-output role="status">
+            {%- assign first_idea = section.settings.spark_ideas | newline_to_br | split: '<br />' | first | strip -%}
+            {{ first_idea | escape }}
+          </div>
+          <button type="button" class="sk-btn sk-btn--primary sk-btn--full" data-sk-spark-button>
+            {{- section.settings.spark_button | escape -}}
+          </button>
+          {%- assign ideas = section.settings.spark_ideas | newline_to_br | strip_newlines | split: '<br />' -%}
+          <script type="application/json" data-sk-spark-ideas>
+            [
+              {%- for idea in ideas -%}
+                {%- assign trimmed = idea | strip -%}
+                {%- if trimmed != blank -%}
+                  {{ trimmed | json }}{% unless forloop.last %},{% endunless %}
+                {%- endif -%}
+              {%- endfor -%}
+            ]
+          </script>
+        </sk-creativity-spark>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Community tools",
+  "tag": "section",
+  "class": "section sk-shopify-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Two little things to play with"
+    },
+    {
+      "type": "header",
+      "content": "Care tip finder"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dob_tool",
+      "label": "Show the care tip finder",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "dob_heading",
+      "label": "Heading",
+      "default": "What does their skin need today?"
+    },
+    {
+      "type": "text",
+      "id": "dob_label",
+      "label": "Field label",
+      "default": "Child's date of birth"
+    },
+    {
+      "type": "text",
+      "id": "dob_button",
+      "label": "Button label",
+      "default": "Show my tip"
+    },
+    {
+      "type": "text",
+      "id": "dob_empty",
+      "label": "Empty state",
+      "default": "Pick a date of birth to see today's tip."
+    },
+    {
+      "type": "textarea",
+      "id": "dob_tip_under",
+      "label": "Tip — under 4",
+      "default": "Our range starts at age four. Until then, stick to a baby-specific wash and a light moisturiser."
+    },
+    {
+      "type": "textarea",
+      "id": "dob_tip_4_6",
+      "label": "Tip — ages 4–6",
+      "default": "Little Explorers: keep it tear-free and simple. A quick body wash, the 2-in-1 shampoo on wash days, and lotion straight after the bath."
+    },
+    {
+      "type": "textarea",
+      "id": "dob_tip_7_9",
+      "label": "Tip — ages 7–9",
+      "default": "Big Kids: after a full day outdoors, cleanse properly and follow with lotion on knees, elbows and shins."
+    },
+    {
+      "type": "textarea",
+      "id": "dob_tip_10_12",
+      "label": "Tip — ages 10–12",
+      "default": "Tweens: hair gets oilier around now. Shampoo a little more often, and keep the scalp oil to the night before wash day."
+    },
+    {
+      "type": "textarea",
+      "id": "dob_tip_over",
+      "label": "Tip — over 12",
+      "default": "Past twelve, skin behaves closer to adult skin — our formulas are still gentle, just no longer targeted."
+    },
+    {
+      "type": "header",
+      "content": "Creativity spark"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_spark_tool",
+      "label": "Show the creativity spark",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "spark_heading",
+      "label": "Heading",
+      "default": "What should I draw today?"
+    },
+    {
+      "type": "text",
+      "id": "spark_button",
+      "label": "Button label",
+      "default": "Give me an idea"
+    },
+    {
+      "type": "textarea",
+      "id": "spark_ideas",
+      "label": "Ideas",
+      "info": "One idea per line.",
+      "default": "Draw your favourite animal wearing a superhero cape.\nDraw the treehouse you would build in the garden.\nDraw what your bath time looks like on a rainy day.\nDraw a robot whose job is to brush hair.\nDraw the biggest bubble you have ever seen.\nDraw your family as sea creatures.\nDraw a plant that grows sweets instead of flowers."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Community tools"
+    }
+  ]
+}
+{% endschema %}

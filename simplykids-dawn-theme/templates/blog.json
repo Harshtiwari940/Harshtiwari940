@@ -1,0 +1,125 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "layout": "collage",
+        "show_image": true,
+        "image_height": "medium",
+        "show_date": true,
+        "show_author": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "sk_hero": {
+      "type": "sk-page-hero",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "text_align": "center",
+        "narrow": true,
+        "eyebrow": "The Journal",
+        "heading": "",
+        "heading_tag": "h1",
+        "heading_size": "h0",
+        "text": "<p>Skincare science, routines, and honest parenting notes — written for the age group everyone else skips.</p>",
+        "padding_top": 80,
+        "padding_bottom": 0,
+        "show_heading": false
+      }
+    },
+    "sk_newsletter": {
+      "type": "sk-newsletter-offer",
+      "settings": {
+        "color_scheme": "scheme-12",
+        "heading": "10% off your first order",
+        "heading_size": "h1",
+        "subheading": "Expert tips, new launches, and stories for growing kids. No spam — ever.",
+        "placeholder": "your@email.com",
+        "button_label": "Subscribe",
+        "success_text": "Thanks — your discount is on its way to your inbox.",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "sk_trust": {
+      "type": "sk-trust-badges",
+      "blocks": {
+        "promise_shipping": {
+          "type": "promise",
+          "settings": {
+            "icon": "cart",
+            "title": "Free Shipping",
+            "text": "On orders over ₹999"
+          }
+        },
+        "promise_cod": {
+          "type": "promise",
+          "settings": {
+            "icon": "cash",
+            "title": "COD Available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "promise_returns": {
+          "type": "promise",
+          "settings": {
+            "icon": "return",
+            "title": "No Question Asked",
+            "text": "Returns & Exchange"
+          }
+        },
+        "pay_upi": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "UPI",
+            "italic": false
+          }
+        },
+        "pay_visa": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "VISA",
+            "italic": true
+          }
+        },
+        "pay_mc": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "Mastercard",
+            "italic": false
+          }
+        },
+        "pay_rupay": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "RuPay",
+            "italic": false
+          }
+        }
+      },
+      "block_order": [
+        "promise_shipping",
+        "promise_cod",
+        "promise_returns",
+        "pay_upi",
+        "pay_visa",
+        "pay_mc",
+        "pay_rupay"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "columns": 3,
+        "protection_text": "100% Payment Protection, Easy Return Policy",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "sk_hero",
+    "main",
+    "sk_newsletter",
+    "sk_trust"
+  ]
+}

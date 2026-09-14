@@ -1,0 +1,194 @@
+{%- comment -%}
+  Simply Kids — Full-bleed photo break with a radial scrim and centred copy.
+{%- endcomment -%}
+
+{%- liquid
+  assign overlay = section.settings.overlay_color | default: '#001e3a'
+  assign alpha_center = section.settings.overlay_opacity_center | divided_by: 100.0
+  assign alpha_mid = section.settings.overlay_opacity_mid | divided_by: 100.0
+  assign alpha_edge = section.settings.overlay_opacity_edge | divided_by: 100.0
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} .sk-photo-break {
+    min-height: {{ section.settings.min_height_mobile }}vh;
+  }
+
+  #shopify-section-{{ section.id }} .sk-photo-break__scrim {
+    background: radial-gradient(
+      ellipse at center,
+      {{ overlay | color_modify: 'alpha', alpha_center }} 0%,
+      {{ overlay | color_modify: 'alpha', alpha_mid }} 55%,
+      {{ overlay | color_modify: 'alpha', alpha_edge }} 100%
+    );
+  }
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .sk-photo-break {
+      min-height: {{ section.settings.min_height }}vh;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign sk_break_alt = section.settings.image.alt
+  if sk_break_alt == blank
+    assign sk_break_alt = section.settings.heading
+  endif
+-%}
+
+<div class="sk-photo-break">
+  <div class="sk-photo-break__media">
+    {%- if section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: 2400
+        | image_tag:
+          loading: 'lazy',
+          widths: '600, 900, 1200, 1600, 2000, 2400',
+          sizes: '100vw',
+          alt: sk_break_alt
+      }}
+    {%- else -%}
+      <img
+        src="{{ 'sk-photo-break.jpg' | asset_url }}"
+        alt="{{ sk_break_alt | escape }}"
+        width="2400"
+        height="1350"
+        loading="lazy"
+      >
+    {%- endif -%}
+  </div>
+
+  <div class="sk-photo-break__scrim" aria-hidden="true"></div>
+
+  <div class="sk-photo-break__content{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2>{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p>{{ section.settings.text | escape }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a
+        class="sk-btn sk-btn--hero"
+        style="margin-top: 2.4rem;"
+        {% if section.settings.button_link == blank %}
+          role="link" aria-disabled="true"
+        {% else %}
+          href="{{ section.settings.button_link }}"
+        {% endif %}
+      >
+        {{- section.settings.button_label | escape -}}
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Photo break",
+  "tag": "section",
+  "class": "sk-shopify-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image",
+      "info": "Falls back to the packaged Simply Kids lifestyle photo when empty."
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Minimum height (desktop)",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Minimum height (mobile)",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#001e3a"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity_center",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Overlay opacity — centre",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity_mid",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Overlay opacity — middle",
+      "default": 82
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity_edge",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "%",
+      "label": "Overlay opacity — edge",
+      "default": 92
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Why 4 to 12 matters"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Baby care's too mild. Adult care's too harsh."
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "We formulate for the nine years everyone else skips — tested on the children it's actually made for, not adults scaled down."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Photo break"
+    }
+  ]
+}
+{% endschema %}

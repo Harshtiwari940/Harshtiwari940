@@ -1,0 +1,91 @@
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "custom_liquid_WE4NNc": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "newsletter_enable": true,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "sk_footer_brand": {
+      "type": "sk-footer-brand",
+      "blocks": {
+        "col_shop": {
+          "type": "menu",
+          "settings": {
+            "heading": "Shop",
+            "menu": ""
+          }
+        },
+        "col_story": {
+          "type": "menu",
+          "settings": {
+            "heading": "Our Story",
+            "menu": ""
+          }
+        },
+        "col_policies": {
+          "type": "policies",
+          "settings": {
+            "heading": "Policies"
+          }
+        },
+        "col_care": {
+          "type": "care",
+          "settings": {
+            "heading": "Care",
+            "phone": "+91-6297450751",
+            "email": "support@simplykids.in",
+            "address": "Primarc Chambers, Unit OU-114, 1839 Laskarhat, Tagore Park, E. M. Bypass, Kolkata – 700039",
+            "show_social": true
+          }
+        }
+      },
+      "block_order": [
+        "col_shop",
+        "col_story",
+        "col_policies",
+        "col_care"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-10",
+        "logo_height": 32,
+        "blurb": "<p>Proven, gentle self-care made only for growing kids, ages 4–12. Nani's love, clinically kept.</p>",
+        "corner_radius": 24,
+        "legal_entity": "a division of Omakase Enterprises LLP",
+        "bottom_note": "Free shipping over ₹999 · Ships across India",
+        "margin_top": 64,
+        "padding_top": 64,
+        "padding_bottom": 32
+      }
+    }
+  },
+  "order": [
+    "custom_liquid_WE4NNc",
+    "footer",
+    "sk_footer_brand"
+  ]
+}

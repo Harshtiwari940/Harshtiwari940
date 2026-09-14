@@ -1,0 +1,152 @@
+{
+  "sections": {
+    "sk_hero": {
+      "type": "sk-page-hero",
+      "settings": {
+        "show_heading": true,
+        "color_scheme": "scheme-3",
+        "text_align": "center",
+        "narrow": true,
+        "eyebrow": "Affiliate Programme",
+        "heading": "Share Simply Kids, earn on every order.",
+        "heading_tag": "h1",
+        "heading_size": "h0",
+        "text": "<p>Join our affiliate programme and earn a commission on every sale you refer — perfect for parenting creators, mom bloggers, and communities who already love us.</p>",
+        "button_label": "Apply to become an affiliate",
+        "button_link": "",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "sk_steps": {
+      "type": "sk-card-grid",
+      "blocks": {
+        "step1": {
+          "type": "card",
+          "settings": {
+            "title": "Sign up free",
+            "tone": "white",
+            "text": "<p>Apply in minutes through our affiliate portal — no cost to join.</p>"
+          }
+        },
+        "step2": {
+          "type": "card",
+          "settings": {
+            "title": "Share your link",
+            "tone": "white",
+            "text": "<p>Get a unique referral link and creative assets to share with your audience.</p>"
+          }
+        },
+        "step3": {
+          "type": "card",
+          "settings": {
+            "title": "Earn commission",
+            "tone": "white",
+            "text": "<p>Track clicks and sales in real time, and get paid on every order you drive.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "step1",
+        "step2",
+        "step3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "sk_page_body": {
+      "type": "sk-page-content",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "max_width": 80,
+        "center": true,
+        "padding_top": 0,
+        "padding_bottom": 48
+      }
+    },
+    "sk_trust": {
+      "type": "sk-trust-badges",
+      "blocks": {
+        "promise_shipping": {
+          "type": "promise",
+          "settings": {
+            "icon": "cart",
+            "title": "Free Shipping",
+            "text": "On orders over ₹999"
+          }
+        },
+        "promise_cod": {
+          "type": "promise",
+          "settings": {
+            "icon": "cash",
+            "title": "COD Available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "promise_returns": {
+          "type": "promise",
+          "settings": {
+            "icon": "return",
+            "title": "No Question Asked",
+            "text": "Returns & Exchange"
+          }
+        },
+        "pay_upi": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "UPI",
+            "italic": false
+          }
+        },
+        "pay_visa": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "VISA",
+            "italic": true
+          }
+        },
+        "pay_mc": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "Mastercard",
+            "italic": false
+          }
+        },
+        "pay_rupay": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "RuPay",
+            "italic": false
+          }
+        }
+      },
+      "block_order": [
+        "promise_shipping",
+        "promise_cod",
+        "promise_returns",
+        "pay_upi",
+        "pay_visa",
+        "pay_mc",
+        "pay_rupay"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "columns": 3,
+        "protection_text": "100% Payment Protection, Easy Return Policy",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "sk_hero",
+    "sk_steps",
+    "sk_page_body",
+    "sk_trust"
+  ]
+}

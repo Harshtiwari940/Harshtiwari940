@@ -1,0 +1,162 @@
+{
+  "sections": {
+    "sk_hero": {
+      "type": "sk-page-hero",
+      "settings": {
+        "show_heading": true,
+        "color_scheme": "scheme-3",
+        "text_align": "center",
+        "narrow": true,
+        "eyebrow": "Have Queries or Concerns?",
+        "heading": "We're here to help",
+        "heading_tag": "h1",
+        "heading_size": "h0",
+        "text": "<p>Reach us any way that's easiest for you — we usually reply within one business day.</p>",
+        "padding_top": 80,
+        "padding_bottom": 64
+      }
+    },
+    "sk_page_body": {
+      "type": "sk-page-content",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "max_width": 80,
+        "center": true,
+        "padding_top": 0,
+        "padding_bottom": 24
+      }
+    },
+    "sk_contact": {
+      "type": "sk-contact-split",
+      "blocks": {
+        "d_phone": {
+          "type": "detail",
+          "settings": {
+            "label": "Phone",
+            "value": "+91-6297450751",
+            "link": "tel:+916297450751"
+          }
+        },
+        "d_email": {
+          "type": "detail",
+          "settings": {
+            "label": "Email",
+            "value": "support@simplykids.in",
+            "link": "mailto:support@simplykids.in"
+          }
+        },
+        "d_office": {
+          "type": "detail",
+          "settings": {
+            "label": "Registered Office",
+            "value": "Omakase Enterprises LLP, Primarc Chambers, Unit OU-114, 1839 Laskarhat, Tagore Park, E. M. Bypass, Kolkata – 700039"
+          }
+        },
+        "d_whatsapp": {
+          "type": "detail",
+          "settings": {
+            "label": "WhatsApp",
+            "value": "Tap the chat button in the corner of any page for a quick reply."
+          }
+        }
+      },
+      "block_order": [
+        "d_phone",
+        "d_email",
+        "d_office",
+        "d_whatsapp"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "form_heading": "Write to us",
+        "form_text": "<p>Send your order number and query, and our team will get back to you.</p>",
+        "show_phone": true,
+        "show_order_number": true,
+        "order_number_label": "Order number (optional)",
+        "button_label": "Send message",
+        "details_heading": "Other ways to reach us",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "sk_trust": {
+      "type": "sk-trust-badges",
+      "blocks": {
+        "promise_shipping": {
+          "type": "promise",
+          "settings": {
+            "icon": "cart",
+            "title": "Free Shipping",
+            "text": "On orders over ₹999"
+          }
+        },
+        "promise_cod": {
+          "type": "promise",
+          "settings": {
+            "icon": "cash",
+            "title": "COD Available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "promise_returns": {
+          "type": "promise",
+          "settings": {
+            "icon": "return",
+            "title": "No Question Asked",
+            "text": "Returns & Exchange"
+          }
+        },
+        "pay_upi": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "UPI",
+            "italic": false
+          }
+        },
+        "pay_visa": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "VISA",
+            "italic": true
+          }
+        },
+        "pay_mc": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "Mastercard",
+            "italic": false
+          }
+        },
+        "pay_rupay": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "RuPay",
+            "italic": false
+          }
+        }
+      },
+      "block_order": [
+        "promise_shipping",
+        "promise_cod",
+        "promise_returns",
+        "pay_upi",
+        "pay_visa",
+        "pay_mc",
+        "pay_rupay"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "columns": 3,
+        "protection_text": "100% Payment Protection, Easy Return Policy",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "sk_hero",
+    "sk_page_body",
+    "sk_contact",
+    "sk_trust"
+  ]
+}

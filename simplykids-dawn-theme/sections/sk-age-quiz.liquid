@@ -1,0 +1,186 @@
+{%- comment -%}
+  Simply Kids — Age quiz banner.
+  Tap an age band, get the matching stage copy and CTA. Each option is a block
+  carrying its own result, so the merchant can add, remove or reword stages.
+  Behaviour lives in <sk-age-quiz> (assets/simplykids.js); with JavaScript off
+  the first result stays visible, so the section never renders empty.
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <sk-age-quiz class="sk-quiz" style="max-width: {{ section.settings.max_width }}rem;">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="sk-quiz__title">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="sk-quiz__sub">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.prompt != blank -%}
+        <p class="sk-quiz__prompt">{{ section.settings.prompt | escape }}</p>
+      {%- endif -%}
+
+      <div class="sk-quiz__options" role="group" aria-label="{{ section.settings.prompt | default: 'Choose an age' | escape }}">
+        {%- for block in section.blocks -%}
+          <button
+            type="button"
+            class="sk-quiz__opt"
+            data-sk-quiz-option="{{ block.id }}"
+            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            {{- block.settings.label | escape -}}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        <div
+          class="sk-quiz__result"
+          data-sk-quiz-result="{{ block.id }}"
+          role="status"
+          {% unless forloop.first %}hidden{% endunless %}
+        >
+          {%- if block.settings.result != blank -%}
+            {{ block.settings.result }}
+          {%- endif -%}
+          {%- if block.settings.button_label != blank -%}
+            <a
+              class="sk-btn sk-btn--primary"
+              {% if block.settings.button_link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ block.settings.button_link }}"
+              {% endif %}
+            >
+              {{- block.settings.button_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </sk-age-quiz>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Age quiz",
+  "tag": "section",
+  "class": "section sk-shopify-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Let's build the perfect routine"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Tap their age — we'll match the stage."
+    },
+    {
+      "type": "text",
+      "id": "prompt",
+      "label": "Question",
+      "default": "How old is your child?"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 60,
+      "max": 130,
+      "step": 2,
+      "unit": "rem",
+      "label": "Maximum width",
+      "default": 124
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "age",
+      "name": "Age option",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button label",
+          "default": "4–6"
+        },
+        {
+          "type": "richtext",
+          "id": "result",
+          "label": "Result copy",
+          "default": "<p>Little Explorers: gentle, tear-free, and simple enough for them to start doing it themselves.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "See their routine"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Age quiz",
+      "blocks": [
+        { "type": "age" },
+        { "type": "age" },
+        { "type": "age" }
+      ]
+    }
+  ]
+}
+{% endschema %}

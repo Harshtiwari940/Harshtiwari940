@@ -1,0 +1,4 @@
+# Build output — regenerate with:
+#   cd simplykids-dawn-theme && zip -r -X ../simplykids-dawn-theme.zip \
+#     assets config layout locales sections snippets templates
+simplykids-dawn-theme.zip

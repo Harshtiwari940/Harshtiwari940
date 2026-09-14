@@ -1,0 +1,579 @@
+{% comment %}
+  SimplyKids — Quick-Add Product Grid
+  Conscious Food-style cards: ADD button that flips into a − qty + stepper,
+  synced with the live cart. Self-contained: no other theme files required.
+
+  Optional per-product metafields (Settings > Custom data > Products):
+    custom.card_tagline (single line text)  e.g. "Clinically Tested | Non-Toxic"
+    custom.card_size    (single line text)  e.g. "175 ml"
+{% endcomment %}
+
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .skqa-section {
+    --skqa-ink: #20262b;
+    --skqa-pink: #c7106e;
+    --skqa-pink-bright: #e81888;
+    --skqa-blue: #20b0e0;
+    --skqa-blue-deep: #0b7ca6;
+    --skqa-gray: #6d737a;
+    --skqa-gold: #a87b0f;
+    --skqa-tint-pink: #fdf0f7;
+    --skqa-tint-blue: #eaf6fb;
+    color: var(--skqa-ink);
+  }
+
+  .skqa-section .skqa-heading {
+    margin: 0 0 0.6rem;
+    font-size: calc(var(--font-heading-scale) * 2.4rem);
+    color: var(--skqa-ink);
+  }
+
+  .skqa-heading-accent {
+    display: block;
+    width: 6rem;
+    height: 0.4rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--skqa-blue), var(--skqa-pink-bright));
+    margin: 0 0 2.4rem;
+  }
+
+  .skqa-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--skqa-cols-mobile, 2), 1fr);
+    gap: 2.4rem 1.6rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media screen and (min-width: 990px) {
+    .skqa-grid {
+      grid-template-columns: repeat(var(--skqa-cols, 4), 1fr);
+      gap: 3.2rem 2.4rem;
+    }
+  }
+
+  .skqa-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .skqa-card__media {
+    position: relative;
+    display: block;
+    border-radius: 1.4rem;
+    overflow: hidden;
+    background: var(--skqa-tint-blue);
+  }
+
+  .skqa-card__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.4s ease;
+  }
+
+  .skqa-card__media:hover .skqa-card__img {
+    transform: scale(1.04);
+  }
+
+  .skqa-badge {
+    position: absolute;
+    z-index: 1;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+  }
+
+  .skqa-badge--sale {
+    top: 1rem;
+    left: 1rem;
+    background: var(--skqa-pink-bright);
+    color: #fff;
+  }
+
+  .skqa-badge--size {
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--skqa-blue-deep);
+  }
+
+  .skqa-card__title {
+    margin: 1.2rem 0 0.3rem;
+    font-size: 1.5rem;
+    line-height: 1.35;
+  }
+
+  .skqa-card__title a {
+    color: var(--skqa-ink);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .skqa-card__title a:hover {
+    color: var(--skqa-pink);
+  }
+
+  .skqa-card__tagline {
+    margin: 0 0 0.8rem;
+    font-size: 1.2rem;
+    color: var(--skqa-gray);
+  }
+
+  .skqa-card__price {
+    margin: 0 0 1.2rem;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--skqa-ink);
+  }
+
+  .skqa-card__price s {
+    margin-right: 0.7rem;
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--skqa-gray);
+  }
+
+  .skqa-card__actions {
+    margin-top: auto;
+    max-width: 17rem;
+  }
+
+  .skqa-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    width: 100%;
+    height: 4.4rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--skqa-pink);
+    color: #fff;
+    font-family: inherit;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+
+  .skqa-add:hover {
+    background: var(--skqa-pink-bright);
+    transform: translateY(-1px);
+  }
+
+  .skqa-add[disabled] {
+    background: #c9ced3;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .skqa-add .svg-wrapper {
+    width: 1.8rem;
+    height: 1.8rem;
+    display: inline-flex;
+  }
+
+  .skqa-add .svg-wrapper svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .skqa-qty {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 4.4rem;
+    border: 0.15rem solid var(--skqa-pink);
+    border-radius: 999px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .skqa-card__actions.is-in-cart .skqa-add {
+    display: none;
+  }
+
+  .skqa-card__actions.is-in-cart .skqa-qty {
+    display: flex;
+  }
+
+  .skqa-qty button {
+    flex: 0 0 4.4rem;
+    height: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--skqa-pink);
+    font-size: 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .skqa-qty button:hover {
+    background: var(--skqa-tint-pink);
+  }
+
+  .skqa-qty__value {
+    flex: 1;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--skqa-ink);
+  }
+
+  .skqa-card__actions.is-busy {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .skqa-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+    min-height: 1.8rem;
+  }
+
+  .skqa-cashback {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--skqa-gold);
+  }
+
+  .skqa-viewall {
+    display: flex;
+    justify-content: center;
+    margin-top: 3.6rem;
+  }
+
+  .skqa-viewall a {
+    display: inline-flex;
+    align-items: center;
+    height: 4.6rem;
+    padding: 0 3.2rem;
+    border: 0.2rem solid var(--skqa-pink);
+    border-radius: 999px;
+    color: var(--skqa-pink);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  .skqa-viewall a:hover {
+    background: var(--skqa-pink);
+    color: #fff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skqa-card__img,
+    .skqa-add {
+      transition: none;
+    }
+  }
+</style>
+
+{%- liquid
+  assign col = section.settings.collection
+  assign coins = section.settings.coins_percent
+-%}
+
+<sk-quick-add-grid
+  class="skqa-section"
+  style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; display: block;"
+>
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="skqa-heading">{{ section.settings.heading | escape }}</h2>
+      <span class="skqa-heading-accent" aria-hidden="true"></span>
+    {%- endif -%}
+
+    <ul
+      class="skqa-grid"
+      style="--skqa-cols: {{ section.settings.columns_desktop }}; --skqa-cols-mobile: {{ section.settings.columns_mobile }};"
+      role="list"
+    >
+      {%- for product in col.products limit: section.settings.products_to_show -%}
+        {%- liquid
+          assign variant = product.selected_or_first_available_variant
+          assign tagline = product.metafields.custom.card_tagline | default: product.type
+        -%}
+        <li class="skqa-card">
+          <a class="skqa-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+            {%- if product.compare_at_price > product.price -%}
+              {%- assign pct_off = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+              <span class="skqa-badge skqa-badge--sale">{{ pct_off }}% OFF</span>
+            {%- endif -%}
+            {%- if product.metafields.custom.card_size != blank -%}
+              <span class="skqa-badge skqa-badge--size">{{ product.metafields.custom.card_size }}</span>
+            {%- endif -%}
+            {%- if product.featured_media -%}
+              {{
+                product.featured_media
+                | image_url: width: 900
+                | image_tag:
+                  class: 'skqa-card__img',
+                  loading: 'lazy',
+                  widths: '360, 540, 720, 900',
+                  sizes: '(min-width: 990px) 25vw, 50vw'
+              }}
+            {%- endif -%}
+          </a>
+
+          <h3 class="skqa-card__title">
+            <a href="{{ product.url }}">{{ product.title }}</a>
+          </h3>
+
+          {%- if tagline != blank -%}
+            <p class="skqa-card__tagline">{{ tagline }}</p>
+          {%- endif -%}
+
+          <p class="skqa-card__price">
+            {%- if product.compare_at_price > product.price -%}
+              <s>{{ product.compare_at_price | money }}</s>
+            {%- endif -%}
+            {{ product.price | money }}
+          </p>
+
+          <div class="skqa-card__actions" data-variant-id="{{ variant.id }}" data-qty="0">
+            {%- if product.variants.size > 1 -%}
+              <a class="skqa-add" href="{{ product.url }}">CHOOSE</a>
+            {%- elsif variant.available == false -%}
+              <button class="skqa-add" type="button" disabled>SOLD OUT</button>
+            {%- else -%}
+              <button class="skqa-add" type="button" data-skqa-action="add">
+                <span class="svg-wrapper">{{ 'icon-cart.svg' | inline_asset_content }}</span>
+                ADD
+              </button>
+              <div class="skqa-qty" role="group" aria-label="{{ 'products.product.quantity.label' | t }}">
+                <button type="button" data-skqa-action="minus" aria-label="{{ 'products.product.quantity.decrease' | t: product: product.title | escape }}">&minus;</button>
+                <span class="skqa-qty__value" aria-live="polite">1</span>
+                <button type="button" data-skqa-action="plus" aria-label="{{ 'products.product.quantity.increase' | t: product: product.title | escape }}">+</button>
+              </div>
+            {%- endif -%}
+          </div>
+
+          <div class="skqa-card__meta">
+            {%- if coins > 0 -%}
+              {%- assign cashback = product.price | times: coins | divided_by: 100 -%}
+              <span class="skqa-cashback">{{ cashback | money }} Cashback</span>
+            {%- endif -%}
+            {%- if section.settings.show_rating -%}
+              {% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', concierge_install: false, product: product %}
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {%- if section.settings.show_view_all and col != blank -%}
+      <div class="skqa-viewall">
+        <a href="{{ col.url }}">{{ 'sections.featured_collection.view_all' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</sk-quick-add-grid>
+
+<script>
+  if (!customElements.get('sk-quick-add-grid')) {
+    customElements.define(
+      'sk-quick-add-grid',
+      class SKQuickAddGrid extends HTMLElement {
+        connectedCallback() {
+          this.addEventListener('click', this.onClick.bind(this));
+          this.syncFromCart();
+        }
+
+        routes() {
+          const r = window.routes || {};
+          return {
+            cart: (window.Shopify && window.Shopify.routes ? window.Shopify.routes.root : '/') + 'cart.js',
+            add: (r.cart_add_url || '/cart/add') + '.js',
+            change: (r.cart_change_url || '/cart/change') + '.js',
+          };
+        }
+
+        async syncFromCart() {
+          try {
+            const cart = await (await fetch(this.routes().cart)).json();
+            const byVariant = {};
+            cart.items.forEach((i) => {
+              byVariant[i.variant_id] = (byVariant[i.variant_id] || 0) + i.quantity;
+            });
+            this.querySelectorAll('.skqa-card__actions[data-variant-id]').forEach((el) => {
+              this.renderState(el, byVariant[Number(el.dataset.variantId)] || 0);
+            });
+          } catch (e) {
+            /* cart unavailable — leave ADD buttons as-is */
+          }
+        }
+
+        renderState(actions, qty) {
+          actions.dataset.qty = qty;
+          actions.classList.toggle('is-in-cart', qty > 0);
+          const value = actions.querySelector('.skqa-qty__value');
+          if (value) value.textContent = qty > 0 ? qty : 1;
+        }
+
+        onClick(event) {
+          const btn = event.target.closest('[data-skqa-action]');
+          if (!btn) return;
+          event.preventDefault();
+          const actions = btn.closest('.skqa-card__actions');
+          const current = Number(actions.dataset.qty) || 0;
+          const action = btn.dataset.skqaAction;
+          if (action === 'add') this.setQuantity(actions, 1, true);
+          if (action === 'plus') this.setQuantity(actions, current + 1, false);
+          if (action === 'minus') this.setQuantity(actions, Math.max(0, current - 1), false);
+        }
+
+        async setQuantity(actions, quantity, isAdd) {
+          const variantId = Number(actions.dataset.variantId);
+          actions.classList.add('is-busy');
+          try {
+            const routes = this.routes();
+            const response = await fetch(isAdd ? routes.add : routes.change, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify(
+                isAdd
+                  ? { items: [{ id: variantId, quantity: 1 }], sections: 'cart-icon-bubble' }
+                  : { id: String(variantId), quantity: quantity, sections: 'cart-icon-bubble' }
+              ),
+            });
+            const data = await response.json();
+            if (!response.ok) {
+              throw new Error(data.description || data.message || 'Could not update cart');
+            }
+            this.renderState(actions, quantity);
+            this.updateCartBubble(data.sections);
+          } catch (error) {
+            alert(error.message);
+            this.syncFromCart();
+          } finally {
+            actions.classList.remove('is-busy');
+          }
+        }
+
+        updateCartBubble(sections) {
+          if (!sections || !sections['cart-icon-bubble']) return;
+          const bubble = document.getElementById('cart-icon-bubble');
+          if (!bubble) return;
+          const parsed = new DOMParser().parseFromString(sections['cart-icon-bubble'], 'text/html');
+          const inner = parsed.querySelector('.shopify-section');
+          if (inner) bubble.innerHTML = inner.innerHTML;
+        }
+      }
+    );
+  }
+</script>
+
+{% schema %}
+{
+  "name": "SK Quick-Add Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Best Selling Products",
+      "label": "Heading"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        { "value": "1", "label": "1 column" },
+        { "value": "2", "label": "2 columns" }
+      ],
+      "default": "2",
+      "label": "Columns on mobile"
+    },
+    {
+      "type": "range",
+      "id": "coins_percent",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 10,
+      "unit": "%",
+      "label": "Cashback percent (Popcoins)",
+      "info": "Shows '₹ X Cashback' under each card. Set to 0 to hide."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "Show Judge.me star rating",
+      "info": "Requires the Judge.me app's theme snippet (judgeme_widgets) to be installed."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "default": true,
+      "label": "Show 'View all' button"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Quick-Add Grid"
+    }
+  ]
+}
+{% endschema %}

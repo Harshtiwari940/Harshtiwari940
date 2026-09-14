@@ -1,0 +1,197 @@
+{%- comment -%}
+  Simply Kids — Certification medallion row.
+  Six badge medallions ship with the theme as SVG assets; each block can use
+  one of those or a merchant-uploaded image.
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .sk-medallion img {
+    width: {{ section.settings.badge_size }}px;
+    height: {{ section.settings.badge_size }}px;
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank -%}
+      <div class="sk-center" style="margin-bottom: 2rem;">
+        <h2 class="sk-section__title {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="sk-medallion-row">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign sk_badge_alt = block.settings.image.alt
+          if sk_badge_alt == blank
+            assign sk_badge_alt = block.settings.label
+          endif
+        -%}
+        <div class="sk-medallion" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 240
+              | image_tag:
+                loading: 'lazy',
+                widths: '90, 180, 240',
+                alt: sk_badge_alt
+            }}
+          {%- elsif block.settings.badge != 'none' -%}
+            <img
+              src="{{ block.settings.badge | asset_url }}"
+              alt="{{ block.settings.label | escape }}"
+              width="{{ section.settings.badge_size }}"
+              height="{{ section.settings.badge_size }}"
+              loading="lazy"
+            >
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Trust medallions",
+  "tag": "section",
+  "class": "section sk-shopify-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "range",
+      "id": "badge_size",
+      "min": 50,
+      "max": 140,
+      "step": 5,
+      "unit": "px",
+      "label": "Badge size",
+      "default": 90
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "select",
+          "id": "badge",
+          "label": "Packaged badge",
+          "options": [
+            { "value": "none", "label": "None (use uploaded image)" },
+            { "value": "sk-badge-dermatologically-tested.svg", "label": "Dermatologically Tested" },
+            { "value": "sk-badge-ph-balanced.svg", "label": "pH 5.5 Balanced" },
+            { "value": "sk-badge-vegan-cruelty-free.svg", "label": "Vegan & Cruelty-Free" },
+            { "value": "sk-badge-made-in-india.svg", "label": "Made in India" },
+            { "value": "sk-badge-dpiit-recognised.svg", "label": "DPIIT Recognised" },
+            { "value": "sk-badge-udyam-registered.svg", "label": "Udyam Registered" }
+          ],
+          "default": "sk-badge-dermatologically-tested.svg"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom image",
+          "info": "Overrides the packaged badge."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Alt text",
+          "default": "Dermatologically Tested"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Trust medallions",
+      "blocks": [
+        {
+          "type": "badge",
+          "settings": { "badge": "sk-badge-dermatologically-tested.svg", "label": "Dermatologically Tested" }
+        },
+        {
+          "type": "badge",
+          "settings": { "badge": "sk-badge-ph-balanced.svg", "label": "pH 5.5 Balanced" }
+        },
+        {
+          "type": "badge",
+          "settings": { "badge": "sk-badge-vegan-cruelty-free.svg", "label": "Vegan & Cruelty-Free" }
+        },
+        {
+          "type": "badge",
+          "settings": { "badge": "sk-badge-made-in-india.svg", "label": "Made in India" }
+        },
+        {
+          "type": "badge",
+          "settings": { "badge": "sk-badge-dpiit-recognised.svg", "label": "DPIIT Recognised" }
+        },
+        {
+          "type": "badge",
+          "settings": { "badge": "sk-badge-udyam-registered.svg", "label": "Udyam Registered" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

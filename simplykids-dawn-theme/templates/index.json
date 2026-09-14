@@ -1,0 +1,541 @@
+{
+  "sections": {
+    "sk_hero": {
+      "type": "sk-hero",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "Only for the ages 4–12",
+        "heading": "<p>Growing-up care,<br/>made <em>kid-safe</em>.</p>",
+        "subheading": "<p>Dermatologically tested, pH 5.5-balanced formulas for the in-between years — proven gentle enough to trust, effective enough to work.</p>",
+        "button_label": "Find their stage",
+        "button_link": "/pages/build-a-routine",
+        "button_label_2": "Shop bestsellers",
+        "button_link_2": "shopify://collections/all",
+        "stat_badge": "95% smoother hair*",
+        "show_spectrum": true,
+        "spectrum_min": "4",
+        "spectrum_max": "12",
+        "spectrum_a11y": "Formulated for ages 4 to 12",
+        "footnote": "Baby care's too mild. Adult care's too harsh. We built for the nine years in between.",
+        "rating_text": "4.8 · 112 verified parent reviews",
+        "padding_top": 96,
+        "padding_bottom": 64
+      }
+    },
+    "sk_shop_by_age": {
+      "type": "sk-shop-by-age",
+      "blocks": {
+        "stage_4_6": {
+          "type": "stage",
+          "settings": {
+            "label": "Ages 4–6",
+            "title": "Little Explorers",
+            "description": "<p>Delicate skin that dries fast and messy hair days. This is where they learn to do it themselves.</p>",
+            "button_label": "Shop this stage",
+            "button_link": "shopify://collections/all"
+          }
+        },
+        "stage_7_9": {
+          "type": "stage",
+          "settings": {
+            "label": "Ages 7–9",
+            "title": "Big Kids",
+            "description": "<p>Active, sweaty and independent. They need cleansing that genuinely works after a full day outdoors.</p>",
+            "button_label": "Shop this stage",
+            "button_link": "shopify://collections/all"
+          }
+        },
+        "stage_10_12": {
+          "type": "stage",
+          "settings": {
+            "label": "Ages 10–12",
+            "title": "Tweens",
+            "description": "<p>Changing skin and oilier hair. They want products that feel grown-up — without harsh adult actives.</p>",
+            "button_label": "Shop this stage",
+            "button_link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "stage_4_6",
+        "stage_7_9",
+        "stage_10_12"
+      ],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "heading_size": "h1",
+        "padding_top": 20,
+        "padding_bottom": 60
+      }
+    },
+    "sk_age_quiz": {
+      "type": "sk-age-quiz",
+      "blocks": {
+        "quiz_4_6": {
+          "type": "age",
+          "settings": {
+            "label": "4–6",
+            "result": "<p>Little Explorers: gentle, tear-free, and simple enough for them to start doing it themselves.</p>",
+            "button_label": "See their routine",
+            "button_link": "/pages/build-a-routine"
+          }
+        },
+        "quiz_7_9": {
+          "type": "age",
+          "settings": {
+            "label": "7–9",
+            "result": "<p>Big Kids: cleansing that genuinely works after a full day outdoors, without stripping a still-developing barrier.</p>",
+            "button_label": "See their routine",
+            "button_link": "/pages/build-a-routine"
+          }
+        },
+        "quiz_10_12": {
+          "type": "age",
+          "settings": {
+            "label": "10–12",
+            "result": "<p>Tweens: changing skin and oilier hair, handled with formulas that feel grown-up but skip the harsh adult actives.</p>",
+            "button_label": "See their routine",
+            "button_link": "/pages/build-a-routine"
+          }
+        }
+      },
+      "block_order": [
+        "quiz_4_6",
+        "quiz_7_9",
+        "quiz_10_12"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Let's build the perfect routine",
+        "subheading": "Tap their age — we'll match the stage.",
+        "prompt": "How old is your child?",
+        "max_width": 124,
+        "padding_top": 0,
+        "padding_bottom": 60
+      }
+    },
+    "sk_essentials": {
+      "type": "sk-product-grid",
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "The Essentials",
+        "heading_size": "h1",
+        "subheading": "Dermatologically tested, pH 5.5, made only for ages 4–12.",
+        "collection": "",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "show_rating": true,
+        "show_save_badge": true,
+        "show_add_to_bag": true,
+        "show_tax_note": false,
+        "show_view_all": true,
+        "padding_top": 60,
+        "padding_bottom": 40
+      }
+    },
+    "sk_rituals": {
+      "type": "sk-ritual-lines",
+      "blocks": {
+        "ritual_1": {
+          "type": "ritual",
+          "settings": {
+            "fallback_image": "sk-ritual-1-wash-day.jpg",
+            "layout": "image_left",
+            "label": "Ritual 01 — the wash-day fix",
+            "title": "2-in-1 Shampoo + Conditioner",
+            "text": "<p>Bhringraj and Japa strengthen the hair shaft while Jatamansi calms the scalp — cleanses and conditions in one step, so wash day stops being a fight over tangles.</p>",
+            "chips": "Bhringraj, Japa, Jatamansi"
+          }
+        },
+        "ritual_2": {
+          "type": "ritual",
+          "settings": {
+            "fallback_image": "sk-ritual-2-all-day.jpg",
+            "layout": "image_right",
+            "label": "Ritual 02 — the all-day shield",
+            "title": "Deep Hydration Body Lotion",
+            "text": "<p>Kesar, lotus and rose in a fast-absorbing lotion that holds moisture for a full day of play — no greasy film, no chalky finish.</p>",
+            "chips": "Kesar, Lotus, Rose"
+          }
+        },
+        "ritual_3": {
+          "type": "ritual",
+          "settings": {
+            "fallback_image": "sk-ritual-3-bedtime.jpg",
+            "layout": "image_left",
+            "label": "Ritual 03 — the bedtime slow-down",
+            "title": "Nourishing Body Massage Oil",
+            "text": "<p>Light, fast-sinking almond and jojoba oil for the pre-bath or bedtime massage — the five minutes of the day built for slowing down together.</p>",
+            "chips": "Almond, Jojoba"
+          }
+        }
+      },
+      "block_order": [
+        "ritual_1",
+        "ritual_2",
+        "ritual_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "eyebrow": "The Simply Kids ritual system",
+        "heading": "Three rituals. Nine years. One routine that actually fits.",
+        "heading_size": "h0",
+        "padding_top": 112,
+        "padding_bottom": 112
+      }
+    },
+    "sk_science_teaser": {
+      "type": "sk-science-stats",
+      "blocks": {
+        "chips": {
+          "type": "chips",
+          "settings": {
+            "heading": "",
+            "chips": "Bhringraj | Strengthens the hair shaft from root to tip.\nJatamansi | Soothes an irritated scalp.\nHaldi | Calms and clarifies skin."
+          }
+        },
+        "stats": {
+          "type": "stats",
+          "settings": {
+            "heading": "",
+            "col_1": "Result",
+            "col_2": "Product",
+            "col_3": "Study",
+            "rows": "95% smoother hair | Hair Oil | 4-week\n93% fewer rashes | Body Wash | from first wash",
+            "disclaimer": ""
+          }
+        }
+      },
+      "block_order": [
+        "chips",
+        "stats"
+      ],
+      "settings": {
+        "color_scheme": "scheme-7",
+        "eyebrow": "Why 4 to 12 matters",
+        "heading": "The in-between years, finally taken seriously.",
+        "heading_tag": "h2",
+        "heading_size": "h1",
+        "intro": "<p>By age four, a child's skin picks up its own oil profile. By twelve, that same skin is nearly adult. Most brands skip both moments and sell the years in between.</p>",
+        "max_width": 76,
+        "button_label": "Explore the science",
+        "button_link": "/pages/our-science",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "sk_jrz": {
+      "type": "sk-just-right-zone",
+      "blocks": {
+        "zone_baby": {
+          "type": "zone",
+          "settings": {
+            "tone": "mild",
+            "flag": "Not for 4–12",
+            "title": "Baby care",
+            "text": "Gentle, yes — but it stops working once real playground grime shows up."
+          }
+        },
+        "zone_sk": {
+          "type": "zone",
+          "settings": {
+            "tone": "right",
+            "flag": "Just right",
+            "title": "Simply Kids",
+            "text": "Strong enough through a full day out, gentle enough for a barrier that's still developing."
+          }
+        },
+        "zone_adult": {
+          "type": "zone",
+          "settings": {
+            "tone": "harsh",
+            "flag": "Not for 4–12",
+            "title": "Adult care",
+            "text": "Strong actives and fragrance built for a barrier that's already mature."
+          }
+        }
+      },
+      "block_order": [
+        "zone_baby",
+        "zone_sk",
+        "zone_adult"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "Not too mild. Not too harsh. Just right for 4–12.",
+        "heading_size": "h1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "sk_photo_break": {
+      "type": "sk-photo-break",
+      "settings": {
+        "min_height": 50,
+        "min_height_mobile": 60,
+        "overlay_color": "#001e3a",
+        "overlay_opacity_center": 88,
+        "overlay_opacity_mid": 82,
+        "overlay_opacity_edge": 92,
+        "eyebrow": "Why 4 to 12 matters",
+        "heading": "Baby care's too mild. Adult care's too harsh.",
+        "text": "We formulate for the nine years everyone else skips — tested on the children it's actually made for, not adults scaled down."
+      }
+    },
+    "sk_reviews": {
+      "type": "sk-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "author": "Priyanka R.",
+            "quote": "<p>“The 2-in-1 shampoo cut our wash-day tantrums down to almost nothing.”</p>"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "author": "Rohini S.",
+            "quote": "<p>“The ingredient list is genuinely thoughtful, and the results speak for themselves.”</p>"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "author": "Manasi J.",
+            "quote": "<p>“Finally, a brand that treats growing skin like it deserves better.”</p>"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-8",
+        "heading": "Care parents talk about",
+        "heading_size": "h1",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "sk_journal": {
+      "type": "sk-journal-grid",
+      "blocks": {
+        "post_1": {
+          "type": "placeholder_post",
+          "settings": {
+            "title": "Why 4–12 is a real, distinct life stage for skin and hair",
+            "excerpt": "The science behind why this age group needs its own formulas."
+          }
+        },
+        "post_2": {
+          "type": "placeholder_post",
+          "settings": {
+            "title": "Reading an ingredient label like a dermatologist",
+            "excerpt": "What to look for, and what to leave on the shelf."
+          }
+        },
+        "post_3": {
+          "type": "placeholder_post",
+          "settings": {
+            "title": "Building a wash-day routine kids actually stick to",
+            "excerpt": "Small changes that end the daily bathroom battle."
+          }
+        }
+      },
+      "block_order": [
+        "post_1",
+        "post_2",
+        "post_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "From the Journal",
+        "heading": "Real answers for the 4–12 years.",
+        "heading_size": "h1",
+        "blog": "",
+        "post_limit": 3,
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "show_excerpt": true,
+        "show_date": false,
+        "placeholder_label": "Article photo",
+        "button_label": "View all articles",
+        "button_link": "",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
+    "sk_newsletter": {
+      "type": "sk-newsletter-offer",
+      "settings": {
+        "color_scheme": "scheme-12",
+        "heading": "10% off your first order",
+        "heading_size": "h1",
+        "subheading": "Expert tips, new launches, and stories for growing kids. No spam — ever.",
+        "placeholder": "your@email.com",
+        "button_label": "Subscribe",
+        "success_text": "Thanks — your discount is on its way to your inbox.",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "sk_medallions": {
+      "type": "sk-medallion-row",
+      "blocks": {
+        "badge_derm": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-dermatologically-tested.svg",
+            "label": "Dermatologically Tested"
+          }
+        },
+        "badge_ph": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-ph-balanced.svg",
+            "label": "pH 5.5 Balanced"
+          }
+        },
+        "badge_vegan": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-vegan-cruelty-free.svg",
+            "label": "Vegan & Cruelty-Free"
+          }
+        },
+        "badge_india": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-made-in-india.svg",
+            "label": "Made in India"
+          }
+        },
+        "badge_dpiit": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-dpiit-recognised.svg",
+            "label": "DPIIT Recognised"
+          }
+        },
+        "badge_udyam": {
+          "type": "badge",
+          "settings": {
+            "badge": "sk-badge-udyam-registered.svg",
+            "label": "Udyam Registered"
+          }
+        }
+      },
+      "block_order": [
+        "badge_derm",
+        "badge_ph",
+        "badge_vegan",
+        "badge_india",
+        "badge_dpiit",
+        "badge_udyam"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "badge_size": 90,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "sk_trust": {
+      "type": "sk-trust-badges",
+      "blocks": {
+        "promise_shipping": {
+          "type": "promise",
+          "settings": {
+            "icon": "cart",
+            "title": "Free Shipping",
+            "text": "On orders over ₹999"
+          }
+        },
+        "promise_cod": {
+          "type": "promise",
+          "settings": {
+            "icon": "cash",
+            "title": "COD Available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "promise_returns": {
+          "type": "promise",
+          "settings": {
+            "icon": "return",
+            "title": "No Question Asked",
+            "text": "Returns & Exchange"
+          }
+        },
+        "pay_upi": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "UPI",
+            "italic": false
+          }
+        },
+        "pay_visa": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "VISA",
+            "italic": true
+          }
+        },
+        "pay_mc": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "Mastercard",
+            "italic": false
+          }
+        },
+        "pay_rupay": {
+          "type": "payment_mark",
+          "settings": {
+            "label": "RuPay",
+            "italic": false
+          }
+        }
+      },
+      "block_order": [
+        "promise_shipping",
+        "promise_cod",
+        "promise_returns",
+        "pay_upi",
+        "pay_visa",
+        "pay_mc",
+        "pay_rupay"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "columns": 3,
+        "protection_text": "100% Payment Protection, Easy Return Policy",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "sk_hero",
+    "sk_shop_by_age",
+    "sk_age_quiz",
+    "sk_essentials",
+    "sk_rituals",
+    "sk_science_teaser",
+    "sk_jrz",
+    "sk_photo_break",
+    "sk_reviews",
+    "sk_journal",
+    "sk_newsletter",
+    "sk_medallions",
+    "sk_trust"
+  ]
+}

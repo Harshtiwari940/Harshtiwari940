@@ -1,0 +1,254 @@
+{%- comment -%}
+  Simply Kids — Product grid ("The Essentials", "Shop All").
+  Pulls real Shopify products from a collection, so prices, images, sale
+  badges, availability and add-to-cart are all live Shopify data — nothing is
+  hard-coded. Falls back to onboarding placeholders in the Theme Editor when
+  no collection is chosen yet.
+{%- endcomment -%}
+
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .sk-grid {
+    grid-template-columns: repeat({{ section.settings.columns_mobile }}, minmax(0, 1fr));
+  }
+
+  @media screen and (min-width: 990px) {
+    #shopify-section-{{ section.id }} .sk-grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  comment
+    Named sk_* so the section never shadows Shopify's global `collection`
+    object, and so `limit` stays free as a for-loop keyword.
+  endcomment
+  assign sk_collection = section.settings.collection
+  assign sk_products = sk_collection.products
+  assign sk_limit = section.settings.products_to_show
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="section-{{ section.id }}-padding">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="page-width sk-center" style="margin-bottom: 2.4rem;">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="sk-section__title {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="sk-section__text">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="page-width">
+      <div class="sk-grid sk-grid--4">
+        {%- if sk_products.size > 0 -%}
+          {%- for product in sk_products limit: sk_limit -%}
+            <div
+              {% if settings.animations_reveal_on_scroll %}
+                class="scroll-trigger animate--slide-in"
+                data-cascade
+                style="--animation-order: {{ forloop.index }};"
+              {% endif %}
+            >
+              {%- render 'sk-product-card',
+                product: product,
+                show_rating: section.settings.show_rating,
+                show_add: section.settings.show_add_to_bag,
+                show_tax_note: section.settings.show_tax_note,
+                show_badge: section.settings.show_save_badge
+              -%}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- comment -%}
+            No collection connected yet. Fall back to the packaged Simply Kids
+            product photography so the grid reads correctly in the Theme
+            Editor; real products replace this the moment a collection is set.
+          {%- endcomment -%}
+          {%- assign sk_demo_images = 'sk-product-shampoo.jpg,sk-product-hair-oil.jpg,sk-product-body-wash.jpg,sk-product-body-lotion.jpg,sk-product-massage-oil.jpg' | split: ',' -%}
+          {%- assign sk_demo_titles = '2-in-1 Kids Shampoo + Conditioner,Nourishing Kids Hair Oil,Gentle Kids Body Wash,Deep Hydration Kids Body Lotion,Nourishing Body Massage Oil' | split: ',' -%}
+          {%- for i in (1..sk_limit) -%}
+            {%- assign sk_demo_index = forloop.index0 | modulo: 5 -%}
+            <div class="sk-product-card">
+              <div class="sk-product-card__media">
+                <img
+                  src="{{ sk_demo_images[sk_demo_index] | asset_url }}"
+                  alt="{{ sk_demo_titles[sk_demo_index] | escape }}"
+                  width="800"
+                  height="800"
+                  loading="lazy"
+                >
+              </div>
+              <h3 class="sk-product-card__title">{{ sk_demo_titles[sk_demo_index] }}</h3>
+              <div class="sk-product-card__price"><strong>{{ 51400 | money }}</strong></div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_view_all and sk_collection != blank and sk_collection.all_products_count > sk_limit -%}
+        <div class="sk-center" style="margin-top: 3.6rem;">
+          <a class="sk-btn sk-btn--outline" href="{{ sk_collection.url }}">
+            {{- 'sections.featured_collection.view_all' | t -}}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Product grid",
+  "tag": "section",
+  "class": "section sk-shopify-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Essentials"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Dermatologically tested, pH 5.5, made only for ages 4–12."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Products to show",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Columns on desktop",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1 column" },
+        { "value": "2", "label": "2 columns" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show product rating",
+      "info": "Uses the reviews.rating product metafield, which review apps such as Judge.me and Shopify Product Reviews populate.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_save_badge",
+      "label": "Show \"Save %\" badge on sale items",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_add_to_bag",
+      "label": "Show \"Add to bag\" button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tax_note",
+      "label": "Show \"Incl. of all taxes\" note",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show \"View all\" button",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Product grid"
+    }
+  ]
+}
+{% endschema %}

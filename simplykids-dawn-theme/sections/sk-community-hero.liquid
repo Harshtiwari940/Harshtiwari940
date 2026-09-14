@@ -1,0 +1,139 @@
+{%- comment -%}
+  Simply Kids — Community hero ("Pride of Simply Kids").
+  Deep gradient band with rounded bottom corners and stat pills.
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="sk-community-hero color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h1>
+        {{- section.settings.heading | escape }}
+        {% if section.settings.heading_accent != blank -%}
+          <span class="sk-community-hero__accent">{{ section.settings.heading_accent | escape }}</span>
+        {%- endif -%}
+      </h1>
+    {%- endif -%}
+
+    {%- if section.settings.text != blank -%}
+      <div class="sk-section__text" style="max-width: 56rem; margin: 1rem auto 0; opacity: 0.85;">
+        {{- section.settings.text -}}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="sk-community-stats">
+        {%- for block in section.blocks -%}
+          <span class="sk-pill sk-pill--trust" {{ block.shopify_attributes }}>{{ block.settings.label | escape }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Community hero",
+  "tag": "section",
+  "class": "sk-shopify-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-13"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "A humble abode"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Pride of"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading accent",
+      "info": "Rendered in the Dancing Script brand accent.",
+      "default": "Simply Kids"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Welcome to every child's brighter corner — where colourful drawings, joyful laughter, and the moments that make us stop and smile are celebrated.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat pill",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "247 young creators"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Community hero",
+      "blocks": [
+        { "type": "stat", "settings": { "label": "247 young creators" } },
+        { "type": "stat", "settings": { "label": "609 artworks shared" } },
+        { "type": "stat", "settings": { "label": "429 families" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

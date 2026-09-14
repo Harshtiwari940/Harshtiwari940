@@ -1,0 +1,1884 @@
+/* ==========================================================================
+   SIMPLY KIDS — brand design system
+   Loaded AFTER Dawn's base.css. Everything here is either:
+     (a) a new `--sk-*` custom property, or
+     (b) a class prefixed `.sk-` (Simply Kids components), or
+     (c) a deliberately narrow, opt-in tweak to a Dawn component, gated by an
+         extra class so it can never fire on a stock Dawn page.
+   There are NO global element resets and NO `.color-scheme-*` overrides here:
+   Dawn generates those from config/settings_data.json, which is where the
+   Simply Kids palette lives so the merchant can edit it in the Theme Editor.
+   ========================================================================== */
+
+:root {
+  /* ---- Brand palette (Simply Kids Brand Guidelines, Colour & Font 2024) ---- */
+  --sk-white: #ffffff;
+  --sk-ink: #4a4744;
+  --sk-ink-soft: #7d7d7d;
+  --sk-ink-strong: #2e2b29;
+
+  --sk-blue-vivid: #2db2de;
+  --sk-blue-deep: #004987;
+  --sk-blue-deep-hover: #003666;
+  --sk-blue-mid: #4886c6;
+  --sk-blue-wash: #cfedfd;
+  --sk-blue-pale: #e8f5fb;
+
+  /* Sanctioned pastel accents — announcement bar, PDP and Community only */
+  --sk-cyclamen-pastel: #fce0ec;
+  --sk-pink-pastel: #fad3e6;
+  --sk-pink-accent: #f6b1d4;
+
+  --sk-star: #f4b400;
+  --sk-price-was: #757575;
+
+  --sk-cta: #004987;
+  --sk-cta-hover: #003666;
+
+  --sk-radius: 16px;
+  --sk-radius-sm: 12px;
+  --sk-radius-lg: 24px;
+
+  /* ---- Typography ----
+     Nunito Sans / Dancing Script are self-hosted in assets and declared in
+     snippets/sk-fonts.liquid. Dawn's own picked font stays as the fallback,
+     so the theme still renders correctly if these assets are ever removed. */
+  --sk-font-display: 'Nunito Sans', var(--font-heading-family);
+  --sk-font-label: 'Nunito Sans', var(--font-heading-family);
+  --sk-font-copy: 'Nunito Sans', var(--font-body-family);
+  --sk-font-script: 'Dancing Script', var(--font-heading-family);
+}
+
+/* Site-wide type swap. Dawn reads these two variables everywhere, so this is
+   the single, reversible place the brand face is applied — no per-component
+   font overrides and no change to Dawn's markup. */
+body.sk-brand-type {
+  --font-body-family: 'Nunito Sans', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif;
+  --font-heading-family: 'Nunito Sans', -apple-system, blinkmacsystemfont, 'Segoe UI', roboto, sans-serif;
+}
+
+/* ==========================================================================
+   Shared building blocks
+   ========================================================================== */
+.sk-section {
+  position: relative;
+}
+
+.sk-section__inner {
+  max-width: var(--page-width, 124rem);
+  margin: 0 auto;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.sk-center {
+  text-align: center;
+}
+
+.sk-measure {
+  max-width: 76rem;
+}
+
+.sk-measure--narrow {
+  max-width: 64rem;
+}
+
+.sk-center .sk-measure,
+.sk-center .sk-measure--narrow {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sk-eyebrow {
+  font-family: var(--sk-font-label);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sk-blue-deep);
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.sk-section__title {
+  font-family: var(--sk-font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin: 0 0 1.2rem;
+}
+
+.sk-section__text {
+  font-family: var(--sk-font-copy);
+  margin: 0 0 1.6rem;
+}
+
+.sk-section__text > :first-child {
+  margin-top: 0;
+}
+
+.sk-section__text > :last-child {
+  margin-bottom: 0;
+}
+
+.sk-script {
+  font-family: var(--sk-font-script);
+  font-weight: 700;
+  font-style: normal;
+  color: var(--sk-blue-deep);
+}
+
+.sk-stars {
+  color: var(--sk-star);
+  letter-spacing: 0.05em;
+}
+
+/* ---------- Buttons — a bespoke layer on top of, not instead of, Dawn's ---- */
+.sk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--sk-font-label);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  padding: 1.4rem 3rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  text-decoration: none;
+  text-align: center;
+}
+
+.sk-btn:hover {
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.sk-btn:focus-visible {
+  outline: 0.2rem solid var(--sk-blue-deep);
+  outline-offset: 0.3rem;
+}
+
+.sk-btn--hero {
+  /* Battery Charged Blue + dark ink: 3.75:1, verified safe only at this
+     size/weight (large-bold threshold). Never used below 19px/700. */
+  background: var(--sk-blue-vivid);
+  color: var(--sk-ink);
+  font-size: 1.7rem;
+  font-weight: 800;
+  box-shadow: 0 10px 24px rgb(45 178 222 / 32%);
+}
+
+.sk-btn--primary {
+  /* Midnight Blue — 9.1:1, safe at all sizes */
+  background: var(--sk-cta);
+  color: #fff;
+}
+
+.sk-btn--primary:hover {
+  background: var(--sk-cta-hover);
+  color: #fff;
+}
+
+.sk-btn--outline {
+  background: transparent;
+  color: currentcolor;
+  border: 1.5px solid currentcolor;
+}
+
+.sk-btn--dark {
+  background: var(--sk-blue-deep);
+  color: #fff;
+}
+
+.sk-btn--full {
+  width: 100%;
+}
+
+/* ---------- Badges & pills ---------- */
+.sk-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--sk-font-label);
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+}
+
+.sk-pill--age {
+  background: var(--sk-blue-pale);
+  color: var(--sk-ink);
+}
+
+.sk-pill--save {
+  background: var(--sk-blue-deep);
+  color: #fff;
+}
+
+.sk-pill--trust {
+  background: #fff;
+  color: var(--sk-ink);
+  box-shadow: 0 6px 16px rgb(74 71 68 / 10%);
+}
+
+.sk-pill--active {
+  background: var(--sk-ink-strong);
+  color: #fff;
+}
+
+/* ---------- Cards ---------- */
+.sk-card {
+  background: #fff;
+  border-radius: var(--sk-radius);
+  padding: 2.8rem;
+  box-shadow: 0 12px 30px rgb(74 71 68 / 8%);
+  color: var(--sk-ink);
+}
+
+.sk-card h3,
+.sk-card .sk-card__title {
+  font-family: var(--sk-font-display);
+  font-size: 1.9rem;
+  margin: 0 0 0.6rem;
+}
+
+.sk-card__body > :first-child {
+  margin-top: 0;
+}
+
+.sk-card__body > :last-child {
+  margin-bottom: 0;
+}
+
+.sk-card--flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.sk-card--pink {
+  background: var(--sk-pink-pastel);
+}
+
+/* ---------- Grid utilities (scoped, never touch Dawn's grid) ---------- */
+.sk-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.sk-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sk-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.6rem;
+}
+
+.sk-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.6rem;
+}
+
+.sk-grid--5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.6rem;
+}
+
+@media screen and (max-width: 989px) {
+  .sk-grid--4,
+  .sk-grid--5 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .sk-grid--2,
+  .sk-grid--3 {
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
+
+  .sk-grid--4,
+  .sk-grid--5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+  }
+
+  .sk-section__inner {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ==========================================================================
+   Hero — age spectrum
+   ========================================================================== */
+.sk-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.sk-hero__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: var(--page-width, 124rem);
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.sk-hero__title {
+  font-family: var(--sk-font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  font-size: 5.2rem;
+  margin: 0 0 1.6rem;
+}
+
+.sk-hero__title em {
+  font-style: normal;
+  font-family: var(--sk-font-script);
+  font-weight: 700;
+  color: var(--sk-blue-deep);
+}
+
+.sk-hero__sub {
+  font-size: 1.8rem;
+  opacity: 0.85;
+  max-width: 46rem;
+  margin: 0 0 2.8rem;
+}
+
+.sk-hero__actions {
+  display: flex;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+}
+
+.sk-hero__spectrum {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 3rem;
+  font-family: var(--sk-font-label);
+  font-size: 1.2rem;
+}
+
+.sk-hero__spectrum-track {
+  flex: 1;
+  height: 8px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--sk-blue-wash), var(--sk-blue-mid), var(--sk-blue-deep));
+  position: relative;
+}
+
+.sk-hero__spectrum-dot {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--sk-blue-deep);
+  transform: translate(-50%, -50%);
+}
+
+.sk-hero__footnote {
+  font-size: 1.2rem;
+  opacity: 0.7;
+  margin-top: 0.6rem;
+}
+
+.sk-hero__rating {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 2rem;
+  font-family: var(--sk-font-label);
+  font-size: 1.35rem;
+}
+
+.sk-hero__media {
+  position: relative;
+  border-radius: var(--sk-radius);
+  overflow: hidden;
+}
+
+.sk-hero__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.sk-hero__stat-badge {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  background: #fff;
+  border-radius: var(--sk-radius-sm);
+  padding: 0.8rem 1.4rem;
+  font-family: var(--sk-font-label);
+  font-weight: 800;
+  color: var(--sk-blue-deep);
+  box-shadow: 0 10px 24px rgb(74 71 68 / 14%);
+  font-size: 1.4rem;
+}
+
+@media screen and (max-width: 989px) {
+  .sk-hero__grid {
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+    padding: 0 2rem;
+  }
+
+  .sk-hero__title {
+    font-size: 3.6rem;
+  }
+}
+
+/* ==========================================================================
+   Shop by age
+   ========================================================================== */
+.sk-age-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: var(--page-width, 124rem);
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.sk-age-card {
+  background: #fff;
+  border-radius: var(--sk-radius);
+  padding: 3rem 2.6rem;
+  box-shadow: 0 18px 44px -26px rgb(74 71 68 / 32%);
+  color: var(--sk-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sk-age-card__label {
+  font-family: var(--sk-font-label);
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sk-blue-deep);
+}
+
+.sk-age-card__title {
+  font-family: var(--sk-font-display);
+  font-size: 2.6rem;
+  margin: 0.4rem 0 1rem;
+}
+
+.sk-age-card__desc {
+  font-size: 1.4rem;
+  opacity: 0.85;
+  margin: 0 0 1.8rem;
+}
+
+.sk-age-card .sk-btn {
+  margin-top: auto;
+}
+
+@media screen and (max-width: 989px) {
+  .sk-age-grid {
+    grid-template-columns: 1fr;
+    padding: 0 2rem;
+  }
+}
+
+/* ==========================================================================
+   Age routine quiz banner
+   ========================================================================== */
+.sk-quiz {
+  background: var(--sk-blue-deep);
+  color: #fff;
+  border-radius: var(--sk-radius);
+  padding: 3.6rem 4rem;
+  max-width: var(--page-width, 124rem);
+  margin: 0 auto;
+}
+
+.sk-quiz__title {
+  color: #fff;
+  font-family: var(--sk-font-display);
+  font-size: 2.6rem;
+  margin: 0 0 0.6rem;
+}
+
+.sk-quiz__sub {
+  opacity: 0.85;
+  margin: 0 0 2rem;
+  font-size: 1.5rem;
+}
+
+.sk-quiz__prompt {
+  font-family: var(--sk-font-label);
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.sk-quiz__options {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.sk-quiz__opt {
+  font-family: var(--sk-font-label);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #fff;
+  background: rgb(255 255 255 / 14%);
+  border: 1.5px solid rgb(255 255 255 / 30%);
+  border-radius: 999px;
+  padding: 1.1rem 2.4rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sk-quiz__opt:hover,
+.sk-quiz__opt[aria-pressed='true'] {
+  background: #fff;
+  color: var(--sk-blue-deep);
+}
+
+.sk-quiz__result {
+  margin-top: 2rem;
+  background: rgb(255 255 255 / 10%);
+  border-radius: 14px;
+  padding: 2rem;
+}
+
+.sk-quiz__result[hidden] {
+  display: none;
+}
+
+.sk-quiz__result p {
+  margin: 0 0 1.2rem;
+}
+
+@media screen and (max-width: 749px) {
+  .sk-quiz {
+    padding: 2.6rem 2rem;
+  }
+}
+
+/* ==========================================================================
+   Product grid (Essentials / Shop) — real Shopify products
+   ========================================================================== */
+.sk-product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: var(--sk-ink);
+}
+
+.sk-product-card__media {
+  display: block;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+  background: var(--sk-blue-pale);
+}
+
+.sk-product-card__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.4s ease;
+}
+
+.sk-product-card__media:hover img {
+  transform: scale(1.04);
+}
+
+.sk-product-card__badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+}
+
+.sk-product-card__rating {
+  font-family: var(--sk-font-label);
+  font-size: 1.2rem;
+  color: var(--sk-star);
+  min-height: 1.6rem;
+}
+
+.sk-product-card__title {
+  font-family: var(--sk-font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0.3rem 0;
+  line-height: 1.3;
+}
+
+.sk-product-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.sk-product-card__title a:hover {
+  color: var(--sk-blue-deep);
+}
+
+.sk-product-card__price {
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.sk-product-card__price s {
+  color: var(--sk-price-was);
+}
+
+.sk-product-card__price strong {
+  color: var(--sk-blue-deep);
+}
+
+.sk-product-card__tax {
+  opacity: 0.6;
+  font-size: 1.1rem;
+}
+
+.sk-product-card__actions {
+  margin-top: auto;
+  padding-top: 0.4rem;
+}
+
+.sk-product-card__actions .sk-btn {
+  width: 100%;
+  font-size: 1.4rem;
+  padding: 1.1rem 1.6rem;
+}
+
+.sk-product-card__actions.is-busy {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Ritual lines — alternating image / copy
+   ========================================================================== */
+.sk-ritual-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 5rem;
+  align-items: center;
+  max-width: 130rem;
+  margin: 0 auto;
+  padding: 0 4rem 7rem;
+}
+
+.sk-ritual-grid:last-child {
+  padding-bottom: 0;
+}
+
+.sk-ritual-grid--rev {
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.sk-ritual-grid--rev .sk-ritual__media {
+  order: 2;
+}
+
+.sk-ritual__media {
+  border-radius: var(--sk-radius);
+  overflow: hidden;
+  box-shadow: 0 30px 60px -20px rgb(0 73 135 / 35%);
+}
+
+.sk-ritual__media img {
+  width: 100%;
+  display: block;
+  height: auto;
+}
+
+.sk-ritual__label {
+  font-family: var(--sk-font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--sk-blue-mid);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.sk-ritual__title {
+  font-family: var(--sk-font-display);
+  font-size: 2.8rem;
+  margin: 0 0 1.2rem;
+}
+
+.sk-ritual__text {
+  font-size: 1.6rem;
+  opacity: 0.85;
+  margin: 0 0 2rem;
+}
+
+.sk-ritual__chips {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.sk-chip-outline {
+  background: #fff;
+  border: 1px solid var(--sk-blue-wash);
+  color: var(--sk-blue-deep);
+  font-family: var(--sk-font-label);
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+}
+
+@media screen and (max-width: 989px) {
+  .sk-ritual-grid,
+  .sk-ritual-grid--rev {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-bottom: 4rem;
+  }
+
+  .sk-ritual-grid--rev .sk-ritual__media {
+    order: 0;
+  }
+}
+
+/* ==========================================================================
+   Science — stats table & ingredient chips
+   ========================================================================== */
+.sk-science-stats {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2.4rem 0;
+}
+
+.sk-science-stats th {
+  text-align: left;
+  font-family: var(--sk-font-label);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.6;
+  padding: 1rem 0;
+  border-bottom: 2px solid rgb(74 71 68 / 12%);
+}
+
+.sk-science-stats td {
+  padding: 1.4rem 0;
+  border-bottom: 1px solid rgb(74 71 68 / 8%);
+  font-size: 1.6rem;
+}
+
+.sk-science-stats .sk-stat-value {
+  font-family: var(--sk-font-display);
+  font-weight: 800;
+  color: var(--sk-blue-deep);
+}
+
+.sk-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sk-ingredient-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--sk-blue-wash);
+  color: var(--sk-ink);
+  border-radius: 999px;
+  padding: 0.7rem 1.5rem;
+  font-family: var(--sk-font-label);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0.3rem 0.4rem 0.3rem 0;
+  border: none;
+  cursor: default;
+}
+
+.sk-ingredient-chip[data-tip] {
+  position: relative;
+  cursor: help;
+}
+
+.sk-ingredient-chip[data-tip]:hover::after,
+.sk-ingredient-chip[data-tip]:focus-visible::after,
+.sk-ingredient-chip[data-tip].is-open::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--sk-blue-deep);
+  color: #fff;
+  font-family: var(--sk-font-copy);
+  font-weight: 400;
+  font-size: 1.2rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  width: 22rem;
+  max-width: 60vw;
+  white-space: normal;
+  z-index: 5;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 20%);
+  text-align: center;
+}
+
+/* ==========================================================================
+   Just-right zone (too mild / just right / too harsh)
+   ========================================================================== */
+.sk-jrz-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: var(--page-width, 124rem);
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.sk-jrz-zone {
+  border-radius: var(--sk-radius);
+  padding: 3.4rem 2.8rem 3.2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--sk-ink);
+  min-width: 0;
+}
+
+.sk-jrz-zone h3 {
+  font-family: var(--sk-font-display);
+  margin: 0;
+}
+
+.sk-jrz-zone p {
+  margin: 0;
+}
+
+.sk-jrz-zone--mild {
+  background: var(--sk-blue-pale);
+}
+
+.sk-jrz-zone--right {
+  background: linear-gradient(170deg, var(--sk-blue-wash), #b9e4fb);
+  box-shadow: 0 16px 40px rgb(74 71 68 / 12%);
+  transform: scale(1.04);
+}
+
+.sk-jrz-zone--harsh {
+  background: #eaeaea;
+}
+
+.sk-jrz-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--sk-font-label);
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.5rem 1.3rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+  background: rgb(74 71 68 / 10%);
+  color: var(--sk-ink);
+}
+
+.sk-jrz-zone--right .sk-jrz-flag {
+  background: var(--sk-blue-deep);
+  color: #fff;
+}
+
+@media screen and (max-width: 749px) {
+  .sk-jrz-grid {
+    grid-template-columns: 1fr;
+    padding: 0 2rem;
+  }
+
+  .sk-jrz-zone--right {
+    transform: none;
+    order: -1;
+  }
+}
+
+/* ==========================================================================
+   Full-bleed photo break
+   ========================================================================== */
+.sk-photo-break {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.sk-photo-break__media,
+.sk-photo-break__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sk-photo-break__scrim {
+  position: absolute;
+  inset: 0;
+}
+
+.sk-photo-break__content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  max-width: 70rem;
+  padding: 4rem 3rem;
+}
+
+.sk-photo-break__content .sk-eyebrow {
+  color: #bee7f5;
+}
+
+.sk-photo-break__content h2 {
+  color: #fff;
+  font-family: var(--sk-font-display);
+  font-size: 3.4rem;
+  margin: 0 0 1.2rem;
+}
+
+.sk-photo-break__content p {
+  font-size: 1.6rem;
+  opacity: 0.92;
+  margin: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .sk-photo-break__content h2 {
+    font-size: 2.6rem;
+  }
+}
+
+/* ==========================================================================
+   Reviews / testimonials
+   ========================================================================== */
+.sk-review-card p {
+  font-style: italic;
+  margin: 0.8rem 0;
+}
+
+.sk-review-card__author {
+  font-family: var(--sk-font-display);
+  font-weight: 700;
+  display: block;
+}
+
+.sk-review-card__meta {
+  opacity: 0.6;
+  font-size: 1.2rem;
+}
+
+/* ==========================================================================
+   Journal / article cards
+   ========================================================================== */
+.sk-journal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sk-journal-card__media {
+  display: block;
+  aspect-ratio: 16 / 10;
+  background: var(--sk-blue-wash);
+  overflow: hidden;
+}
+
+.sk-journal-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.sk-journal-card__media:hover img {
+  transform: scale(1.04);
+}
+
+.sk-journal-card__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sk-blue-deep);
+  font-family: var(--sk-font-label);
+  font-weight: 700;
+}
+
+.sk-journal-card__body {
+  padding: 2rem;
+}
+
+.sk-journal-card__body h3 {
+  font-family: var(--sk-font-display);
+  font-size: 1.6rem;
+  margin: 0 0 0.6rem;
+}
+
+.sk-journal-card__body h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.sk-journal-card__body h3 a:hover {
+  color: var(--sk-blue-deep);
+}
+
+.sk-journal-card__body p {
+  opacity: 0.7;
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Newsletter / offer band
+   ========================================================================== */
+.sk-offer {
+  text-align: center;
+}
+
+.sk-offer__title {
+  font-family: var(--sk-font-display);
+  font-size: 2.4rem;
+  margin: 0 0 0.6rem;
+}
+
+.sk-offer__sub {
+  opacity: 0.8;
+  margin: 0;
+}
+
+.sk-subscribe-row {
+  display: flex;
+  gap: 0.8rem;
+  max-width: 44rem;
+  margin: 1.4rem auto 0;
+}
+
+.sk-subscribe-row .field__input,
+.sk-subscribe-row input[type='email'] {
+  flex: 1;
+  min-width: 0;
+  border-radius: 999px;
+  border: 1.5px solid rgb(18 59 74 / 20%);
+  padding: 1.2rem 1.8rem;
+  font-family: var(--sk-font-copy);
+  font-size: 1.5rem;
+  background: #fff;
+  color: var(--sk-ink);
+}
+
+.sk-offer__success {
+  margin-top: 1.2rem;
+  font-family: var(--sk-font-label);
+  font-weight: 700;
+  color: var(--sk-blue-deep);
+}
+
+.sk-offer__error {
+  margin-top: 1.2rem;
+  font-size: 1.3rem;
+}
+
+@media screen and (max-width: 749px) {
+  .sk-subscribe-row {
+    flex-direction: column;
+  }
+}
+
+/* ==========================================================================
+   Trust: medallions, badges row, payment marks
+   ========================================================================== */
+.sk-medallion-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.6rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.sk-medallion img {
+  width: 90px;
+  height: 90px;
+  display: block;
+}
+
+.sk-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  text-align: center;
+  border-bottom: 1px solid rgb(74 71 68 / 10%);
+  padding-bottom: 3rem;
+  margin-bottom: 3rem;
+}
+
+.sk-trust-grid svg {
+  margin: 0 auto 0.8rem;
+  display: block;
+}
+
+.sk-trust-grid strong {
+  font-family: var(--sk-font-display);
+  font-size: 1.5rem;
+  display: block;
+}
+
+.sk-trust-grid span {
+  opacity: 0.7;
+  font-size: 1.2rem;
+}
+
+.sk-trust-lock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.sk-payment-row {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-top: 1.4rem;
+  flex-wrap: wrap;
+}
+
+.sk-payment-mark {
+  border: 1px solid rgb(74 71 68 / 15%);
+  border-radius: 8px;
+  padding: 0.7rem 1.6rem;
+  font-family: var(--sk-font-label);
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--sk-blue-deep);
+  background: #fff;
+}
+
+.sk-payment-mark--visa {
+  font-style: italic;
+}
+
+@media screen and (max-width: 749px) {
+  .sk-trust-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* ==========================================================================
+   Founders / story
+   ========================================================================== */
+.sk-story-gen {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 2rem 0;
+  border-top: 1px solid rgb(74 71 68 / 10%);
+}
+
+.sk-story-gen__badge {
+  flex: 0 0 auto;
+  width: 5.2rem;
+  height: 5.2rem;
+  border-radius: 50%;
+  background: var(--sk-blue-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sk-font-display);
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--sk-blue-deep);
+  overflow: hidden;
+}
+
+.sk-story-gen__badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sk-story-gen__name {
+  font-family: var(--sk-font-display);
+  font-size: 1.9rem;
+  margin: 0 0 0.3rem;
+  font-weight: 700;
+}
+
+.sk-story-gen__role {
+  font-family: var(--sk-font-label);
+  font-size: 1.2rem;
+  color: var(--sk-blue-deep);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.sk-story-gen p {
+  margin: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .sk-story-gen {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+}
+
+/* ==========================================================================
+   Timeline (Our Journey)
+   ========================================================================== */
+.sk-timeline {
+  border-left: 3px solid var(--sk-blue-wash);
+  padding-left: 2.4rem;
+}
+
+.sk-timeline__item + .sk-timeline__item {
+  margin-top: 3rem;
+}
+
+.sk-timeline__year {
+  font-family: var(--sk-font-display);
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--sk-blue-deep);
+}
+
+.sk-timeline__item p {
+  opacity: 0.85;
+  margin: 0.4rem 0 0;
+}
+
+/* ==========================================================================
+   Routine builder
+   ========================================================================== */
+.sk-routine-tabs {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.sk-routine-tab {
+  font-family: var(--sk-font-label);
+  font-weight: 700;
+  font-size: 1.4rem;
+  padding: 1rem 2.2rem;
+  border-radius: 999px;
+  border: 1.5px solid rgb(74 71 68 / 15%);
+  background: #fff;
+  color: var(--sk-ink);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sk-routine-tab[aria-selected='true'] {
+  background: var(--sk-blue-deep);
+  color: #fff;
+  border-color: var(--sk-blue-deep);
+}
+
+.sk-routine-panel[hidden] {
+  display: none;
+}
+
+.sk-routine-moment {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: 2rem;
+  padding: 2.4rem 0;
+  border-top: 1px solid rgb(74 71 68 / 10%);
+}
+
+.sk-routine-moment__time {
+  font-family: var(--sk-font-script);
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: var(--sk-blue-deep);
+}
+
+.sk-routine-panel .sk-btn {
+  margin-top: 2.4rem;
+}
+
+@media screen and (max-width: 749px) {
+  .sk-routine-moment {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+}
+
+/* ==========================================================================
+   Community — Be the Pride
+   ========================================================================== */
+.sk-community-hero {
+  border-radius: 0 0 var(--sk-radius-lg) var(--sk-radius-lg);
+  padding: 5rem 3rem 4rem;
+  text-align: center;
+}
+
+.sk-community-hero h1 {
+  font-family: var(--sk-font-display);
+  font-size: 2.8rem;
+  margin: 0;
+}
+
+.sk-community-hero .sk-eyebrow {
+  color: #fbc4de;
+}
+
+.sk-community-hero__accent {
+  color: #fbc4de;
+  font-family: var(--sk-font-script);
+  font-weight: 700;
+}
+
+.sk-community-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin-top: 2.4rem;
+}
+
+.sk-community-stats .sk-pill--trust {
+  font-size: 1.4rem;
+  padding: 1rem 2rem;
+}
+
+.sk-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.8rem;
+  max-width: var(--page-width, 124rem);
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.sk-gallery-card {
+  border-radius: var(--sk-radius);
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.sk-gallery-card::before {
+  content: '';
+  position: absolute;
+  top: 1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgb(74 71 68 / 25%);
+  z-index: 2;
+}
+
+.sk-gallery-card__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sk-gallery-card__name,
+.sk-gallery-card__age {
+  position: relative;
+  z-index: 2;
+}
+
+.sk-gallery-card--has-image .sk-gallery-card__name,
+.sk-gallery-card--has-image .sk-gallery-card__age {
+  color: #fff;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 55%);
+}
+
+.sk-gallery-card__name {
+  font-family: var(--sk-font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+}
+
+.sk-gallery-card__age {
+  font-family: var(--sk-font-label);
+  font-size: 1.2rem;
+  opacity: 0.85;
+}
+
+@media screen and (max-width: 989px) {
+  .sk-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 2rem;
+  }
+}
+
+.sk-spark-output {
+  background: var(--sk-blue-wash);
+  border-radius: var(--sk-radius-sm);
+  padding: 1.6rem;
+  font-family: var(--sk-font-script);
+  font-weight: 600;
+  font-size: 1.8rem;
+  margin: 1.4rem 0;
+  min-height: 3rem;
+  color: var(--sk-ink);
+}
+
+/* ==========================================================================
+   Simply Kids form styling (contact / community submission).
+   Scoped to `.sk-form` so Dawn's own form components are untouched.
+   ========================================================================== */
+.sk-form {
+  max-width: 64rem;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: var(--sk-radius);
+  padding: 3.2rem;
+  box-shadow: 0 16px 40px rgb(74 71 68 / 10%);
+  color: var(--sk-ink);
+}
+
+.sk-form--plain {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.sk-form label {
+  font-family: var(--sk-font-label);
+  font-weight: 700;
+  font-size: 1.3rem;
+  display: block;
+  margin: 1.6rem 0 0.5rem;
+}
+
+.sk-form input,
+.sk-form select,
+.sk-form textarea {
+  width: 100%;
+  border: 1.5px solid rgb(74 71 68 / 18%);
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+  font-family: var(--sk-font-copy);
+  font-size: 1.5rem;
+  color: var(--sk-ink);
+  background: #fff;
+}
+
+.sk-form textarea {
+  min-height: 12rem;
+  resize: vertical;
+}
+
+.sk-form input:focus,
+.sk-form select:focus,
+.sk-form textarea:focus {
+  outline: 0.2rem solid var(--sk-blue-deep);
+  outline-offset: 0.1rem;
+}
+
+.sk-form .sk-btn {
+  margin-top: 1.6rem;
+}
+
+.sk-form__note {
+  font-size: 1.2rem;
+  opacity: 0.7;
+  margin-top: 1.6rem;
+}
+
+.sk-form-message {
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.6rem;
+  font-size: 1.4rem;
+}
+
+.sk-form-message--success {
+  background: var(--sk-blue-pale);
+  color: var(--sk-blue-deep);
+}
+
+.sk-form-message--error {
+  background: #fdecef;
+  color: #8c1c34;
+}
+
+.sk-contact-details p {
+  margin: 0 0 1.4rem;
+}
+
+.sk-contact-details strong {
+  font-family: var(--sk-font-display);
+}
+
+.sk-contact-details a {
+  color: var(--sk-blue-deep);
+}
+
+/* ==========================================================================
+   FAQ accordion
+   ========================================================================== */
+.sk-faq__item {
+  border-bottom: 1px solid rgb(18 59 74 / 12%);
+  padding: 1.2rem 0;
+}
+
+.sk-faq__summary {
+  cursor: pointer;
+  font-family: var(--sk-font-label);
+  font-weight: 700;
+  font-size: 1.6rem;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.sk-faq__summary::-webkit-details-marker {
+  display: none;
+}
+
+.sk-faq__summary::after {
+  content: '';
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  border-right: 2px solid currentcolor;
+  border-bottom: 2px solid currentcolor;
+  transform: rotate(45deg) translate(-0.2rem, -0.2rem);
+  transition: transform 0.15s ease;
+}
+
+.sk-faq__item[open] .sk-faq__summary::after {
+  transform: rotate(-135deg) translate(-0.2rem, -0.2rem);
+}
+
+.sk-faq__answer {
+  padding-top: 0.8rem;
+  opacity: 0.85;
+}
+
+.sk-faq__answer > :first-child {
+  margin-top: 0;
+}
+
+.sk-faq__answer > :last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Collection pills (shop page category shortcuts)
+   ========================================================================== */
+.sk-collection-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.sk-collection-pills {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sk-collection-pills a {
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Floating WhatsApp button (WhatsApp's own brand green — a utility icon,
+   not part of the Simply Kids palette)
+   ========================================================================== */
+.sk-whatsapp-fab {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  z-index: 40;
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: 50%;
+  background: #25d366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 20%);
+  transition: transform 0.15s ease;
+}
+
+.sk-whatsapp-fab:hover {
+  transform: scale(1.06);
+}
+
+.sk-whatsapp-fab svg {
+  width: 2.8rem;
+  height: 2.8rem;
+  fill: #fff;
+}
+
+@media screen and (max-width: 749px) {
+  .sk-whatsapp-fab {
+    right: 1.4rem;
+    bottom: 1.4rem;
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+/* ==========================================================================
+   Narrow, opt-in Dawn component tweaks.
+   Each is gated by an `sk-` class that only the Simply Kids configuration
+   applies, so stock Dawn behaviour is never changed implicitly.
+   ========================================================================== */
+
+/* Footer: Midnight Blue band with the brand's rounded top corners. */
+.sk-footer-rounded .footer {
+  border-radius: var(--sk-radius-lg) var(--sk-radius-lg) 0 0;
+}
+
+.sk-footer-rounded .footer-block__heading {
+  font-family: var(--sk-font-label);
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  letter-spacing: 0.06em;
+  font-weight: 800;
+}
+
+/* Announcement bar: the brand's label face and tracking. */
+.sk-announcement .announcement-bar__message {
+  font-family: var(--sk-font-label);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* PDP: the sanctioned pastel treatment behind the product media/details. */
+.sk-pdp .product__title,
+.sk-pdp .product__info-container h1 {
+  font-family: var(--sk-font-display);
+  font-weight: 800;
+}
+
+.sk-pdp .price {
+  font-family: var(--sk-font-display);
+}
+
+.sk-pdp .price__sale .price-item--regular {
+  color: var(--sk-price-was);
+}
+
+.sk-pdp .product-media-container,
+.sk-pdp .product__media-wrapper .product__media,
+.sk-pdp .product__media-item img {
+  border-radius: var(--sk-radius-lg);
+}
+
+/* Collection & search product cards: rounded media to match the brand grid. */
+.sk-cards .card__inner,
+.sk-cards .card .card__media,
+.sk-cards .card__inner .card__media img {
+  border-radius: 20px;
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .sk-btn,
+  .sk-whatsapp-fab,
+  .sk-quiz__opt,
+  .sk-routine-tab,
+  .sk-product-card__media img,
+  .sk-journal-card__media img {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Affiliate-source parity layer.
+
+   The Simply Kids source design ships a handful of utility and legacy
+   component class names. They are kept here — mapped onto the components
+   above — so markup pasted straight from the source design (or written into a
+   rich-text / Custom Liquid block by the merchant) still renders correctly.
+   ========================================================================== */
+
+/* Typography utilities */
+.sk-font-display {
+  font-family: var(--sk-font-display);
+}
+
+.sk-font-label {
+  font-family: var(--sk-font-label);
+  letter-spacing: 0.02em;
+}
+
+.sk-font-copy,
+.sk-body {
+  font-family: var(--sk-font-copy);
+}
+
+.sk-font-script {
+  font-family: var(--sk-font-script);
+}
+
+/* Heading group from the source design */
+.sk-pdp__title,
+.sk-card__title {
+  font-family: var(--sk-font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+/* `.sk-tool-card` is the source design's name for `.sk-card`. */
+.sk-tool-card {
+  background: #fff;
+  border-radius: var(--sk-radius);
+  padding: 2.8rem;
+  box-shadow: 0 12px 30px rgb(74 71 68 / 8%);
+  color: var(--sk-ink);
+}
+
+.sk-tool-card h3 {
+  font-family: var(--sk-font-display);
+  font-size: 1.9rem;
+  margin: 0 0 0.6rem;
+}
+
+/* `.sk-submit-form` / `.sk-submit-guidelines` are the source design's names
+   for `.sk-form` / `.sk-form__note`. */
+.sk-submit-form {
+  max-width: 64rem;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: var(--sk-radius);
+  padding: 3.2rem;
+  box-shadow: 0 16px 40px rgb(74 71 68 / 10%);
+  color: var(--sk-ink);
+}
+
+.sk-submit-form label {
+  font-family: var(--sk-font-label);
+  font-weight: 700;
+  font-size: 1.3rem;
+  display: block;
+  margin: 1.6rem 0 0.5rem;
+}
+
+.sk-submit-form input,
+.sk-submit-form select,
+.sk-submit-form textarea {
+  width: 100%;
+  border: 1.5px solid rgb(74 71 68 / 18%);
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+  font-family: var(--sk-font-copy);
+  font-size: 1.5rem;
+  color: var(--sk-ink);
+  background: #fff;
+}
+
+.sk-submit-guidelines {
+  font-size: 1.2rem;
+  opacity: 0.7;
+  margin-top: 1.6rem;
+}
+
+/* Logo/badge strip variant of the medallion row. */
+.sk-trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  justify-content: center;
+  align-items: center;
+  padding: 2.4rem 0;
+}
+
+.sk-trust-row img {
+  height: 4.2rem;
+  width: auto;
+}
+
+/* The source design's standalone trust/announcement bar. Dawn's own
+   announcement bar on colour scheme 11 produces the same band; this class is
+   here for parity when the markup is used directly. */
+.sk-trustbar {
+  background: linear-gradient(
+    100deg,
+    var(--sk-cyclamen-pastel),
+    var(--sk-pink-pastel) 50%,
+    var(--sk-pink-accent)
+  );
+  color: var(--sk-ink);
+  text-align: center;
+  font-family: var(--sk-font-label);
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 0.9rem 1.6rem;
+}
+
+/* Inline error surfaced by <sk-quick-add> when the Cart AJAX API refuses. */
+.sk-product-card__error {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 1.2rem;
+  color: #8c1c34;
+}
+
+.sk-product-card__error:empty {
+  display: none;
+}

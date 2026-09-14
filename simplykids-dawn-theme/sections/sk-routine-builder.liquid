@@ -1,0 +1,201 @@
+{%- comment -%}
+  Simply Kids — Routine builder.
+  Age-stage tabs, each holding "moment" rows and a CTA. Tabs follow the
+  WAI-ARIA tabs pattern and are driven by <sk-tabs> (assets/simplykids.js).
+  Without JavaScript the first panel stays open and the rest are reachable,
+  so no content is ever lost.
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="sk-center" style="margin-bottom: 2rem;">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="sk-section__title {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <sk-tabs style="display: block;">
+      <div class="sk-routine-tabs" role="tablist" aria-label="{{ section.settings.heading | default: 'Routines' | escape }}">
+        {%- for block in section.blocks -%}
+          <button
+            type="button"
+            class="sk-routine-tab"
+            role="tab"
+            id="SkTab-{{ section.id }}-{{ block.id }}"
+            aria-controls="SkPanel-{{ section.id }}-{{ block.id }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            {{- block.settings.label | escape -}}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        <div
+          class="sk-routine-panel"
+          role="tabpanel"
+          id="SkPanel-{{ section.id }}-{{ block.id }}"
+          aria-labelledby="SkTab-{{ section.id }}-{{ block.id }}"
+          tabindex="0"
+          {% unless forloop.first %}hidden{% endunless %}
+        >
+          {%- assign moments = block.settings.moments | newline_to_br | split: '<br />' -%}
+          {%- for moment in moments -%}
+            {%- assign parts = moment | strip_newlines | strip | split: '|' -%}
+            {%- if parts.size > 1 -%}
+              <div class="sk-routine-moment">
+                <div class="sk-routine-moment__time">{{ parts[0] | strip | escape }}</div>
+                <div>{{ parts[1] | strip | escape }}</div>
+              </div>
+            {%- elsif parts.size == 1 and parts[0] != blank -%}
+              <div class="sk-routine-moment">
+                <div class="sk-routine-moment__time"></div>
+                <div>{{ parts[0] | strip | escape }}</div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if block.settings.button_label != blank -%}
+            <a
+              class="sk-btn sk-btn--primary"
+              {% if block.settings.button_link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ block.settings.button_link }}"
+              {% endif %}
+            >
+              {{- block.settings.button_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </sk-tabs>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Routine builder",
+  "tag": "section",
+  "class": "section sk-shopify-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Ready-made routines"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Three moments, that's the whole routine"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "routine",
+      "name": "Routine",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tab label",
+          "default": "Ages 4–6 · Little Explorers"
+        },
+        {
+          "type": "textarea",
+          "id": "moments",
+          "label": "Moments",
+          "info": "One per line, in the form: Time | What they do.",
+          "default": "Morning | A quick rinse with the Gentle Body Wash — fast enough that it doesn't turn into a wrestling match.\nBath time | 2-in-1 Shampoo + Conditioner so wash day stops being a fight over tangles.\nBedtime | A little Nourishing Body Massage Oil worked in while you read one more story."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop this routine"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Routine builder",
+      "blocks": [
+        { "type": "routine" },
+        { "type": "routine" },
+        { "type": "routine" }
+      ]
+    }
+  ]
+}
+{% endschema %}

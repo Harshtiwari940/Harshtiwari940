@@ -1,0 +1,239 @@
+{%- comment -%}
+  Simply Kids — Contact split.
+  Shopify's native contact form on the left (so messages reach the store's
+  customer-service email), the brand's contact details on the right.
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="sk-grid sk-grid--2" style="max-width: 100rem; margin: 0 auto;">
+      <div class="sk-card sk-form sk-form--plain" style="padding: 2.8rem;">
+        {%- if section.settings.form_heading != blank -%}
+          <h2 class="sk-section__title h2">{{ section.settings.form_heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.form_text != blank -%}
+          <div class="sk-section__text">{{ section.settings.form_text }}</div>
+        {%- endif -%}
+
+        {%- assign sk_contact_id = 'SkContact-' | append: section.id -%}
+        {%- form 'contact', id: sk_contact_id -%}
+          {%- if form.posted_successfully? -%}
+            <p class="sk-form-message sk-form-message--success" tabindex="-1" autofocus>
+              {{- 'templates.contact.form.post_success' | t -}}
+            </p>
+          {%- elsif form.errors -%}
+            <div class="sk-form-message sk-form-message--error" role="alert" tabindex="-1" autofocus>
+              {{ 'templates.contact.form.error_heading' | t }}
+              <ul>
+                {%- for field in form.errors -%}
+                  <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          <label for="SkContactName-{{ section.id }}">{{ 'templates.contact.form.name' | t }}</label>
+          <input
+            id="SkContactName-{{ section.id }}"
+            type="text"
+            name="contact[{{ 'templates.contact.form.name' | t }}]"
+            autocomplete="name"
+            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+          >
+
+          <label for="SkContactEmail-{{ section.id }}">{{ 'templates.contact.form.email' | t }}</label>
+          <input
+            id="SkContactEmail-{{ section.id }}"
+            type="email"
+            name="contact[email]"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            required
+          >
+
+          {%- if section.settings.show_phone -%}
+            <label for="SkContactPhone-{{ section.id }}">{{ 'templates.contact.form.phone' | t }}</label>
+            <input
+              id="SkContactPhone-{{ section.id }}"
+              type="tel"
+              name="contact[{{ 'templates.contact.form.phone' | t }}]"
+              autocomplete="tel"
+              value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+            >
+          {%- endif -%}
+
+          {%- if section.settings.show_order_number -%}
+            <label for="SkContactOrder-{{ section.id }}">{{ section.settings.order_number_label | escape }}</label>
+            <input id="SkContactOrder-{{ section.id }}" type="text" name="contact[Order number]">
+          {%- endif -%}
+
+          <label for="SkContactBody-{{ section.id }}">{{ 'templates.contact.form.comment' | t }}</label>
+          <textarea id="SkContactBody-{{ section.id }}" name="contact[body]" rows="5" required>
+            {{- form.body -}}
+          </textarea>
+
+          <button type="submit" class="sk-btn sk-btn--primary sk-btn--full">
+            {{- section.settings.button_label | escape -}}
+          </button>
+        {%- endform -%}
+      </div>
+
+      <div class="sk-card sk-contact-details">
+        {%- if section.settings.details_heading != blank -%}
+          <h2 class="sk-section__title h2">{{ section.settings.details_heading | escape }}</h2>
+        {%- endif -%}
+
+        {%- for block in section.blocks -%}
+          <p {{ block.shopify_attributes }}>
+            <strong>{{ block.settings.label | escape }}</strong><br>
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}">{{ block.settings.value | escape }}</a>
+            {%- else -%}
+              <span style="opacity: 0.8;">{{ block.settings.value | escape }}</span>
+            {%- endif -%}
+          </p>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Contact split",
+  "tag": "section",
+  "class": "section sk-shopify-section",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form heading",
+      "default": "Write to us"
+    },
+    {
+      "type": "richtext",
+      "id": "form_text",
+      "label": "Form intro",
+      "default": "<p>Send your order number and query, and our team will get back to you.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "Show phone field",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_order_number",
+      "label": "Show order number field",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "order_number_label",
+      "label": "Order number label",
+      "default": "Order number (optional)"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Send message"
+    },
+    {
+      "type": "text",
+      "id": "details_heading",
+      "label": "Details heading",
+      "default": "Other ways to reach us"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Detail",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Phone"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "+91-6297450751"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Contact split",
+      "blocks": [
+        { "type": "detail", "settings": { "label": "Phone", "value": "+91-6297450751" } },
+        { "type": "detail", "settings": { "label": "Email", "value": "support@simplykids.in" } },
+        {
+          "type": "detail",
+          "settings": {
+            "label": "Registered Office",
+            "value": "Omakase Enterprises LLP, Primarc Chambers, Unit OU-114, 1839 Laskarhat, Tagore Park, E. M. Bypass, Kolkata – 700039"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

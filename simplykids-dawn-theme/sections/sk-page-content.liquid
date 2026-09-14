@@ -1,0 +1,108 @@
+{%- comment -%}
+  Simply Kids — Page content (no title).
+  Renders the page body written in Shopify Admin, in the brand's type scale,
+  without repeating the page title. Pair it with "SK Page hero", which already
+  supplies the H1. Dawn's own `main-page` section is left untouched for
+  templates that want Dawn's default treatment.
+
+  Renders nothing when the page has no content, so it is safe to leave in a
+  template that a merchant has not filled in yet.
+{%- endcomment -%}
+
+{%- if page.content != blank -%}
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+    #shopify-section-{{ section.id }} .sk-page-content {
+      max-width: {{ section.settings.max_width }}rem;
+      {% if section.settings.center %}margin: 0 auto;{% endif %}
+    }
+
+    #shopify-section-{{ section.id }} .sk-page-content h2,
+    #shopify-section-{{ section.id }} .sk-page-content h3 {
+      font-family: var(--sk-font-display);
+      margin-top: 2.4rem;
+    }
+  {%- endstyle -%}
+
+  <div class="color-{{ section.settings.color_scheme }} gradient">
+    <div class="page-width section-{{ section.id }}-padding">
+      <div class="sk-page-content rte">{{ page.content }}</div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SK Page content",
+  "tag": "section",
+  "class": "section sk-shopify-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the page content written in Shopify Admin, without repeating the page title. Hidden automatically when the page has no content."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 50,
+      "max": 130,
+      "step": 2,
+      "unit": "rem",
+      "label": "Maximum width",
+      "default": 80
+    },
+    {
+      "type": "checkbox",
+      "id": "center",
+      "label": "Center the content column",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Page content"
+    }
+  ]
+}
+{% endschema %}
