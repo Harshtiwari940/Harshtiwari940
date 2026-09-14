@@ -1,0 +1,59 @@
+{%- comment -%}
+  Renders the Simply Kids email capture form using Shopify's own customer form,
+  so subscribers land in Customers with the "newsletter" tag exactly as they do
+  from Dawn's native newsletter section.
+
+  Accepts:
+  - form_id: {String} Unique id for the input/labels. Required.
+  - placeholder: {String} Input placeholder. Optional.
+  - button_label: {String} Submit button label. Optional.
+  - success_text: {String} Message shown after a successful signup. Optional.
+{%- endcomment -%}
+
+{%- form 'customer', class: 'sk-subscribe-form' -%}
+  <input type="hidden" name="contact[tags]" value="newsletter">
+  <div class="sk-subscribe">
+    <div class="sk-subscribe__field">
+      <label class="sk-visually-hidden" for="{{ form_id }}">
+        {{- placeholder | default: 'Email' | escape -}}
+      </label>
+      <input
+        id="{{ form_id }}"
+        type="email"
+        name="contact[email]"
+        value="{{ form.email }}"
+        aria-required="true"
+        autocorrect="off"
+        autocapitalize="off"
+        autocomplete="email"
+        {% if form.errors %}
+          autofocus
+          aria-invalid="true"
+          aria-describedby="{{ form_id }}-error"
+        {% elsif form.posted_successfully? %}
+          aria-describedby="{{ form_id }}-success"
+        {% endif %}
+        placeholder="{{ placeholder | default: 'your@email.com' | escape }}"
+        required
+      >
+    </div>
+    <button type="submit" class="sk-btn sk-btn--primary" name="commit">
+      {{- button_label | default: 'Subscribe' | escape -}}
+    </button>
+  </div>
+
+  {%- if form.errors -%}
+    <p class="sk-subscribe__error" id="{{ form_id }}-error" role="alert">
+      {{- 'icon-error.svg' | inline_asset_content -}}
+      {{ form.errors.translated_fields.email | capitalize }}
+      {{ form.errors.messages.email }}
+    </p>
+  {%- endif -%}
+
+  {%- if form.posted_successfully? -%}
+    <p class="sk-subscribe__success" id="{{ form_id }}-success" role="status" tabindex="-1" autofocus>
+      {{- 'icon-success.svg' | inline_asset_content -}}
+      {{ success_text | default: 'Thanks for subscribing.' | escape }}
+    </p>
+  {%- endif -%}
+{%- endform -%}

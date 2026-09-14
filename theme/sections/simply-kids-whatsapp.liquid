@@ -1,0 +1,109 @@
+{{ 'simply-kids.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #Whatsapp--{{ section.id }} {
+    bottom: {{ section.settings.offset_bottom_mobile }}px;
+    background: {{ section.settings.button_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    #Whatsapp--{{ section.id }} {
+      bottom: {{ section.settings.offset_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign digits = section.settings.phone | remove: ' ' | remove: '+' | remove: '-' | remove: '(' | remove: ')'
+  assign message = section.settings.prefilled_message | url_encode
+  assign whatsapp_href = 'https://wa.me/' | append: digits
+  if message != blank
+    assign whatsapp_href = whatsapp_href | append: '?text=' | append: message
+  endif
+-%}
+
+{%- if section.settings.enable and digits != blank -%}
+  <a
+    id="Whatsapp--{{ section.id }}"
+    class="sk-whatsapp-fab"
+    href="{{ whatsapp_href }}"
+    target="_blank"
+    rel="noopener"
+  >
+    <span class="sk-visually-hidden">{{ section.settings.label | escape }}</span>
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <path d="M16.001 3C9.096 3 3.5 8.596 3.5 15.5c0 2.36.655 4.566 1.792 6.452L3 29l7.222-2.254A12.44 12.44 0 0016 28c6.905 0 12.5-5.596 12.5-12.5S22.906 3 16.001 3zm0 22.6c-1.94 0-3.75-.56-5.276-1.526l-.378-.238-4.287 1.338 1.36-4.178-.246-.394A10.05 10.05 0 015.9 15.5c0-5.57 4.53-10.1 10.1-10.1s10.1 4.53 10.1 10.1-4.53 10.1-10.1 10.1zm5.54-7.566c-.303-.152-1.793-.885-2.07-.986-.278-.101-.48-.152-.682.152-.202.303-.783.986-.96 1.188-.177.202-.354.227-.657.076-.303-.152-1.28-.472-2.438-1.504-.901-.804-1.51-1.796-1.687-2.1-.177-.303-.019-.467.133-.618.137-.136.303-.354.455-.531.152-.177.202-.303.303-.505.101-.202.05-.379-.025-.531-.076-.152-.682-1.644-.934-2.252-.246-.59-.496-.51-.682-.52l-.581-.01c-.202 0-.53.076-.808.379-.278.303-1.061 1.036-1.061 2.528s1.086 2.933 1.238 3.135c.152.202 2.137 3.263 5.177 4.576.723.312 1.288.499 1.728.638.726.231 1.387.198 1.91.12.583-.087 1.793-.733 2.046-1.44.253-.708.253-1.315.177-1.441-.076-.127-.278-.202-.58-.354z"/>
+    </svg>
+  </a>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SK — WhatsApp button",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Show WhatsApp button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "WhatsApp number",
+      "info": "Include the country code, for example 916297450751.",
+      "default": "916297450751"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Accessible label",
+      "info": "Read out by screen readers in place of the icon.",
+      "default": "Chat with Simply Kids on WhatsApp"
+    },
+    {
+      "type": "textarea",
+      "id": "prefilled_message",
+      "label": "Pre-filled message",
+      "default": "Hi Simply Kids! I have a question about"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button colour",
+      "default": "#25D366"
+    },
+    {
+      "type": "range",
+      "id": "offset_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Distance from bottom on desktop",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "offset_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Distance from bottom on mobile",
+      "info": "Increase this if the button overlaps the sticky cart bar.",
+      "default": 112
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK — WhatsApp button"
+    }
+  ]
+}
+{% endschema %}

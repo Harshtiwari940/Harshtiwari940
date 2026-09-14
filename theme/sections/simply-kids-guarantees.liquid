@@ -1,0 +1,254 @@
+{{ 'simply-kids.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Guarantees--{{ section.id }} .sk-guarantee__icon,
+  #Guarantees--{{ section.id }} .sk-payment-note,
+  #Guarantees--{{ section.id }} .sk-payment-row__item {
+    color: {{ section.settings.accent_color }};
+  }
+
+  #Guarantees--{{ section.id }} .sk-guarantee-grid {
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+  }
+
+  @media screen and (max-width: 749px) {
+    #Guarantees--{{ section.id }} .sk-guarantee-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign guarantee_blocks = section.blocks | where: 'type', 'guarantee'
+  assign payment_blocks = section.blocks | where: 'type', 'payment'
+-%}
+
+<div
+  id="Guarantees--{{ section.id }}"
+  class="sk-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+>
+  <div class="sk-container">
+    {%- if guarantee_blocks.size > 0 -%}
+      <ul
+        class="sk-guarantee-grid{% if section.settings.show_divider and payment_blocks.size > 0 %} sk-guarantee-grid--divider{% endif %}"
+        role="list"
+      >
+        {%- for block in guarantee_blocks -%}
+          <li {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != 'none' -%}
+              {%- render 'simply-kids-icon', icon: block.settings.icon, size: 40, class: 'sk-guarantee__icon' -%}
+            {%- endif -%}
+            {%- if block.settings.title != blank -%}
+              <strong class="sk-guarantee__title">{{ block.settings.title | escape }}</strong>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <span class="sk-guarantee__text">{{ block.settings.text | escape }}</span>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if payment_blocks.size > 0 or section.settings.payment_note != blank -%}
+      <div style="text-align: center;">
+        {%- if section.settings.payment_note != blank -%}
+          <span class="sk-eyebrow sk-payment-note">
+            {%- if section.settings.payment_note_icon != 'none' -%}
+              {%- render 'simply-kids-icon', icon: section.settings.payment_note_icon, size: 16 -%}
+            {%- endif -%}
+            {{ section.settings.payment_note | escape }}
+          </span>
+        {%- endif -%}
+
+        {%- if payment_blocks.size > 0 -%}
+          <ul class="sk-payment-row" role="list">
+            {%- for block in payment_blocks -%}
+              <li class="sk-payment-row__item" {{ block.shopify_attributes }}>
+                {%- if block.settings.image != blank -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 160
+                    | image_tag: widths: '80, 120, 160', alt: block.settings.label
+                  }}
+                {%- else -%}
+                  {{ block.settings.label | escape }}
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK — Guarantees",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 14,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Guarantee columns on desktop",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "label": "Show divider above payment row",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Payment row"
+    },
+    {
+      "type": "text",
+      "id": "payment_note",
+      "label": "Payment note",
+      "default": "100% Payment Protection, Easy Return Policy"
+    },
+    {
+      "type": "select",
+      "id": "payment_note_icon",
+      "label": "Payment note icon",
+      "options": [
+        { "value": "lock", "label": "Lock" },
+        { "value": "shield", "label": "Shield" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "lock"
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-6"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent colour",
+      "default": "#004987"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "guarantee",
+      "name": "Guarantee",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "cart", "label": "Shipping cart" },
+            { "value": "card", "label": "Payment card" },
+            { "value": "return", "label": "Returns" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "drop", "label": "Drop" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "cart"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description",
+          "default": "On orders over ₹999"
+        }
+      ]
+    },
+    {
+      "type": "payment",
+      "name": "Payment method",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "UPI"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo",
+          "info": "Shown instead of the label when set."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK — Guarantees",
+      "blocks": [
+        { "type": "guarantee", "settings": { "icon": "cart", "title": "Free Shipping", "text": "On orders over ₹999" } },
+        { "type": "guarantee", "settings": { "icon": "card", "title": "COD Available", "text": "Pay when it arrives" } },
+        { "type": "guarantee", "settings": { "icon": "return", "title": "No Question Asked", "text": "Returns & Exchange" } },
+        { "type": "payment", "settings": { "label": "UPI" } },
+        { "type": "payment", "settings": { "label": "VISA" } },
+        { "type": "payment", "settings": { "label": "Mastercard" } },
+        { "type": "payment", "settings": { "label": "RuPay" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

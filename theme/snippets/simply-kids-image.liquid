@@ -1,0 +1,54 @@
+{%- comment -%}
+  Renders a responsive image for the Simply Kids sections.
+
+  Uses the merchant's image_picker value when one is set, and otherwise falls
+  back to the bundled brand asset that ships with the theme, so every section
+  looks complete the moment the theme is installed and stays fully editable.
+
+  Accepts:
+  - image: {Object} Image from an image_picker setting. Optional.
+  - fallback: {String} Asset filename used when `image` is blank. Optional.
+  - alt: {String} Alternative text. Optional.
+  - sizes: {String} `sizes` attribute. Optional.
+  - widths: {String} Comma separated srcset widths. Optional.
+  - class: {String} Class attribute for the <img>. Optional.
+  - loading: {String} 'lazy' (default) or 'eager'. Optional.
+  - fetchpriority: {String} 'high' | 'low' | 'auto'. Optional.
+  - placeholder: {String} Placeholder SVG name used when nothing else is set. Optional.
+
+  Usage:
+  {% render 'simply-kids-image', image: section.settings.image, fallback: 'sk-hero.jpg', alt: 'Hero' %}
+{%- endcomment -%}
+
+{%- liquid
+  assign sk_sizes = sizes | default: '(min-width: 990px) 50vw, 100vw'
+  assign sk_widths = widths | default: '375, 550, 750, 1100, 1500, 2000'
+  assign sk_loading = loading | default: 'lazy'
+  assign sk_alt = alt | default: '' | escape
+-%}
+
+{%- if image != blank -%}
+  {{
+    image
+    | image_url: width: 2000
+    | image_tag:
+      sizes: sk_sizes,
+      widths: sk_widths,
+      class: class,
+      loading: sk_loading,
+      fetchpriority: fetchpriority,
+      alt: sk_alt
+  }}
+{%- elsif fallback != blank -%}
+  <img
+    src="{{ fallback | asset_url }}"
+    alt="{{ sk_alt }}"
+    {% if class != blank %}class="{{ class }}"{% endif %}
+    width="1200"
+    height="1200"
+    loading="{{ sk_loading }}"
+    {% if fetchpriority != blank %}fetchpriority="{{ fetchpriority }}"{% endif %}
+  >
+{%- else -%}
+  {{ placeholder | default: 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+{%- endif -%}

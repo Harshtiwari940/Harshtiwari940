@@ -1,0 +1,269 @@
+{{ 'simply-kids.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Compare--{{ section.id }} .sk-compare-grid {
+    grid-template-columns: repeat({{ section.blocks.size | at_least: 1 }}, minmax(0, 1fr));
+  }
+
+  #Compare--{{ section.id }} .sk-eyebrow {
+    color: {{ section.settings.accent_color }};
+  }
+
+  #Compare--{{ section.id }} .sk-compare-zone--right {
+    background: linear-gradient(170deg, {{ section.settings.highlight_from }}, {{ section.settings.highlight_to }});
+  }
+
+  #Compare--{{ section.id }} .sk-compare-zone--right .sk-compare-flag {
+    background: {{ section.settings.accent_color }};
+  }
+
+  {%- unless section.settings.scale_highlight -%}
+    #Compare--{{ section.id }} .sk-compare-zone--right { transform: none; }
+  {%- endunless -%}
+
+  @media screen and (max-width: 749px) {
+    #Compare--{{ section.id }} .sk-compare-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="Compare--{{ section.id }}"
+  class="sk-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+>
+  {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+    <div class="sk-container">
+      <div class="sk-section__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="sk-section__title" style="font-size: {{ section.settings.heading_size }}rem;">
+            {{- section.settings.heading -}}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <div class="sk-section__text rte">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="sk-compare-grid">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        case block.settings.tone
+          when 'right'
+            assign zone_class = 'sk-compare-zone--right'
+            assign flag_icon = '&#10003;'
+          when 'harsh'
+            assign zone_class = 'sk-compare-zone--harsh'
+            assign flag_icon = '&#10005;'
+          else
+            assign zone_class = 'sk-compare-zone--mild'
+            assign flag_icon = '&#10005;'
+        endcase
+      -%}
+      <div class="sk-compare-zone {{ zone_class }}" {{ block.shopify_attributes }}>
+        {%- if block.settings.flag != blank -%}
+          <span class="sk-compare-flag">
+            <span aria-hidden="true">{{ flag_icon }}</span>
+            {{ block.settings.flag | escape }}
+          </span>
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+          <h3>{{ block.settings.title | escape }}</h3>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <p>{{ block.settings.text | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK — Baby vs adult care",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 4,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Not too mild. Not too harsh. Just right for 4–12."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 1.6,
+      "max": 4.4,
+      "step": 0.2,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 2.2
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "scale_highlight",
+      "label": "Lift the highlighted column on desktop",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-6"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent colour",
+      "default": "#004987"
+    },
+    {
+      "type": "color",
+      "id": "highlight_from",
+      "label": "Highlight gradient start",
+      "default": "#CFEDFD"
+    },
+    {
+      "type": "color",
+      "id": "highlight_to",
+      "label": "Highlight gradient end",
+      "default": "#B9E4FB"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "zone",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Column style",
+          "options": [
+            { "value": "mild", "label": "Too mild" },
+            { "value": "right", "label": "Just right (highlighted)" },
+            { "value": "harsh", "label": "Too harsh" }
+          ],
+          "default": "mild"
+        },
+        {
+          "type": "text",
+          "id": "flag",
+          "label": "Flag label",
+          "default": "Not for 4–12"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Baby care"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Gentle, yes — but it stops working once real playground grime shows up."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK — Baby vs adult care",
+      "blocks": [
+        {
+          "type": "zone",
+          "settings": {
+            "tone": "mild",
+            "flag": "Not for 4–12",
+            "title": "Baby care",
+            "text": "Gentle, yes — but it stops working once real playground grime shows up."
+          }
+        },
+        {
+          "type": "zone",
+          "settings": {
+            "tone": "right",
+            "flag": "Just right",
+            "title": "Simply Kids",
+            "text": "Strong enough through a full day out, gentle enough for a barrier that's still developing."
+          }
+        },
+        {
+          "type": "zone",
+          "settings": {
+            "tone": "harsh",
+            "flag": "Not for 4–12",
+            "title": "Adult care",
+            "text": "Strong actives and fragrance built for a barrier that's already mature."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

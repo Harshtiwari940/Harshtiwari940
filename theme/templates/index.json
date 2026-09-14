@@ -1,0 +1,594 @@
+{
+  "sections": {
+    "sk_hero": {
+      "type": "simply-kids-hero",
+      "settings": {
+        "eyebrow": "Only for the ages 4–12",
+        "heading": "Growing-up care,<br>made <em>kid-safe</em>.",
+        "subheading": "<p>Dermatologically tested, pH 5.5-balanced formulas for the in-between years — proven gentle enough to trust, effective enough to work.</p>",
+        "button_label": "Find their stage",
+        "button_link": "",
+        "button_label_2": "Shop bestsellers",
+        "button_link_2": "shopify://collections/all",
+        "show_spectrum": true,
+        "spectrum_start": "4",
+        "spectrum_end": "12",
+        "spectrum_label": "Made for ages 4 to 12",
+        "footnote": "Baby care's too mild. Adult care's too harsh. We built for the nine years in between.",
+        "show_stars": true,
+        "rating_text": "4.8 · 112 verified parent reviews",
+        "image_alt": "Simply Kids 2-in-1 shampoo bottle",
+        "image_ratio": "adapt",
+        "stat_badge": "95% smoother hair*",
+        "color_scheme": "scheme-6",
+        "accent_color": "#004987",
+        "spectrum_from": "#CFEDFD",
+        "spectrum_via": "#4886C6",
+        "spectrum_to": "#004987",
+        "padding_top": 60,
+        "padding_bottom": 40
+      }
+    },
+    "sk_age_range": {
+      "type": "simply-kids-age-range",
+      "blocks": {
+        "age_4_6": {
+          "type": "age_group",
+          "settings": {
+            "label": "Ages 4–6",
+            "title": "Little Explorers",
+            "description": "<p>Delicate skin that dries fast and messy hair days. This is where they learn to do it themselves.</p>",
+            "button_label": "Shop this stage",
+            "button_link": ""
+          }
+        },
+        "age_7_9": {
+          "type": "age_group",
+          "settings": {
+            "label": "Ages 7–9",
+            "title": "Big Kids",
+            "description": "<p>Active, sweaty and independent. They need cleansing that genuinely works after a full day outdoors.</p>",
+            "button_label": "Shop this stage",
+            "button_link": ""
+          }
+        },
+        "age_10_12": {
+          "type": "age_group",
+          "settings": {
+            "label": "Ages 10–12",
+            "title": "Tweens",
+            "description": "<p>Changing skin and oilier hair. They want products that feel grown-up — without harsh adult actives.</p>",
+            "button_label": "Shop this stage",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "age_4_6",
+        "age_7_9",
+        "age_10_12"
+      ],
+      "settings": {
+        "columns_desktop": 3,
+        "columns_mobile": 1,
+        "card_radius": 16,
+        "color_scheme": "scheme-7",
+        "card_background": "#FFFFFF",
+        "accent_color": "#004987",
+        "padding_top": 12,
+        "padding_bottom": 36
+      }
+    },
+    "sk_routine": {
+      "type": "simply-kids-routine",
+      "blocks": {
+        "opt_4_6": {
+          "type": "age_option",
+          "settings": {
+            "option_label": "4–6",
+            "result_text": "<p>Little Explorers: gentle, tear-free, and simple enough for them to start doing it themselves.</p>",
+            "button_label": "See their routine",
+            "button_link": ""
+          }
+        },
+        "opt_7_9": {
+          "type": "age_option",
+          "settings": {
+            "option_label": "7–9",
+            "result_text": "<p>Big Kids: cleansing that keeps up with a full day outdoors, without stripping a still-developing barrier.</p>",
+            "button_label": "See their routine",
+            "button_link": ""
+          }
+        },
+        "opt_10_12": {
+          "type": "age_option",
+          "settings": {
+            "option_label": "10–12",
+            "result_text": "<p>Tweens: grown-up textures and finishes, formulated without the harsh adult actives.</p>",
+            "button_label": "See their routine",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "opt_4_6",
+        "opt_7_9",
+        "opt_10_12"
+      ],
+      "settings": {
+        "heading": "Let's build the perfect routine",
+        "subheading": "Tap their age — we'll match the stage.",
+        "prompt": "How old is your child?",
+        "color_scheme": "scheme-6",
+        "panel_background": "#004987",
+        "panel_text": "#FFFFFF",
+        "panel_radius": 16,
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    },
+    "sk_essentials": {
+      "type": "simply-kids-essentials",
+      "settings": {
+        "heading": "The Essentials",
+        "heading_size": 2.4,
+        "subheading": "<p>Dermatologically tested, pH 5.5, made only for ages 4–12.</p>",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "none",
+        "button_label": "",
+        "color_scheme": "scheme-6",
+        "accent_color": "#004987",
+        "padding_top": 36,
+        "padding_bottom": 24
+      }
+    },
+    "sk_rituals": {
+      "type": "simply-kids-rituals",
+      "blocks": {
+        "ritual_1": {
+          "type": "ritual",
+          "settings": {
+            "fallback_image": "sk-ritual-1.jpg",
+            "image_alt": "A child's hair being washed with Simply Kids 2-in-1 Shampoo and Conditioner",
+            "media_position": "auto",
+            "label": "Ritual 01 — The wash-day fix",
+            "title": "2-in-1 Shampoo + Conditioner",
+            "text": "<p>Bhringraj and Japa strengthen the hair shaft while Jatamansi calms the scalp — cleanses and conditions in one step, so wash day stops being a fight over tangles.</p>",
+            "ingredients": "Bhringraj, Japa, Jatamansi",
+            "button_label": ""
+          }
+        },
+        "ritual_2": {
+          "type": "ritual",
+          "settings": {
+            "fallback_image": "sk-ritual-2.jpg",
+            "image_alt": "Simply Kids Deep Hydration Body Lotion being smoothed onto skin",
+            "media_position": "auto",
+            "label": "Ritual 02 — The all-day shield",
+            "title": "Deep Hydration Body Lotion",
+            "text": "<p>Kesar, lotus and rose in a fast-absorbing lotion that holds moisture for a full day of play — no greasy film, no chalky finish.</p>",
+            "ingredients": "Kesar, Lotus, Rose",
+            "button_label": ""
+          }
+        },
+        "ritual_3": {
+          "type": "ritual",
+          "settings": {
+            "fallback_image": "sk-ritual-3.jpg",
+            "image_alt": "A bedtime massage with Simply Kids Nourishing Body Massage Oil",
+            "media_position": "auto",
+            "label": "Ritual 03 — The bedtime slow-down",
+            "title": "Nourishing Body Massage Oil",
+            "text": "<p>Light, fast-sinking almond and jojoba oil for the pre-bath or bedtime massage — the five minutes of the day built for slowing down together.</p>",
+            "ingredients": "Almond, Jojoba",
+            "button_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "ritual_1",
+        "ritual_2",
+        "ritual_3"
+      ],
+      "settings": {
+        "eyebrow": "The Simply Kids ritual system",
+        "heading": "Three rituals. Nine years. One routine that actually fits.",
+        "heading_size": 3.4,
+        "alternate_layout": true,
+        "row_gap": 72,
+        "color_scheme": "scheme-7",
+        "accent_color": "#004987",
+        "label_color": "#4886C6",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "sk_science": {
+      "type": "simply-kids-science",
+      "blocks": {
+        "ing_1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Bhringraj"
+          }
+        },
+        "ing_2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Jatamansi"
+          }
+        },
+        "ing_3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Haldi"
+          }
+        },
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "result": "95% smoother hair",
+            "product": "Hair Oil",
+            "study": "4-week"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "result": "93% fewer rashes",
+            "product": "Body Wash",
+            "study": "from first wash"
+          }
+        }
+      },
+      "block_order": [
+        "ing_1",
+        "ing_2",
+        "ing_3",
+        "stat_1",
+        "stat_2"
+      ],
+      "settings": {
+        "eyebrow": "Why 4 to 12 matters",
+        "heading": "The in-between years, finally taken seriously.",
+        "heading_size": 2.2,
+        "text": "<p>By age four, a child's skin picks up its own oil profile. By twelve, that same skin is nearly adult. Most brands skip both moments and sell the years in between.</p>",
+        "table_caption": "Study results by product",
+        "column_1_label": "Result",
+        "column_2_label": "Product",
+        "column_3_label": "Study",
+        "button_label": "Explore the science",
+        "button_link": "",
+        "color_scheme": "scheme-8",
+        "accent_color": "#004987",
+        "chip_background": "#CFEDFD",
+        "chip_text": "#4A4744",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "sk_comparison": {
+      "type": "simply-kids-comparison",
+      "blocks": {
+        "zone_baby": {
+          "type": "zone",
+          "settings": {
+            "tone": "mild",
+            "flag": "Not for 4–12",
+            "title": "Baby care",
+            "text": "Gentle, yes — but it stops working once real playground grime shows up."
+          }
+        },
+        "zone_sk": {
+          "type": "zone",
+          "settings": {
+            "tone": "right",
+            "flag": "Just right",
+            "title": "Simply Kids",
+            "text": "Strong enough through a full day out, gentle enough for a barrier that's still developing."
+          }
+        },
+        "zone_adult": {
+          "type": "zone",
+          "settings": {
+            "tone": "harsh",
+            "flag": "Not for 4–12",
+            "title": "Adult care",
+            "text": "Strong actives and fragrance built for a barrier that's already mature."
+          }
+        }
+      },
+      "block_order": [
+        "zone_baby",
+        "zone_sk",
+        "zone_adult"
+      ],
+      "settings": {
+        "heading": "Not too mild. Not too harsh. Just right for 4–12.",
+        "heading_size": 2.2,
+        "scale_highlight": true,
+        "color_scheme": "scheme-6",
+        "accent_color": "#004987",
+        "highlight_from": "#CFEDFD",
+        "highlight_to": "#B9E4FB",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "sk_photo_break": {
+      "type": "simply-kids-photo-break",
+      "settings": {
+        "image_alt": "",
+        "eyebrow": "Why 4 to 12 matters",
+        "heading": "Baby care's too mild. Adult care's too harsh.",
+        "heading_size": 3.4,
+        "text": "<p>We formulate for the nine years everyone else skips — tested on the children it's actually made for, not adults scaled down.</p>",
+        "button_label": "",
+        "min_height": 50,
+        "min_height_mobile": 60,
+        "color_scheme": "scheme-6",
+        "text_color": "#FFFFFF",
+        "eyebrow_color": "#BEE7F5",
+        "overlay_color": "#001E3A",
+        "overlay_opacity_center": 88,
+        "overlay_opacity_mid": 82,
+        "overlay_opacity_edge": 92
+      }
+    },
+    "sk_testimonials": {
+      "type": "simply-kids-testimonials",
+      "blocks": {
+        "review_1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "The 2-in-1 shampoo cut our wash-day tantrums down to almost nothing.",
+            "author": "Priyanka R."
+          }
+        },
+        "review_2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "The ingredient list is genuinely thoughtful, and the results speak for themselves.",
+            "author": "Rohini S."
+          }
+        },
+        "review_3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Finally, a brand that treats growing skin like it deserves better.",
+            "author": "Manasi J."
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "heading": "Care parents talk about",
+        "heading_size": 2,
+        "columns_desktop": 3,
+        "columns_mobile": 1,
+        "card_radius": 16,
+        "color_scheme": "scheme-7",
+        "card_background": "#FFFFFF",
+        "accent_color": "#004987",
+        "star_color": "#F4B400",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "sk_journal": {
+      "type": "simply-kids-journal",
+      "settings": {
+        "eyebrow": "From the Journal",
+        "heading": "Real answers for the 4–12 years.",
+        "heading_size": 2.4,
+        "articles_to_show": 3,
+        "show_excerpt": true,
+        "show_date": false,
+        "button_label": "View all articles",
+        "button_link": "",
+        "columns_desktop": 3,
+        "card_radius": 16,
+        "color_scheme": "scheme-6",
+        "card_background": "#FFFFFF",
+        "accent_color": "#004987",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "sk_offer": {
+      "type": "simply-kids-offer",
+      "settings": {
+        "heading": "10% off your first order",
+        "heading_size": 2,
+        "text": "<p>Expert tips, new launches, and stories for growing kids. No spam — ever.</p>",
+        "show_form": true,
+        "placeholder": "your@email.com",
+        "button_label": "Subscribe",
+        "success_text": "Thanks for subscribing — your 10% code is on its way.",
+        "color_scheme": "scheme-9",
+        "accent_color": "#004987",
+        "field_border": "#C3CED3",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "sk_trust_badges": {
+      "type": "simply-kids-trust-badges",
+      "blocks": {
+        "badge_derm": {
+          "type": "badge",
+          "settings": {
+            "bundled_badge": "sk-badge-derm-tested.svg",
+            "title": "Dermatologically Tested"
+          }
+        },
+        "badge_ph": {
+          "type": "badge",
+          "settings": {
+            "bundled_badge": "sk-badge-ph-balanced.svg",
+            "title": "pH 5.5 Balanced"
+          }
+        },
+        "badge_vegan": {
+          "type": "badge",
+          "settings": {
+            "bundled_badge": "sk-badge-vegan.svg",
+            "title": "Vegan & Cruelty-Free"
+          }
+        },
+        "badge_india": {
+          "type": "badge",
+          "settings": {
+            "bundled_badge": "sk-badge-made-in-india.svg",
+            "title": "Made in India"
+          }
+        },
+        "badge_dpiit": {
+          "type": "badge",
+          "settings": {
+            "bundled_badge": "sk-badge-dpiit.svg",
+            "title": "DPIIT Recognised"
+          }
+        },
+        "badge_udyam": {
+          "type": "badge",
+          "settings": {
+            "bundled_badge": "sk-badge-udyam.svg",
+            "title": "Udyam Registered"
+          }
+        }
+      },
+      "block_order": [
+        "badge_derm",
+        "badge_ph",
+        "badge_vegan",
+        "badge_india",
+        "badge_dpiit",
+        "badge_udyam"
+      ],
+      "settings": {
+        "show_captions": false,
+        "badge_size": 90,
+        "badge_gap": 26,
+        "color_scheme": "scheme-6",
+        "accent_color": "#004987",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    },
+    "sk_guarantees": {
+      "type": "simply-kids-guarantees",
+      "blocks": {
+        "g_shipping": {
+          "type": "guarantee",
+          "settings": {
+            "icon": "cart",
+            "title": "Free Shipping",
+            "text": "On orders over ₹999"
+          }
+        },
+        "g_cod": {
+          "type": "guarantee",
+          "settings": {
+            "icon": "card",
+            "title": "COD Available",
+            "text": "Pay when it arrives"
+          }
+        },
+        "g_returns": {
+          "type": "guarantee",
+          "settings": {
+            "icon": "return",
+            "title": "No Question Asked",
+            "text": "Returns & Exchange"
+          }
+        },
+        "pay_upi": {
+          "type": "payment",
+          "settings": {
+            "label": "UPI"
+          }
+        },
+        "pay_visa": {
+          "type": "payment",
+          "settings": {
+            "label": "VISA"
+          }
+        },
+        "pay_mastercard": {
+          "type": "payment",
+          "settings": {
+            "label": "Mastercard"
+          }
+        },
+        "pay_rupay": {
+          "type": "payment",
+          "settings": {
+            "label": "RuPay"
+          }
+        }
+      },
+      "block_order": [
+        "g_shipping",
+        "g_cod",
+        "g_returns",
+        "pay_upi",
+        "pay_visa",
+        "pay_mastercard",
+        "pay_rupay"
+      ],
+      "settings": {
+        "columns_desktop": 3,
+        "show_divider": true,
+        "payment_note": "100% Payment Protection, Easy Return Policy",
+        "payment_note_icon": "lock",
+        "color_scheme": "scheme-6",
+        "accent_color": "#004987",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "sk_whatsapp": {
+      "type": "simply-kids-whatsapp",
+      "settings": {
+        "enable": true,
+        "phone": "916297450751",
+        "label": "Chat with Simply Kids on WhatsApp",
+        "prefilled_message": "Hi Simply Kids! I have a question about",
+        "button_color": "#25D366",
+        "offset_bottom": 20,
+        "offset_bottom_mobile": 112
+      }
+    }
+  },
+  "order": [
+    "sk_hero",
+    "sk_age_range",
+    "sk_routine",
+    "sk_essentials",
+    "sk_rituals",
+    "sk_science",
+    "sk_comparison",
+    "sk_photo_break",
+    "sk_testimonials",
+    "sk_journal",
+    "sk_offer",
+    "sk_trust_badges",
+    "sk_guarantees",
+    "sk_whatsapp"
+  ]
+}

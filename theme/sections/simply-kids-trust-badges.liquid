@@ -1,0 +1,236 @@
+{{ 'simply-kids.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #TrustBadges--{{ section.id }} .sk-medallion img,
+  #TrustBadges--{{ section.id }} .sk-medallion svg {
+    width: {{ section.settings.badge_size | times: 0.7 | round: 0 }}px;
+    height: {{ section.settings.badge_size | times: 0.7 | round: 0 }}px;
+  }
+
+  #TrustBadges--{{ section.id }} .sk-medallion-row {
+    gap: {{ section.settings.badge_gap | divided_by: 2 }}px;
+  }
+
+  #TrustBadges--{{ section.id }} .sk-eyebrow {
+    color: {{ section.settings.accent_color }};
+  }
+
+  @media screen and (min-width: 750px) {
+    #TrustBadges--{{ section.id }} .sk-medallion img,
+    #TrustBadges--{{ section.id }} .sk-medallion svg {
+      width: {{ section.settings.badge_size }}px;
+      height: {{ section.settings.badge_size }}px;
+    }
+
+    #TrustBadges--{{ section.id }} .sk-medallion-row {
+      gap: {{ section.settings.badge_gap }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="TrustBadges--{{ section.id }}"
+  class="sk-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+>
+  <div class="sk-container">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+      <div class="sk-section__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="sk-section__title" style="font-size: {{ section.settings.heading_size }}rem;">
+            {{- section.settings.heading -}}
+          </h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <ul class="sk-medallion-row" role="list">
+      {%- for block in section.blocks -%}
+        <li class="sk-medallion" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 360
+              | image_tag: widths: '90, 180, 270, 360', alt: block.settings.title
+            }}
+          {%- elsif block.settings.bundled_badge != blank -%}
+            <img
+              src="{{ block.settings.bundled_badge | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              width="120"
+              height="120"
+              loading="lazy"
+            >
+          {%- endif -%}
+
+          {%- if section.settings.show_captions and block.settings.title != blank -%}
+            <span class="sk-medallion__caption">{{ block.settings.title | escape }}</span>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK — Trust badges",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 1.6,
+      "max": 4.4,
+      "step": 0.2,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_captions",
+      "label": "Show badge captions",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "badge_size",
+      "min": 40,
+      "max": 140,
+      "step": 5,
+      "unit": "px",
+      "label": "Badge size on desktop",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "badge_gap",
+      "min": 8,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Space between badges",
+      "default": 26
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-6"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent colour",
+      "default": "#004987"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Badge image"
+        },
+        {
+          "type": "select",
+          "id": "bundled_badge",
+          "label": "Bundled badge (used when no image is chosen)",
+          "options": [
+            { "value": "sk-badge-derm-tested.svg", "label": "Dermatologically Tested" },
+            { "value": "sk-badge-ph-balanced.svg", "label": "pH 5.5 Balanced" },
+            { "value": "sk-badge-vegan.svg", "label": "Vegan & Cruelty-Free" },
+            { "value": "sk-badge-made-in-india.svg", "label": "Made in India" },
+            { "value": "sk-badge-dpiit.svg", "label": "DPIIT Recognised" },
+            { "value": "sk-badge-udyam.svg", "label": "Udyam Registered" },
+            { "value": "", "label": "None" }
+          ],
+          "default": "sk-badge-derm-tested.svg"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Badge name",
+          "info": "Used as the image alt text, and as the caption when captions are turned on.",
+          "default": "Dermatologically Tested"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK — Trust badges",
+      "blocks": [
+        { "type": "badge", "settings": { "bundled_badge": "sk-badge-derm-tested.svg", "title": "Dermatologically Tested" } },
+        { "type": "badge", "settings": { "bundled_badge": "sk-badge-ph-balanced.svg", "title": "pH 5.5 Balanced" } },
+        { "type": "badge", "settings": { "bundled_badge": "sk-badge-vegan.svg", "title": "Vegan & Cruelty-Free" } },
+        { "type": "badge", "settings": { "bundled_badge": "sk-badge-made-in-india.svg", "title": "Made in India" } },
+        { "type": "badge", "settings": { "bundled_badge": "sk-badge-dpiit.svg", "title": "DPIIT Recognised" } },
+        { "type": "badge", "settings": { "bundled_badge": "sk-badge-udyam.svg", "title": "Udyam Registered" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

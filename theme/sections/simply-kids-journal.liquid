@@ -1,0 +1,274 @@
+{{ 'simply-kids.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Journal--{{ section.id }} .sk-journal-grid {
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+  }
+
+  #Journal--{{ section.id }} .sk-card {
+    background: {{ section.settings.card_background }};
+    border-radius: {{ section.settings.card_radius }}px;
+  }
+
+  #Journal--{{ section.id }} .sk-eyebrow {
+    color: {{ section.settings.accent_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    #Journal--{{ section.id }} .sk-journal-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign blog = section.settings.blog
+  assign articles_to_show = section.settings.articles_to_show
+  assign view_all_link = section.settings.button_link
+  if view_all_link == blank and blog != blank
+    assign view_all_link = blog.url
+  endif
+-%}
+
+<div
+  id="Journal--{{ section.id }}"
+  class="sk-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+>
+  <div class="sk-container">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.button_label != blank -%}
+      <div class="sk-journal-head">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}
+            <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="sk-section__title" style="font-size: {{ section.settings.heading_size }}rem; margin: 0;">
+              {{- section.settings.heading -}}
+            </h2>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ view_all_link | default: '#' }}" class="sk-btn sk-btn--outline">
+            {{- section.settings.button_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="sk-journal-grid">
+      {%- if blog != blank and blog.articles_count > 0 -%}
+        {%- for article in blog.articles limit: articles_to_show -%}
+          <article class="sk-card sk-journal-card">
+            <a class="sk-journal-card__media" href="{{ article.url }}" tabindex="-1" aria-hidden="true">
+              {%- if article.image != blank -%}
+                {{
+                  article.image
+                  | image_url: width: 1100
+                  | image_tag:
+                    sizes: '(min-width: 750px) 33vw, 100vw',
+                    widths: '275, 550, 750, 1100',
+                    alt: article.image.alt
+                }}
+              {%- else -%}
+                {{ 'blog-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </a>
+            <div class="sk-journal-card__body">
+              <h3>
+                <a href="{{ article.url }}">{{ article.title | escape }}</a>
+              </h3>
+              {%- if section.settings.show_date -%}
+                <p class="sk-journal-card__excerpt">
+                  <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                    {{- article.published_at | time_tag: format: 'date' | strip_html -}}
+                  </time>
+                </p>
+              {%- endif -%}
+              {%- if section.settings.show_excerpt -%}
+                <p class="sk-journal-card__excerpt">
+                  {{- article.excerpt_or_content | strip_html | truncatewords: 20 -}}
+                </p>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..articles_to_show) -%}
+          <article class="sk-card sk-journal-card">
+            <span class="sk-journal-card__media">
+              {{ 'blog-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </span>
+            <div class="sk-journal-card__body">
+              <h3>{{ 'sections.featured_blog.onboarding_title' | t }}</h3>
+              <p class="sk-journal-card__excerpt">{{ 'sections.featured_blog.onboarding_content' | t }}</p>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK — Journal",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "From the Journal"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real answers for the 4–12 years."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 1.6,
+      "max": 4.4,
+      "step": 0.2,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 2.4
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog",
+      "info": "Articles, images and links come straight from this Shopify blog."
+    },
+    {
+      "type": "range",
+      "id": "articles_to_show",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Articles to show",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "View all articles"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Custom button link",
+      "info": "Defaults to the selected blog."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Columns on desktop",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Card corner radius",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-6"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent colour",
+      "default": "#004987"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK — Journal"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,282 @@
+{{ 'simply-kids.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #AgeRange--{{ section.id }} .sk-age-grid {
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+  }
+
+  #AgeRange--{{ section.id }} .sk-age-card {
+    background: {{ section.settings.card_background }};
+    border-radius: {{ section.settings.card_radius }}px;
+  }
+
+  #AgeRange--{{ section.id }} .sk-age-card__label,
+  #AgeRange--{{ section.id }} .sk-eyebrow {
+    color: {{ section.settings.accent_color }};
+  }
+
+  @media screen and (max-width: 989px) {
+    #AgeRange--{{ section.id }} .sk-age-grid {
+      grid-template-columns: repeat({{ section.settings.columns_mobile }}, minmax(0, 1fr));
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="AgeRange--{{ section.id }}"
+  class="sk-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+>
+  {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+    <div class="sk-container">
+      <div class="sk-section__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="sk-section__title" style="font-size: {{ section.settings.heading_size }}rem;">
+            {{- section.settings.heading -}}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <div class="sk-section__text rte">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="sk-age-grid">
+    {%- for block in section.blocks -%}
+      <div class="sk-age-card" {{ block.shopify_attributes }}>
+        {%- if block.settings.label != blank -%}
+          <span class="sk-age-card__label">{{ block.settings.label | escape }}</span>
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+          <h3 class="sk-age-card__title">{{ block.settings.title | escape }}</h3>
+        {%- endif -%}
+        {%- if block.settings.description != blank -%}
+          <div class="sk-age-card__desc rte">{{ block.settings.description }}</div>
+        {%- endif -%}
+        {%- if block.settings.button_label != blank -%}
+          {%- liquid
+            assign block_link = block.settings.button_link
+            if block_link == blank and block.settings.collection != blank
+              assign block_link = block.settings.collection.url
+            endif
+          -%}
+          <a
+            href="{{ block_link | default: '#' }}"
+            class="sk-btn sk-btn--primary"
+          >
+            {{- block.settings.button_label | escape -}}
+            {%- if block.settings.title != blank -%}
+              <span class="sk-visually-hidden"> — {{ block.settings.title | escape }}</span>
+            {%- endif -%}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK — Shop by age",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 6,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 1.6,
+      "max": 4.4,
+      "step": 0.2,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 2.4
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Columns on desktop",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "label": "Columns on mobile",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Card corner radius",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-7"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent colour",
+      "default": "#004987"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "age_group",
+      "name": "Age group",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Age label",
+          "default": "Ages 4–6"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Little Explorers"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Delicate skin that dries fast and messy hair days. This is where they learn to do it themselves.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop this stage"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "The button links to this collection unless a custom link is set below."
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Custom button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK — Shop by age",
+      "blocks": [
+        {
+          "type": "age_group",
+          "settings": {
+            "label": "Ages 4–6",
+            "title": "Little Explorers",
+            "description": "<p>Delicate skin that dries fast and messy hair days. This is where they learn to do it themselves.</p>"
+          }
+        },
+        {
+          "type": "age_group",
+          "settings": {
+            "label": "Ages 7–9",
+            "title": "Big Kids",
+            "description": "<p>Active, sweaty and independent. They need cleansing that genuinely works after a full day outdoors.</p>"
+          }
+        },
+        {
+          "type": "age_group",
+          "settings": {
+            "label": "Ages 10–12",
+            "title": "Tweens",
+            "description": "<p>Changing skin and oilier hair. They want products that feel grown-up — without harsh adult actives.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

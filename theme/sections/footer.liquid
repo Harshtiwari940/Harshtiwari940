@@ -1,0 +1,671 @@
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
+{{ 'section-footer.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .footer {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+    font-family: inherit;
+  }
+
+  @media screen and (min-width: 750px) {
+    .footer {
+      margin-top: {{ section.settings.margin_top }}px;
+    }
+  }
+
+  /* ===== TOP GRADIENT LINE ===== */
+  .sk-footer-topline {
+    height: 4px;
+    background: linear-gradient(90deg, #ff4d8d, #ffc93c, #1a5fb4);
+    background-size: 200% 100%;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .sk-footer-topline { animation: sk-gradient-shift 6s ease infinite; }
+  }
+  @keyframes sk-gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* ===== SCROLL-REVEAL ===== */
+  @media (prefers-reduced-motion: no-preference) {
+    .sk-reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(.21,.6,.35,1), transform 0.7s cubic-bezier(.21,.6,.35,1);
+    }
+    .sk-reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .sk-footer-main__inner > .sk-reveal:nth-child(1) { transition-delay: 0.05s; }
+    .sk-footer-main__inner > .sk-reveal:nth-child(2) { transition-delay: 0.12s; }
+    .sk-footer-main__inner > .sk-reveal:nth-child(3) { transition-delay: 0.19s; }
+    .sk-footer-main__inner > .sk-reveal:nth-child(4) { transition-delay: 0.26s; }
+  }
+
+  /* ===== TOP FEATURE BOXES ===== */
+  .sk-top-boxes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr;
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+    margin-top: 20px;
+    background: #fff;
+  }
+  .sk-top-box {
+    text-align: center;
+    padding: 28px 20px;
+    border-right: 1px solid #e5e5e5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .sk-top-box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(20, 40, 70, 0.08);
+    z-index: 1;
+    position: relative;
+  }
+  .sk-top-box:last-child { border-right: none; }
+  .sk-top-box img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    margin-bottom: 12px;
+    transition: transform 0.3s ease;
+  }
+  .sk-top-box:hover img { transform: scale(1.12) rotate(-4deg); }
+  .sk-top-box h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+  }
+  .sk-contact-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .sk-contact-box h3 {
+    font-size: 26px;
+    margin: 0 0 18px;
+    color: #222;
+    font-weight: 500;
+  }
+  .sk-contact-btn {
+    display: inline-block;
+    border: 2px solid #26a7df;
+    color: #26a7df;
+    text-decoration: none;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .sk-contact-btn:hover {
+    background: #26a7df;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 18px rgba(38, 167, 223, 0.3);
+  }
+
+  /* ===== PAYMENT AREA ===== */
+  .sk-payment-area {
+    background: #fff;
+    padding: 25px 30px;
+    border: 1px solid #e5e5e5;
+  }
+  .sk-payment-area h4 {
+    margin: 0 0 18px;
+    font-size: 22px;
+    color: #191970;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .sk-payment-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    color: #191970;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .sk-payment-note img { width: 22px; height: 22px; flex-shrink: 0; }
+  .sk-payment-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .sk-payment-icons img {
+    height: 34px !important;
+    width: auto !important;
+    max-width: 80px !important;
+    object-fit: contain;
+    padding: 6px 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    background: #fff;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .sk-payment-icons img:hover {
+    transform: translateY(-4px) scale(1.06);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-color: #c9d6e8;
+  }
+  .sk-payment-icons img[alt="UPI"] { max-width: 65px !important; }
+
+  /* ===== MAIN FOOTER GRID ===== */
+  .sk-footer-main {
+    background: #f4f7fb;
+    padding: 52px 0 40px;
+  }
+  .sk-footer-main__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  @media screen and (min-width: 750px) {
+    .sk-footer-main__inner {
+      grid-template-columns: 1fr 1fr 1fr 1.3fr;
+      gap: 28px;
+    }
+  }
+
+  /* ===== COLUMN STYLES ===== */
+  .sk-footer-col__heading {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #16325c;
+    margin: 0 0 20px;
+    letter-spacing: 0.01em;
+    padding-bottom: 8px;
+  }
+  .sk-footer-col__heading::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 28px;
+    height: 3px;
+    border-radius: 2px;
+    background: #ff4d8d;
+    transform-origin: left;
+    transition: width 0.35s ease;
+  }
+  .sk-footer-col:hover .sk-footer-col__heading::after { width: 100%; }
+
+  .sk-footer-col__address {
+    font-size: 13px;
+    line-height: 1.75;
+    color: #5b6b82;
+    margin: 0 0 16px;
+  }
+  .sk-footer-col__contact {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .sk-footer-col__contact li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #33465e;
+  }
+  .sk-footer-col__contact a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .sk-footer-col__contact a:hover { color: #ff4d8d; }
+  .sk-footer-col__contact svg { flex-shrink: 0; transition: transform 0.25s ease; }
+  .sk-footer-col__contact li:hover svg { transform: scale(1.15) rotate(-6deg); color: #ff4d8d; }
+
+  .sk-footer-col__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .sk-footer-col__links a {
+    position: relative;
+    display: inline-block;
+    font-size: 13px;
+    color: #3d5570;
+    text-decoration: none;
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+  .sk-footer-col__links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+  .sk-footer-col__links a:hover {
+    transform: translateX(4px);
+    color: #ff4d8d;
+  }
+  .sk-footer-col__links a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* ===== BRAND COLUMN ===== */
+  .sk-footer-brand__name {
+    font-size: 19px;
+    font-weight: 800;
+    color: #16325c;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin: 0 0 14px;
+  }
+
+  /* ===== SOCIAL ICONS ===== */
+  .sk-social-list {
+    list-style: none;
+    margin: 0 0 26px;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .sk-social-list a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #fff;
+    color: #16325c;
+    box-shadow: 0 2px 6px rgba(22, 50, 92, 0.12);
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .sk-social-list a:hover {
+    transform: translateY(-4px) rotate(-8deg) scale(1.08);
+    background: #ff4d8d;
+    color: #fff;
+    box-shadow: 0 10px 18px rgba(255, 77, 141, 0.32);
+  }
+  .sk-social-list svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+
+  /* ===== NEWSLETTER ===== */
+  .sk-newsletter {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    padding-top: 32px;
+    border-top: 1px solid #d9e2ef;
+  }
+  .sk-newsletter__heading {
+    font-size: 16px;
+    font-weight: 700;
+    color: #16325c;
+    margin: 0 0 16px;
+  }
+  .sk-newsletter__form {
+    display: flex;
+    max-width: 420px;
+    background: #fff;
+    border: 1px solid #c9d6e8;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .sk-newsletter__form:focus-within {
+    border-color: #ff4d8d;
+    box-shadow: 0 0 0 3px rgba(255, 77, 141, 0.15);
+  }
+  .sk-newsletter__form input {
+    flex: 1;
+    border: none;
+    padding: 14px 16px;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+    color: #16325c;
+  }
+  .sk-newsletter__form button {
+    border: none;
+    background: #ff4d8d;
+    color: #fff;
+    width: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.25s ease;
+  }
+  .sk-newsletter__form button svg { transition: transform 0.25s ease; }
+  .sk-newsletter__form button:hover { background: #e83e7d; }
+  .sk-newsletter__form button:hover svg { transform: translateX(4px); }
+  .sk-newsletter__success {
+    margin: 10px 0 0;
+    font-size: 13px;
+    color: #1a7a4c;
+    font-weight: 600;
+  }
+
+  /* ===== BOTTOM BAR ===== */
+  .sk-footer-bottom {
+    background: #e8edf5;
+    border-top: 1px solid #d0d9e8;
+    padding: 16px 0;
+  }
+  .sk-footer-bottom__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+  .sk-footer-bottom__logos {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sk-footer-bottom__logos img {
+    height: 34px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.25s ease;
+  }
+  .sk-footer-bottom__logos img:hover { transform: translateY(-3px); }
+  .sk-footer-bottom__copy {
+    font-size: 12.5px;
+    color: #5b6b82;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+  .sk-footer-bottom__copy a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
+  .sk-footer-bottom__copy a:hover { color: #ff4d8d; text-decoration: underline; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .sk-top-boxes {
+      grid-template-columns: 1fr;
+    }
+    .sk-top-box {
+      border-right: none;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .sk-contact-box h3 { font-size: 20px; }
+    .sk-payment-area { padding: 20px 15px; }
+    .sk-payment-area h4 { font-size: 18px; }
+    .sk-payment-note { font-size: 14px; align-items: flex-start; }
+    .sk-payment-icons img { height: 30px !important; max-width: 70px !important; }
+    .sk-footer-main__inner { padding: 0 16px; }
+    .sk-newsletter__form { max-width: 100%; }
+    .sk-footer-bottom__inner { padding: 0 16px; flex-direction: column; align-items: flex-start; }
+  }
+{%- endstyle -%}
+
+<footer class="footer color-{{ section.settings.color_scheme }}">
+
+  <div class="sk-footer-topline" aria-hidden="true"></div>
+
+  {%- comment -%} ========= TOP FEATURE BOXES ========= {%- endcomment -%}
+  <div class="sk-top-boxes sk-reveal">
+    <div class="sk-top-box">
+      <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="Free Shipping" loading="lazy">
+      <h4>Free Shipping</h4>
+    </div>
+    <div class="sk-top-box">
+      <img src="https://cdn-icons-png.flaticon.com/512/2489/2489756.png" alt="COD Available" loading="lazy">
+      <h4>COD Available</h4>
+    </div>
+    <div class="sk-top-box sk-contact-box">
+      <h3>Have Queries or Concerns?</h3>
+      <a href="/pages/contact" class="sk-contact-btn">CONTACT US</a>
+    </div>
+  </div>
+
+  {%- comment -%} ========= PAYMENT AREA ========= {%- endcomment -%}
+  <div class="sk-payment-area sk-reveal">
+    <h4>PAYMENT</h4>
+    <div class="sk-payment-note">
+      <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Protection" loading="lazy">
+      <span>100% Payment Protection, Easy Return Policy</span>
+    </div>
+    <div class="sk-payment-icons">
+      <img src="https://cdn.shopify.com/s/files/1/0823/0748/1873/files/upi.png?v=1774629017" alt="UPI" loading="lazy">
+      <img src="https://cdn.shopify.com/s/files/1/0823/0748/1873/files/visa.png?v=1774629016" alt="Visa" loading="lazy">
+      <img src="https://cdn.shopify.com/s/files/1/0823/0748/1873/files/mastercard.png?v=1774629016" alt="Mastercard" loading="lazy">
+      <img src="https://cdn.shopify.com/s/files/1/0823/0748/1873/files/rupay.png?v=1774629016" alt="RuPay" loading="lazy">
+    </div>
+  </div>
+
+  {%- comment -%} ========= MAIN FOOTER GRID ========= {%- endcomment -%}
+  <div class="sk-footer-main">
+    <div class="sk-footer-main__inner">
+
+      {%- comment -%} --- Col 1: Our Story --- {%- endcomment -%}
+      <div class="sk-footer-col sk-reveal">
+        <h2 class="sk-footer-col__heading">Our Story</h2>
+        <ul class="sk-footer-col__links">
+          {%- if section.settings.menu_our_story != blank -%}
+            {%- for link in linklists[section.settings.menu_our_story].links -%}
+              <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+            {%- endfor -%}
+          {%- else -%}
+            <li><a href="/pages/about-us">About Us</a></li>
+            <li><a href="/blogs/journal">Journals</a></li>
+            <li><a href="/pages/affiliate">Affiliate</a></li>
+            <li><a href="/pages/faq">FAQ</a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+
+      {%- comment -%} --- Col 2: Policies --- {%- endcomment -%}
+      <div class="sk-footer-col sk-reveal">
+        <h2 class="sk-footer-col__heading">Policies</h2>
+        <ul class="sk-footer-col__links">
+          {%- if section.settings.menu_policies != blank -%}
+            {%- for link in linklists[section.settings.menu_policies].links -%}
+              <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for policy in shop.policies -%}
+              {%- if policy != blank -%}
+                <li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </ul>
+      </div>
+
+      {%- comment -%} --- Col 3: Follow Us On --- {%- endcomment -%}
+      <div class="sk-footer-col sk-reveal">
+        <h2 class="sk-footer-col__heading">Follow Us On</h2>
+        <ul class="sk-social-list" role="list">
+          <li><a href="https://www.instagram.com/simplykidsofficial" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a></li>
+          <li><a href="https://www.pinterest.com/simplykidsofficial/" target="_blank" rel="noopener" aria-label="Pinterest">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+          </a></li>
+          <li><a href="https://www.youtube.com/@simplykidsofficial" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+          </a></li>
+          <li><a href="https://www.facebook.com/simplykidsofficial" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a></li>
+          <li><a href="https://x.com/simplykids_ofc" target="_blank" rel="noopener" aria-label="X">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a></li>
+        </ul>
+      </div>
+
+      {%- comment -%} --- Col 4: Brand / Registered Office --- {%- endcomment -%}
+      <div class="sk-footer-col sk-reveal">
+        <p class="sk-footer-brand__name">{{ shop.name }}</p>
+        <p class="sk-footer-col__address">
+          Omakase Enterprises LLP, Primarc Chambers,<br>
+          Unit No. OU-114, 6th Floor<br>
+          1839 Laskarhat, Tagore Park, E. M.<br>
+          Bypass, Kolkata – 700039
+        </p>
+        <ul class="sk-footer-col__contact">
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92Z"/></svg>
+            <a href="tel:+916297450751">+91-6297450751</a>
+          </li>
+          <li>
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:support@simplykids.in">support@simplykids.in</a>
+          </li>
+        </ul>
+      </div>
+
+      {%- comment -%} --- Subscribe to our emails --- {%- endcomment -%}
+      <div class="sk-newsletter sk-reveal">
+        <h2 class="sk-newsletter__heading">Subscribe to our emails</h2>
+        {%- form 'customer', id: 'sk-newsletter-form', class: 'sk-newsletter__form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="visually-hidden" for="sk-newsletter-email">Email</label>
+          <input
+            id="sk-newsletter-email"
+            type="email"
+            name="contact[email]"
+            value="{{ form.email }}"
+            placeholder="Email"
+            required
+          >
+          <button type="submit" aria-label="Subscribe">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          {%- if form.posted_successfully? -%}
+            <p class="sk-newsletter__success">Thanks for subscribing!</p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+
+    </div>
+  </div>
+
+  {%- comment -%} ========= BOTTOM BAR ========= {%- endcomment -%}
+  <div class="sk-footer-bottom">
+    <div class="sk-footer-bottom__inner">
+      <div class="sk-footer-bottom__logos">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0823/0748/1873/files/dpiit.png"
+          alt="DPIIT StartupIndia"
+          loading="lazy"
+          onerror="this.style.display='none'"
+        >
+        <img
+          src="https://cdn.shopify.com/s/files/1/0823/0748/1873/files/msme.png"
+          alt="MSME"
+          loading="lazy"
+          onerror="this.style.display='none'"
+        >
+      </div>
+      <div class="sk-footer-bottom__copy">
+        <small>&copy; {{ 'now' | date: '%Y' }} <a href="{{ routes.root_url }}">{{ shop.name }}</a>, {{ powered_by_link }}</small>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+<script>
+  (function () {
+    if (window.__skFooterRevealInit) return;
+    window.__skFooterRevealInit = true;
+
+    var items = document.querySelectorAll('.footer .sk-reveal');
+    if (!items.length) return;
+
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || !('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    items.forEach(function (el) { observer.observe(el); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Footer",
+  "blocks": [],
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Navigation menus"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_our_story",
+      "label": "Our Story menu",
+      "info": "Select a menu for the Our Story column. Leave blank to use defaults."
+    },
+    {
+      "type": "link_list",
+      "id": "menu_policies",
+      "label": "Policies menu",
+      "info": "Select a menu for the Policies column. Leave blank to auto-use shop policies."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin top",
+      "default": 0
+    }
+  ],
+  "default": {}
+}
+{% endschema %}

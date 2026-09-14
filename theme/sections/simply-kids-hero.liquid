@@ -1,0 +1,346 @@
+{{ 'simply-kids.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Hero--{{ section.id }} .sk-eyebrow {
+    color: {{ section.settings.accent_color }};
+  }
+
+  #Hero--{{ section.id }} .sk-hero__title .sk-script,
+  #Hero--{{ section.id }} .sk-hero__title em {
+    color: {{ section.settings.accent_color }};
+  }
+
+  #Hero--{{ section.id }} .sk-hero__spectrum-track {
+    background: linear-gradient(90deg, {{ section.settings.spectrum_from }}, {{ section.settings.spectrum_via }}, {{ section.settings.spectrum_to }});
+  }
+
+  #Hero--{{ section.id }} .sk-hero__spectrum-dot {
+    border-color: {{ section.settings.spectrum_to }};
+  }
+
+  #Hero--{{ section.id }} .sk-hero__stat-badge {
+    color: {{ section.settings.accent_color }};
+  }
+
+  {%- if section.settings.image_ratio != 'adapt' -%}
+    #Hero--{{ section.id }} .sk-hero__media img,
+    #Hero--{{ section.id }} .sk-hero__media svg {
+      aspect-ratio: {{ section.settings.image_ratio }};
+      object-fit: cover;
+      height: 100%;
+    }
+  {%- endif -%}
+{%- endstyle -%}
+
+{%- liquid
+  assign heading_id = 'HeroHeading--' | append: section.id
+  assign has_spectrum = false
+  if section.settings.show_spectrum and section.settings.spectrum_start != blank
+    assign has_spectrum = true
+  endif
+-%}
+
+<div
+  id="Hero--{{ section.id }}"
+  class="sk-section sk-hero color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+>
+  <div class="sk-hero__grid">
+    <div class="sk-hero__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h1 id="{{ heading_id }}" class="sk-hero__title">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <div class="sk-hero__sub rte">{{ section.settings.subheading }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank or section.settings.button_label_2 != blank -%}
+        <div class="sk-btn-row">
+          {%- if section.settings.button_label != blank -%}
+            <a
+              href="{{ section.settings.button_link | default: '#' }}"
+              class="sk-btn sk-btn--hero"
+            >
+              {{- section.settings.button_label | escape -}}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.button_label_2 != blank -%}
+            <a
+              href="{{ section.settings.button_link_2 | default: '#' }}"
+              class="sk-btn sk-btn--outline"
+            >
+              {{- section.settings.button_label_2 | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if has_spectrum -%}
+        <div class="sk-hero__spectrum">
+          <span>{{ section.settings.spectrum_start | escape }}</span>
+          <div
+            class="sk-hero__spectrum-track"
+            role="img"
+            aria-label="{{ section.settings.spectrum_label | escape }}"
+          >
+            <span class="sk-hero__spectrum-dot" style="left: 0%"></span>
+            <span class="sk-hero__spectrum-dot" style="left: 50%"></span>
+            <span class="sk-hero__spectrum-dot" style="left: 100%"></span>
+          </div>
+          <span>{{ section.settings.spectrum_end | escape }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.footnote != blank -%}
+        <p class="sk-hero__footnote">{{ section.settings.footnote | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.rating_text != blank -%}
+        <div class="sk-rating-row">
+          {%- if section.settings.show_stars -%}
+            <span class="sk-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          {%- endif -%}
+          <span>{{ section.settings.rating_text | escape }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="sk-hero__media">
+      {%- render 'simply-kids-image',
+        image: section.settings.image,
+        fallback: 'sk-hero.jpg',
+        alt: section.settings.image_alt,
+        sizes: '(min-width: 990px) 45vw, 100vw',
+        loading: 'eager',
+        fetchpriority: 'high',
+        placeholder: 'hero-apparel-1'
+      -%}
+
+      {%- if section.settings.stat_badge != blank -%}
+        <div class="sk-hero__stat-badge">{{ section.settings.stat_badge | escape }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK — Hero",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Only for the ages 4–12"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Italic text renders in the handwritten script face.",
+      "default": "Growing-up care,<br>made <em>kid-safe</em>."
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Dermatologically tested, pH 5.5-balanced formulas for the in-between years — proven gentle enough to trust, effective enough to work.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Primary button label",
+      "default": "Find their stage"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Secondary button label",
+      "default": "Shop bestsellers"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Age spectrum"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_spectrum",
+      "label": "Show age spectrum",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "spectrum_start",
+      "label": "Start age",
+      "default": "4"
+    },
+    {
+      "type": "text",
+      "id": "spectrum_end",
+      "label": "End age",
+      "default": "12"
+    },
+    {
+      "type": "text",
+      "id": "spectrum_label",
+      "label": "Spectrum description for screen readers",
+      "default": "Made for ages 4 to 12"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "Baby care's too mild. Adult care's too harsh. We built for the nine years in between."
+    },
+    {
+      "type": "header",
+      "content": "Rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Show stars",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "4.8 · 112 verified parent reviews"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Falls back to the bundled hero photo when empty."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text",
+      "info": "Describe the image for screen readers and search engines.",
+      "default": "Simply Kids shampoo bottle"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "adapt", "label": "Adapt to image" },
+        { "value": "1", "label": "Square (1:1)" },
+        { "value": "4 / 3", "label": "Landscape (4:3)" },
+        { "value": "3 / 4", "label": "Portrait (3:4)" }
+      ],
+      "default": "adapt"
+    },
+    {
+      "type": "text",
+      "id": "stat_badge",
+      "label": "Floating stat badge",
+      "default": "95% smoother hair*"
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-6"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent colour",
+      "default": "#004987"
+    },
+    {
+      "type": "color",
+      "id": "spectrum_from",
+      "label": "Spectrum start colour",
+      "default": "#CFEDFD"
+    },
+    {
+      "type": "color",
+      "id": "spectrum_via",
+      "label": "Spectrum middle colour",
+      "default": "#4886C6"
+    },
+    {
+      "type": "color",
+      "id": "spectrum_to",
+      "label": "Spectrum end colour",
+      "default": "#004987"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK — Hero"
+    }
+  ]
+}
+{% endschema %}

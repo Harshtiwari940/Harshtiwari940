@@ -1,0 +1,354 @@
+{{ 'simply-kids.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Rituals--{{ section.id }} .sk-eyebrow {
+    color: {{ section.settings.accent_color }};
+  }
+
+  #Rituals--{{ section.id }} .sk-ritual__label {
+    color: {{ section.settings.label_color }};
+  }
+
+  #Rituals--{{ section.id }} .sk-ritual + .sk-ritual {
+    margin-top: {{ section.settings.row_gap | times: 0.6 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    #Rituals--{{ section.id }} .sk-ritual + .sk-ritual {
+      margin-top: {{ section.settings.row_gap }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="Rituals--{{ section.id }}"
+  class="sk-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+>
+  {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+    <div class="sk-container sk-container--narrow">
+      <div class="sk-section__head" style="margin-bottom: 5rem;">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="sk-section__title" style="font-size: {{ section.settings.heading_size }}rem;">
+            {{- section.settings.heading -}}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <div class="sk-section__text rte">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign reverse = false
+      assign row_parity = forloop.index0 | modulo: 2
+      if section.settings.alternate_layout and row_parity == 1
+        assign reverse = true
+      endif
+      if block.settings.media_position == 'right'
+        assign reverse = true
+      elsif block.settings.media_position == 'left'
+        assign reverse = false
+      endif
+
+      assign block_link = block.settings.button_link
+      if block_link == blank and block.settings.product != blank
+        assign block_link = block.settings.product.url
+      endif
+    -%}
+
+    <div
+      class="sk-ritual{% if reverse %} sk-ritual--reverse{% endif %}"
+      {{ block.shopify_attributes }}
+    >
+      <div class="sk-ritual__media">
+        {%- render 'simply-kids-image',
+          image: block.settings.image,
+          fallback: block.settings.fallback_image,
+          alt: block.settings.image_alt,
+          sizes: '(min-width: 750px) 45vw, 100vw',
+          placeholder: 'product-apparel-1'
+        -%}
+      </div>
+
+      <div class="sk-ritual__body">
+        {%- if block.settings.label != blank -%}
+          <div class="sk-ritual__label">{{ block.settings.label | escape }}</div>
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+          <h3 class="sk-ritual__title">{{ block.settings.title | escape }}</h3>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <div class="sk-ritual__text rte">{{ block.settings.text }}</div>
+        {%- endif -%}
+        {%- if block.settings.ingredients != blank -%}
+          <div class="sk-ritual__pills">
+            {%- assign ingredients = block.settings.ingredients | split: ',' -%}
+            {%- for ingredient in ingredients -%}
+              {%- assign trimmed = ingredient | strip -%}
+              {%- if trimmed != blank -%}
+                <span class="sk-ingredient-pill">{{ trimmed | escape }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        {%- if block.settings.button_label != blank -%}
+          <div class="sk-ritual__cta">
+            <a href="{{ block_link | default: '#' }}" class="sk-btn sk-btn--primary">
+              {{- block.settings.button_label | escape -}}
+              {%- if block.settings.title != blank -%}
+                <span class="sk-visually-hidden"> — {{ block.settings.title | escape }}</span>
+              {%- endif -%}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "SK — Three rituals",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 8,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Simply Kids ritual system"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Three rituals. Nine years. One routine that actually fits."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 1.8,
+      "max": 4.4,
+      "step": 0.2,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 3.4
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "alternate_layout",
+      "label": "Alternate image side on each row",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Space between rows",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-7"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent colour",
+      "default": "#004987"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Ritual label colour",
+      "default": "#4886C6"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 72
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ritual",
+      "name": "Ritual",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "fallback_image",
+          "label": "Bundled image (used when no image is chosen)",
+          "options": [
+            { "value": "sk-ritual-1.jpg", "label": "Ritual 1 — wash day" },
+            { "value": "sk-ritual-2.jpg", "label": "Ritual 2 — all-day shield" },
+            { "value": "sk-ritual-3.jpg", "label": "Ritual 3 — bedtime" },
+            { "value": "", "label": "None" }
+          ],
+          "default": "sk-ritual-1.jpg"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text",
+          "default": "Simply Kids 2-in-1 Shampoo and Conditioner in use"
+        },
+        {
+          "type": "select",
+          "id": "media_position",
+          "label": "Image position",
+          "options": [
+            { "value": "auto", "label": "Automatic (alternate)" },
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "auto"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Ritual label",
+          "default": "Ritual 01 — The wash-day fix"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "2-in-1 Shampoo + Conditioner"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "default": "<p>Bhringraj and Japa strengthen the hair shaft while Jatamansi calms the scalp — cleanses and conditions in one step, so wash day stops being a fight over tangles.</p>"
+        },
+        {
+          "type": "text",
+          "id": "ingredients",
+          "label": "Ingredient pills",
+          "info": "Separate each ingredient with a comma.",
+          "default": "Bhringraj, Japa, Jatamansi"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "The button links to this product unless a custom link is set below."
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Custom button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK — Three rituals",
+      "blocks": [
+        {
+          "type": "ritual",
+          "settings": {
+            "fallback_image": "sk-ritual-1.jpg",
+            "image_alt": "Simply Kids 2-in-1 Shampoo and Conditioner in use",
+            "label": "Ritual 01 — The wash-day fix",
+            "title": "2-in-1 Shampoo + Conditioner",
+            "text": "<p>Bhringraj and Japa strengthen the hair shaft while Jatamansi calms the scalp — cleanses and conditions in one step, so wash day stops being a fight over tangles.</p>",
+            "ingredients": "Bhringraj, Japa, Jatamansi"
+          }
+        },
+        {
+          "type": "ritual",
+          "settings": {
+            "fallback_image": "sk-ritual-2.jpg",
+            "image_alt": "Simply Kids Deep Hydration Body Lotion being applied",
+            "label": "Ritual 02 — The all-day shield",
+            "title": "Deep Hydration Body Lotion",
+            "text": "<p>Kesar, lotus and rose in a fast-absorbing lotion that holds moisture for a full day of play — no greasy film, no chalky finish.</p>",
+            "ingredients": "Kesar, Lotus, Rose"
+          }
+        },
+        {
+          "type": "ritual",
+          "settings": {
+            "fallback_image": "sk-ritual-3.jpg",
+            "image_alt": "Simply Kids Nourishing Body Massage Oil at bedtime",
+            "label": "Ritual 03 — The bedtime slow-down",
+            "title": "Nourishing Body Massage Oil",
+            "text": "<p>Light, fast-sinking almond and jojoba oil for the pre-bath or bedtime massage — the five minutes of the day built for slowing down together.</p>",
+            "ingredients": "Almond, Jojoba"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

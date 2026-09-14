@@ -1,0 +1,276 @@
+{{ 'simply-kids.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #Testimonials--{{ section.id }} .sk-review-grid {
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+  }
+
+  #Testimonials--{{ section.id }} .sk-card {
+    background: {{ section.settings.card_background }};
+    border-radius: {{ section.settings.card_radius }}px;
+  }
+
+  #Testimonials--{{ section.id }} .sk-eyebrow {
+    color: {{ section.settings.accent_color }};
+  }
+
+  #Testimonials--{{ section.id }} .sk-stars {
+    color: {{ section.settings.star_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    #Testimonials--{{ section.id }} .sk-review-grid {
+      grid-template-columns: repeat({{ section.settings.columns_mobile }}, minmax(0, 1fr));
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="Testimonials--{{ section.id }}"
+  class="sk-section color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+>
+  {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+    <div class="sk-container">
+      <div class="sk-section__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="sk-section__title" style="font-size: {{ section.settings.heading_size }}rem;">
+            {{- section.settings.heading -}}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <div class="sk-section__text rte">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="sk-container">
+    <div class="sk-review-grid">
+      {%- for block in section.blocks -%}
+        <blockquote class="sk-card sk-review-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.rating > 0 -%}
+            {%- assign rating_label = block.settings.rating | append: ' out of 5 stars' -%}
+            <div class="sk-stars" role="img" aria-label="{{ rating_label }}">
+              {%- for i in (1..block.settings.rating) -%}&#9733;{%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.quote != blank -%}
+            <p class="sk-review-card__quote">&ldquo;{{ block.settings.quote | escape }}&rdquo;</p>
+          {%- endif -%}
+
+          {%- if block.settings.author != blank -%}
+            <cite class="sk-review-card__author">
+              {{- block.settings.author | escape -}}
+              {%- if block.settings.author_detail != blank -%}
+                <span class="sk-review-card__detail"> · {{ block.settings.author_detail | escape }}</span>
+              {%- endif -%}
+            </cite>
+          {%- endif -%}
+        </blockquote>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK — Testimonials",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 9,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Care parents talk about"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 1.6,
+      "max": 4.4,
+      "step": 0.2,
+      "unit": "rem",
+      "label": "Heading size",
+      "default": 2
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Columns on desktop",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "label": "Columns on mobile",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Card corner radius",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-7"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent colour",
+      "default": "#004987"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star colour",
+      "default": "#F4B400"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "The 2-in-1 shampoo cut our wash-day tantrums down to almost nothing."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Priyanka R."
+        },
+        {
+          "type": "text",
+          "id": "author_detail",
+          "label": "Author detail",
+          "info": "For example: Verified buyer, or Mum of two."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK — Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The 2-in-1 shampoo cut our wash-day tantrums down to almost nothing.",
+            "author": "Priyanka R."
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The ingredient list is genuinely thoughtful, and the results speak for themselves.",
+            "author": "Rohini S."
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Finally, a brand that treats growing skin like it deserves better.",
+            "author": "Manasi J."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
