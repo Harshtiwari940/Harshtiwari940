@@ -115,7 +115,7 @@
       "settings": {
         "title": "The Essentials",
         "heading_size": "h1",
-        "description": "Dermatologically tested, pH 5.5, made only for ages 4–12.",
+        "description": "<p>Dermatologically tested, pH 5.5, made only for ages 4–12.</p>",
         "show_description": true,
         "description_style": "body",
         "products_to_show": 4,
@@ -350,7 +350,7 @@
         "paragraph": {
           "type": "paragraph",
           "settings": {
-            "text": "Expert tips, new launches, and stories for growing kids. No spam — ever.",
+            "text": "<p>Expert tips, new launches, and stories for growing kids. No spam — ever.</p>",
             "text_style": "body"
           }
         },
