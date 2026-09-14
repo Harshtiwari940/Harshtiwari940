@@ -1,0 +1,121 @@
+{
+  "sections": {
+    "quiz": {
+      "type": "sk-age-quiz",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Build their routine",
+        "subheading": "Three questions, and that's the whole quiz. How old is your child?",
+        "prompt": "",
+        "result_button_label": "See their routine",
+        "max_width": 80,
+        "padding_top": 56,
+        "padding_bottom": 40
+      },
+      "blocks": {
+        "b1": {
+          "type": "band",
+          "settings": {
+            "label": "4–6",
+            "result": "Little Explorers: gentle, tear-free, and simple enough for them to start doing it themselves.",
+            "link": "/collections/all"
+          }
+        },
+        "b2": {
+          "type": "band",
+          "settings": {
+            "label": "7–9",
+            "result": "Big Kids: cleansing that keeps up with a full day outdoors, without stripping a still-developing barrier.",
+            "link": "/collections/all"
+          }
+        },
+        "b3": {
+          "type": "band",
+          "settings": {
+            "label": "10–12",
+            "result": "Tweens: grown-up textures and finishes for changing skin and oilier hair — minus the harsh adult actives.",
+            "link": "/collections/all"
+          }
+        }
+      },
+      "block_order": ["b1", "b2", "b3"]
+    },
+    "builder": {
+      "type": "sk-routine-builder",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "Ready-made routines",
+        "heading": "Three moments, that's the whole routine",
+        "padding_top": 40,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "s1": {
+          "type": "stage",
+          "settings": {
+            "tab_label": "Ages 4–6 · Little Explorers",
+            "moments": "Morning | A quick rinse with the Gentle Body Wash — fast enough that it doesn't turn into a wrestling match.\nBath time | 2-in-1 Shampoo + Conditioner so wash day stops being a fight over tangles.\nBedtime | A little Nourishing Body Massage Oil worked in while you read one more story.",
+            "button_label": "Shop the Little Explorers routine",
+            "button_link": "/collections/all"
+          }
+        },
+        "s2": {
+          "type": "stage",
+          "settings": {
+            "tab_label": "Ages 7–9 · Big Kids",
+            "moments": "Morning | Gentle Body Wash after an early game or practice — it clears real playground grime without stripping.\nBath time | 2-in-1 Shampoo + Conditioner, then Nourishing Hair Oil twice a week for strength.\nBedtime | Deep Hydration Body Lotion on knees, elbows and shins that took the day's beating.",
+            "button_label": "Shop the Big Kids routine",
+            "button_link": "/collections/all"
+          }
+        },
+        "s3": {
+          "type": "stage",
+          "settings": {
+            "tab_label": "Ages 10–12 · Tweens",
+            "moments": "Morning | Gentle Body Wash, daily — changing skin means oil and sweat arrive earlier than you expect.\nBath time | 2-in-1 Shampoo + Conditioner for oilier roots, with Hair Oil on lengths only.\nBedtime | Deep Hydration Body Lotion — a grown-up finish, without the adult actives.",
+            "button_label": "Shop the Tweens routine",
+            "button_link": "/collections/all"
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3"]
+    },
+    "faq": {
+      "type": "sk-faq-accordion",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Quick answers",
+        "heading_tag": "h2",
+        "enable_schema": true,
+        "max_width": 76,
+        "padding_top": 40,
+        "padding_bottom": 72
+      },
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "How old does my child need to be to start?",
+            "answer": "<p>Every product in the range is formulated for ages 4–12.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "Can I mix and match across age stages?",
+            "answer": "<p>Yes — the age stages are a starting guide, not a strict rule.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "How often should they use the hair oil?",
+            "answer": "<p>Twice a week is plenty for most children. Work it through the lengths, leave it on for 30 minutes or overnight, then wash out with the 2-in-1.</p>"
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3"]
+    }
+  },
+  "order": ["quiz", "builder", "faq"]
+}

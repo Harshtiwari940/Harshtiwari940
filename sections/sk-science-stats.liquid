@@ -1,0 +1,206 @@
+{%- render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+-%}
+
+<div class="sk-pad-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="sk-prose" style="max-width: {{ section.settings.max_width }}rem;">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        {%- if section.settings.heading_tag == 'h1' -%}
+          <h1 style="font-size: 3rem; margin: 0 0 1.2rem;">{{ section.settings.heading | escape }}</h1>
+        {%- else -%}
+          <h2 style="margin-top: 0;">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if section.settings.intro != blank -%}
+        <div>{{ section.settings.intro }}</div>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'rich_text' -%}
+            <div {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <h3>{{ block.settings.heading | escape }}</h3>
+              {%- endif -%}
+              {{ block.settings.text }}
+            </div>
+
+          {%- when 'ingredients' -%}
+            <div {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <h3>{{ block.settings.heading | escape }}</h3>
+              {%- endif -%}
+              <div>
+                {%- assign rows = block.settings.ingredients | newline_to_br | split: '<br />' -%}
+                {%- for row in rows -%}
+                  {%- assign parts = row | strip | split: '|' -%}
+                  {%- assign name = parts[0] | strip -%}
+                  {%- if name != blank -%}
+                    <span class="sk-ingredient-chip" data-tip="{{ parts[1] | strip | escape }}" tabindex="0">
+                      {{- name | escape -}}
+                    </span>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+
+          {%- when 'stats' -%}
+            <div class="sk-science-stats__wrap" {{ block.shopify_attributes }}>
+              <table class="sk-science-stats">
+                <thead>
+                  <tr>
+                    <th>{{ block.settings.col_1 | escape }}</th>
+                    <th>{{ block.settings.col_2 | escape }}</th>
+                    <th>{{ block.settings.col_3 | escape }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%- assign rows = block.settings.rows | newline_to_br | split: '<br />' -%}
+                  {%- for row in rows -%}
+                    {%- assign cells = row | strip | split: '|' -%}
+                    {%- if cells[0] != blank -%}
+                      <tr>
+                        <td class="stat-value">{{ cells[0] | strip | escape }}</td>
+                        <td>{{ cells[1] | strip | escape }}</td>
+                        <td>{{ cells[2] | strip | escape }}</td>
+                      </tr>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </tbody>
+              </table>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+
+      {%- if section.settings.disclaimer != blank -%}
+        <p class="sk-prose__note">{{ section.settings.disclaimer | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link | default: '#' }}" class="sk-btn sk-btn--primary">
+          {{- section.settings.button_label | escape -}}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Science stats",
+  "tag": "section",
+  "class": "sk-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-7"
+    },
+    { "type": "text", "id": "eyebrow", "default": "Why 4 to 12 matters", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "default": "Proven gentle. Actually effective.", "label": "Heading" },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "options": [
+        { "value": "h1", "label": "H1 — page title" },
+        { "value": "h2", "label": "H2 — section title" }
+      ],
+      "default": "h2",
+      "label": "Heading level"
+    },
+    { "type": "richtext", "id": "intro", "label": "Intro" },
+    { "type": "text", "id": "disclaimer", "label": "Disclaimer" },
+    { "type": "text", "id": "button_label", "default": "Shop the range", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 50,
+      "max": 124,
+      "step": 2,
+      "unit": "rem",
+      "label": "Content width",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "rich_text",
+      "name": "Text",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "richtext", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "ingredients",
+      "name": "Ingredient chips",
+      "settings": [
+        { "type": "text", "id": "heading", "default": "Nani's botanicals, validated", "label": "Heading" },
+        {
+          "type": "textarea",
+          "id": "ingredients",
+          "default": "Bhringraj | Strengthens the hair shaft from root to tip.\nJapa (Hibiscus) | Adds shine and softness.\nJatamansi | Soothes an irritated scalp.\nHaldi | Calms and clarifies skin.\nNeem | Naturally purifying.\nTulsi | Gently refreshes and soothes.",
+          "label": "Ingredients",
+          "info": "One per line, as: Name | tooltip text"
+        }
+      ]
+    },
+    {
+      "type": "stats",
+      "name": "Results table",
+      "settings": [
+        { "type": "text", "id": "col_1", "default": "Result", "label": "Column 1 heading" },
+        { "type": "text", "id": "col_2", "default": "Product", "label": "Column 2 heading" },
+        { "type": "text", "id": "col_3", "default": "Study", "label": "Column 3 heading" },
+        {
+          "type": "textarea",
+          "id": "rows",
+          "default": "95% smoother hair | Hair Oil | 4-week\n93% fewer rashes | Body Wash | from first wash\n94% less chapped skin | Body Lotion | 4-week\n95% reduced hair fall | Shampoo | 4-week",
+          "label": "Rows",
+          "info": "One per line, as: Result | Product | Study"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Science stats",
+      "blocks": [{ "type": "ingredients" }, { "type": "stats" }]
+    }
+  ]
+}
+{% endschema %}

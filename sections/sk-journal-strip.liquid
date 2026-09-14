@@ -1,0 +1,138 @@
+{%- render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+-%}
+
+{%- liquid
+  assign blog = blogs[section.settings.blog]
+  assign posts = blog.articles | slice: 0, section.settings.post_limit
+-%}
+
+<div class="sk-pad-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="sk-journal-head">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2>{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.button_label != blank -%}
+        <a
+          href="{% if blog != blank %}{{ blog.url }}{% else %}{{ section.settings.button_link | default: '#' }}{% endif %}"
+          class="sk-btn sk-btn--outline"
+        >
+          {{- section.settings.button_label | escape -}}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="sk-card-grid sk-card-grid--{{ section.settings.columns }}">
+      {%- if posts.size > 0 -%}
+        {%- for article in posts -%}
+          <a href="{{ article.url }}" class="sk-tool-card sk-article-card">
+            <div class="sk-article-card__media">
+              {%- if article.image != blank -%}
+                {{
+                  article.image
+                  | image_url: width: 800
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '300, 400, 600, 800',
+                    sizes: '(min-width: 990px) 30vw, 100vw',
+                    alt: article.image.alt | default: article.title | escape
+                }}
+              {%- else -%}
+                {{ 'blog-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+            <div class="sk-article-card__body">
+              <h3>{{ article.title | escape }}</h3>
+              <p>{{ article.excerpt_or_content | strip_html | truncatewords: 18 }}</p>
+            </div>
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} No blog chosen yet — show onboarding placeholders {%- endcomment -%}
+        {%- for i in (1..section.settings.post_limit) -%}
+          <div class="sk-tool-card sk-article-card">
+            <div class="sk-article-card__media">{{ 'blog-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+            <div class="sk-article-card__body">
+              <h3>Your article title</h3>
+              <p>Pick a blog in this section's settings to show your real posts here.</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Journal strip",
+  "tag": "section",
+  "class": "sk-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    { "type": "blog", "id": "blog", "label": "t:sections.featured-blog.settings.blog.label" },
+    { "type": "text", "id": "eyebrow", "default": "From the Journal", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "default": "Real answers for the 4–12 years.", "label": "Heading" },
+    { "type": "text", "id": "button_label", "default": "View all articles", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Used only when no blog is selected." },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "min": 3,
+      "max": 12,
+      "step": 3,
+      "label": "Posts to show",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "3",
+      "label": "Columns"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 80
+    }
+  ],
+  "presets": [{ "name": "SK Journal strip" }]
+}
+{% endschema %}

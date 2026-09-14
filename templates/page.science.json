@@ -1,0 +1,61 @@
+{
+  "sections": {
+    "science": {
+      "type": "sk-science-stats",
+      "settings": {
+        "color_scheme": "scheme-7",
+        "eyebrow": "Why 4 to 12 matters",
+        "heading": "Proven gentle. Actually effective.",
+        "heading_tag": "h1",
+        "intro": "<p>Baby formulas stop working by age four. Adult formulas are too harsh until well past twelve. We formulate for the nine years everyone else skips.</p>",
+        "disclaimer": "*Based on a self-assessed consumer study. Individual results vary.",
+        "button_label": "Shop the range",
+        "button_link": "/collections/all",
+        "max_width": 80,
+        "padding_top": 72,
+        "padding_bottom": 72
+      },
+      "blocks": {
+        "ph": {
+          "type": "rich_text",
+          "settings": {
+            "heading": "pH 5.5-balanced",
+            "text": "<p>A child's acid mantle is still developing. Every formula sits at the same pH as healthy skin, so it cleans without stripping.</p>"
+          }
+        },
+        "derm": {
+          "type": "rich_text",
+          "settings": {
+            "heading": "Dermatologically tested",
+            "text": "<p>Every product is tested for safety on young skin, then tested again on children in the 4–12 range — not on adults and scaled down.</p>"
+          }
+        },
+        "botanicals": {
+          "type": "ingredients",
+          "settings": {
+            "heading": "Nani's botanicals, validated",
+            "ingredients": "Bhringraj | Strengthens the hair shaft from root to tip.\nJapa (Hibiscus) | Adds shine and softness.\nJatamansi | Soothes an irritated scalp.\nHaldi | Calms and clarifies skin.\nNeem | Naturally purifying.\nTulsi | Gently refreshes and soothes."
+          }
+        },
+        "leave_out": {
+          "type": "rich_text",
+          "settings": {
+            "heading": "What we leave out",
+            "text": "<ul><li>No parabens, sulphates or phthalates</li><li>No harsh actives a young barrier isn't ready for</li><li>Vegan and cruelty-free, made in India</li></ul>"
+          }
+        },
+        "results": {
+          "type": "stats",
+          "settings": {
+            "col_1": "Result",
+            "col_2": "Product",
+            "col_3": "Study",
+            "rows": "95% smoother hair | Hair Oil | 4-week\n93% fewer rashes | Body Wash | from first wash\n94% less chapped skin | Body Lotion | 4-week\n95% reduced hair fall | Shampoo | 4-week"
+          }
+        }
+      },
+      "block_order": ["ph", "derm", "botanicals", "leave_out", "results"]
+    }
+  },
+  "order": ["science"]
+}

@@ -1,0 +1,63 @@
+{
+  "sections": {
+    "body": {
+      "type": "sk-rich-text",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Terms & Conditions",
+        "subheading": "Last updated: January 2026",
+        "show_page_content": false,
+        "max_width": 80,
+        "padding_top": 72,
+        "padding_bottom": 72
+      },
+      "blocks": {
+        "p1": {
+          "type": "passage",
+          "settings": {
+            "heading": "About us",
+            "text": "<p>simplykids.in is operated by Omakase Enterprises LLP. By using this site or placing an order, you agree to these terms.</p>"
+          }
+        },
+        "p2": {
+          "type": "passage",
+          "settings": {
+            "heading": "Products & use",
+            "text": "<p>Simply Kids products are formulated for children aged 4–12 and are intended for external use only, as directed on the product label. Discontinue use and consult a doctor if irritation occurs.</p>"
+          }
+        },
+        "p3": {
+          "type": "passage",
+          "settings": {
+            "heading": "Orders & pricing",
+            "text": "<p>All prices are in INR and inclusive of applicable taxes. We reserve the right to correct pricing errors and to cancel orders placed at an incorrect price, with a full refund.</p>"
+          }
+        },
+        "p4": {
+          "type": "passage",
+          "settings": {
+            "heading": "Intellectual property",
+            "text": "<p>All content on this site — including the Simply Kids name, logo, and product formulations — is the property of Omakase Enterprises LLP and may not be reproduced without permission.</p>"
+          }
+        },
+        "p5": {
+          "type": "passage",
+          "settings": {
+            "heading": "Governing law",
+            "text": "<p>These terms are governed by the laws of India, with courts in Kolkata, West Bengal having exclusive jurisdiction.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5"
+      ]
+    }
+  },
+  "order": [
+    "body"
+  ]
+}

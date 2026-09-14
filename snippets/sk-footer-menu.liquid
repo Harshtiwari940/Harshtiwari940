@@ -1,0 +1,51 @@
+{% comment %}
+  Renders one footer link column.
+
+  Accepts:
+  - heading: {String} Column heading.
+  - menu: {Object} A linklist. When it has no links the column is skipped,
+    unless policy_fallback is true.
+  - policy_fallback: {Boolean} Render the store's own policy pages when the
+    menu is empty. Optional.
+
+  Usage:
+  {%- render 'sk-footer-menu', heading: 'Shop', menu: linklists.footer -%}
+{% endcomment %}
+
+{%- liquid
+  assign has_links = false
+  if menu != blank and menu.links.size > 0
+    assign has_links = true
+  endif
+
+  assign has_policies = false
+  if policy_fallback
+    for policy in shop.policies
+      if policy != blank
+        assign has_policies = true
+        break
+      endif
+    endfor
+  endif
+-%}
+
+{%- if has_links or has_policies -%}
+  <div class="sk-footer__col">
+    {%- if heading != blank -%}
+      <h2 class="sk-footer__heading">{{ heading | escape }}</h2>
+    {%- endif -%}
+    <ul class="sk-footer__list" role="list">
+      {%- if has_links -%}
+        {%- for link in menu.links -%}
+          <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for policy in shop.policies -%}
+          {%- if policy != blank -%}
+            <li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+  </div>
+{%- endif -%}

@@ -1,0 +1,143 @@
+{%- render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+-%}
+
+<div class="sk-pad-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    {%- if section.settings.show_promises and section.blocks.size > 0 -%}
+      <div class="sk-trust-grid{% if section.settings.show_payment %} sk-trust-grid--divided{% endif %}">
+        {%- for block in section.blocks -%}
+          <div class="sk-trust-item" {{ block.shopify_attributes }}>
+            {%- render 'sk-trust-icon', icon: block.settings.icon -%}
+            {%- if block.settings.title != blank -%}
+              <strong>{{ block.settings.title | escape }}</strong>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <span>{{ block.settings.text | escape }}</span>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_payment -%}
+      <div class="sk-payment">
+        {%- if section.settings.payment_heading != blank -%}
+          <span class="sk-eyebrow">
+            {%- render 'sk-trust-icon', icon: 'lock', size: 16 -%}
+            {{ section.settings.payment_heading | escape }}
+          </span>
+        {%- endif -%}
+
+        <div class="sk-payment__row">
+          {%- if shop.enabled_payment_types != empty -%}
+            {%- for type in shop.enabled_payment_types -%}
+              {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+            {%- endfor -%}
+          {%- else -%}
+            {%- assign methods = section.settings.payment_fallback | split: ',' -%}
+            {%- for method in methods -%}
+              {%- assign name = method | strip -%}
+              {%- if name != blank -%}
+                <span class="sk-payment__chip{% if name == 'VISA' %} sk-payment__chip--visa{% endif %}">
+                  {{- name | escape -}}
+                </span>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Trust badges",
+  "tag": "section",
+  "class": "sk-section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    { "type": "checkbox", "id": "show_promises", "default": true, "label": "Show promises" },
+    { "type": "checkbox", "id": "show_payment", "default": true, "label": "Show payment row" },
+    {
+      "type": "text",
+      "id": "payment_heading",
+      "default": "100% Payment Protection, Easy Return Policy",
+      "label": "Payment heading"
+    },
+    {
+      "type": "text",
+      "id": "payment_fallback",
+      "default": "UPI, VISA, Mastercard, RuPay",
+      "label": "Payment fallback labels",
+      "info": "Shown only while your store has no payment providers enabled."
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promise",
+      "name": "Promise",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "options": [
+            { "value": "truck", "label": "Delivery" },
+            { "value": "card", "label": "Card" },
+            { "value": "return", "label": "Returns" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "leaf", "label": "Leaf" }
+          ],
+          "default": "truck",
+          "label": "Icon"
+        },
+        { "type": "text", "id": "title", "default": "Free Shipping", "label": "Title" },
+        { "type": "text", "id": "text", "default": "On orders over ₹999", "label": "Text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Trust badges",
+      "blocks": [
+        { "type": "promise", "settings": { "icon": "truck" } },
+        { "type": "promise", "settings": { "icon": "card" } },
+        { "type": "promise", "settings": { "icon": "return" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,60 @@
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "sk_trust": {
+      "type": "sk-trust-badges",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_promises": true,
+        "show_payment": true,
+        "payment_heading": "100% Payment Protection, Easy Return Policy",
+        "padding_top": 64,
+        "padding_bottom": 64
+      },
+      "blocks": {
+        "promise_shipping": {
+          "type": "promise",
+          "settings": { "icon": "truck", "title": "Free Shipping", "text": "On orders over ₹999" }
+        },
+        "promise_cod": {
+          "type": "promise",
+          "settings": { "icon": "card", "title": "COD Available", "text": "Pay when it arrives" }
+        },
+        "promise_returns": {
+          "type": "promise",
+          "settings": { "icon": "return", "title": "No Question Asked", "text": "Returns & Exchange" }
+        }
+      },
+      "block_order": ["promise_shipping", "promise_cod", "promise_returns"]
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "color_scheme": "scheme-10",
+        "brand_text": "<p>Proven, gentle self-care made only for growing kids, ages 4–12. Nani's love, clinically kept.</p>",
+        "heading_shop": "Shop",
+        "menu_shop": "footer",
+        "heading_story": "Our Story",
+        "menu_story": "footer-our-story",
+        "heading_policies": "Policies",
+        "menu_policies": "footer-policies",
+        "show_policy": true,
+        "heading_care": "Care",
+        "phone": "+91-6297450751",
+        "email": "support@simplykids.in",
+        "address": "<p>Primarc Chambers, Unit OU-114, 1839 Laskarhat, Tagore Park, E. M. Bypass, Kolkata – 700039</p>",
+        "show_social": true,
+        "payment_enable": true,
+        "newsletter_enable": true,
+        "newsletter_heading": "Get 10% off",
+        "legal_entity": "a division of Omakase Enterprises LLP",
+        "bottom_note": "Free shipping over ₹999 · Ships across India",
+        "margin_top": 0,
+        "padding_top": 64,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": ["sk_trust", "footer"]
+}

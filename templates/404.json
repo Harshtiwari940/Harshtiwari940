@@ -1,0 +1,51 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404"
+    },
+    "shop_by_age": {
+      "type": "sk-shop-by-age",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "eyebrow": "Try one of these instead",
+        "heading": "Shop by stage",
+        "padding_top": 56,
+        "padding_bottom": 72
+      },
+      "blocks": {
+        "stage_1": {
+          "type": "stage",
+          "settings": {
+            "label": "Ages 4–6",
+            "title": "Little Explorers",
+            "text": "Delicate skin that dries fast and messy hair days. This is where they learn to do it themselves.",
+            "button_label": "Shop this stage",
+            "button_link": "/collections/all"
+          }
+        },
+        "stage_2": {
+          "type": "stage",
+          "settings": {
+            "label": "Ages 7–9",
+            "title": "Big Kids",
+            "text": "Active, sweaty and independent. They need cleansing that genuinely works after a full day outdoors.",
+            "button_label": "Shop this stage",
+            "button_link": "/collections/all"
+          }
+        },
+        "stage_3": {
+          "type": "stage",
+          "settings": {
+            "label": "Ages 10–12",
+            "title": "Tweens",
+            "text": "Changing skin and oilier hair. They want products that feel grown-up — without harsh adult actives.",
+            "button_label": "Shop this stage",
+            "button_link": "/collections/all"
+          }
+        }
+      },
+      "block_order": ["stage_1", "stage_2", "stage_3"]
+    }
+  },
+  "order": ["main", "shop_by_age"]
+}

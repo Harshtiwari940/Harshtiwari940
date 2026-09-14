@@ -1,0 +1,48 @@
+{% comment %}
+  Renders one of the Simply Kids line icons, stroked in Midnight Blue.
+
+  Accepts:
+  - icon: {String} One of truck, card, return, lock, leaf.
+  - size: {Number} Pixel size. Defaults to 40.
+
+  Usage:
+  {%- render 'sk-trust-icon', icon: 'truck' -%}
+{% endcomment %}
+
+{%- liquid
+  assign icon_size = size | default: 40
+-%}
+
+<svg
+  width="{{ icon_size }}"
+  height="{{ icon_size }}"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+  style="color: #004987;"
+>
+  {%- case icon -%}
+    {%- when 'truck' -%}
+      <path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.8h8.2a2 2 0 0 0 2-1.6L21 8H6"/>
+      <circle cx="9" cy="20" r="1.4" fill="currentColor"/>
+      <circle cx="17" cy="20" r="1.4" fill="currentColor"/>
+    {%- when 'card' -%}
+      <rect x="2" y="7" width="20" height="11" rx="1.5"/>
+      <circle cx="12" cy="12.5" r="2.5"/>
+      <path d="M2 10h2M20 10h2M2 15h2M20 15h2"/>
+    {%- when 'return' -%}
+      <path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/>
+      <path d="M18 3v4h-4M6 21v-4h4"/>
+    {%- when 'lock' -%}
+      <rect x="4" y="10" width="16" height="10" rx="2"/>
+      <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+    {%- when 'leaf' -%}
+      <path d="M4 20c0-8 6-14 16-14 0 10-6 14-16 14z"/>
+      <path d="M4 20c4-4 8-6 12-7"/>
+  {%- endcase -%}
+</svg>

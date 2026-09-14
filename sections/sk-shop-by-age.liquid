@@ -1,0 +1,101 @@
+{%- render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+-%}
+
+<div class="sk-pad-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  {%- if section.settings.heading != blank -%}
+    <div class="page-width sk-section-head">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+      <h2>{{ section.settings.heading | escape }}</h2>
+    </div>
+  {%- endif -%}
+
+  <div class="page-width">
+    <div class="sk-age-grid">
+      {%- for block in section.blocks -%}
+        <div class="sk-age-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.label != blank -%}
+            <span class="sk-age-card__label">{{ block.settings.label | escape }}</span>
+          {%- endif -%}
+          {%- if block.settings.title != blank -%}
+            <h3 class="sk-age-card__title">{{ block.settings.title | escape }}</h3>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <p class="sk-age-card__desc">{{ block.settings.text | escape }}</p>
+          {%- endif -%}
+          {%- if block.settings.button_label != blank -%}
+            <a href="{{ block.settings.button_link | default: '#' }}" class="sk-btn sk-btn--primary">
+              {{- block.settings.button_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Shop by age",
+  "tag": "section",
+  "class": "sk-section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-3"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading" },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stage",
+      "name": "Age stage",
+      "settings": [
+        { "type": "text", "id": "label", "default": "Ages 4–6", "label": "Age label" },
+        { "type": "text", "id": "title", "default": "Little Explorers", "label": "Title" },
+        { "type": "textarea", "id": "text", "label": "Description" },
+        { "type": "text", "id": "button_label", "default": "Shop this stage", "label": "Button label" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Shop by age",
+      "blocks": [{ "type": "stage" }, { "type": "stage" }, { "type": "stage" }]
+    }
+  ]
+}
+{% endschema %}

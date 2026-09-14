@@ -1,0 +1,880 @@
+/* ==========================================================================
+   SIMPLY KIDS — brand design system
+   Built on the Simply Kids Brand Guidelines (Color & Font, 2024).
+   White + Outer Space ink + Midnight/Battery blues carry ~90% of the site.
+   The pink/orange/green/yellow accents appear only as pastel tints, and only
+   in three sanctioned places: the announcement bar, PDP and Community —
+   never as the default section treatment.
+   Loads after Dawn's base.css. Root font size is Dawn's 62.5% (1rem = 10px).
+   ========================================================================== */
+
+:root {
+  --font-display: var(--font-heading-family);
+  --font-label: var(--font-heading-family);
+  --font-copy: var(--font-body-family);
+  --font-script: 'Dancing Script', 'Nunito Sans', cursive;
+
+  --sk-white: #ffffff;
+  --sk-ink: #4a4744;
+  --sk-ink-soft: #7d7d7d;
+  --sk-ink-strong: #2e2b29;
+
+  --sk-blue-vivid: #2db2de;
+  --sk-blue-deep: #004987;
+  --sk-blue-deep-hover: #003666;
+  --sk-blue-mid: #4886c6;
+  --sk-blue-wash: #cfedfd;
+  --sk-blue-pale: #e8f5fb;
+
+  --sk-price-was: #757575;
+  --sk-star: #f4b400;
+
+  /* Sanctioned pastel accents — announcement bar, PDP and Community only */
+  --sk-pink-pastel: #fad3e6;
+  --sk-cyclamen-pastel: #fce0ec;
+  --sk-pink-accent: #f6b1d4;
+
+  --sk-cta: #004987;
+  --sk-cta-hover: #003666;
+
+  --sk-radius: 16px;
+  --sk-radius-sm: 10px;
+  --sk-radius-lg: 24px;
+}
+
+/* ---------- Typography ---------- */
+.sk-font-display { font-family: var(--font-display); }
+.sk-font-label { font-family: var(--font-label); letter-spacing: 0.02em; }
+.sk-font-copy { font-family: var(--font-copy); }
+.sk-font-script { font-family: var(--font-script); }
+
+.sk-hero__title,
+.sk-section__title,
+.sk-card__title,
+.sk-pdp__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.sk-eyebrow {
+  font-family: var(--font-label);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sk-blue-deep);
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.sk-section-head {
+  text-align: center;
+  max-width: 70rem;
+  margin: 0 auto 4rem;
+}
+
+.sk-section-head h2 {
+  font-size: 3.4rem;
+  margin: 0;
+}
+
+.sk-section-head p {
+  font-size: 1.6rem;
+  opacity: 0.85;
+  margin: 1rem 0 0;
+}
+
+@media screen and (max-width: 749px) {
+  .sk-section-head { margin-bottom: 2.8rem; }
+  .sk-section-head h2 { font-size: 2.6rem; }
+}
+
+/* Cross-browser: WebKit shows a second default marker on <summary> */
+.sk-accordion summary::-webkit-details-marker { display: none; }
+.sk-accordion details[open] summary .sk-accordion__icon { transform: rotate(180deg); }
+.sk-accordion summary .sk-accordion__icon { transition: transform 0.15s ease; }
+
+/* ---------- Buttons ---------- */
+.sk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 1.5rem;
+  padding: 1.4rem 3rem;
+  border-radius: var(--sk-radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  text-decoration: none;
+  text-align: center;
+}
+
+.sk-btn:hover { transform: translateY(-1px); text-decoration: none; }
+
+/* Battery Charged Blue + dark ink: 3.75:1 — verified safe only at this
+   size/weight (large-bold threshold). Never used below 19px/700. */
+.sk-btn--hero {
+  background: var(--sk-blue-vivid);
+  color: var(--sk-ink);
+  font-size: 1.7rem;
+  font-weight: 800;
+  box-shadow: 0 10px 24px rgba(45, 178, 222, 0.32);
+}
+
+.sk-btn--primary { background: var(--sk-cta); color: #fff; } /* Midnight Blue — 9.1:1 */
+.sk-btn--primary:hover { background: var(--sk-cta-hover); color: #fff; }
+.sk-btn--outline { background: transparent; color: currentColor; border: 1.5px solid currentColor; }
+.sk-btn--dark { background: var(--sk-blue-deep); color: #fff; }
+.sk-btn--full { width: 100%; }
+
+@media screen and (max-width: 749px) {
+  .sk-btn { white-space: normal; padding: 1.3rem 2.2rem; }
+}
+
+/* ---------- Badges & pills ---------- */
+.sk-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-label);
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+}
+
+.sk-pill--age { background: var(--sk-blue-pale); color: var(--sk-ink); }
+.sk-pill--save { background: var(--sk-blue-deep); color: #fff; }
+.sk-pill--trust { background: #fff; color: var(--sk-ink); box-shadow: 0 6px 16px rgba(74, 71, 68, 0.1); }
+
+.sk-stars { color: var(--sk-star); letter-spacing: 0.1em; }
+
+/* ==========================================================================
+   Announcement bar — SANCTIONED sparing-accent surface (light pink)
+   ========================================================================== */
+.sk-trustbar,
+.announcement-bar--sk {
+  background: linear-gradient(100deg, var(--sk-cyclamen-pastel), var(--sk-pink-pastel) 50%, var(--sk-pink-accent));
+  color: var(--sk-ink);
+  text-align: center;
+  font-family: var(--font-label);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   Hero — age spectrum
+   ========================================================================== */
+.sk-hero { position: relative; overflow: hidden; padding: 6rem 0 4rem; }
+
+.sk-hero__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0 5rem;
+}
+
+.sk-hero__title { font-size: 5.2rem; margin: 0 0 1.6rem; }
+
+.sk-hero__title em {
+  font-style: normal;
+  font-family: var(--font-script);
+  font-weight: 700;
+  color: var(--sk-blue-deep);
+}
+
+.sk-hero__sub {
+  font-size: 1.8rem;
+  opacity: 0.85;
+  max-width: 46rem;
+  margin: 0 0 2.8rem;
+}
+
+.sk-hero__actions { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+
+.sk-hero__spectrum {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 3rem;
+  font-family: var(--font-label);
+  font-size: 1.2rem;
+}
+
+.sk-hero__spectrum-track {
+  flex: 1;
+  height: 8px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--sk-blue-wash), var(--sk-blue-mid), var(--sk-blue-deep));
+  position: relative;
+}
+
+.sk-hero__spectrum-dot {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--sk-blue-deep);
+  transform: translate(-50%, -50%);
+}
+
+.sk-hero__footnote { font-size: 1.25rem; opacity: 0.7; margin-top: 0.6rem; }
+
+.sk-hero__rating {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 2rem;
+  font-family: var(--font-label);
+  font-size: 1.35rem;
+}
+
+.sk-hero__media { position: relative; border-radius: var(--sk-radius); overflow: hidden; }
+.sk-hero__media img { width: 100%; height: auto; display: block; }
+
+.sk-hero__stat-badge {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.8rem 1.4rem;
+  font-family: var(--font-label);
+  font-weight: 800;
+  color: var(--sk-blue-deep);
+  box-shadow: 0 10px 24px rgba(74, 71, 68, 0.14);
+  font-size: 1.4rem;
+}
+
+.sk-hero__placeholder svg { width: 100%; height: auto; display: block; background: var(--sk-blue-pale); }
+
+@media screen and (max-width: 989px) {
+  .sk-hero { padding: 4rem 0 3rem; }
+  .sk-hero__grid { grid-template-columns: 1fr; gap: 2.4rem; padding: 0 2rem; }
+  .sk-hero__title { font-size: 3.6rem; }
+  .sk-hero__sub { font-size: 1.6rem; margin-bottom: 2rem; }
+}
+
+/* ==========================================================================
+   Generic page hero
+   ========================================================================== */
+.sk-page-hero { text-align: center; }
+.sk-page-hero__inner { max-width: 80rem; margin: 0 auto; }
+.sk-page-hero__title { font-size: 3.4rem; margin: 0 0 1.2rem; }
+.sk-page-hero__text { font-size: 1.7rem; opacity: 0.85; margin: 0; }
+.sk-page-hero__actions { display: flex; gap: 1.4rem; justify-content: center; flex-wrap: wrap; margin-top: 2.4rem; }
+.sk-page-hero--left { text-align: left; }
+.sk-page-hero--left .sk-page-hero__inner { margin: 0; }
+.sk-page-hero--left .sk-page-hero__actions { justify-content: flex-start; }
+
+@media screen and (max-width: 749px) {
+  .sk-page-hero__title { font-size: 2.6rem; }
+  .sk-page-hero__text { font-size: 1.5rem; }
+}
+
+/* ==========================================================================
+   Age routine quiz banner
+   ========================================================================== */
+.sk-quiz {
+  background: var(--sk-blue-deep);
+  color: #fff;
+  border-radius: var(--sk-radius);
+  padding: 3.6rem 4rem;
+}
+
+.sk-quiz__title { color: #fff; font-size: 2.6rem; margin: 0 0 0.6rem; }
+.sk-quiz__sub { opacity: 0.85; margin: 0 0 2rem; font-size: 1.5rem; }
+.sk-quiz__prompt { font-family: var(--font-label); font-weight: 600; margin-bottom: 1rem; }
+.sk-quiz__options { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+.sk-quiz__opt {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  padding: 1.1rem 2.4rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.sk-quiz__opt:hover,
+.sk-quiz__opt[aria-pressed='true'] { background: #fff; color: var(--sk-blue-deep); }
+
+.sk-quiz__result {
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 2rem;
+  display: none;
+}
+
+.sk-quiz__result.is-visible { display: block; }
+.sk-quiz__result p { margin: 0 0 1.2rem; }
+
+@media screen and (max-width: 749px) {
+  .sk-quiz { padding: 2.8rem 2rem; }
+  .sk-quiz__title { font-size: 2.2rem; }
+  .sk-quiz__opt { padding: 1rem 1.8rem; font-size: 1.4rem; }
+}
+
+/* ==========================================================================
+   Just-right zone (too mild / just right / too harsh)
+   ========================================================================== */
+.sk-jrz-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+
+.sk-jrz-zone {
+  border-radius: var(--sk-radius);
+  padding: 3.4rem 2.8rem 3.2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.sk-jrz-zone h3 { margin: 0 0 0.6rem; font-size: 2.2rem; }
+.sk-jrz-zone p { margin: 0; font-size: 1.5rem; opacity: 0.85; }
+.sk-jrz-zone--mild { background: var(--sk-blue-pale); }
+
+.sk-jrz-zone--right {
+  background: linear-gradient(170deg, var(--sk-blue-wash), #b9e4fb);
+  box-shadow: 0 16px 40px rgba(74, 71, 68, 0.12);
+  transform: scale(1.04);
+}
+
+/* Gray-tinted, distinct from mild without reaching for another hue */
+.sk-jrz-zone--harsh { background: #eaeaea; }
+
+.sk-jrz-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-label);
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0.5rem 1.3rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+
+.sk-jrz-zone--mild .sk-jrz-flag,
+.sk-jrz-zone--harsh .sk-jrz-flag { background: rgba(74, 71, 68, 0.1); color: var(--sk-ink); }
+.sk-jrz-zone--right .sk-jrz-flag { background: var(--sk-blue-deep); color: #fff; }
+
+@media screen and (max-width: 749px) {
+  .sk-jrz-grid { grid-template-columns: 1fr; }
+  .sk-jrz-zone { padding: 2.6rem 1.8rem; min-width: 0; }
+  .sk-jrz-zone--right { transform: none; order: -1; }
+}
+
+/* ==========================================================================
+   Shop by age
+   ========================================================================== */
+.sk-age-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+
+.sk-age-card {
+  background: #fff;
+  border-radius: var(--sk-radius);
+  padding: 3rem 2.6rem;
+  box-shadow: 0 18px 44px -26px rgba(74, 71, 68, 0.32);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sk-age-card__label {
+  font-family: var(--font-label);
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sk-blue-deep);
+}
+
+.sk-age-card__title { font-size: 2.6rem; margin: 0.4rem 0 1rem; }
+.sk-age-card__desc { font-size: 1.4rem; opacity: 0.85; margin: 0 0 1.8rem; flex: 1; }
+
+@media screen and (max-width: 989px) {
+  .sk-age-grid { grid-template-columns: 1fr; }
+  .sk-age-card { padding: 2.4rem 2rem; min-width: 0; }
+}
+
+/* ==========================================================================
+   Ritual lines — alternating media / copy
+   ========================================================================== */
+.sk-ritual-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 5rem;
+  align-items: center;
+  max-width: 130rem;
+  margin: 0 auto 7rem;
+  padding: 0 5rem;
+}
+
+.sk-ritual-grid:last-child { margin-bottom: 0; }
+.sk-ritual-grid--rev { grid-template-columns: 1.1fr 0.9fr; }
+.sk-ritual-grid--rev > .sk-ritual__media { order: 2; }
+
+.sk-ritual__media {
+  border-radius: var(--sk-radius);
+  overflow: hidden;
+  box-shadow: 0 30px 60px -20px rgba(0, 73, 135, 0.35);
+}
+
+.sk-ritual__media img { width: 100%; display: block; }
+
+.sk-ritual__eyebrow {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--sk-blue-mid);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.sk-ritual__title { font-size: 2.8rem; margin: 0 0 1.2rem; }
+.sk-ritual__text { font-size: 1.6rem; opacity: 0.85; margin: 0 0 2rem; }
+.sk-ritual__chips { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+.sk-ritual__chip {
+  background: #fff;
+  border: 1px solid var(--sk-blue-wash);
+  color: var(--sk-blue-deep);
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+}
+
+@media screen and (max-width: 989px) {
+  .sk-ritual-grid,
+  .sk-ritual-grid--rev {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 2rem;
+    margin-bottom: 4rem;
+  }
+  .sk-ritual-grid--rev > .sk-ritual__media { order: 0; }
+  .sk-ritual__title { font-size: 2.4rem; }
+}
+
+/* ==========================================================================
+   Our Science — stats table & ingredient callouts
+   ========================================================================== */
+.sk-science-stats { width: 100%; border-collapse: collapse; margin: 2.4rem 0; }
+
+.sk-science-stats th {
+  text-align: left;
+  font-family: var(--font-label);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.6;
+  padding: 1rem 0;
+  border-bottom: 2px solid rgba(74, 71, 68, 0.12);
+}
+
+.sk-science-stats td { padding: 1.4rem 0; border-bottom: 1px solid rgba(74, 71, 68, 0.08); font-size: 1.6rem; }
+.sk-science-stats .stat-value { font-family: var(--font-display); font-weight: 800; color: var(--sk-blue-deep); }
+.sk-science-stats__wrap { overflow-x: auto; }
+
+.sk-ingredient-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--sk-blue-wash);
+  color: var(--sk-ink);
+  border-radius: 999px;
+  padding: 0.7rem 1.5rem;
+  font-family: var(--font-label);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0.3rem 0.4rem 0.3rem 0;
+  cursor: default;
+}
+
+.sk-ingredient-chip[data-tip] { position: relative; }
+
+.sk-ingredient-chip[data-tip]:hover::after,
+.sk-ingredient-chip[data-tip]:focus-visible::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--sk-blue-deep);
+  color: #fff;
+  font-family: var(--font-copy);
+  font-weight: 400;
+  font-size: 1.2rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  width: 22rem;
+  white-space: normal;
+  z-index: 5;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.sk-prose h2 { font-size: 2.4rem; margin: 2.4rem 0 0.8rem; }
+.sk-prose h3 { font-size: 1.9rem; margin: 2.4rem 0 0.6rem; }
+.sk-prose p { font-size: 1.6rem; opacity: 0.85; margin: 0 0 1.2rem; }
+.sk-prose ul { font-size: 1.6rem; opacity: 0.85; padding-left: 2rem; }
+.sk-prose li { margin-bottom: 0.6rem; }
+.sk-prose__note { font-size: 1.2rem; opacity: 0.6; }
+
+/* ==========================================================================
+   Founder / generation list
+   ========================================================================== */
+.sk-story-gen { display: flex; gap: 2rem; align-items: flex-start; padding: 2rem 0; border-top: 1px solid rgba(74, 71, 68, 0.1); }
+
+.sk-story-gen__badge {
+  flex: 0 0 auto;
+  width: 5.2rem;
+  height: 5.2rem;
+  border-radius: 50%;
+  background: var(--sk-blue-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--sk-blue-deep);
+}
+
+.sk-story-gen__name { font-family: var(--font-display); font-size: 1.9rem; margin: 0 0 0.3rem; font-weight: 700; }
+
+.sk-story-gen__role {
+  font-family: var(--font-label);
+  font-size: 1.2rem;
+  color: var(--sk-blue-deep);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.sk-story-gen p { margin: 0; font-size: 1.5rem; opacity: 0.85; }
+
+@media screen and (max-width: 749px) {
+  .sk-story-gen { gap: 1.4rem; }
+  .sk-story-gen__badge { width: 4.2rem; height: 4.2rem; font-size: 1.7rem; }
+}
+
+/* ==========================================================================
+   Timeline — Our Journey
+   ========================================================================== */
+.sk-timeline { border-left: 3px solid var(--sk-blue-wash); padding-left: 2.4rem; }
+.sk-timeline__item { margin-bottom: 3rem; }
+.sk-timeline__item:last-child { margin-bottom: 0; }
+.sk-timeline__year { font-family: var(--font-display); font-weight: 800; font-size: 2rem; color: var(--sk-blue-deep); }
+.sk-timeline__text { opacity: 0.85; font-size: 1.5rem; margin: 0.4rem 0 0; }
+
+@media screen and (max-width: 749px) { .sk-timeline { padding-left: 1.6rem; } }
+
+/* ==========================================================================
+   Routine builder — Dancing Script used sparingly, on time-of-day labels only
+   ========================================================================== */
+.sk-routine-tabs { display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap; }
+
+.sk-routine-tab {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 1.4rem;
+  padding: 1rem 2.2rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(74, 71, 68, 0.15);
+  background: #fff;
+  color: var(--sk-ink);
+  cursor: pointer;
+}
+
+.sk-routine-tab[aria-selected='true'] { background: var(--sk-blue-deep); color: #fff; border-color: var(--sk-blue-deep); }
+.sk-routine-panel { display: none; }
+.sk-routine-panel.is-active { display: block; }
+
+.sk-routine-moment {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: 2rem;
+  padding: 2.4rem 0;
+  border-top: 1px solid rgba(74, 71, 68, 0.1);
+  align-items: baseline;
+}
+
+.sk-routine-moment__time { font-family: var(--font-script); font-weight: 700; font-size: 2.2rem; color: var(--sk-blue-deep); }
+.sk-routine-moment__text { font-size: 1.55rem; opacity: 0.85; }
+.sk-routine-panel .sk-btn { margin-top: 2.4rem; }
+
+@media screen and (max-width: 749px) {
+  .sk-routine-moment { grid-template-columns: 1fr; gap: 0.4rem; }
+  .sk-routine-tab { padding: 0.9rem 1.6rem; font-size: 1.3rem; }
+}
+
+/* ==========================================================================
+   Community — Be the Pride — SANCTIONED sparing-accent section
+   ========================================================================== */
+.sk-community-hero { border-radius: 0 0 var(--sk-radius-lg) var(--sk-radius-lg); text-align: center; }
+.sk-community-hero .sk-eyebrow { color: var(--sk-pink-accent); }
+.sk-community-hero__title { font-size: 2.8rem; margin: 0; }
+
+.sk-community-hero__title em {
+  color: var(--sk-pink-accent);
+  font-style: italic;
+  font-family: var(--font-script);
+  font-weight: 700;
+}
+
+.sk-community-hero__text { max-width: 56rem; margin: 1rem auto 0; opacity: 0.85; font-size: 1.6rem; }
+.sk-community-stats { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; margin-top: 2.4rem; }
+.sk-community-stats .sk-pill--trust { font-size: 1.4rem; padding: 1rem 2rem; }
+
+.sk-gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.8rem; }
+
+.sk-gallery-card {
+  border-radius: var(--sk-radius);
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.sk-gallery-card::before {
+  content: '';
+  position: absolute;
+  top: 1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(74, 71, 68, 0.25);
+}
+
+.sk-gallery-card__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.sk-gallery-card__name { font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; position: relative; }
+.sk-gallery-card__age { font-family: var(--font-label); font-size: 1.2rem; opacity: 0.7; position: relative; }
+
+@media screen and (max-width: 989px) {
+  .sk-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+  .sk-gallery-card { min-width: 0; }
+}
+
+.sk-tool-card { background: #fff; border-radius: var(--sk-radius); padding: 2.8rem; box-shadow: 0 12px 30px rgba(74, 71, 68, 0.08); }
+.sk-tool-card h3 { font-size: 1.9rem; margin: 0 0 0.6rem; }
+.sk-tool-card p { font-size: 1.5rem; opacity: 0.85; }
+
+.sk-spark-output {
+  background: var(--sk-blue-wash);
+  border-radius: 12px;
+  padding: 1.6rem;
+  font-family: var(--font-script);
+  font-weight: 600;
+  font-size: 1.8rem;
+  margin: 1.4rem 0;
+  min-height: 3rem;
+  color: var(--sk-ink);
+}
+
+.sk-field { width: 100%; border: 1.5px solid rgba(74, 71, 68, 0.18); border-radius: 8px; padding: 1.2rem 1.4rem; font-family: var(--font-copy); font-size: 1.5rem; color: var(--sk-ink); background: #fff; }
+.sk-field--round { border-radius: 12px; }
+
+.sk-submit-form { max-width: 64rem; margin: 0 auto; background: #fff; border-radius: var(--sk-radius); padding: 3.2rem; box-shadow: 0 16px 40px rgba(74, 71, 68, 0.1); }
+.sk-submit-form label { font-family: var(--font-label); font-weight: 700; font-size: 1.3rem; display: block; margin: 1.6rem 0 0.5rem; }
+.sk-submit-form h2 { text-align: center; margin: 0; font-size: 2.4rem; }
+.sk-submit-guidelines { font-size: 1.2rem; opacity: 0.7; margin-top: 1.6rem; }
+
+@media screen and (max-width: 749px) { .sk-submit-form { padding: 2.2rem 1.8rem; } }
+
+/* ==========================================================================
+   Card grid — Our Promise / Core Values / Commitment / Affiliate steps
+   ========================================================================== */
+.sk-card-grid { display: grid; gap: 2rem; }
+.sk-card-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sk-card-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.sk-card-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.sk-card-grid .sk-tool-card { display: flex; flex-direction: column; align-items: flex-start; }
+.sk-card-grid .sk-tool-card h3 { font-size: 1.8rem; }
+.sk-card-grid .sk-tool-card p { margin: 0 0 1rem; }
+.sk-card__hash { font-weight: 700; color: var(--sk-blue-deep); font-size: 1.4rem; margin: 0; }
+.sk-card--accent { background: var(--sk-pink-pastel); }
+
+@media screen and (max-width: 989px) {
+  .sk-card-grid--3, .sk-card-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media screen and (max-width: 749px) {
+  .sk-card-grid--2, .sk-card-grid--3, .sk-card-grid--4 { grid-template-columns: 1fr; }
+  .sk-tool-card { padding: 2.2rem 1.8rem; }
+}
+
+/* ==========================================================================
+   Reviews strip
+   ========================================================================== */
+.sk-review-card p { font-style: italic; font-size: 1.5rem; margin: 0.8rem 0; }
+.sk-review-card__name { font-weight: 700; }
+.sk-review-card__meta { opacity: 0.6; font-size: 1.2rem; }
+
+/* ==========================================================================
+   Journal / article cards
+   ========================================================================== */
+.sk-journal-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
+.sk-journal-head h2 { font-size: 2.4rem; margin: 0; }
+.sk-article-card { padding: 0; overflow: hidden; display: block; text-decoration: none; color: inherit; }
+.sk-article-card:hover { text-decoration: none; }
+.sk-article-card__media { aspect-ratio: 16 / 10; overflow: hidden; background: var(--sk-blue-wash); display: flex; align-items: center; justify-content: center; color: var(--sk-blue-deep); font-family: var(--font-label); font-weight: 700; }
+.sk-article-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.sk-article-card__body { padding: 2rem; }
+.sk-article-card__body h3 { font-size: 1.6rem; margin: 0 0 0.6rem; }
+.sk-article-card__body p { opacity: 0.7; font-size: 1.3rem; margin: 0; }
+
+/* ==========================================================================
+   Photo break
+   ========================================================================== */
+.sk-photo-break { position: relative; min-height: 50vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+.sk-photo-break__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.sk-photo-break__scrim { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(0, 30, 58, 0.88) 0%, rgba(0, 30, 58, 0.82) 55%, rgba(0, 30, 58, 0.92) 100%); }
+.sk-photo-break__inner { position: relative; z-index: 2; color: #fff; max-width: 70rem; padding: 4rem 3rem; }
+.sk-photo-break__inner .sk-eyebrow { color: #bee7f5; }
+.sk-photo-break__inner h2 { color: #fff; font-size: 3.4rem; margin: 0 0 1.2rem; }
+.sk-photo-break__inner p { font-size: 1.6rem; opacity: 0.92; margin: 0; }
+
+@media screen and (max-width: 749px) {
+  .sk-photo-break { min-height: 40vh; }
+  .sk-photo-break__inner h2 { font-size: 2.4rem; }
+  .sk-photo-break__inner { padding: 3rem 2rem; }
+}
+
+/* ==========================================================================
+   Statement banner
+   ========================================================================== */
+.sk-statement { text-align: center; }
+.sk-statement__inner { max-width: 80rem; margin: 0 auto; }
+.sk-statement h2 { font-size: 2.6rem; margin: 0 0 1.2rem; }
+.sk-statement p { font-size: 1.6rem; opacity: 0.9; margin: 0 0 1rem; }
+.sk-statement p:last-child { margin-bottom: 0; }
+.sk-statement__small { font-size: 1.3rem; opacity: 0.75; }
+
+@media screen and (max-width: 749px) { .sk-statement h2 { font-size: 2.2rem; } }
+
+/* ==========================================================================
+   Trust badges & medallions
+   ========================================================================== */
+.sk-trust-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; text-align: center; }
+.sk-trust-grid--divided { border-bottom: 1px solid rgba(74, 71, 68, 0.1); padding-bottom: 3rem; margin-bottom: 3rem; }
+.sk-trust-item svg { margin: 0 auto 0.8rem; display: block; }
+.sk-trust-item strong { font-size: 1.5rem; display: block; }
+.sk-trust-item span { opacity: 0.7; font-size: 1.2rem; }
+
+.sk-payment { text-align: center; }
+.sk-payment .sk-eyebrow { display: flex; align-items: center; justify-content: center; gap: 0.6rem; }
+.sk-payment__row { display: flex; gap: 1.2rem; justify-content: center; margin-top: 1.4rem; flex-wrap: wrap; }
+.sk-payment__chip { border: 1px solid rgba(74, 71, 68, 0.15); border-radius: 8px; padding: 0.7rem 1.6rem; font-family: var(--font-label); font-weight: 800; font-size: 1.2rem; color: var(--sk-blue-deep); }
+.sk-payment__chip--visa { font-style: italic; }
+.sk-payment__row img { height: 2.8rem; width: auto; }
+
+.sk-medallion-row { display: flex; flex-wrap: wrap; gap: 2.6rem; justify-content: center; align-items: center; }
+.sk-medallion img { width: 90px; height: 90px; object-fit: contain; }
+.sk-medallion figcaption { font-family: var(--font-label); font-size: 1.1rem; text-align: center; margin-top: 0.6rem; opacity: 0.75; }
+
+@media screen and (max-width: 749px) {
+  .sk-trust-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .sk-medallion-row { gap: 1.6rem; }
+  .sk-medallion img { width: 64px; height: 64px; }
+}
+
+/* ==========================================================================
+   Accordion (FAQ + PDP tabs)
+   ========================================================================== */
+.sk-accordion details { border-bottom: 1px solid rgba(74, 71, 68, 0.12); padding: 1.2rem 0; }
+
+.sk-accordion summary {
+  cursor: pointer;
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 1.6rem;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sk-accordion__body { padding-top: 0.8rem; opacity: 0.85; font-size: 1.5rem; }
+.sk-accordion__body > :first-child { margin-top: 0; }
+.sk-accordion__body > :last-child { margin-bottom: 0; }
+
+/* ==========================================================================
+   Product page
+   ========================================================================== */
+.sk-pdp__benefits { display: flex; gap: 2rem; margin: 2rem 0; padding: 1.6rem 0; border-top: 1px solid rgba(74, 71, 68, 0.1); border-bottom: 1px solid rgba(74, 71, 68, 0.1); }
+.sk-pdp__benefit { text-align: center; font-size: 1.25rem; flex: 1; }
+.sk-pdp__benefit-icon { font-size: 2.2rem; line-height: 1; margin-bottom: 0.4rem; }
+
+/* ==========================================================================
+   Contact
+   ========================================================================== */
+.sk-contact-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.4rem; }
+.sk-contact-details p { margin: 0 0 1.2rem; font-size: 1.5rem; }
+.sk-contact-details strong { display: block; }
+
+@media screen and (max-width: 749px) { .sk-contact-grid { grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   Floating WhatsApp button — WhatsApp's own brand green, a utility icon
+   ========================================================================== */
+.sk-whatsapp-fab {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  z-index: 40;
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: 50%;
+  background: #25d366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease;
+}
+
+.sk-whatsapp-fab:hover { transform: scale(1.06); }
+.sk-whatsapp-fab svg { width: 2.8rem; height: 2.8rem; fill: #fff; }
+
+@media screen and (max-width: 749px) {
+  .sk-whatsapp-fab { right: 1.4rem; bottom: 9rem; width: 5rem; height: 5rem; }
+}
+
+/* ==========================================================================
+   Accessibility: reduced motion
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .sk-btn,
+  .sk-whatsapp-fab,
+  .sk-quiz__opt { transition: none; }
+  .sk-btn:hover,
+  .sk-whatsapp-fab:hover { transform: none; }
+}

@@ -1,0 +1,25 @@
+{% comment %}
+  Emits the per-section padding CSS every Simply Kids section uses.
+  Mirrors Dawn's own pattern: three quarters of the setting on mobile.
+
+  Accepts:
+  - id: {String} section.id
+  - top: {Number} padding_top setting
+  - bottom: {Number} padding_bottom setting
+
+  Usage:
+  {%- render 'sk-section-padding', id: section.id, top: section.settings.padding_top, bottom: section.settings.padding_bottom -%}
+{% endcomment %}
+{%- style -%}
+  .sk-pad-{{ id }} {
+    padding-top: {{ top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .sk-pad-{{ id }} {
+      padding-top: {{ top }}px;
+      padding-bottom: {{ bottom }}px;
+    }
+  }
+{%- endstyle -%}

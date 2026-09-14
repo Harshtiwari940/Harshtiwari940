@@ -1,0 +1,99 @@
+{
+  "sections": {
+    "hero": {
+      "type": "sk-community-hero",
+      "settings": {
+        "color_scheme": "scheme-13",
+        "eyebrow": "A humble abode",
+        "heading": "<p>Pride of <em>Simply Kids</em></p>",
+        "text": "<p>Welcome to every child's brighter corner — where colourful drawings, joyful laughter, and the moments that make us stop and smile are celebrated.</p>",
+        "padding_top": 72,
+        "padding_bottom": 56
+      },
+      "blocks": {
+        "s1": { "type": "stat", "settings": { "text": "247 young creators" } },
+        "s2": { "type": "stat", "settings": { "text": "609 artworks shared" } },
+        "s3": { "type": "stat", "settings": { "text": "429 families" } }
+      },
+      "block_order": ["s1", "s2", "s3"]
+    },
+    "gallery": {
+      "type": "sk-community-gallery",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Meet our young creators",
+        "padding_top": 48,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "c1": { "type": "creator", "settings": { "name": "Anagha", "age": "Age 8", "color_scheme": "scheme-4" } },
+        "c2": { "type": "creator", "settings": { "name": "Shaurya", "age": "Age 6", "color_scheme": "scheme-9" } },
+        "c3": { "type": "creator", "settings": { "name": "Abhimanyu", "age": "Age 10", "color_scheme": "scheme-8" } },
+        "c4": { "type": "creator", "settings": { "name": "Saranya", "age": "Age 10", "color_scheme": "scheme-3" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"]
+    },
+    "tools": {
+      "type": "sk-community-tools",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Two little things to play with",
+        "dob_heading": "What does their skin need today?",
+        "dob_button": "Show my tip",
+        "dob_empty": "Pick a date of birth first.",
+        "dob_out_of_range": "Simply Kids is formulated for ages 4 to 12.",
+        "spark_heading": "What should I draw today?",
+        "spark_button": "Give me an idea",
+        "spark_default": "Draw your favourite animal wearing a superhero cape.",
+        "spark_ideas": "Draw your favourite animal wearing a superhero cape.\nDraw the view from your bedroom window, but on another planet.\nDraw a machine that makes bath time more fun.\nDraw your family as a team of explorers.\nDraw the silliest hairstyle you can imagine.\nDraw a garden where every plant is a different colour.\nDraw what your favourite song looks like.\nDraw a house for your favourite bug.",
+        "padding_top": 48,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "t1": {
+          "type": "tip",
+          "settings": {
+            "age_min": 4,
+            "age_max": 6,
+            "text": "Little Explorers: keep it short and tear-free. A quick body wash, the 2-in-1 on wash day, and a bedtime massage oil."
+          }
+        },
+        "t2": {
+          "type": "tip",
+          "settings": {
+            "age_min": 7,
+            "age_max": 9,
+            "text": "Big Kids: playground grime needs a real clean. Body wash daily, 2-in-1 on wash day, hair oil twice a week."
+          }
+        },
+        "t3": {
+          "type": "tip",
+          "settings": {
+            "age_min": 10,
+            "age_max": 12,
+            "text": "Tweens: oil arrives earlier than you expect. Daily body wash, 2-in-1 for oilier roots, hair oil on lengths only."
+          }
+        }
+      },
+      "block_order": ["t1", "t2", "t3"]
+    },
+    "submit": {
+      "type": "sk-community-submit",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Share your little one's magic",
+        "label_name": "Child's first name",
+        "label_age": "Child's age",
+        "age_placeholder": "Select age",
+        "label_email": "Parent/guardian email",
+        "label_message": "Tell us about it",
+        "button_label": "Submit entry",
+        "success_message": "Thank you — we'll be in touch about your entry.",
+        "guidelines": "<p>By submitting, you confirm you are the parent or guardian and consent to us sharing this artwork on the Simply Kids community gallery. Artwork is shared with a first name and age only.</p>",
+        "padding_top": 48,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": ["hero", "gallery", "tools", "submit"]
+}

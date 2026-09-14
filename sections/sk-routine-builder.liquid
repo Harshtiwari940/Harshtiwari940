@@ -1,0 +1,142 @@
+{%- render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+-%}
+
+<div class="sk-pad-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
+      <div class="sk-section-head" style="margin-bottom: 3rem;">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2>{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <sk-routine-builder style="display: block;">
+      <div class="sk-routine-tabs" role="tablist" aria-label="{{ section.settings.heading | escape }}">
+        {%- for block in section.blocks -%}
+          <button
+            type="button"
+            class="sk-routine-tab"
+            role="tab"
+            id="SkTab-{{ section.id }}-{{ forloop.index }}"
+            aria-controls="SkPanel-{{ section.id }}-{{ forloop.index }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            {{- block.settings.tab_label | escape -}}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        <div
+          class="sk-routine-panel{% if forloop.first %} is-active{% endif %}"
+          role="tabpanel"
+          id="SkPanel-{{ section.id }}-{{ forloop.index }}"
+          aria-labelledby="SkTab-{{ section.id }}-{{ forloop.index }}"
+        >
+          {%- assign moments = block.settings.moments | newline_to_br | split: '<br />' -%}
+          {%- for moment in moments -%}
+            {%- assign parts = moment | strip | split: '|' -%}
+            {%- if parts[0] != blank -%}
+              <div class="sk-routine-moment">
+                <div class="sk-routine-moment__time">{{ parts[0] | strip | escape }}</div>
+                <div class="sk-routine-moment__text">{{ parts[1] | strip | escape }}</div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if block.settings.button_label != blank -%}
+            <a href="{{ block.settings.button_link | default: '#' }}" class="sk-btn sk-btn--primary">
+              {{- block.settings.button_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </sk-routine-builder>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Routine builder",
+  "tag": "section",
+  "class": "sk-section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    { "type": "text", "id": "eyebrow", "default": "Ready-made routines", "label": "Eyebrow" },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Three moments, that's the whole routine",
+      "label": "Heading"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stage",
+      "name": "Age stage",
+      "settings": [
+        { "type": "text", "id": "tab_label", "default": "Ages 4–6 · Little Explorers", "label": "Tab label" },
+        {
+          "type": "textarea",
+          "id": "moments",
+          "default": "Morning | A quick rinse with the Gentle Body Wash — fast enough that it doesn't turn into a wrestling match.\nBath time | 2-in-1 Shampoo + Conditioner so wash day stops being a fight over tangles.\nBedtime | A little Nourishing Body Massage Oil worked in while you read one more story.",
+          "label": "Moments",
+          "info": "One per line, as: Time of day | what they do"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Shop this routine",
+          "label": "Button label"
+        },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Routine builder",
+      "blocks": [{ "type": "stage" }, { "type": "stage" }, { "type": "stage" }]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,137 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-12",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail",
+        "mobile_thumbnails": "show",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "rating": { "type": "rating", "settings": {} },
+        "title": { "type": "title", "settings": {} },
+        "tagline": {
+          "type": "text",
+          "settings": {
+            "text": "Fewer tangles, less breakage — wash-day tears, gone.",
+            "text_style": "subtitle"
+          }
+        },
+        "price": { "type": "price", "settings": {} },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": { "picker_type": "button", "swatch_shape": "circle" }
+        },
+        "quantity_selector": { "type": "quantity_selector", "settings": {} },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": { "show_dynamic_checkout": true, "show_gift_card_recipient": false }
+        },
+        "benefits": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "horizontal",
+            "icon_1": "leaf",
+            "heading_1": "Dermatologically tested",
+            "icon_2": "heart",
+            "heading_2": "Vegan & cruelty-free",
+            "icon_3": "map_pin",
+            "heading_3": "Made in India"
+          }
+        },
+        "tab_why": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Why it works",
+            "icon": "check_mark",
+            "content": "<p>A gentle 2-in-1 that cleanses and conditions in one step. Bhringraj and Japa strengthen the hair shaft while Jatamansi soothes the scalp.</p>"
+          }
+        },
+        "tab_ingredients": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Full ingredients & safety",
+            "icon": "bottle",
+            "content": "<p>pH 5.5-balanced and free from parabens, sulphates and phthalates. Add this product's full INCI list here, or link a shared page below.</p>"
+          }
+        },
+        "tab_how": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How to use",
+            "icon": "leaf",
+            "content": "<p>Wet hair thoroughly. Work a small amount through the scalp and lengths, leave for a minute, then rinse clean. Use two to three times a week.</p>"
+          }
+        },
+        "tab_shipping": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping & returns",
+            "icon": "truck",
+            "content": "<p>Free shipping over ₹999, dispatched in 1–2 business days. 7-day no-question-asked returns on unopened, sealed products.</p>"
+          }
+        },
+        "description": { "type": "description", "settings": {} },
+        "complementary": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Pairs well with",
+            "make_collapsible_row": false,
+            "icon": "none",
+            "product_list_limit": 3,
+            "products_per_page": 3,
+            "pagination_style": "counter",
+            "image_ratio": "square",
+            "enable_quick_add": true
+          }
+        },
+        "share": { "type": "share", "settings": {} }
+      },
+      "block_order": [
+        "rating",
+        "title",
+        "tagline",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "benefits",
+        "tab_why",
+        "tab_ingredients",
+        "tab_how",
+        "tab_shipping",
+        "description",
+        "complementary",
+        "share"
+      ]
+    },
+    "related": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-8",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "columns_mobile": "2",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    }
+  },
+  "order": ["main", "related"]
+}

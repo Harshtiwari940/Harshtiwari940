@@ -1,0 +1,56 @@
+{
+  "sections": {
+    "hero": {
+      "type": "sk-page-hero",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "alignment": "center",
+        "eyebrow": "Have Queries or Concerns?",
+        "heading": "<p>We're here to help</p>",
+        "text": "<p>Reach us any way that's easiest for you — we usually reply within one business day.</p>",
+        "max_width": 70,
+        "padding_top": 72,
+        "padding_bottom": 56
+      }
+    },
+    "contact": {
+      "type": "sk-contact-split",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "form_heading": "Write to us",
+        "form_text": "Send your order number and query, and our team will get back to you.",
+        "button_label": "Send message",
+        "details_heading": "Other ways to reach us",
+        "max_width": 100,
+        "padding_top": 72,
+        "padding_bottom": 72
+      },
+      "blocks": {
+        "d1": {
+          "type": "detail",
+          "settings": { "label": "Phone", "value": "<p>+91-6297450751</p>" }
+        },
+        "d2": {
+          "type": "detail",
+          "settings": { "label": "Email", "value": "<p>support@simplykids.in</p>" }
+        },
+        "d3": {
+          "type": "detail",
+          "settings": {
+            "label": "Registered Office",
+            "value": "<p>Omakase Enterprises LLP, Primarc Chambers, Unit OU-114, 1839 Laskarhat, Tagore Park, E. M. Bypass, Kolkata – 700039</p>"
+          }
+        },
+        "d4": {
+          "type": "detail",
+          "settings": {
+            "label": "WhatsApp",
+            "value": "<p>Tap the chat button in the corner of any page for a quick reply.</p>"
+          }
+        }
+      },
+      "block_order": ["d1", "d2", "d3", "d4"]
+    }
+  },
+  "order": ["hero", "contact"]
+}

@@ -1,0 +1,215 @@
+{%- render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+-%}
+
+<div class="sk-hero sk-pad-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="sk-hero__grid">
+    <div class="sk-hero__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="sk-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h1 class="sk-hero__title">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <div class="sk-hero__sub">{{ section.settings.subheading }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank or section.settings.button_label_2 != blank -%}
+        <div class="sk-hero__actions">
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_link | default: '#' }}" class="sk-btn sk-btn--hero">
+              {{- section.settings.button_label | escape -}}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.button_label_2 != blank -%}
+            <a href="{{ section.settings.button_link_2 | default: '#' }}" class="sk-btn sk-btn--outline">
+              {{- section.settings.button_label_2 | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_spectrum -%}
+        <div class="sk-hero__spectrum">
+          <span>{{ section.settings.age_min | escape }}</span>
+          <div class="sk-hero__spectrum-track">
+            <span class="sk-hero__spectrum-dot" style="left: 0%"></span>
+            <span class="sk-hero__spectrum-dot" style="left: 50%"></span>
+            <span class="sk-hero__spectrum-dot" style="left: 100%"></span>
+          </div>
+          <span>{{ section.settings.age_max | escape }}</span>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.footnote != blank -%}
+        <p class="sk-hero__footnote">{{ section.settings.footnote | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.rating_text != blank -%}
+        <div class="sk-hero__rating">
+          <span class="sk-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <span>{{ section.settings.rating_text | escape }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="sk-hero__media">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '400, 600, 800, 1000, 1200, 1600',
+            sizes: '(min-width: 990px) 45vw, 100vw',
+            alt: section.settings.image.alt | default: section.settings.heading | strip_html | escape
+        }}
+      {%- else -%}
+        <div class="sk-hero__placeholder">
+          {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.stat_badge != blank -%}
+        <div class="sk-hero__stat-badge">{{ section.settings.stat_badge | escape }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Hero — age spectrum",
+  "tag": "section",
+  "class": "sk-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "default": "Only for the ages 4–12",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "default": "<p>Growing-up care, made <em>kid-safe</em>.</p>",
+      "label": "Heading",
+      "info": "Text inside <em> renders in the Dancing Script accent."
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "default": "<p>Dermatologically tested, pH 5.5-balanced formulas for the in-between years — proven gentle enough to trust, effective enough to work.</p>",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Find their stage",
+      "label": "Primary button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "default": "Shop bestsellers",
+      "label": "Secondary button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Age spectrum"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_spectrum",
+      "default": true,
+      "label": "Show age spectrum"
+    },
+    {
+      "type": "text",
+      "id": "age_min",
+      "default": "4",
+      "label": "Youngest age"
+    },
+    {
+      "type": "text",
+      "id": "age_max",
+      "default": "12",
+      "label": "Oldest age"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "default": "Baby care's too mild. Adult care's too harsh. We built for the nine years in between.",
+      "label": "Footnote"
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "default": "4.8 · 112 verified parent reviews",
+      "label": "Rating text"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "stat_badge",
+      "default": "95% smoother hair*",
+      "label": "Image badge"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    }
+  ],
+  "presets": [{ "name": "SK Hero — age spectrum" }]
+}
+{% endschema %}

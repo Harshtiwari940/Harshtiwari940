@@ -1,0 +1,190 @@
+{%- render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+-%}
+
+<div class="sk-pad-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="sk-contact-grid" style="max-width: {{ section.settings.max_width }}rem; margin: 0 auto;">
+      <div class="sk-tool-card">
+        {%- if section.settings.form_heading != blank -%}
+          <h3>{{ section.settings.form_heading | escape }}</h3>
+        {%- endif -%}
+        {%- if section.settings.form_text != blank -%}
+          <p>{{ section.settings.form_text | escape }}</p>
+        {%- endif -%}
+
+        {%- form 'contact', id: 'SkContactForm' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="form-status form-status-list form__message" tabindex="-1" autofocus>
+              <span class="svg-wrapper">{{- 'icon-success.svg' | inline_asset_content -}}</span>
+              {{ 'templates.contact.form.post_success' | t }}
+            </p>
+          {%- elsif form.errors -%}
+            <div class="form__message" role="alert">
+              <h3 class="form-status caption-large" tabindex="-1" autofocus>
+                <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
+                {{ 'templates.contact.form.error_heading' | t }}
+              </h3>
+              <ul class="form-status-list caption-large" role="list">
+                {%- for field in form.errors -%}
+                  <li>
+                    <a href="#SkContactForm-{{ field }}" class="link">
+                      {{ form.errors.translated_fields[field] | capitalize }}
+                      {{ form.errors.messages[field] }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          <label
+            for="SkContactForm-name"
+            style="font-family: var(--font-heading-family); font-weight: 700; font-size: 1.3rem; display: block; margin: 1.6rem 0 0.5rem;"
+          >
+            {{- 'templates.contact.form.name' | t -}}
+          </label>
+          <input
+            type="text"
+            id="SkContactForm-name"
+            class="sk-field"
+            name="contact[{{ 'templates.contact.form.name' | t }}]"
+            autocomplete="name"
+            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+          >
+
+          <label
+            for="SkContactForm-email"
+            style="font-family: var(--font-heading-family); font-weight: 700; font-size: 1.3rem; display: block; margin: 1.6rem 0 0.5rem;"
+          >
+            {{- 'templates.contact.form.email' | t -}}
+          </label>
+          <input
+            type="email"
+            id="SkContactForm-email"
+            class="sk-field"
+            name="contact[email]"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            required
+            {% if form.errors contains 'email' %}
+              aria-invalid="true"
+              aria-describedby="SkContactForm-email-error"
+            {% endif %}
+          >
+
+          <label
+            for="SkContactForm-body"
+            style="font-family: var(--font-heading-family); font-weight: 700; font-size: 1.3rem; display: block; margin: 1.6rem 0 0.5rem;"
+          >
+            {{- 'templates.contact.form.comment' | t -}}
+          </label>
+          <textarea id="SkContactForm-body" class="sk-field" name="contact[body]" rows="4">
+            {{- form.body -}}
+          </textarea>
+
+          <button type="submit" class="sk-btn sk-btn--primary sk-btn--full" style="margin-top: 1.6rem;">
+            {{- section.settings.button_label | escape -}}
+          </button>
+        {%- endform -%}
+      </div>
+
+      <div class="sk-tool-card sk-contact-details">
+        {%- if section.settings.details_heading != blank -%}
+          <h3>{{ section.settings.details_heading | escape }}</h3>
+        {%- endif -%}
+        {%- for block in section.blocks -%}
+          <p {{ block.shopify_attributes }}>
+            <strong>{{ block.settings.label | escape }}</strong>
+            <span style="opacity: 0.8;">{{ block.settings.value }}</span>
+          </p>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Contact split",
+  "tag": "section",
+  "class": "sk-section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    { "type": "text", "id": "form_heading", "default": "Write to us", "label": "Form heading" },
+    {
+      "type": "text",
+      "id": "form_text",
+      "default": "Send your order number and query, and our team will get back to you.",
+      "label": "Form text"
+    },
+    { "type": "text", "id": "button_label", "default": "Send message", "label": "Button label" },
+    {
+      "type": "text",
+      "id": "details_heading",
+      "default": "Other ways to reach us",
+      "label": "Details heading"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 60,
+      "max": 124,
+      "step": 2,
+      "unit": "rem",
+      "label": "Content width",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 72
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Detail",
+      "settings": [
+        { "type": "text", "id": "label", "default": "Phone", "label": "Label" },
+        { "type": "richtext", "id": "value", "label": "Value" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Contact split",
+      "blocks": [{ "type": "detail" }, { "type": "detail" }, { "type": "detail" }]
+    }
+  ]
+}
+{% endschema %}

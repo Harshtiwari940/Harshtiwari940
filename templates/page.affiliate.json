@@ -1,0 +1,52 @@
+{
+  "sections": {
+    "hero": {
+      "type": "sk-page-hero",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "alignment": "center",
+        "eyebrow": "Affiliate Programme",
+        "heading": "<p>Share Simply Kids, earn on every order.</p>",
+        "text": "<p>Join our affiliate programme and earn a commission on every sale you refer — perfect for parenting creators, mom bloggers, and communities who already love us.</p>",
+        "button_label": "Apply to become an affiliate",
+        "max_width": 70,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "steps": {
+      "type": "sk-card-grid",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "columns": "3",
+        "padding_top": 80,
+        "padding_bottom": 80
+      },
+      "blocks": {
+        "s1": {
+          "type": "card",
+          "settings": {
+            "title": "Sign up free",
+            "text": "<p>Apply in minutes through our affiliate portal — no cost to join.</p>"
+          }
+        },
+        "s2": {
+          "type": "card",
+          "settings": {
+            "title": "Share your link",
+            "text": "<p>Get a unique referral link and creative assets to share with your audience.</p>"
+          }
+        },
+        "s3": {
+          "type": "card",
+          "settings": {
+            "title": "Earn commission",
+            "text": "<p>Track clicks and sales in real time, and get paid on every order you drive.</p>"
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3"]
+    }
+  },
+  "order": ["hero", "steps"]
+}

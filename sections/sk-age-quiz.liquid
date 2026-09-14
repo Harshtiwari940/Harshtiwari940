@@ -1,0 +1,125 @@
+{%- render 'sk-section-padding',
+  id: section.id,
+  top: section.settings.padding_top,
+  bottom: section.settings.padding_bottom
+-%}
+
+<div class="sk-pad-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <sk-age-quiz class="sk-quiz" style="display: block; max-width: {{ section.settings.max_width }}rem; margin: 0 auto;">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="sk-quiz__title">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="sk-quiz__sub">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.prompt != blank -%}
+        <p class="sk-quiz__prompt">{{ section.settings.prompt | escape }}</p>
+      {%- endif -%}
+
+      <div class="sk-quiz__options">
+        {%- for block in section.blocks -%}
+          <button
+            type="button"
+            class="sk-quiz__opt"
+            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            data-result="{{ block.settings.result | escape }}"
+            data-url="{{ block.settings.link | default: '#' }}"
+            {{ block.shopify_attributes }}
+          >
+            {{- block.settings.label | escape -}}
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="sk-quiz__result">
+          <p class="sk-quiz__result-text">{{ section.blocks.first.settings.result | escape }}</p>
+          <a
+            href="{{ section.blocks.first.settings.link | default: '#' }}"
+            class="sk-btn sk-btn--primary sk-quiz__result-link"
+          >
+            {{- section.settings.result_button_label | escape -}}
+          </a>
+        </div>
+      {%- endif -%}
+    </sk-age-quiz>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SK Age quiz",
+  "tag": "section",
+  "class": "sk-section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    { "type": "text", "id": "heading", "default": "Let's build the perfect routine", "label": "Heading" },
+    { "type": "text", "id": "subheading", "default": "Tap their age — we'll match the stage.", "label": "Subheading" },
+    { "type": "text", "id": "prompt", "default": "How old is your child?", "label": "Question" },
+    { "type": "text", "id": "result_button_label", "default": "See their routine", "label": "Result button label" },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 60,
+      "max": 124,
+      "step": 2,
+      "unit": "rem",
+      "label": "Content width",
+      "default": 124
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "band",
+      "name": "Age band",
+      "settings": [
+        { "type": "text", "id": "label", "default": "4–6", "label": "Button label" },
+        {
+          "type": "textarea",
+          "id": "result",
+          "default": "Little Explorers: gentle, tear-free, and simple enough for them to start doing it themselves.",
+          "label": "Result text"
+        },
+        { "type": "url", "id": "link", "label": "Result link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SK Age quiz",
+      "blocks": [{ "type": "band" }, { "type": "band" }, { "type": "band" }]
+    }
+  ]
+}
+{% endschema %}

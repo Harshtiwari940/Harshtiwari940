@@ -1,0 +1,55 @@
+{
+  "sections": {
+    "body": {
+      "type": "sk-rich-text",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Shipping Policy",
+        "subheading": "",
+        "show_page_content": false,
+        "max_width": 80,
+        "padding_top": 72,
+        "padding_bottom": 72
+      },
+      "blocks": {
+        "p1": {
+          "type": "passage",
+          "settings": {
+            "heading": "Free shipping over ₹999",
+            "text": "<p>Orders above ₹999 ship free across India. Orders below this threshold carry a flat shipping fee, shown at checkout before you pay.</p>"
+          }
+        },
+        "p2": {
+          "type": "passage",
+          "settings": {
+            "heading": "Dispatch & delivery times",
+            "text": "<p>Orders are dispatched within 1–2 business days. Delivery typically takes 3–7 business days depending on your location, and a tracking link is emailed and texted once your order ships.</p>"
+          }
+        },
+        "p3": {
+          "type": "passage",
+          "settings": {
+            "heading": "Cash on Delivery",
+            "text": "<p>COD is available on all orders across India, subject to a small COD handling fee shown at checkout.</p>"
+          }
+        },
+        "p4": {
+          "type": "passage",
+          "settings": {
+            "heading": "Where we ship",
+            "text": "<p>We currently ship across India. For international shipping enquiries, write to support@simplykids.in.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ]
+    }
+  },
+  "order": [
+    "body"
+  ]
+}

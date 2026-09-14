@@ -1,0 +1,114 @@
+{
+  "sections": {
+    "faq": {
+      "type": "sk-faq-accordion",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Frequently asked questions",
+        "heading_tag": "h1",
+        "enable_schema": true,
+        "max_width": 76,
+        "padding_top": 56,
+        "padding_bottom": 72
+      },
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "Is this safe for sensitive skin?",
+            "answer": "<p>Yes — every product is pH 5.5-balanced and dermatologically tested on children in the 4–12 range.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "How is this different from baby products?",
+            "answer": "<p>Baby formulas are built for skin that hasn't developed its own oil balance yet. By age four that changes.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "Do you test on animals?",
+            "answer": "<p>No. Every product is vegan and cruelty-free.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "What's your return policy?",
+            "answer": "<p>7-day returns on unopened, sealed products.</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
+            "question": "Do you offer cash on delivery?",
+            "answer": "<p>Yes, COD is available alongside UPI, cards, net banking, wallets, and no-cost EMI.</p>"
+          }
+        },
+        "q6": {
+          "type": "question",
+          "settings": {
+            "question": "What is the recommended age range?",
+            "answer": "<p>The Simply Kids range has been specially developed for children aged 4–12 years.</p>"
+          }
+        },
+        "q7": {
+          "type": "question",
+          "settings": {
+            "question": "Are your products dermatologically tested?",
+            "answer": "<p>Yes. Every product is tested for safety on young skin, then tested again on children in the 4–12 range — not on adults and scaled down.</p>"
+          }
+        },
+        "q8": {
+          "type": "question",
+          "settings": {
+            "question": "What does pH 5.5-balanced mean?",
+            "answer": "<p>It means each formula sits at the same pH as healthy skin, so it cleans without stripping a child's still-developing acid mantle.</p>"
+          }
+        },
+        "q9": {
+          "type": "question",
+          "settings": {
+            "question": "How long does delivery take?",
+            "answer": "<p>Orders are dispatched within 1–2 business days, and delivery typically takes 3–7 business days depending on your location.</p>"
+          }
+        },
+        "q10": {
+          "type": "question",
+          "settings": {
+            "question": "Is shipping free?",
+            "answer": "<p>Orders above ₹999 ship free across India. Below that a flat fee applies, shown at checkout before you pay.</p>"
+          }
+        },
+        "q11": {
+          "type": "question",
+          "settings": {
+            "question": "What's in the formulas?",
+            "answer": "<p>Botanicals like bhringraj, japa, jatamansi, haldi, neem and tulsi, alongside almond and jojoba oils — with no parabens, sulphates or phthalates.</p>"
+          }
+        },
+        "q12": {
+          "type": "question",
+          "settings": {
+            "question": "Can the whole family use them?",
+            "answer": "<p>They're formulated specifically for the personal care requirements of 4–12 year olds, but they're gentle enough that plenty of parents use them too.</p>"
+          }
+        },
+        "q13": {
+          "type": "question",
+          "settings": {
+            "question": "How do I reach your team?",
+            "answer": "<p>Write to support@simplykids.in or call +91-6297450751. We usually reply within one business day.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1", "q2", "q3", "q4", "q5", "q6", "q7",
+        "q8", "q9", "q10", "q11", "q12", "q13"
+      ]
+    }
+  },
+  "order": ["faq"]
+}
