@@ -95,6 +95,80 @@ sk-quick-add *,
 }
 
 /* ==========================================================================
+   0b · Inline Dawn icons
+   --------------------------------------------------------------------------
+   THE BUG THIS FIXES: a giant black truck (or lock, or heart) blowing out the
+   layout, most visibly in the theme editor.
+
+   Dawn's icon SVGs declare NO width and NO height — only a viewBox. An SVG
+   with no intrinsic size falls back to the CSS default for a replaced
+   element, which is 300x150px. Sizing the wrapper does not help: a <span> is
+   `display: inline`, where width and height are ignored outright, and even a
+   correctly sized wrapper does not constrain an unsized child, which simply
+   overflows it.
+
+   Colour is a second, separate fault. Dawn's icons come in three kinds:
+
+     no fill attribute     icon-truck, icon-return, icon-lock, icon-heart,
+                           icon-star, icon-leaf, icon-chat-bubble,
+                           icon-question-mark, icon-price-tag, icon-plane
+                           -> paths inherit SVG's initial fill, which is BLACK
+     fill="none" + own     icon-cart, icon-checkmark, icon-share
+     currentColor paths    -> already correct; line art
+     fill="currentColor"   icon-discount, icon-caret  -> already correct
+
+   `color:` alone cannot fix the first group, because nothing in those files
+   references currentColor. But a blanket `fill: currentColor` would FILL THE
+   LINE-ART ICONS SOLID and destroy them. Hence the `:not([fill])` guard
+   below: it paints only the icons that declare no fill of their own, and
+   leaves the other two kinds exactly as Dawn drew them.
+
+   Every selector here is `sk-` scoped, so Dawn's own icons — in the header,
+   cart drawer, facets, accordions — are untouched.
+   ========================================================================== */
+
+.sk-card__icon,
+.sk-trust__icon,
+.sk-promo-bar__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+/* Constrain the SVG itself. This is the line that actually stops the
+   300x150 blowout — sizing the wrapper alone never did. */
+.sk-card__icon > svg,
+.sk-trust__icon > svg,
+.sk-promo-bar__icon > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Colour only the icons that declare no fill of their own. */
+.sk-card__icon > svg:not([fill]),
+.sk-trust__icon > svg:not([fill]),
+.sk-promo-bar__icon > svg:not([fill]) {
+  fill: currentColor;
+}
+
+/* These holders can also be a merchant-uploaded image instead of an icon.
+   Without object-fit a non-square logo is stretched to fit the square box. */
+img.sk-card__icon,
+img.sk-trust__icon {
+  object-fit: contain;
+}
+
+/* Safety net. Bounds the width of any inline icon added to an sk- section
+   later that misses the rules above, so the failure is a small wrong icon
+   rather than a 300px black blob across the layout. */
+.sk-section svg {
+  max-width: 100%;
+}
+
+/* ==========================================================================
    1 · Section shell
    Every sk- section renders inside .sk-section. Padding is a theme-editor
    setting, so it is applied per section id, not hardcoded here.
@@ -352,7 +426,6 @@ sk-quick-add *,
 }
 
 .sk-card__icon {
-  display: block;
   width: 4rem;
   height: 4rem;
   margin-bottom: 1.2rem;
@@ -1217,7 +1290,8 @@ sk-quick-add *,
 .sk-promo-bar__icon {
   width: 2rem;
   height: 2rem;
-  flex: 0 0 auto;
+  /* Inherits the colour scheme's foreground rather than forcing brand blue,
+     so the bar reads correctly on a dark scheme too. */
 }
 
 @media screen and (max-width: 749px) {
