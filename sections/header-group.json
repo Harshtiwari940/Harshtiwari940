@@ -40,7 +40,7 @@
       "type": "header",
       "settings": {
         "logo_width": 150,
-        "menu": "main-menu",
+        "menu": "main-menu-1",
         "background": "#E8F5FB",
         "text_color": "#4A4744",
         "sticky": true,
