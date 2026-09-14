@@ -185,27 +185,6 @@
     }
   }
 
-  /* ── Free-shipping bar compensation ─────────────────────────────────
-     The fixed bar in theme.liquid pads several nested header wrappers,
-     which stacks. These higher-specificity rules keep the offset on
-     .header-wrapper ONLY. Remove this block if the bar is removed. */
-  .shopify-section.section-header,
-  .shopify-section.shopify-section-group-header-group {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-  }
-
-  html .header-wrapper {
-    padding-top: 44px !important;
-    padding-bottom: 0 !important;
-    margin-top: 0 !important;
-  }
-
-  @media screen and (max-width: 768px) {
-    html .header-wrapper {
-      padding-top: 40px !important;
-    }
-  }
 </style>
 
 {%- style -%}
