@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Presentations | WWRF Huddle 2026</title>
+  <meta name="description" content="Slides and session recordings from WWRF Huddle 2026, 16-17 September 2026, Medipol University, Istanbul, Turkiye.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style17.css">
+
+  <style>
+    /* =========================================================
+       WWRF HUDDLE 2026 - PRESENTATIONS
+       Flow-chart layout: DAY label -> day theme box -> arrow ->
+       session boxes chained top to bottom.
+       ========================================================= */
+
+    :root {
+        --agenda-primary: #0b3c5d;
+        --agenda-primary-light: #0e4d77;
+        --agenda-accent: #fca311;
+        --agenda-accent-dark: #e5940c;
+        --agenda-bg: #f4f7f6;
+        --agenda-surface: #ffffff;
+        --agenda-surface-alt: #f8fafd;
+        --agenda-text: #2d3748;
+        --agenda-text-muted: #4a5568;
+        --agenda-border: #e2e8f0;
+        --flow-stroke: 3px;
+        --flow-gap: 46px;
+    }
+
+    body {
+        background-color: var(--agenda-bg);
+        color: var(--agenda-text);
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .huddle-presentations {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 55px 20px 70px;
+    }
+
+    /* =========================================================
+       PAGE HEADER
+       ========================================================= */
+
+    .huddle-presentations-header {
+        max-width: 780px;
+        margin: 0 auto 50px;
+        text-align: center;
+    }
+
+    .huddle-presentations-header h1 {
+        margin: 0;
+        font-size: clamp(2.3rem, 6vw, 3.4rem);
+        line-height: 1.15;
+        font-weight: 700;
+        color: var(--agenda-primary);
+    }
+
+    .huddle-presentations-header h1::after {
+        content: "";
+        display: block;
+        width: 92px;
+        height: 4px;
+        margin: 18px auto 0;
+        border-radius: 2px;
+        background: var(--agenda-accent);
+    }
+
+    /* =========================================================
+       DAY BLOCK
+       ========================================================= */
+
+    .flow-day {
+        margin-bottom: 70px;
+    }
+
+    .flow-day:last-child {
+        margin-bottom: 0;
+    }
+
+    .flow-day-label {
+        margin: 0 0 26px;
+        text-align: center;
+        font-size: clamp(1.5rem, 4vw, 2.1rem);
+        font-weight: 700;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--agenda-primary);
+    }
+
+    /* =========================================================
+       FLOW NODES + CONNECTORS
+       ========================================================= */
+
+    .flow-node {
+        background: var(--agenda-surface);
+        border: 2px solid var(--agenda-primary);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 3px 12px rgba(11, 60, 93, 0.09);
+    }
+
+    .flow-node-theme {
+        padding: 22px 30px;
+        text-align: center;
+        background: var(--agenda-primary);
+    }
+
+    .flow-node-theme h2 {
+        margin: 0;
+        font-size: clamp(1.25rem, 3vw, 1.7rem);
+        line-height: 1.3;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    .flow-connector {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: var(--flow-gap);
+    }
+
+    .flow-connector .flow-line {
+        flex: 1 1 auto;
+        width: var(--flow-stroke);
+        background: var(--agenda-primary);
+    }
+
+    .flow-connector .flow-arrow {
+        flex: 0 0 auto;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 13px solid var(--agenda-primary);
+    }
+
+    /* =========================================================
+       SESSION NODE
+       ========================================================= */
+
+    .flow-session {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .flow-session:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(11, 60, 93, 0.14);
+    }
+
+    .session-top {
+        padding: 18px 28px;
+        background-color: var(--agenda-surface-alt);
+        border-bottom: 2px solid var(--agenda-primary);
+    }
+
+    .session-meta {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .session-time {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--agenda-primary);
+    }
+
+    .session-time i {
+        margin-right: 7px;
+    }
+
+    .session-tag {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 4px;
+        background: var(--agenda-accent);
+        color: var(--agenda-primary);
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+    }
+
+    .session-top h3 {
+        margin: 12px 0 0;
+        font-size: 1.32rem;
+        line-height: 1.35;
+        font-weight: 700;
+        color: var(--agenda-primary);
+    }
+
+    /* =========================================================
+       PRESENTATION ROWS
+       ========================================================= */
+
+    .presentation-list {
+        list-style: none;
+        margin: 0;
+        padding: 0 28px;
+    }
+
+    .presentation-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 20px 0;
+        border-bottom: 1px solid #edf1f5;
+    }
+
+    .presentation-row:last-child {
+        border-bottom: 0;
+    }
+
+    .presentation-person {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .person-name {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 1.12rem;
+        line-height: 1.4;
+        font-weight: 700;
+        color: var(--agenda-primary);
+    }
+
+    .person-role {
+        display: block;
+        max-width: 640px;
+        font-size: 0.98rem;
+        line-height: 1.6;
+        color: var(--agenda-text-muted);
+    }
+
+    .presentation-action {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 10px;
+        flex-shrink: 0;
+    }
+
+    .presentation-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        min-height: 42px;
+        padding: 10px 18px;
+        border-radius: 5px;
+        background: var(--agenda-primary);
+        color: #ffffff !important;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        text-decoration: none !important;
+        transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .presentation-btn:hover,
+    .presentation-btn:focus-visible {
+        background: var(--agenda-primary-light);
+        transform: translateY(-1px);
+        box-shadow: 0 5px 14px rgba(11, 60, 93, 0.25);
+    }
+
+    .presentation-btn-video {
+        background: var(--agenda-accent);
+        color: var(--agenda-primary) !important;
+    }
+
+    .presentation-btn-video:hover,
+    .presentation-btn-video:focus-visible {
+        background: var(--agenda-accent-dark);
+        color: var(--agenda-primary) !important;
+        box-shadow: 0 5px 14px rgba(252, 163, 17, 0.35);
+    }
+
+    .presentation-btn:focus-visible {
+        outline: 3px solid rgba(11, 60, 93, 0.35);
+        outline-offset: 2px;
+    }
+
+    .presentation-empty {
+        margin: 0;
+        padding: 22px 28px;
+        font-size: 0.98rem;
+        font-style: italic;
+        color: #718096;
+    }
+
+    .presentation-empty i {
+        margin-right: 8px;
+        color: var(--agenda-accent-dark);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 768px) {
+
+        :root {
+            --flow-gap: 34px;
+        }
+
+        .huddle-presentations {
+            padding: 40px 18px 60px;
+        }
+
+        .huddle-presentations-header {
+            margin-bottom: 38px;
+        }
+
+        .flow-day {
+            margin-bottom: 55px;
+        }
+
+        .flow-node-theme {
+            padding: 18px 20px;
+        }
+
+        .session-top {
+            padding: 16px 20px;
+        }
+
+        .session-top h3 {
+            font-size: 1.16rem;
+        }
+
+        .presentation-list {
+            padding: 0 20px;
+        }
+
+        .presentation-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .presentation-action {
+            width: 100%;
+            justify-content: flex-start;
+        }
+
+        .presentation-empty {
+            padding: 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+
+        .flow-day-label {
+            letter-spacing: 3px;
+        }
+
+        .person-name {
+            font-size: 1.05rem;
+        }
+
+        .presentation-action {
+            flex-direction: column;
+        }
+
+        .presentation-btn {
+            width: 100%;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .flow-session,
+        .presentation-btn {
+            transition: none;
+        }
+
+        .flow-session:hover,
+        .presentation-btn:hover {
+            transform: none;
+        }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="site-header">
+  <div class="nav-container">
+    <div class="logo">
+      <a href="https://wwrf.ch/" target="_blank" rel="noopener noreferrer">
+        <img src="assets/images/brand/logo.png" alt="Wireless World Research Forum">
+      </a>
+    </div>
+
+    <!-- Desktop Menu -->
+    <nav class="nav-links">
+      <a href="index.html#home">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="Agenda.html" class="active">Programme</a>
+      <a href="index.html#venue">Venue</a>
+      <a href="index.html#Sponsorship">Partnership</a>
+      <a href="index.html#Speakers">Speakers</a>
+      <a href="OrganizingCommittee.html">Organizing Committee</a>
+    </nav>
+
+    <!-- CTA Buttons Container -->
+    <div class="nav-cta-wrapper">
+      <a href="registration.html" class="nav-cta nav-cta-register">Register</a>
+    </div>
+
+    <!-- Mobile Toggle -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">&#9776;</button>
+  </div>
+</header>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-menu" id="closeMenu" aria-label="Close menu">&#10005;</button>
+  <a href="index.html#home">Home</a>
+  <a href="index.html#about">About</a>
+  <a href="Agenda.html" class="active">Programme</a>
+  <a href="index.html#venue">Venue</a>
+  <a href="index.html#Sponsorship">Partnership</a>
+  <a href="index.html#Speakers">Speakers</a>
+  <a href="OrganizingCommittee.html">Organizing Committee</a>
+</div>
+
+
+<!-- =========================================================
+     PRESENTATIONS
+     ========================================================= -->
+
+<section class="huddle-presentations" id="presentations">
+
+  <div class="huddle-presentations-header">
+    <h1>Presentations</h1>
+  </div>
+
+
+  <!-- =========================
+       DAY 1
+       ========================= -->
+
+  <div class="flow-day">
+
+    <p class="flow-day-label">Day &ndash; 1</p>
+
+    <!-- Day theme -->
+    <div class="flow-node flow-node-theme">
+      <h2>Aligning the Global 6G Direction</h2>
+    </div>
+
+    <div class="flow-connector" aria-hidden="true">
+      <span class="flow-line"></span>
+      <span class="flow-arrow"></span>
+    </div>
+
+
+    <!-- Opening Plenary -->
+    <article class="flow-node flow-session">
+
+      <div class="session-top">
+        <div class="session-meta">
+          <span class="session-tag">Opening Plenary</span>
+        </div>
+
+        <h3>One Vision for 6G: Where the World Is Heading</h3>
+      </div>
+
+      <ul class="presentation-list">
+
+        <li class="presentation-row">
+          <div class="presentation-person">
+            <span class="person-name">Dr. Cosmas Zavazava</span>
+            <span class="person-role">
+              Director (Elected Official), Telecommunication Development Bureau (BDT), ITU
+            </span>
+          </div>
+
+          <div class="presentation-action">
+            <a href="Present/Opening%20Plenary/Dr.%20Cosmas%20Zavazava%20-%20BDT%20Direct....mp4"
+               class="presentation-btn presentation-btn-video"
+               target="_blank" rel="noopener">
+              <i class="fas fa-play" aria-hidden="true"></i>
+              Watch Video
+            </a>
+          </div>
+        </li>
+
+        <li class="presentation-row">
+          <div class="presentation-person">
+            <span class="person-name">Assoc. Prof. Dr. Mehmet &Ouml;zdem</span>
+            <span class="person-role">Director, Turk Telekom</span>
+          </div>
+
+          <div class="presentation-action">
+            <a href="present/Mehmet Özdem.pdf"
+               class="presentation-btn"
+               target="_blank" rel="noopener">
+              <i class="far fa-file-pdf" aria-hidden="true"></i>
+              View PDF
+            </a>
+          </div>
+        </li>
+
+        <li class="presentation-row">
+          <div class="presentation-person">
+            <span class="person-name">Dr. Wen Tong</span>
+            <span class="person-role">
+              CTO, Wireless Network, Huawei Technologies Co., Ltd. &amp; President, Huawei Canada R&amp;D
+            </span>
+          </div>
+
+          <div class="presentation-action">
+            <a href="present/Wen Tong.pdf"
+               class="presentation-btn"
+               target="_blank" rel="noopener">
+              <i class="far fa-file-pdf" aria-hidden="true"></i>
+              View PDF
+            </a>
+
+            <a href="Present/Opening%20Plenary/Rec.%20Video-Wen%20Tong.mp4"
+               class="presentation-btn presentation-btn-video"
+               target="_blank" rel="noopener">
+              <i class="fas fa-play" aria-hidden="true"></i>
+              Watch Video
+            </a>
+          </div>
+        </li>
+
+      </ul>
+    </article>
+
+    <div class="flow-connector" aria-hidden="true">
+      <span class="flow-line"></span>
+      <span class="flow-arrow"></span>
+    </div>
+
+
+    <!-- Session 1 -->
+    <article class="flow-node flow-session">
+
+      <div class="session-top">
+        <div class="session-meta">
+          <span class="session-tag">Session 1</span>
+        </div>
+
+        <h3>Global 6G Standards, Trials &amp; Roadmaps &ndash; Regional Voices</h3>
+      </div>
+
+      <ul class="presentation-list">
+
+        <li class="presentation-row">
+          <div class="presentation-person">
+            <span class="person-name">Mr. Uwe Loewenstein</span>
+            <span class="person-role">
+              ITU-R SG5 Counsellor, International Telecommunication Union
+            </span>
+          </div>
+
+          <div class="presentation-action">
+            <a href="present/Mr. Uwe Loewenstein.pptx"
+               class="presentation-btn"
+               target="_blank" rel="noopener">
+              <i class="far fa-file-powerpoint" aria-hidden="true"></i>
+              View PPT
+            </a>
+          </div>
+        </li>
+
+      </ul>
+    </article>
+
+    <div class="flow-connector" aria-hidden="true">
+      <span class="flow-line"></span>
+      <span class="flow-arrow"></span>
+    </div>
+
+
+    <!-- Session 2 -->
+    <article class="flow-node flow-session">
+
+      <div class="session-top">
+        <div class="session-meta">
+          <span class="session-tag">Session 2</span>
+        </div>
+
+        <h3>Many Technologies, One Architecture</h3>
+      </div>
+
+      <ul class="presentation-list">
+
+        <li class="presentation-row">
+          <div class="presentation-person">
+            <span class="person-name">Prof. Mohamed-Slim Alouini</span>
+            <span class="person-role">Al-Khwarizmi Distinguished Professor, KAUST</span>
+          </div>
+
+          <div class="presentation-action">
+            <a href="present/Mohamed-Slim Alouini.pdf"
+               class="presentation-btn"
+               target="_blank" rel="noopener">
+              <i class="far fa-file-pdf" aria-hidden="true"></i>
+              View PDF
+            </a>
+          </div>
+        </li>
+
+        <li class="presentation-row">
+          <div class="presentation-person">
+            <span class="person-name">Dr. Halim Yanikomeroglu</span>
+            <span class="person-role">Chancellor&rsquo;s Professor, Carleton University, Canada</span>
+          </div>
+
+          <div class="presentation-action">
+            <a href="present/Halim Yanikomeroglu.pptx"
+               class="presentation-btn"
+               target="_blank" rel="noopener">
+              <i class="far fa-file-powerpoint" aria-hidden="true"></i>
+              View PPT
+            </a>
+          </div>
+        </li>
+
+      </ul>
+    </article>
+
+    <div class="flow-connector" aria-hidden="true">
+      <span class="flow-line"></span>
+      <span class="flow-arrow"></span>
+    </div>
+
+
+    <!-- Session 3 -->
+    <article class="flow-node flow-session">
+
+      <div class="session-top">
+        <div class="session-meta">
+          <span class="session-tag">Session 3</span>
+        </div>
+
+        <h3>Many Disciplines, One Trust Framework</h3>
+      </div>
+
+      <ul class="presentation-list">
+
+        <li class="presentation-row">
+          <div class="presentation-person">
+            <span class="person-name">Ms. Bilge Baykurt</span>
+            <span class="person-role">Security Governance Manager, Paycell</span>
+          </div>
+
+          <div class="presentation-action">
+            <a href="present/Bilge Baykurt.pptx"
+               class="presentation-btn"
+               target="_blank" rel="noopener">
+              <i class="far fa-file-powerpoint" aria-hidden="true"></i>
+              View PPT
+            </a>
+          </div>
+        </li>
+
+      </ul>
+    </article>
+
+  </div>
+
+
+  <!-- =========================================================
+       DAY 2 - HIDDEN UNTIL MATERIALS ARE PUBLISHED
+       To publish: delete the opening comment marker below and the
+       closing one at the end of the block.
+       While it stays hidden, do NOT put a comment inside the block:
+       HTML comments do not nest, so a nested comment-close sequence
+       would end this comment early and leak raw markup onto the page.
+       ========================================================= -->
+
+  <!--
+  <div class="flow-day">
+
+    <p class="flow-day-label">Day &ndash; 2</p>
+
+    <div class="flow-node flow-node-theme">
+      <h2>Many Voices: Turning Vision into Impact</h2>
+    </div>
+
+    <div class="flow-connector" aria-hidden="true">
+      <span class="flow-line"></span>
+      <span class="flow-arrow"></span>
+    </div>
+
+    <article class="flow-node flow-session">
+
+      <div class="session-top">
+        <div class="session-meta">
+          <span class="session-time"><i class="far fa-clock" aria-hidden="true"></i>09:00 &ndash; 10:15</span>
+          <span class="session-tag">Session 4</span>
+        </div>
+
+        <h3>Many Policies, One Inclusive 6G World</h3>
+      </div>
+
+      <p class="presentation-empty">
+        <i class="far fa-clock" aria-hidden="true"></i>Presentation materials will be added soon.
+      </p>
+    </article>
+
+    <div class="flow-connector" aria-hidden="true">
+      <span class="flow-line"></span>
+      <span class="flow-arrow"></span>
+    </div>
+
+    <article class="flow-node flow-session">
+
+      <div class="session-top">
+        <div class="session-meta">
+          <span class="session-time"><i class="far fa-clock" aria-hidden="true"></i>10:45 &ndash; 12:30</span>
+          <span class="session-tag">Session 5</span>
+        </div>
+
+        <h3>Role of GSO and NGSO Satellites in One Connected Future</h3>
+      </div>
+
+      <p class="presentation-empty">
+        <i class="far fa-clock" aria-hidden="true"></i>Presentation materials will be added soon.
+      </p>
+    </article>
+
+  </div>
+  -->
+
+</section>
+
+<div class="line-divider-premium"></div>
+
+<footer class="event-footer" id="contact">
+
+  <!-- Background layer (required for parallax) -->
+  <div class="footer-bg"></div>
+
+  <div class="footer-inner">
+
+    <p class="footer-website">
+      For more information on any aspect of this event, please contact us using any of the details below.
+    </p>
+
+    <p class="footer-contact">
+      <strong>Nigel Jefferies, Chairman WWRF</strong>
+      &#128231; <a href="/cdn-cgi/l/email-protection#4e2027292b2260242b28282b3c272b3d0e39393c28602d26">
+        <span class="__cf_email__" data-cfemail="711f1816141d5f1b141717140318140231060603175f1219">[email&#160;protected]</span>
+      </a>
+      <span class="divider">|</span>
+      &#128222; +44 7768 670282
+    </p>
+
+    <p class="footer-message">
+      We look forward to welcoming you in <strong>T&uuml;rkiye</strong> for a dynamic exchange shaping the future of 6G.
+    </p>
+
+    <div class="footer-social">
+      <a href="https://www.linkedin.com/company/wireless-world-research-forum/" target="_blank" rel="noopener">in</a>
+      <a href="https://x.com/WWRF" target="_blank" rel="noopener">X</a>
+    </div>
+
+    <p class="footer-sign">
+      <strong>Team WWRF Huddle 2026</strong>
+      <span class="divider"> | </span>
+      &#127760; <a href="https://wwrf.ch/" target="_blank" rel="noopener">wwrf.ch</a><br>
+      <span>Wireless World Research Forum (WWRF)</span>
+    </p>
+
+  </div>
+</footer>
+
+<!-- Separate copyright -->
+<div class="legal"
+     style="
+        width:100%;
+        margin:0;
+        padding:14px 20px;
+        box-sizing:border-box;
+        background:#0b3c5d;
+        color:#ffffff;
+        text-align:center;
+        font-size:17px;
+        line-height:1.6;
+        border-top:1px solid rgba(255,255,255,0.25);
+     ">
+  &copy; Copyright Wireless World Research Forum (WWRF) All rights reserved |
+  Privacy Policy | Terms and Conditions | Cookies Policy | Booking Terms and Conditions
+</div>
+
+<script>
+  const menuToggle = document.getElementById("menuToggle");
+  const closeMenu = document.getElementById("closeMenu");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  function openMenu() {
+    mobileMenu.classList.add("active");
+    menuToggle.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+
+  function hideMenu() {
+    mobileMenu.classList.remove("active");
+    menuToggle.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  menuToggle.addEventListener("click", openMenu);
+  closeMenu.addEventListener("click", hideMenu);
+
+  document.querySelectorAll(".mobile-menu a").forEach(link => {
+    link.addEventListener("click", hideMenu);
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && mobileMenu.classList.contains("active")) hideMenu();
+  });
+</script>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+</body>
+</html>
