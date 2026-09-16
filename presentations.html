@@ -27,8 +27,6 @@
         --agenda-text: #2d3748;
         --agenda-text-muted: #4a5568;
         --agenda-border: #e2e8f0;
-        --flow-stroke: 3px;
-        --flow-gap: 46px;
     }
 
     body {
@@ -107,6 +105,10 @@
         box-shadow: 0 3px 12px rgba(11, 60, 93, 0.09);
     }
 
+    .flow-node + .flow-node {
+        margin-top: 24px;
+    }
+
     .flow-node-theme {
         padding: 22px 30px;
         text-align: center;
@@ -119,28 +121,6 @@
         line-height: 1.3;
         font-weight: 700;
         color: #ffffff;
-    }
-
-    .flow-connector {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: var(--flow-gap);
-    }
-
-    .flow-connector .flow-line {
-        flex: 1 1 auto;
-        width: var(--flow-stroke);
-        background: var(--agenda-primary);
-    }
-
-    .flow-connector .flow-arrow {
-        flex: 0 0 auto;
-        width: 0;
-        height: 0;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 13px solid var(--agenda-primary);
     }
 
     /* =========================================================
@@ -312,10 +292,6 @@
 
     @media (max-width: 768px) {
 
-        :root {
-            --flow-gap: 34px;
-        }
-
         .huddle-presentations {
             padding: 40px 18px 60px;
         }
@@ -326,6 +302,10 @@
 
         .flow-day {
             margin-bottom: 55px;
+        }
+
+        .flow-node + .flow-node {
+            margin-top: 18px;
         }
 
         .flow-node-theme {
@@ -462,12 +442,6 @@
       <h2>Aligning the Global 6G Direction</h2>
     </div>
 
-    <div class="flow-connector" aria-hidden="true">
-      <span class="flow-line"></span>
-      <span class="flow-arrow"></span>
-    </div>
-
-
     <!-- Opening Plenary -->
     <article class="flow-node flow-session">
 
@@ -543,12 +517,6 @@
       </ul>
     </article>
 
-    <div class="flow-connector" aria-hidden="true">
-      <span class="flow-line"></span>
-      <span class="flow-arrow"></span>
-    </div>
-
-
     <!-- Session 1 -->
     <article class="flow-node flow-session">
 
@@ -582,12 +550,6 @@
 
       </ul>
     </article>
-
-    <div class="flow-connector" aria-hidden="true">
-      <span class="flow-line"></span>
-      <span class="flow-arrow"></span>
-    </div>
-
 
     <!-- Session 2 -->
     <article class="flow-node flow-session">
@@ -636,12 +598,6 @@
 
       </ul>
     </article>
-
-    <div class="flow-connector" aria-hidden="true">
-      <span class="flow-line"></span>
-      <span class="flow-arrow"></span>
-    </div>
-
 
     <!-- Session 3 -->
     <article class="flow-node flow-session">
@@ -696,12 +652,7 @@
       <h2>Many Voices: Turning Vision into Impact</h2>
     </div>
 
-    <div class="flow-connector" aria-hidden="true">
-      <span class="flow-line"></span>
-      <span class="flow-arrow"></span>
-    </div>
-
-    <article class="flow-node flow-session">
+<article class="flow-node flow-session">
 
       <div class="session-top">
         <div class="session-meta">
@@ -717,12 +668,7 @@
       </p>
     </article>
 
-    <div class="flow-connector" aria-hidden="true">
-      <span class="flow-line"></span>
-      <span class="flow-arrow"></span>
-    </div>
-
-    <article class="flow-node flow-session">
+<article class="flow-node flow-session">
 
       <div class="session-top">
         <div class="session-meta">
