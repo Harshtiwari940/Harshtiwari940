@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gallery Day 2 | WWRF Huddle 2026</title>
+  <meta name="description" content="Photo gallery from Day 2 (17 September 2026) of WWRF Huddle 2026, Medipol University, Istanbul, Turkiye.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    /* =========================================================
+       WWRF HUDDLE 2026 - GALLERY (DAY 2)
+       Photo grid with a lightbox viewer. Day 1 and Day 2 live on
+       separate pages and are linked through the day switcher, so
+       the switcher keeps working without JavaScript.
+       ========================================================= */
+
+    :root {
+        --agenda-primary: #0b3c5d;
+        --agenda-primary-light: #0e4d77;
+        --agenda-accent: #fca311;
+        --agenda-accent-dark: #e5940c;
+        --agenda-bg: #f4f7f6;
+        --agenda-surface: #ffffff;
+        --agenda-surface-alt: #f8fafd;
+        --agenda-text: #2d3748;
+        --agenda-text-muted: #4a5568;
+        --agenda-border: #e2e8f0;
+    }
+
+    body {
+        background-color: var(--agenda-bg);
+        color: var(--agenda-text);
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .huddle-gallery {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 55px 20px 70px;
+    }
+
+    /* =========================================================
+       PAGE HEADER
+       ========================================================= */
+
+    .huddle-gallery-header {
+        max-width: 780px;
+        margin: 0 auto 40px;
+        text-align: center;
+    }
+
+    .huddle-gallery-header h1 {
+        margin: 0;
+        font-size: clamp(2.3rem, 6vw, 3.4rem);
+        line-height: 1.15;
+        font-weight: 700;
+        color: var(--agenda-primary);
+    }
+
+    .huddle-gallery-header h1::after {
+        content: "";
+        display: block;
+        width: 92px;
+        height: 4px;
+        margin: 18px auto 0;
+        border-radius: 2px;
+        background: var(--agenda-accent);
+    }
+
+    /* =========================================================
+       DAY SWITCHER
+       Plain links between the two gallery pages.
+       ========================================================= */
+
+    .day-switcher {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto 40px;
+        padding: 7px;
+        box-sizing: border-box;
+        border: 2px solid var(--agenda-primary);
+        border-radius: 999px;
+        background: var(--agenda-surface);
+        box-shadow: 0 3px 12px rgba(11, 60, 93, 0.09);
+    }
+
+    .day-tab {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1 1 0;
+        min-width: 0;
+        min-height: 46px;
+        padding: 11px 18px;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--agenda-primary) !important;
+        font-size: 0.98rem;
+        font-weight: 700;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+        text-decoration: none !important;
+        transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .day-tab:hover {
+        background: rgba(11, 60, 93, 0.08);
+    }
+
+    .day-tab.is-current {
+        background: var(--agenda-primary);
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(11, 60, 93, 0.22);
+    }
+
+    .day-tab.is-current:hover {
+        background: var(--agenda-primary-light);
+    }
+
+    .day-tab:focus-visible {
+        outline: 3px solid var(--agenda-accent);
+        outline-offset: 3px;
+    }
+
+    /* =========================================================
+       DAY THEME BANNER
+       ========================================================= */
+
+    .gallery-theme {
+        margin-bottom: 34px;
+        padding: 22px 30px;
+        text-align: center;
+        border: 2px solid var(--agenda-primary);
+        border-radius: 8px;
+        background: var(--agenda-primary);
+        box-shadow: 0 3px 12px rgba(11, 60, 93, 0.09);
+    }
+
+    .gallery-theme h2 {
+        margin: 0;
+        font-size: clamp(1.25rem, 3vw, 1.7rem);
+        line-height: 1.3;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    .gallery-theme .gallery-theme-date {
+        display: block;
+        margin-top: 9px;
+        font-size: 0.86rem;
+        font-weight: 700;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--agenda-accent);
+    }
+
+    /* =========================================================
+       PHOTO GRID
+       ========================================================= */
+
+    .photo-grid {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 22px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .photo-grid:empty {
+        display: none;
+    }
+
+    .photo-item {
+        margin: 0;
+    }
+
+    .photo-link {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid var(--agenda-primary);
+        border-radius: 8px;
+        background: var(--agenda-surface);
+        text-decoration: none !important;
+        box-shadow: 0 3px 12px rgba(11, 60, 93, 0.09);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .photo-link:hover,
+    .photo-link:focus-visible {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(11, 60, 93, 0.18);
+    }
+
+    .photo-link:focus-visible {
+        outline: 3px solid var(--agenda-accent);
+        outline-offset: 3px;
+    }
+
+    .photo-link img {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        background: #e7eef4;
+        transition: transform 0.35s ease;
+    }
+
+    .photo-link:hover img {
+        transform: scale(1.04);
+    }
+
+    /* Zoom cue in the corner of every thumbnail. */
+    .photo-link::after {
+        content: "";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        /* Magnifier drawn inline so the cue never depends on an icon font. */
+        background-color: rgba(11, 60, 93, 0.82);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='10.3' cy='10.3' r='6.3'/%3E%3Cpath d='M15.2 15.2 20.5 20.5'/%3E%3Cpath d='M10.3 7.5v5.6M7.5 10.3h5.6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 18px 18px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+
+    .photo-link:hover::after,
+    .photo-link:focus-visible::after {
+        opacity: 1;
+    }
+
+    .photo-caption {
+        padding: 13px 16px;
+        border-top: 2px solid var(--agenda-primary);
+        background: var(--agenda-surface-alt);
+        font-size: 0.92rem;
+        line-height: 1.5;
+        font-weight: 600;
+        color: var(--agenda-primary);
+    }
+
+    .photo-caption:empty {
+        display: none;
+    }
+
+    /* =========================================================
+       EMPTY STATE
+       Delete this block once the first photos are published.
+       ========================================================= */
+
+    .gallery-empty {
+        margin: 0;
+        padding: 40px 28px;
+        text-align: center;
+        border: 2px dashed var(--agenda-border);
+        border-radius: 8px;
+        background: var(--agenda-surface);
+        font-size: 1rem;
+        font-style: italic;
+        color: #718096;
+    }
+
+    .gallery-empty i {
+        margin-right: 9px;
+        color: var(--agenda-accent-dark);
+    }
+
+    /* =========================================================
+       LIGHTBOX
+       The markup is built by JavaScript, so without it the
+       thumbnails stay plain links to the full size photo.
+       ========================================================= */
+
+    .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 70px 20px 110px;
+        box-sizing: border-box;
+        background: rgba(6, 28, 43, 0.94);
+    }
+
+    .lightbox[hidden] {
+        display: none;
+    }
+
+    .lightbox-image {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 6px;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+        opacity: 1;
+        transition: opacity 0.2s ease;
+    }
+
+    .lightbox.is-loading .lightbox-image {
+        opacity: 0.25;
+    }
+
+    /* The viewer controls draw their icons inline, so the photo
+       viewer keeps working even if the icon font never loads. */
+    .lightbox-btn {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.12);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 21px 21px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .lightbox-btn:hover {
+        background-color: var(--agenda-accent);
+    }
+
+    .lightbox-btn:focus-visible {
+        outline: 3px solid var(--agenda-accent);
+        outline-offset: 3px;
+    }
+
+    .lightbox-close {
+        top: 16px;
+        right: 16px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6 18 18M18 6 6 18'/%3E%3C/svg%3E");
+    }
+
+    .lightbox-close:hover {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b3c5d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6 18 18M18 6 6 18'/%3E%3C/svg%3E");
+    }
+
+    .lightbox-prev {
+        top: 50%;
+        left: 16px;
+        transform: translateY(-50%);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 4.5 7.5 12 15 19.5'/%3E%3C/svg%3E");
+    }
+
+    .lightbox-prev:hover {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b3c5d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 4.5 7.5 12 15 19.5'/%3E%3C/svg%3E");
+    }
+
+    .lightbox-next {
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 4.5 16.5 12 9 19.5'/%3E%3C/svg%3E");
+    }
+
+    .lightbox-next:hover {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b3c5d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 4.5 16.5 12 9 19.5'/%3E%3C/svg%3E");
+    }
+
+    .lightbox-bar {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px 20px;
+        padding: 18px 24px;
+        background: rgba(11, 60, 93, 0.9);
+    }
+
+    .lightbox-caption {
+        flex: 1;
+        min-width: 0;
+        margin: 0;
+        font-size: 0.98rem;
+        line-height: 1.5;
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    .lightbox-count {
+        margin: 0;
+        font-size: 0.84rem;
+        font-weight: 700;
+        letter-spacing: 1.4px;
+        color: var(--agenda-accent);
+    }
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 768px) {
+
+        .huddle-gallery {
+            padding: 40px 18px 60px;
+        }
+
+        .huddle-gallery-header {
+            margin-bottom: 30px;
+        }
+
+        .gallery-theme {
+            padding: 18px 20px;
+        }
+
+        .photo-grid {
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 18px;
+        }
+
+        .lightbox {
+            padding: 64px 12px 100px;
+        }
+
+        .lightbox-btn {
+            width: 44px;
+            height: 44px;
+            font-size: 1rem;
+        }
+
+        .lightbox-bar {
+            padding: 14px 18px;
+        }
+    }
+
+    @media (max-width: 520px) {
+
+        .photo-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .day-tab {
+            padding: 11px 10px;
+            font-size: 0.88rem;
+            letter-spacing: 1.1px;
+        }
+
+        .lightbox-prev {
+            left: 10px;
+        }
+
+        .lightbox-next {
+            right: 10px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .photo-link,
+        .photo-link img,
+        .day-tab,
+        .lightbox-btn,
+        .lightbox-image {
+            transition: none;
+        }
+
+        .photo-link:hover {
+            transform: none;
+        }
+
+        .photo-link:hover img {
+            transform: none;
+        }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="site-header">
+  <div class="nav-container">
+    <div class="logo">
+      <a href="https://wwrf.ch/" target="_blank" rel="noopener noreferrer">
+        <img src="assets/images/brand/logo.png" alt="Wireless World Research Forum">
+      </a>
+    </div>
+
+    <!-- Desktop Menu -->
+    <nav class="nav-links">
+      <a href="index.html#home">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="Agenda.html">Programme</a>
+      <a href="Presentations.html">Presentations</a>
+      <a href="Gallery-Day2.html" class="active">Gallery</a>
+      <a href="index.html#venue">Venue</a>
+      <a href="index.html#Sponsorship">Partnership</a>
+      <a href="index.html#Speakers">Speakers</a>
+      <a href="OrganizingCommittee.html">Organizing Committee</a>
+    </nav>
+
+    <!-- CTA Buttons Container -->
+    <div class="nav-cta-wrapper">
+      <a href="registration.html" class="nav-cta nav-cta-register">Register</a>
+    </div>
+
+    <!-- Mobile Toggle -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">&#9776;</button>
+  </div>
+</header>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-menu" id="closeMenu" aria-label="Close menu">&#10005;</button>
+  <a href="index.html#home">Home</a>
+  <a href="index.html#about">About</a>
+  <a href="Agenda.html">Programme</a>
+  <a href="Presentations.html">Presentations</a>
+  <a href="Gallery-Day2.html" class="active">Gallery</a>
+  <a href="index.html#venue">Venue</a>
+  <a href="index.html#Sponsorship">Partnership</a>
+  <a href="index.html#Speakers">Speakers</a>
+  <a href="OrganizingCommittee.html">Organizing Committee</a>
+</div>
+
+
+<!-- =========================================================
+     GALLERY - DAY 2
+     ========================================================= -->
+
+<section class="huddle-gallery" id="gallery">
+
+  <div class="huddle-gallery-header">
+    <h1><br>Gallery</h1>
+  </div>
+
+
+  <!-- =========================
+       DAY SWITCHER
+       ========================= -->
+
+  <nav class="day-switcher" aria-label="Select gallery day">
+    <a href="Gallery-Day1.html" class="day-tab">Day 1</a>
+    <a href="Gallery-Day2.html" class="day-tab is-current" aria-current="page">Day 2</a>
+  </nav>
+
+
+  <!-- =========================
+       DAY THEME
+       ========================= -->
+
+  <div class="gallery-theme">
+    <h2>Many Voices: Turning Vision into Impact</h2>
+    <span class="gallery-theme-date">Day 2 &middot; 17 September 2026</span>
+  </div>
+
+
+  <!-- =========================================================
+       PHOTOS
+
+       HOW TO ADD A PHOTO
+       1. Copy the image file into the folder: gallery/day-2/
+          (keep file names simple, e.g. photo-01.jpg, no spaces)
+       2. Copy the block between "PHOTO ITEM" and the end of the
+          first list item below, paste it inside the list, then
+          change the file name, the alt text and the caption.
+       3. Once the first real photo is live, delete the
+          "gallery empty" paragraph that sits under the list.
+
+       Each item needs:
+         href          full size image that opens in the viewer
+         data-caption  caption shown under the photo and in the viewer
+         img src       same image (or a smaller thumbnail version)
+         img alt       short description for screen readers
+
+       PHOTO ITEM (copy this list item, one per photo):
+
+       <li class="photo-item">
+         <figure style="margin:0">
+           <a class="photo-link"
+              href="gallery/day-2/photo-01.jpg"
+              data-caption="Opening plenary, WWRF Huddle 2026"
+              target="_blank" rel="noopener">
+             <img src="gallery/day-2/photo-01.jpg"
+                  alt="Opening plenary, WWRF Huddle 2026"
+                  loading="lazy" decoding="async">
+           </a>
+           <figcaption class="photo-caption">Opening plenary, WWRF Huddle 2026</figcaption>
+         </figure>
+       </li>
+
+       ========================================================= -->
+
+  <ul class="photo-grid" id="photoGrid">
+  </ul>
+
+  <!-- Delete this paragraph as soon as the first photo is added. -->
+  <p class="gallery-empty">
+    <i class="far fa-images" aria-hidden="true"></i>Photos from Day 2 will be published here shortly.
+  </p>
+
+</section>
+
+
+<!-- =========================================================
+     LIGHTBOX
+     Opens the full size photo over the page, with previous and
+     next controls, keyboard support and swipe on touch screens.
+     Without JavaScript the thumbnails stay ordinary links that
+     open the photo on its own, so nothing is lost.
+     ========================================================= -->
+<script>
+  (function () {
+    var grid = document.getElementById("photoGrid");
+    if (!grid) return;
+
+    var links = Array.prototype.slice.call(grid.querySelectorAll(".photo-link"));
+    if (!links.length) return;
+
+    var box, imageEl, captionEl, countEl, closeBtn, prevBtn, nextBtn;
+    var current = 0;
+    var lastFocused = null;
+    var touchStartX = null;
+
+    function makeButton(className, label) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "lightbox-btn " + className;
+      btn.setAttribute("aria-label", label);
+
+      return btn;
+    }
+
+    function build() {
+      box = document.createElement("div");
+      box.className = "lightbox";
+      box.setAttribute("role", "dialog");
+      box.setAttribute("aria-modal", "true");
+      box.setAttribute("aria-label", "Photo viewer");
+      box.hidden = true;
+
+      imageEl = document.createElement("img");
+      imageEl.className = "lightbox-image";
+      imageEl.alt = "";
+      // Clear the loading state on failure too, so a missing file
+      // never leaves the viewer dimmed.
+      imageEl.addEventListener("load", function () {
+        box.classList.remove("is-loading");
+      });
+      imageEl.addEventListener("error", function () {
+        box.classList.remove("is-loading");
+      });
+
+      captionEl = document.createElement("p");
+      captionEl.className = "lightbox-caption";
+
+      countEl = document.createElement("p");
+      countEl.className = "lightbox-count";
+
+      var bar = document.createElement("div");
+      bar.className = "lightbox-bar";
+      bar.appendChild(captionEl);
+      bar.appendChild(countEl);
+
+      closeBtn = makeButton("lightbox-close", "Close photo viewer");
+      prevBtn = makeButton("lightbox-prev", "Previous photo");
+      nextBtn = makeButton("lightbox-next", "Next photo");
+
+      closeBtn.addEventListener("click", close);
+      prevBtn.addEventListener("click", function () { step(-1); });
+      nextBtn.addEventListener("click", function () { step(1); });
+
+      if (links.length < 2) {
+        prevBtn.hidden = true;
+        nextBtn.hidden = true;
+      }
+
+      box.appendChild(imageEl);
+      box.appendChild(bar);
+      box.appendChild(closeBtn);
+      box.appendChild(prevBtn);
+      box.appendChild(nextBtn);
+
+      // A click on the backdrop closes the viewer.
+      box.addEventListener("click", function (e) {
+        if (e.target === box) close();
+      });
+
+      box.addEventListener("touchstart", function (e) {
+        touchStartX = e.touches.length === 1 ? e.touches[0].clientX : null;
+      }, { passive: true });
+
+      box.addEventListener("touchend", function (e) {
+        if (touchStartX === null || links.length < 2) return;
+
+        var endX = e.changedTouches[0].clientX;
+        var moved = endX - touchStartX;
+        touchStartX = null;
+
+        if (Math.abs(moved) > 45) step(moved < 0 ? 1 : -1);
+      });
+
+      document.body.appendChild(box);
+    }
+
+    function preload(index) {
+      var link = links[index];
+      if (!link) return;
+
+      var img = new Image();
+      img.src = link.getAttribute("href");
+    }
+
+    function show(index) {
+      current = (index + links.length) % links.length;
+
+      var link = links[current];
+      var thumb = link.querySelector("img");
+      var caption = link.getAttribute("data-caption") || (thumb ? thumb.alt : "");
+
+      box.classList.add("is-loading");
+      imageEl.src = link.getAttribute("href");
+      imageEl.alt = thumb ? thumb.alt : caption;
+
+      captionEl.textContent = caption;
+      countEl.textContent = (current + 1) + " / " + links.length;
+
+      if (links.length > 1) {
+        preload((current + 1) % links.length);
+        preload((current - 1 + links.length) % links.length);
+      }
+    }
+
+    function step(direction) {
+      show(current + direction);
+    }
+
+    function onKeydown(e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+      } else if (links.length > 1 && (e.key === "ArrowRight" || e.key === "ArrowDown")) {
+        e.preventDefault();
+        step(1);
+      } else if (links.length > 1 && (e.key === "ArrowLeft" || e.key === "ArrowUp")) {
+        e.preventDefault();
+        step(-1);
+      }
+    }
+
+    function open(index) {
+      if (!box) build();
+
+      lastFocused = document.activeElement;
+      show(index);
+
+      box.hidden = false;
+      document.body.style.overflow = "hidden";
+      document.addEventListener("keydown", onKeydown);
+      closeBtn.focus();
+    }
+
+    function close() {
+      box.hidden = true;
+      imageEl.removeAttribute("src");
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKeydown);
+
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+      lastFocused = null;
+    }
+
+    links.forEach(function (link, i) {
+      link.addEventListener("click", function (e) {
+        // Leave modified clicks alone so the photo can still be
+        // opened in a new tab or window.
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+
+        e.preventDefault();
+        open(i);
+      });
+    });
+  })();
+</script>
+
+<div class="line-divider-premium"></div>
+
+<footer class="event-footer" id="contact">
+
+  <!-- Background layer (required for parallax) -->
+  <div class="footer-bg"></div>
+
+  <div class="footer-inner">
+
+    <p class="footer-website">
+      For more information on any aspect of this event, please contact us using any of the details below.
+    </p>
+
+    <p class="footer-contact">
+      <strong>Nigel Jefferies, Chairman WWRF</strong>
+      &#128231; <a href="mailto:nigel.jefferies@wwrf.ch">nigel.jefferies@wwrf.ch</a>
+      <span class="divider">|</span>
+      &#128222; +44 7768 670282
+    </p>
+
+    <p class="footer-message">
+      We look forward to welcoming you in <strong>T&uuml;rkiye</strong> for a dynamic exchange shaping the future of 6G.
+    </p>
+
+    <div class="footer-social">
+      <a href="https://www.linkedin.com/company/wireless-world-research-forum/" target="_blank" rel="noopener">in</a>
+      <a href="https://x.com/WWRF" target="_blank" rel="noopener">X</a>
+    </div>
+
+    <p class="footer-sign">
+      <strong>Team WWRF Huddle 2026</strong>
+      <span class="divider"> | </span>
+      &#127760; <a href="https://wwrf.ch/" target="_blank" rel="noopener">wwrf.ch</a><br>
+      <span>Wireless World Research Forum (WWRF)</span>
+    </p>
+
+  </div>
+</footer>
+
+<!-- Separate copyright -->
+<div class="legal"
+     style="
+        width:100%;
+        margin:0;
+        padding:14px 20px;
+        box-sizing:border-box;
+        background:#0b3c5d;
+        color:#ffffff;
+        text-align:center;
+        font-size:17px;
+        line-height:1.6;
+        border-top:1px solid rgba(255,255,255,0.25);
+     ">
+  &copy; Copyright Wireless World Research Forum (WWRF) All rights reserved |
+  Privacy Policy | Terms and Conditions | Cookies Policy | Booking Terms and Conditions
+</div>
+
+<script>
+  const menuToggle = document.getElementById("menuToggle");
+  const closeMenu = document.getElementById("closeMenu");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  function openMenu() {
+    mobileMenu.classList.add("active");
+    menuToggle.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+
+  function hideMenu() {
+    mobileMenu.classList.remove("active");
+    menuToggle.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  menuToggle.addEventListener("click", openMenu);
+  closeMenu.addEventListener("click", hideMenu);
+
+  document.querySelectorAll(".mobile-menu a").forEach(link => {
+    link.addEventListener("click", hideMenu);
+  });
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && mobileMenu.classList.contains("active")) hideMenu();
+  });
+</script>
+
+</body>
+</html>
