@@ -118,3 +118,62 @@ On a real phone, or DevTools device mode at 390px wide, with `sections/header.li
 3. Scroll down so the header goes sticky, then repeat 1–2. The panel must still
    be visible (this is the case that was blank on iOS).
 4. Open a menu item with children — the submenu slides in, back button returns.
+
+---
+
+## Follow-up: transparent drawer panel, no scrim
+
+A screenshot showed a second, separate problem: the drawer opens and sits
+above the page, but the panel has no background and there is no dimming
+scrim. This is **not** the failure the three fixes above address — those
+concerned the scrim's geometry and iOS clipping the panel away entirely.
+
+Dawn paints those two surfaces from colour-scheme custom properties:
+
+```css
+.menu-drawer                { background-color: rgb(var(--color-background)); }
+menu-drawer summary::before { background: rgba(var(--color-foreground), 0.5); }
+```
+
+`layout/theme.liquid` emits the first colour scheme onto `:root` as well as
+its own class:
+
+```liquid
+{% if forloop.index == 1 -%}
+  :root,
+{%- endif %}
+.color-{{ scheme.id }} { --color-background: ...; --color-foreground: ...; }
+```
+
+So both variables always resolve, whatever `menu_color_scheme` is set to. A
+blank or missing scheme class therefore cannot be the cause — something else
+in the theme is overriding these two declarations, and that cannot be
+identified from a screenshot.
+
+`drawer-visibility-patch.css` restores the panel explicitly. Paste its
+contents inside the existing `SimplyKids premium header` `<style>` block,
+just before the closing `</style>`. It is not a standalone `<style>` block.
+
+### Pin down the real cause (about 20 seconds)
+
+Open the store on desktop at a narrow window, open the menu, then in DevTools:
+
+1. **Is the stylesheet live?** Network tab, filter `menu-drawer`. It is loaded
+   with `media="print" onload="this.media='all'"`, so a blocked `onload` (a CSP
+   `script-src`/`style-src` rule, or an optimiser app rewriting the tag) leaves
+   it at `media="print"` and it never applies.
+2. **Inspect `#menu-drawer`.** In Computed, look up `background-color`.
+   - `rgba(0, 0, 0, 0)` → something set it transparent. Click through to Styles
+     and read which rule wins; the filename in the right margin names the
+     culprit (often a speed-optimiser or a custom CSS asset).
+   - An opaque colour → the background is fine and the problem is stacking, not
+     paint. Report what you see.
+3. **Check the variable.** In Console:
+   `getComputedStyle(document.getElementById('menu-drawer')).getPropertyValue('--color-background')`
+   Expect something like ` 255,255,255`. Empty means the scheme CSS did not
+   emit — send that back.
+4. **Check the scrim.** Inspect the hamburger `<summary>`, tick `::before` in
+   the element tree, and read its computed `width`/`height`. A 44px box means
+   an ancestor `transform` is re-anchoring it (the bug fixed above); a
+   full-viewport box with a transparent background means the colour override
+   again.

@@ -1,0 +1,32 @@
+  /* ── Mobile drawer: opaque panel + visible scrim ────────────────────
+     Symptom: the drawer opens and sits above the page, but the panel
+     has no background (page content shows through it) and there is no
+     dimming scrim behind it.
+
+     Dawn paints both from colour-scheme custom properties:
+       .menu-drawer                 { background-color: rgb(var(--color-background)); }
+       menu-drawer summary::before  { background: rgba(var(--color-foreground), 0.5); }
+
+     theme.liquid defines both on :root from the first colour scheme
+     (`{% if forloop.index == 1 %}:root,{% endif %}`), so they always
+     resolve — meaning something else in this theme is overriding them.
+     These two rules restore the panel explicitly. `#menu-drawer` +
+     class is specificity 1-1-0, so it wins without !important.
+
+     Also pins the drawer's own stacking so it cannot end up behind a
+     hero section that sets its own z-index. */
+
+  #menu-drawer.menu-drawer {
+    background-color: rgb(var(--color-background, 255, 255, 255));
+    z-index: 101;
+  }
+
+  .js menu-drawer > details[open] > summary::before {
+    background: rgba(var(--color-foreground, 18, 18, 18), 0.5);
+    z-index: 100;
+  }
+
+  /* Submenu panels slide over the main list and need the same cover. */
+  #menu-drawer .menu-drawer__submenu {
+    background-color: rgb(var(--color-background, 255, 255, 255));
+  }
