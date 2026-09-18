@@ -1,0 +1,176 @@
+<style>
+  /* ── SimplyKids premium header ─────────────────────────────────────
+     Do NOT apply transform / filter / backdrop-filter / contain to
+     .header-wrapper, .header__icon--menu, or any ancestor of
+     .menu-drawer. All four re-anchor or clip Dawn's mobile drawer.
+     Animate inner elements instead. See shopify/README.md. */
+
+  .header-wrapper {
+    position: relative;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Hide the hard line but KEEP its 1px box: HeaderDrawer measures it. */
+  .header-wrapper--border-bottom {
+    border-bottom-color: transparent;
+  }
+
+  .header-wrapper::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #20b0e0, #e81888);
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  /* Frosted glass: desktop only, never while a drawer is open. */
+  @media screen and (min-width: 990px) {
+    .section-header.shopify-section-header-sticky:not(.menu-open) .header-wrapper {
+      background-color: rgba(var(--color-background), 0.86);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      backdrop-filter: blur(14px) saturate(160%);
+      box-shadow: 0 10px 30px rgba(32, 38, 43, 0.08);
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .section-header.shopify-section-header-sticky .header-wrapper {
+      box-shadow: 0 10px 30px rgba(32, 38, 43, 0.08);
+    }
+  }
+
+  /* Safety net: nothing may clip an open drawer. */
+  .section-header.menu-open .header-wrapper {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  @media screen and (min-width: 990px) {
+    .header__inline-menu .header__menu-item {
+      position: relative;
+    }
+
+    .header__inline-menu .header__menu-item span {
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: color 0.25s ease;
+    }
+
+    .header__inline-menu .header__menu-item:hover span,
+    .header__inline-menu .header__menu-item .header__active-menu-item {
+      text-decoration: none !important;
+    }
+
+    .header__inline-menu .header__menu-item:hover span {
+      color: #c7106e;
+    }
+
+    .header__inline-menu .header__menu-item::after {
+      content: '';
+      position: absolute;
+      left: 1.2rem;
+      right: 1.2rem;
+      bottom: 0.5rem;
+      height: 0.2rem;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #20b0e0, #e81888);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+    }
+
+    .header__inline-menu summary.header__menu-item::after {
+      right: 2.7rem;
+    }
+
+    .header__inline-menu .header__menu-item:hover::after,
+    .header__inline-menu .header__menu-item:focus-visible::after,
+    .header__inline-menu .header__menu-item:has(.header__active-menu-item)::after {
+      transform: scaleX(1);
+    }
+  }
+
+  /* No transform on .header__icon: it also matches the hamburger
+     <summary>, which owns the drawer's full-screen ::before scrim. */
+  .header__icon {
+    border-radius: 50%;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .header__icon--cart,
+  .header__icon--account {
+    transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  }
+
+  /* Gated so nothing latches on touch after a tap. */
+  @media (hover: hover) and (pointer: fine) {
+    .header__icon:hover {
+      background-color: #fdf0f7;
+      color: #c7106e;
+    }
+
+    /* Only these own no overlay pseudo-element, so only these may lift. */
+    .header__icon--cart:hover,
+    .header__icon--account:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  .cart-count-bubble {
+    background-color: #e81888;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+  }
+
+  .cart-count-bubble span {
+    color: #ffffff;
+  }
+
+  .header__heading-logo {
+    transition: transform 0.3s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .header__heading-link:hover .header__heading-logo {
+      transform: scale(1.03);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header-wrapper,
+    .header__icon,
+    .header__icon--cart,
+    .header__icon--account,
+    .header__heading-logo,
+    .header__inline-menu .header__menu-item::after {
+      transition: none;
+    }
+  }
+
+  /* ── Free-shipping bar compensation (unchanged) ─────────────────────
+     The 768px switch must match the bar's own height breakpoint in
+     theme.liquid. Remove this block if the bar is removed. */
+  .shopify-section.section-header,
+  .shopify-section.shopify-section-group-header-group {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  html .header-wrapper {
+    padding-top: 44px !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    html .header-wrapper {
+      padding-top: 40px !important;
+    }
+  }
+</style>
