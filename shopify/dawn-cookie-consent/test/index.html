@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cookie consent harness</title>
+<style>
+  html { font-size: 62.5%; }
+  body { font-size: 1.5rem; margin: 0; padding: 2rem; min-height: 300vh; font-family: system-ui, sans-serif; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); }
+  :root {
+    --color-foreground: 18, 18, 18;
+    --color-background: 255, 255, 255;
+    --color-shadow: 18, 18, 18;
+    --color-button: 11, 77, 145;
+    --color-button-text: 255, 255, 255;
+    --page-width: 120rem;
+    --buttons-radius-outset: 4px;
+    --buttons-border-width: 1px;
+  }
+</style>
+<link rel="stylesheet" href="../assets/section-cookie-consent.css">
+<script src="../assets/cookie-consent.js" defer></script>
+</head>
+<body>
+<h1>Store page</h1>
+<a href="/somewhere" id="page-link">A page link</a>
+<a href="#cookie-preferences" id="footer-link">Cookie preferences</a>
+<div id="shopify-pc__banner">Shopify native banner</div>
+
+<cookie-consent
+  class="color-scheme-1"
+  data-layout="modal"
+  data-button-style="pill"
+  data-display-region="required"
+  data-design-mode="false"
+  data-hint-text="Please choose an option to continue."
+  hidden
+>
+  <div class="cookie-consent__backdrop" data-cc-dismiss></div>
+  <div class="cookie-consent__container">
+    <div class="cookie-consent__dialog" role="dialog" aria-modal="true" aria-labelledby="h" aria-describedby="t" tabindex="-1" data-cc-dialog>
+      <p class="cookie-consent__badge">Privacy preferences</p>
+      <h2 id="h" class="cookie-consent__heading">We use cookies to improve your experience</h2>
+      <div id="t" class="cookie-consent__text"><p>We use cookies to personalise content.</p></div>
+      <fieldset class="cookie-consent__options">
+        <legend class="visually-hidden">Cookie preferences</legend>
+        <label class="cookie-consent__option" data-cc-option>
+          <span class="cookie-consent__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false"> <path d="M21 12a9 9 0 1 1-9-9 3.5 3.5 0 0 0 4.5 4.5A3.5 3.5 0 0 0 21 12Z" stroke-linejoin="round" /> <circle cx="9" cy="10" r="1.1" fill="currentColor" stroke="none" /> <circle cx="14" cy="15" r="1.1" fill="currentColor" stroke="none" /> <circle cx="8.5" cy="15.5" r="1" fill="currentColor" stroke="none" /> </svg></span>
+          <span class="cookie-consent__option-body">
+            <span class="cookie-consent__option-title">Accept all</span>
+            <span class="cookie-consent__option-text">Allow analytics, marketing, and functional cookies.</span>
+          </span>
+          <input type="radio" name="cookie_consent_level" value="all">
+          <span class="cookie-consent__radio" aria-hidden="true"></span>
+        </label>
+        <label class="cookie-consent__option" data-cc-option data-selected>
+          <span class="cookie-consent__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false"> <path d="M12 3 5 6v5.2c0 4.3 2.8 7.6 7 9.8 4.2-2.2 7-5.5 7-9.8V6l-7-3Z" stroke-linejoin="round" /> <path d="m9 12 2 2 4-4" stroke-linecap="round" stroke-linejoin="round" /> </svg></span>
+          <span class="cookie-consent__option-body">
+            <span class="cookie-consent__option-title">Essential only</span>
+            <span class="cookie-consent__option-text">Only the cookies needed to run the store.</span>
+          </span>
+          <input type="radio" name="cookie_consent_level" value="essential" checked>
+          <span class="cookie-consent__radio" aria-hidden="true"></span>
+        </label>
+        <label class="cookie-consent__option" data-cc-option>
+          <span class="cookie-consent__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false"> <circle cx="12" cy="12" r="9" /> <path d="m6 18 12-12" stroke-linecap="round" /> </svg></span>
+          <span class="cookie-consent__option-body">
+            <span class="cookie-consent__option-title">Decline all</span>
+            <span class="cookie-consent__option-text">Turn off all non-essential cookies.</span>
+          </span>
+          <input type="radio" name="cookie_consent_level" value="none">
+          <span class="cookie-consent__radio" aria-hidden="true"></span>
+        </label>
+      </fieldset>
+      <p class="cookie-consent__hint" role="status" data-cc-hint></p>
+      <div class="cookie-consent__actions">
+        <button type="button" class="cookie-consent__button cookie-consent__button--secondary" data-cc-decline>Decline all</button>
+        <button type="button" class="cookie-consent__button cookie-consent__button--primary" data-cc-save>Save preferences</button>
+      </div>
+      <p class="cookie-consent__footnote"><a href="/policies/privacy-policy">Privacy policy</a></p>
+    </div>
+  </div>
+</cookie-consent>
+
+<button type="button" class="cookie-consent-reopen" data-cc-reopen data-cookie-preferences hidden>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M21 12a9 9 0 1 1-9-9 3.5 3.5 0 0 0 4.5 4.5A3.5 3.5 0 0 0 21 12Z" stroke-linejoin="round" /><circle cx="9" cy="10" r="1.1" fill="currentColor" stroke="none" /><circle cx="14" cy="15" r="1.1" fill="currentColor" stroke="none" /></svg>
+  Cookie preferences
+</button>
+</body>
+</html>

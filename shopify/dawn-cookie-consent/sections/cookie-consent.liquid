@@ -1,0 +1,309 @@
+{% comment %}
+  Cookie consent banner.
+
+  Rendered from layout/theme.liquid with {% section 'cookie-consent' %} so it is
+  available on every template. Consent itself is recorded through Shopify's
+  Customer Privacy API in assets/cookie-consent.js.
+{% endcomment %}
+
+{%- if section.settings.enabled -%}
+  {{ 'section-cookie-consent.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'cookie-consent.js' | asset_url }}" defer="defer"></script>
+
+  {%- liquid
+    assign selected = section.settings.default_selection
+    assign heading_id = 'CookieConsent-heading-' | append: section.id
+    assign text_id = 'CookieConsent-text-' | append: section.id
+  -%}
+
+  <cookie-consent
+    class="color-{{ section.settings.color_scheme }}"
+    data-layout="{{ section.settings.layout }}"
+    data-button-style="{{ section.settings.button_style }}"
+    data-display-region="{{ section.settings.display_region }}"
+    data-design-mode="{% if request.design_mode %}true{% else %}false{% endif %}"
+    data-hint-text="{{ section.settings.hint_text | escape }}"
+    hidden
+  >
+    <div class="cookie-consent__backdrop" data-cc-dismiss></div>
+
+    <div class="cookie-consent__container">
+      <div
+        class="cookie-consent__dialog"
+        role="dialog"
+        {% if section.settings.layout == 'modal' %}
+          aria-modal="true"
+        {% endif %}
+        aria-labelledby="{{ heading_id }}"
+        aria-describedby="{{ text_id }}"
+        tabindex="-1"
+        data-cc-dialog
+      >
+        {%- if section.settings.badge != blank -%}
+          <p class="cookie-consent__badge">{{ section.settings.badge | escape }}</p>
+        {%- endif -%}
+
+        <h2 id="{{ heading_id }}" class="cookie-consent__heading">
+          {{- section.settings.heading | escape -}}
+        </h2>
+
+        <div id="{{ text_id }}" class="cookie-consent__text">{{ section.settings.body }}</div>
+
+        <fieldset class="cookie-consent__options">
+          <legend class="visually-hidden">{{ section.settings.heading | escape }}</legend>
+
+          {% render 'cookie-consent-option',
+            value: 'all',
+            title: section.settings.option_all_title,
+            description: section.settings.option_all_description,
+            image: section.settings.option_all_image,
+            checked: selected == 'all'
+          %}
+
+          {% render 'cookie-consent-option',
+            value: 'essential',
+            title: section.settings.option_essential_title,
+            description: section.settings.option_essential_description,
+            image: section.settings.option_essential_image,
+            checked: selected == 'essential'
+          %}
+
+          {% render 'cookie-consent-option',
+            value: 'none',
+            title: section.settings.option_none_title,
+            description: section.settings.option_none_description,
+            image: section.settings.option_none_image,
+            checked: selected == 'none'
+          %}
+        </fieldset>
+
+        <p class="cookie-consent__hint" role="status" data-cc-hint></p>
+
+        <div class="cookie-consent__actions">
+          <button type="button" class="cookie-consent__button cookie-consent__button--secondary" data-cc-decline>
+            {{- section.settings.decline_label | escape -}}
+          </button>
+          <button type="button" class="cookie-consent__button cookie-consent__button--primary" data-cc-save>
+            {{- section.settings.save_label | escape -}}
+          </button>
+        </div>
+
+        {%- if section.settings.show_policy_link and shop.privacy_policy != blank -%}
+          <p class="cookie-consent__footnote">
+            <a href="{{ shop.privacy_policy.url }}">{{ shop.privacy_policy.title }}</a>
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
+  </cookie-consent>
+
+  {%- if section.settings.show_reopen -%}
+    <button type="button" class="cookie-consent-reopen" data-cc-reopen data-cookie-preferences hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">
+        <path d="M21 12a9 9 0 1 1-9-9 3.5 3.5 0 0 0 4.5 4.5A3.5 3.5 0 0 0 21 12Z" stroke-linejoin="round" />
+        <circle cx="9" cy="10" r="1.1" fill="currentColor" stroke="none" />
+        <circle cx="14" cy="15" r="1.1" fill="currentColor" stroke="none" />
+      </svg>
+      {{ section.settings.reopen_label | escape }}
+    </button>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cookie consent",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enable cookie consent",
+      "info": "When disabled, Shopify's built-in consent banner is used instead.",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "modal", "label": "Centred modal" },
+        { "value": "banner", "label": "Bottom banner" }
+      ],
+      "default": "modal"
+    },
+    {
+      "type": "select",
+      "id": "display_region",
+      "label": "Show to",
+      "options": [
+        { "value": "required", "label": "Visitors in regions that require consent" },
+        { "value": "always", "label": "Every visitor" }
+      ],
+      "info": "\"Visitors in regions that require consent\" follows the regional rules set in Shopify's Customer Privacy settings.",
+      "default": "required"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button shape",
+      "options": [
+        { "value": "pill", "label": "Pill" },
+        { "value": "theme", "label": "Match theme buttons" },
+        { "value": "square", "label": "Square" }
+      ],
+      "default": "pill"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge",
+      "default": "Privacy preferences"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "We use cookies to improve your experience"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Description",
+      "default": "<p>We use cookies to personalise content, improve performance, and analyse traffic. You can change your choice at any time.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policy_link",
+      "label": "Show privacy policy link",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Accept all"
+    },
+    {
+      "type": "text",
+      "id": "option_all_title",
+      "label": "Title",
+      "default": "Accept all"
+    },
+    {
+      "type": "text",
+      "id": "option_all_description",
+      "label": "Description",
+      "default": "Allow analytics, marketing, and functional cookies."
+    },
+    {
+      "type": "image_picker",
+      "id": "option_all_image",
+      "label": "Icon",
+      "info": "Optional. Replaces the built-in icon."
+    },
+    {
+      "type": "header",
+      "content": "Essential only"
+    },
+    {
+      "type": "text",
+      "id": "option_essential_title",
+      "label": "Title",
+      "default": "Essential only"
+    },
+    {
+      "type": "text",
+      "id": "option_essential_description",
+      "label": "Description",
+      "default": "Only the cookies needed to run the store."
+    },
+    {
+      "type": "image_picker",
+      "id": "option_essential_image",
+      "label": "Icon",
+      "info": "Optional. Replaces the built-in icon."
+    },
+    {
+      "type": "header",
+      "content": "Decline all"
+    },
+    {
+      "type": "text",
+      "id": "option_none_title",
+      "label": "Title",
+      "default": "Decline all"
+    },
+    {
+      "type": "text",
+      "id": "option_none_description",
+      "label": "Description",
+      "default": "Turn off all non-essential cookies and tracking."
+    },
+    {
+      "type": "image_picker",
+      "id": "option_none_image",
+      "label": "Icon",
+      "info": "Optional. Replaces the built-in icon."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "decline_label",
+      "label": "Decline button",
+      "default": "Decline all"
+    },
+    {
+      "type": "text",
+      "id": "save_label",
+      "label": "Save button",
+      "default": "Save preferences"
+    },
+    {
+      "type": "text",
+      "id": "hint_text",
+      "label": "Message when nothing is selected",
+      "default": "Please choose an option to continue."
+    },
+    {
+      "type": "select",
+      "id": "default_selection",
+      "label": "Pre-selected option",
+      "options": [
+        { "value": "unset", "label": "Nothing pre-selected" },
+        { "value": "essential", "label": "Essential only" },
+        { "value": "all", "label": "Accept all" }
+      ],
+      "info": "Pre-selecting \"Accept all\" is a pre-ticked consent box and is not valid under the GDPR.",
+      "default": "essential"
+    },
+    {
+      "type": "header",
+      "content": "Reopen button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reopen",
+      "label": "Show a floating reopen button",
+      "info": "Appears after a visitor has chosen. You can link to the picker from anywhere instead with a link to #cookie-preferences.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "reopen_label",
+      "label": "Reopen button label",
+      "default": "Cookie preferences"
+    }
+  ]
+}
+{% endschema %}

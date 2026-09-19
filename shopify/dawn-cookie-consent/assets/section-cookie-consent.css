@@ -1,0 +1,545 @@
+/* Cookie consent for Shopify Dawn.
+   Colours, fonts and radii come from the theme's color scheme so the banner
+   inherits the merchant's branding instead of hard-coding a palette. */
+
+/* Shopify's native consent UI, hidden only once cookie-consent.js has run.
+   If this theme's JS is blocked or fails, Shopify's own banner still shows. */
+.cookie-consent-active #shopify-pc__banner,
+.cookie-consent-active .shopify-pc__banner,
+.cookie-consent-active .shopify-pc__banner__dialog,
+.cookie-consent-active .shopify-pc__preferences,
+.cookie-consent-active .shopify-pc__preferences__dialog {
+  display: none !important;
+}
+
+.cookie-consent-open {
+  overflow: hidden;
+  padding-right: var(--cc-scrollbar-width, 0px);
+}
+
+cookie-consent {
+  --cc-radius: 20px;
+  --cc-card-radius: 16px;
+  --cc-button-radius: 999px;
+  --cc-border: rgba(var(--color-foreground, 18, 18, 18), 0.12);
+  --cc-border-strong: rgba(var(--color-foreground, 18, 18, 18), 0.55);
+  --cc-muted: rgba(var(--color-foreground, 18, 18, 18), 0.7);
+  --cc-surface: rgb(var(--color-background, 255, 255, 255));
+  --cc-surface-soft: rgba(var(--color-foreground, 18, 18, 18), 0.04);
+  --cc-shadow: rgba(var(--color-shadow, 18, 18, 18), 0.18);
+
+  display: none;
+  font-family: var(--font-body-family, inherit);
+  font-style: var(--font-body-style, normal);
+  font-weight: var(--font-body-weight, 400);
+  color: rgb(var(--color-foreground, 18, 18, 18));
+}
+
+cookie-consent:not([hidden]) {
+  display: block;
+}
+
+/* Dawn already ships .visually-hidden; this keeps the dialog's legend hidden
+   on themes that do not. */
+cookie-consent .visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+cookie-consent[data-button-style='theme'] {
+  --cc-button-radius: var(--buttons-radius-outset, 0);
+}
+
+cookie-consent[data-button-style='square'] {
+  --cc-button-radius: 0;
+}
+
+/* Layout
+   Positioning is done with flexbox, not transforms, so the open and close
+   animations are free to use transform without fighting the centring.
+   ========================================================================= */
+
+.cookie-consent__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.55);
+  animation: cookie-consent-fade-in 0.3s ease both;
+}
+
+@supports (backdrop-filter: blur(6px)) or (-webkit-backdrop-filter: blur(6px)) {
+  .cookie-consent__backdrop {
+    background: rgba(0, 0, 0, 0.4);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+}
+
+.cookie-consent__container {
+  position: fixed;
+  inset: 0;
+  z-index: 101;
+  display: flex;
+  justify-content: center;
+  padding: 1.2rem;
+  padding-bottom: calc(1.2rem + env(safe-area-inset-bottom, 0px));
+  /* Clicks fall through to the backdrop (modal) or the page (banner). */
+  pointer-events: none;
+}
+
+cookie-consent[data-layout='modal'] .cookie-consent__container {
+  align-items: center;
+}
+
+cookie-consent[data-layout='banner'] .cookie-consent__backdrop {
+  display: none;
+}
+
+cookie-consent[data-layout='banner'] .cookie-consent__container {
+  align-items: flex-end;
+}
+
+/* Dialog
+   ========================================================================= */
+
+.cookie-consent__dialog {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 54rem;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 2.4rem;
+  pointer-events: auto;
+  text-align: center;
+  background: var(--cc-surface);
+  border: var(--popup-border-width, 1px) solid var(--cc-border);
+  border-radius: var(--cc-radius);
+  box-shadow: 0 2rem 5rem var(--cc-shadow);
+  animation: cookie-consent-dialog-in 0.4s ease both;
+}
+
+.cookie-consent__dialog:focus {
+  outline: none;
+}
+
+cookie-consent[data-layout='banner'] .cookie-consent__dialog {
+  max-width: min(var(--page-width, 120rem), 72rem);
+}
+
+cookie-consent.is-closing .cookie-consent__dialog {
+  animation: cookie-consent-dialog-out 0.25s ease both;
+}
+
+cookie-consent.is-closing .cookie-consent__backdrop {
+  animation: cookie-consent-fade-out 0.25s ease both;
+}
+
+/* Header
+   ========================================================================= */
+
+.cookie-consent__badge {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 1.2rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cc-muted);
+  background: var(--cc-surface-soft);
+  border-radius: 999px;
+}
+
+.cookie-consent__heading {
+  margin: 0;
+  font-family: var(--font-heading-family, inherit);
+  font-size: clamp(1.8rem, 1.4rem + 1vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.cookie-consent__text {
+  max-width: 48rem;
+  margin: 1.2rem auto 2rem;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: var(--cc-muted);
+}
+
+.cookie-consent__text > :first-child {
+  margin-top: 0;
+}
+
+.cookie-consent__text > :last-child {
+  margin-bottom: 0;
+}
+
+/* Options
+   ========================================================================= */
+
+.cookie-consent__options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 0 0 1.6rem;
+  padding: 0;
+  border: 0;
+}
+
+.cookie-consent__option {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 15rem;
+  padding: 1.4rem 1rem;
+  cursor: pointer;
+  background: var(--cc-surface);
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-card-radius);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.cookie-consent__option:hover {
+  transform: translateY(-3px);
+  border-color: var(--cc-border-strong);
+  box-shadow: 0 1rem 2rem rgba(var(--color-shadow, 18, 18, 18), 0.08);
+}
+
+/* Set by JS from :checked, so this works without `:has()` support too. */
+.cookie-consent__option[data-selected] {
+  border-color: rgb(var(--color-foreground, 18, 18, 18));
+  background: linear-gradient(180deg, var(--cc-surface) 0%, var(--cc-surface-soft) 100%);
+  box-shadow: 0 1rem 2rem rgba(var(--color-shadow, 18, 18, 18), 0.08);
+}
+
+/* Keyboard focus has to be visible: the real radio is off-screen. */
+.cookie-consent__option:focus-within {
+  outline: 0.2rem solid rgb(var(--color-foreground, 18, 18, 18));
+  outline-offset: 0.3rem;
+}
+
+.cookie-consent__option input[type='radio'] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.cookie-consent__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  margin-bottom: 0.8rem;
+  color: rgb(var(--color-foreground, 18, 18, 18));
+}
+
+.cookie-consent__icon svg,
+.cookie-consent__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cookie-consent__option-body {
+  display: block;
+  min-width: 0;
+}
+
+.cookie-consent__option-title {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.cookie-consent__option-text {
+  display: block;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  color: var(--cc-muted);
+}
+
+.cookie-consent__radio {
+  position: relative;
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-top: auto;
+  border: 0.2rem solid var(--cc-border);
+  border-radius: 50%;
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.cookie-consent__radio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.8rem;
+  height: 0.8rem;
+  background: rgb(var(--color-foreground, 18, 18, 18));
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.25s ease;
+}
+
+.cookie-consent__option[data-selected] .cookie-consent__radio {
+  border-color: rgb(var(--color-foreground, 18, 18, 18));
+  background: var(--cc-surface-soft);
+}
+
+.cookie-consent__option[data-selected] .cookie-consent__radio::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Actions
+   ========================================================================= */
+
+.cookie-consent__hint {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  color: rgb(var(--color-foreground, 18, 18, 18));
+}
+
+.cookie-consent__hint:empty {
+  display: none;
+}
+
+.cookie-consent__actions {
+  display: flex;
+  gap: 1.2rem;
+}
+
+/* Reject and save are the same size and weight on purpose: making the
+   privacy-friendly choice harder than the permissive one is a dark pattern. */
+.cookie-consent__button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.4rem;
+  padding: 0 1.6rem;
+  font-family: inherit;
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: var(--cc-button-radius);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.cookie-consent__button--primary {
+  color: rgb(var(--color-button-text, 255, 255, 255));
+  background: rgb(var(--color-button, 18, 18, 18));
+  border: var(--buttons-border-width, 1px) solid rgb(var(--color-button, 18, 18, 18));
+  box-shadow: 0 0.8rem 1.6rem rgba(var(--color-shadow, 18, 18, 18), 0.12);
+}
+
+.cookie-consent__button--secondary {
+  color: rgb(var(--color-foreground, 18, 18, 18));
+  background: var(--cc-surface-soft);
+  border: var(--buttons-border-width, 1px) solid var(--cc-border);
+}
+
+.cookie-consent__button:hover {
+  transform: translateY(-2px);
+}
+
+.cookie-consent__button--primary:hover {
+  opacity: 0.9;
+}
+
+.cookie-consent__button:focus-visible {
+  outline: 0.2rem solid rgb(var(--color-foreground, 18, 18, 18));
+  outline-offset: 0.3rem;
+}
+
+.cookie-consent__footnote {
+  margin: 1.6rem 0 0;
+  font-size: 1.1rem;
+  color: var(--cc-muted);
+}
+
+.cookie-consent__footnote a {
+  color: inherit;
+}
+
+/* Reopen trigger
+   ========================================================================= */
+
+.cookie-consent-reopen {
+  position: fixed;
+  bottom: calc(1.6rem + env(safe-area-inset-bottom, 0px));
+  left: 1.6rem;
+  z-index: 99;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3.6rem;
+  padding: 0 1.4rem;
+  font-family: var(--font-body-family, inherit);
+  font-size: 1.2rem;
+  color: rgb(var(--color-foreground, 18, 18, 18));
+  cursor: pointer;
+  background: rgb(var(--color-background, 255, 255, 255));
+  border: 1px solid rgba(var(--color-foreground, 18, 18, 18), 0.12);
+  border-radius: 999px;
+  box-shadow: 0 0.4rem 1.2rem rgba(var(--color-shadow, 18, 18, 18), 0.12);
+}
+
+.cookie-consent-reopen[hidden] {
+  display: none;
+}
+
+.cookie-consent-reopen svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.cookie-consent-reopen:focus-visible {
+  outline: 0.2rem solid rgb(var(--color-foreground, 18, 18, 18));
+  outline-offset: 0.3rem;
+}
+
+/* Animations
+   ========================================================================= */
+
+@keyframes cookie-consent-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cookie-consent-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes cookie-consent-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(2rem) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cookie-consent-dialog-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-consent__backdrop,
+  .cookie-consent__dialog,
+  .cookie-consent__option,
+  .cookie-consent__button,
+  .cookie-consent__radio,
+  .cookie-consent__radio::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .cookie-consent__option:hover,
+  .cookie-consent__button:hover {
+    transform: none;
+  }
+}
+
+/* Small screens
+   ========================================================================= */
+
+@media screen and (max-width: 749px) {
+  /* A sheet at the bottom is easier to reach one-handed than a centred modal. */
+  cookie-consent[data-layout='modal'] .cookie-consent__container {
+    align-items: flex-end;
+  }
+
+  .cookie-consent__container {
+    padding: 0.8rem;
+    padding-bottom: calc(0.8rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .cookie-consent__dialog {
+    padding: 2rem 1.6rem;
+  }
+
+  .cookie-consent__options {
+    grid-template-columns: 1fr;
+  }
+
+  .cookie-consent__option {
+    flex-direction: row;
+    align-items: center;
+    min-height: 0;
+    text-align: left;
+  }
+
+  .cookie-consent__option-body {
+    flex: 1 1 auto;
+  }
+
+  .cookie-consent__icon {
+    flex: 0 0 auto;
+    width: 3.6rem;
+    height: 3.6rem;
+    margin-right: 1.2rem;
+    margin-bottom: 0;
+  }
+
+  .cookie-consent__option-text {
+    display: none;
+  }
+
+  .cookie-consent__radio {
+    margin-top: 0;
+    margin-left: auto;
+  }
+}
+
+@media screen and (max-width: 359px) {
+  .cookie-consent__actions {
+    flex-direction: column;
+  }
+}

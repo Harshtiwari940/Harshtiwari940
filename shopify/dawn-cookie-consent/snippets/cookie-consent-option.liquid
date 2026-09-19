@@ -1,0 +1,65 @@
+{% comment %}
+  Renders one choice card inside the cookie consent dialog.
+
+  Accepts:
+  - value: {String} Consent level: 'all', 'essential' or 'none'.
+  - title: {String} Card title.
+  - description: {String} Card description, hidden on small screens.
+  - image: {Object} Optional image that replaces the built-in icon.
+  - checked: {Boolean} Whether this card starts selected.
+
+  Usage:
+  {% render 'cookie-consent-option', value: 'all', title: 'Accept all' %}
+{% endcomment %}
+
+<label class="cookie-consent__option" data-cc-option{% if checked %} data-selected{% endif %}>
+  <span class="cookie-consent__icon" aria-hidden="true">
+    {%- if image != blank -%}
+      {{
+        image
+        | image_url: width: 88
+        | image_tag: loading: 'lazy', width: 44, height: 44, alt: ''
+      }}
+    {%- elsif value == 'all' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+        <path
+          d="M21 12a9 9 0 1 1-9-9 3.5 3.5 0 0 0 4.5 4.5A3.5 3.5 0 0 0 21 12Z"
+          stroke-linejoin="round"
+        />
+        <circle cx="9" cy="10" r="1.1" fill="currentColor" stroke="none" />
+        <circle cx="14" cy="15" r="1.1" fill="currentColor" stroke="none" />
+        <circle cx="8.5" cy="15.5" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    {%- elsif value == 'essential' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+        <path
+          d="M12 3 5 6v5.2c0 4.3 2.8 7.6 7 9.8 4.2-2.2 7-5.5 7-9.8V6l-7-3Z"
+          stroke-linejoin="round"
+        />
+        <path d="m9 12 2 2 4-4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    {%- else -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" focusable="false">
+        <circle cx="12" cy="12" r="9" />
+        <path d="m6 18 12-12" stroke-linecap="round" />
+      </svg>
+    {%- endif -%}
+  </span>
+
+  <span class="cookie-consent__option-body">
+    <span class="cookie-consent__option-title">{{ title }}</span>
+    {%- if description != blank -%}
+      <span class="cookie-consent__option-text">{{ description }}</span>
+    {%- endif -%}
+  </span>
+
+  <input
+    type="radio"
+    name="cookie_consent_level"
+    value="{{ value }}"
+    {% if checked %}
+      checked
+    {% endif %}
+  >
+  <span class="cookie-consent__radio" aria-hidden="true"></span>
+</label>
