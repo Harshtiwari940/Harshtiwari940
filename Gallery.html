@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gallery | WWRF Huddle 2026</title>
+<meta name="description" content="Photo gallery from Day 1 and Day 2 of WWRF Huddle 2026.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="assets/css/style5.css">
+
+<!-- Set before the page paints: with JS the day tabs take over, without it
+     both days simply stay on the page. -->
+<script>document.documentElement.className += " has-js";</script>
+
+<style>
+/* WWRF Huddle 2026 Gallery */
+
+.gallery-page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 60px 22px 80px;
+}
+
+.gallery-heading {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 30px;
+}
+
+.gallery-heading h1 {
+    margin: 0;
+    color: var(--agenda-primary, #0b3c5d);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    line-height: 1.15;
+}
+
+.gallery-heading h1:after {
+    content: "";
+    display: block;
+    width: 90px;
+    height: 4px;
+    background: var(--agenda-accent, #fca311);
+    border-radius: 3px;
+    margin: 18px auto 0;
+}
+
+/* =========================================================
+   DAY SWITCHER (identical to the Presentations page)
+   Hidden by default so that, without JavaScript, both days
+   simply stay on the page instead of leaving dead buttons.
+   ========================================================= */
+
+.day-switcher {
+    display: none;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 40px;
+    /* Same stack the Presentations page sets on <body>, so the tabs render
+       identically on both pages whatever style5.css does. */
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.has-js .day-switcher {
+    display: flex;
+}
+
+.day-tab {
+    padding: 10px 28px;
+    background: transparent;
+    border: 2px solid var(--agenda-primary, #0b3c5d);
+    color: var(--agenda-primary, #0b3c5d);
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.day-tab:hover {
+    background: rgba(11, 60, 93, 0.1);
+}
+
+.day-tab[aria-selected="true"] {
+    background: var(--agenda-primary, #0b3c5d);
+    color: #ffffff;
+}
+
+.day-tab:focus-visible {
+    outline: 3px solid var(--agenda-accent, #fca311);
+    outline-offset: 3px;
+}
+
+/* Gallery Grid */
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+/* With the switcher active only one day is on screen at a time.
+   Without JavaScript both grids stay on the page, stacked. */
+.gallery-grid + .gallery-grid {
+    margin-top: 45px;
+}
+
+.has-js .gallery-grid {
+    display: none;
+}
+
+.has-js .gallery-grid + .gallery-grid {
+    margin-top: 0;
+}
+
+.has-js .gallery-grid.is-active {
+    display: grid;
+}
+
+.gallery-grid[hidden] {
+    display: none;
+}
+
+.gallery-item {
+    margin: 0;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(11, 60, 93, 0.08);
+}
+
+/* Clickable Images */
+
+.gallery-item a {
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.gallery-item img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: #eef3f7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.gallery-item a:hover img {
+    opacity: 0.85;
+    transform: scale(1.02);
+}
+
+.gallery-item a:focus-visible {
+    outline: 3px solid #fca311;
+    outline-offset: -3px;
+}
+
+/* Lightbox Styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(11, 60, 93, 0.95);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox.active {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.lightbox.active .lightbox-content {
+    transform: scale(1);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: #fff;
+    font-size: 45px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    line-height: 1;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+    color: #fca311;
+    text-decoration: none;
+}
+
+/* Responsive Design */
+
+@media (max-width: 850px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .gallery-page {
+        padding: 40px 16px 55px;
+    }
+
+    .day-tab {
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    
+    .lightbox-close {
+        top: 15px;
+        right: 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .day-tab {
+        transition: none;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .gallery-item {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .gallery-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(11, 60, 93, 0.14);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Header -->
+<header class="site-header">
+    <div class="nav-container">
+
+        <div class="logo">
+            <a href="https://wwrf.ch/" target="_blank" rel="noopener noreferrer">
+                <img src="assets/images/brand/logo.png"
+                     alt="Wireless World Research Forum">
+            </a>
+        </div>
+
+        <!-- Desktop Menu -->
+        <nav class="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="Agenda.html">Programme</a>
+            <a href="Presentations.html">Presentations</a>
+            <a href="Gallery.html" class="active">Gallery</a>
+            <a href="index.html#venue">Venue</a>
+            <a href="index.html#Sponsorship">Partnership</a>
+            <a href="index.html#Speakers">Speakers</a>
+            <a href="OrganizingCommittee.html">Organizing Committee</a>
+        </nav>
+
+    
+
+        <!-- Mobile Toggle -->
+        <button class="menu-toggle"
+                id="menuToggle"
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="mobileMenu">
+            &#9776;
+        </button>
+
+    </div>
+</header>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <button class="close-menu"
+            id="closeMenu"
+            aria-label="Close menu">
+        &#10005;
+    </button>
+
+    <a href="index.html#home">Home</a>
+    <a href="index.html#about">About</a>
+    <a href="Agenda.html">Programme</a>
+    <a href="Presentations.html">Presentations</a>
+    <a href="Gallery.html" class="active">Gallery</a>
+    <a href="index.html#venue">Venue</a>
+    <a href="index.html#Sponsorship">Partnership</a>
+    <a href="index.html#Speakers">Speakers</a>
+    <a href="OrganizingCommittee.html">Organizing Committee</a>
+</div>
+
+<!-- Main Gallery -->
+<main class="gallery-page">
+
+    <header class="gallery-heading">
+        <h1><br>Conference Gallery</h1>
+    </header>
+
+    <!-- DAY SWITCHER (same style as Presentations) -->
+    <div class="day-switcher" id="daySwitcher" role="tablist" aria-label="Select conference day">
+        <button type="button"
+                class="day-tab"
+                id="tab-day-1"
+                role="tab"
+                aria-controls="day-1"
+                aria-selected="true">Day 1 - 16 September 2026</button>
+
+        <button type="button"
+                class="day-tab"
+                id="tab-day-2"
+                role="tab"
+                aria-controls="day-2"
+                aria-selected="false"
+                tabindex="-1">Day 2 - 17 September 2026</button>
+    </div>
+
+    <!-- Day 1 Gallery Section -->
+   <section id="day-1" class="gallery-grid is-active" role="tabpanel" aria-labelledby="tab-day-1" tabindex="0" aria-label="Day 1 event photographs">
+        <figure class="gallery-item">
+        <a href="Gallery/Day1/img/4.jpg">
+            <img src="Gallery/Day1/img/4.jpg" alt="WWRF Huddle 2026 Day 1, photograph 4" loading="lazy">
+        </a>
+    </figure>
+      <figure class="gallery-item">
+        <a href="Gallery/Day1/img/2.jpg">
+            <img src="Gallery/Day1/img/2.jpg" alt="WWRF Huddle 2026 Day 1, photograph 2" loading="lazy">
+        </a>
+    </figure>
+      <figure class="gallery-item">
+        <a href="Gallery/Day1/img/3.jpg">
+            <img src="Gallery/Day1/img/3.jpg" alt="WWRF Huddle 2026 Day 1, photograph 3" loading="lazy">
+        </a>
+    </figure>
+     <figure class="gallery-item">
+        <a href="Gallery/Day1/img/24.jpeg">
+            <img src="Gallery/Day1/img/24.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 24" loading="lazy">
+        </a>
+    </figure>
+       <figure class="gallery-item">
+        <a href="Gallery/Day1/img/28.jpg">
+            <img src="Gallery/Day1/img/28.jpg" alt="WWRF Huddle 2026 Day 1, photograph 28" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/1.jpeg">
+            <img src="Gallery/Day1/img/1.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 1" loading="lazy">
+        </a>
+    </figure>
+  
+  
+    
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/5.jpeg">
+            <img src="Gallery/Day1/img/5.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 5" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/6.jpg">
+            <img src="Gallery/Day1/img/6.jpg" alt="WWRF Huddle 2026 Day 1, photograph 6" loading="lazy">
+        </a>
+    </figure>
+<figure class="gallery-item">
+    <a href="Gallery/Day1/img/7.jpeg">
+        <img src="Gallery/Day1/img/7.jpeg"
+             alt="WWRF Huddle 2026 Day 1, photograph 7"
+             loading="lazy"
+             style="object-position:center 15%;">
+    </a>
+</figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/8.jpeg">
+            <img src="Gallery/Day1/img/8.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 8" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/9.jpg">
+            <img src="Gallery/Day1/img/9.jpg" alt="WWRF Huddle 2026 Day 1, photograph 9" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/10.jpeg">
+            <img src="Gallery/Day1/img/10.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 10" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/11.jpg">
+            <img src="Gallery/Day1/img/11.jpg" alt="WWRF Huddle 2026 Day 1, photograph 11" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/12.jpg">
+            <img src="Gallery/Day1/img/12.jpg" alt="WWRF Huddle 2026 Day 1, photograph 12" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/13.jpeg">
+            <img src="Gallery/Day1/img/13.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 13" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/14.jpg">
+            <img src="Gallery/Day1/img/14.jpg" alt="WWRF Huddle 2026 Day 1, photograph 14" loading="lazy">
+        </a>
+    </figure>
+ 
+      
+    <figure class="gallery-item">
+    <a href="Gallery/Day1/img/17.jpeg">
+        <img src="Gallery/Day1/img/17.jpeg"
+             alt="WWRF Huddle 2026 Day 1, photograph 17"
+             loading="lazy"
+             style="object-position:center 80%;">
+    </a>
+</figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/18.jpg">
+            <img src="Gallery/Day1/img/18.jpg" alt="WWRF Huddle 2026 Day 1, photograph 18" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/19.jpg">
+            <img src="Gallery/Day1/img/19.jpg" alt="WWRF Huddle 2026 Day 1, photograph 19" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/20.jpg">
+            <img src="Gallery/Day1/img/20.jpg" alt="WWRF Huddle 2026 Day 1, photograph 20" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/21.jpg">
+            <img src="Gallery/Day1/img/21.jpg" alt="WWRF Huddle 2026 Day 1, photograph 21" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/22.jpg">
+            <img src="Gallery/Day1/img/22.jpg" alt="WWRF Huddle 2026 Day 1, photograph 22" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/23.jpg">
+            <img src="Gallery/Day1/img/23.jpg" alt="WWRF Huddle 2026 Day 1, photograph 23" loading="lazy">
+        </a>
+    </figure>
+   
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/25.jpg">
+            <img src="Gallery/Day1/img/25.jpg" alt="WWRF Huddle 2026 Day 1, photograph 25" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/26.jpg">
+            <img src="Gallery/Day1/img/26.jpg" alt="WWRF Huddle 2026 Day 1, photograph 26" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/27.jpg">
+            <img src="Gallery/Day1/img/27.jpg" alt="WWRF Huddle 2026 Day 1, photograph 27" loading="lazy">
+        </a>
+    </figure>
+ 
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/29.jpeg">
+            <img src="Gallery/Day1/img/29.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 29" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/30.jpg">
+            <img src="Gallery/Day1/img/30.jpg" alt="WWRF Huddle 2026 Day 1, photograph 30" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/31.png">
+            <img src="Gallery/Day1/img/31.png" alt="WWRF Huddle 2026 Day 1, photograph 31" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/32.jpeg">
+            <img src="Gallery/Day1/img/32.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 32" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/33.jpg">
+            <img src="Gallery/Day1/img/33.jpg" alt="WWRF Huddle 2026 Day 1, photograph 33" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/34.jpg">
+            <img src="Gallery/Day1/img/34.jpg" alt="WWRF Huddle 2026 Day 1, photograph 34" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/35.jpg">
+            <img src="Gallery/Day1/img/35.jpg" alt="WWRF Huddle 2026 Day 1, photograph 35" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/36.jpg">
+            <img src="Gallery/Day1/img/36.jpg" alt="WWRF Huddle 2026 Day 1, photograph 36" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/37.jpg">
+            <img src="Gallery/Day1/img/37.jpg" alt="WWRF Huddle 2026 Day 1, photograph 37" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/38.jpg">
+            <img src="Gallery/Day1/img/38.jpg" alt="WWRF Huddle 2026 Day 1, photograph 38" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/39.jpg">
+            <img src="Gallery/Day1/img/39.jpg" alt="WWRF Huddle 2026 Day 1, photograph 39" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/41.jpg">
+            <img src="Gallery/Day1/img/41.jpg" alt="WWRF Huddle 2026 Day 1, photograph 40" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/1789583537489.jpg">
+            <img src="Gallery/Day1/img/1789583537489.jpg" alt="WWRF Huddle 2026 Day 1, photograph 41" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/WhatsApp Image 2026-09-21 at 3.11.35 PM.jpeg">
+            <img src="Gallery/Day1/img/WhatsApp Image 2026-09-21 at 3.11.35 PM.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 42" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/IMG_5751.jpg">
+            <img src="Gallery/Day1/img/IMG_5751.jpg" alt="WWRF Huddle 2026 Day 1, photograph 43" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/IMG_5997.jpg">
+            <img src="Gallery/Day1/img/IMG_5997.jpg" alt="WWRF Huddle 2026 Day 1, photograph 45" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/12.0.jpeg">
+            <img src="Gallery/Day1/img/12.0.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 46" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/IMG_5939.jpg">
+            <img src="Gallery/Day1/img/IMG_5939.jpg" alt="WWRF Huddle 2026 Day 1, photograph 47" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/IMG_5964.jpg">
+            <img src="Gallery/Day1/img/IMG_5964.jpg" alt="WWRF Huddle 2026 Day 1, photograph 48" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/WhatsApp Image 2026-09-16 at 10.18.02 PM.jpeg">
+            <img src="Gallery/Day1/img/WhatsApp Image 2026-09-16 at 10.18.02 PM.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 49" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/WhatsApp Image 2026-09-16 at 1.47.47 PM.jpeg">
+            <img src="Gallery/Day1/img/WhatsApp Image 2026-09-16 at 1.47.47 PM.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 50" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/IMG_5759.jpg">
+            <img src="Gallery/Day1/img/IMG_5759.jpg" alt="WWRF Huddle 2026 Day 1, photograph 51" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/WhatsApp Image 2026-09-17 at 10.47.51 AM.jpeg">
+            <img src="Gallery/Day1/img/WhatsApp Image 2026-09-17 at 10.47.51 AM.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 52" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/Screenshot 2026-09-21 143523.png">
+            <img src="Gallery/Day1/img/Screenshot 2026-09-21 143523.png" alt="WWRF Huddle 2026 Day 1, photograph 54" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/WhatsApp Image 2026-09-17 at 10.57.54 AM.jpeg">
+            <img src="Gallery/Day1/img/WhatsApp Image 2026-09-17 at 10.57.54 AM.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 55" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/WhatsApp Image 2026-09-16 at 2.16.49 PM.jpeg">
+            <img src="Gallery/Day1/img/WhatsApp Image 2026-09-16 at 2.16.49 PM.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 56" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/WhatsApp Image 2026-09-21 at 3.11.33 PM.jpeg">
+            <img src="Gallery/Day1/img/WhatsApp Image 2026-09-21 at 3.11.33 PM.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 57" loading="lazy">
+        </a>
+    </figure>
+      <figure class="gallery-item">
+        <a href="Gallery/Day1/img/WhatsApp Image 2026-09-17 at 11.01.05 AM.jpeg">
+            <img src="Gallery/Day1/img/WhatsApp Image 2026-09-17 at 11.01.05 AM.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 53" loading="lazy">
+        </a>
+    </figure>
+  
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/Screenshot 2026-09-16 195202.png">
+            <img src="Gallery/Day1/img/Screenshot 2026-09-16 195202.png" alt="WWRF Huddle 2026 Day 1, photograph 59" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/IMG_5820.jpg">
+            <img src="Gallery/Day1/img/IMG_5820.jpg" alt="WWRF Huddle 2026 Day 1, photograph 60" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/WhatsApp Image 2026-09-21 at 3.11.34 PM.jpeg">
+            <img src="Gallery/Day1/img/WhatsApp Image 2026-09-21 at 3.11.34 PM.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 61" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/IMG_5636.jpg">
+            <img src="Gallery/Day1/img/IMG_5636.jpg" alt="WWRF Huddle 2026 Day 1, photograph 62" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/IMG_5826.jpg">
+            <img src="Gallery/Day1/img/IMG_5826.jpg" alt="WWRF Huddle 2026 Day 1, photograph 63" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/8.0.jpeg">
+            <img src="Gallery/Day1/img/8.0.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 64" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/IMG_5920.jpg">
+            <img src="Gallery/Day1/img/IMG_5920.jpg" alt="WWRF Huddle 2026 Day 1, photograph 65" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/last.jpg">
+            <img src="Gallery/Day1/img/last.jpg" alt="WWRF Huddle 2026 Day 1, photograph 58" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/WhatsApp Image 2026-09-17 at 11.01.06 AM.jpeg">
+            <img src="Gallery/Day1/img/WhatsApp Image 2026-09-17 at 11.01.06 AM.jpeg" alt="WWRF Huddle 2026 Day 1, photograph 44" loading="lazy">
+        </a>
+    </figure>
+</section>
+
+   <!-- Day 2 Gallery Section -->
+<section id="day-2" class="gallery-grid" role="tabpanel" aria-labelledby="tab-day-2" tabindex="0" aria-label="Day 2 event photographs">
+    <figure class="gallery-item">
+        <a href="Day2/day2/1.jpg">
+            <img src="Day2/day2/1.jpg" alt="WWRF Huddle 2026 Day 2, photograph 1" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/2.jpeg">
+            <img src="Day2/day2/2.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 2" loading="lazy">
+        </a>
+    </figure>
+   
+    <figure class="gallery-item">
+        <a href="Day2/day2/4.jpeg">
+            <img src="Day2/day2/4.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 4" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/5.jpg">
+            <img src="Day2/day2/5.jpg" alt="WWRF Huddle 2026 Day 2, photograph 5" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/6.jpg">
+            <img src="Day2/day2/6.jpg" alt="WWRF Huddle 2026 Day 2, photograph 6" loading="lazy">
+        </a>
+    </figure>
+ <figure class="gallery-item">
+        <a href="Day2/day2/last.jpg">
+            <img src="Day2/day2/last.jpg" alt="WWRF Huddle 2026 Day 2, photograph 57" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/8.jpeg">
+            <img src="Day2/day2/8.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 8" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6352.jpg">
+            <img src="Day2/day2/IMG_6352.jpg" alt="WWRF Huddle 2026 Day 2, photograph 94" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6141.jpg">
+            <img src="Day2/day2/IMG_6141.jpg" alt="WWRF Huddle 2026 Day 2, photograph 91" loading="lazy">
+        </a>
+    </figure>
+  
+    <figure class="gallery-item">
+        <a href="Day2/day2/12.jpeg">
+            <img src="Day2/day2/12.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 11" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/13.jpeg">
+            <img src="Day2/day2/13.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 12" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/14.jpeg">
+            <img src="Day2/day2/14.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 13" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/15.jpeg">
+            <img src="Day2/day2/15.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 14" loading="lazy">
+        </a>
+    </figure>
+   <figure class="gallery-item">
+    <a href="Day2/day2/16.jpeg">
+        <img src="Day2/day2/16.jpeg"
+             alt="WWRF Huddle 2026 Day 2, photograph 15"
+             loading="lazy"
+             style="object-position:center 80%;">
+    </a>
+</figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/17.jpeg">
+            <img src="Day2/day2/17.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 16" loading="lazy">
+        </a>
+    </figure>
+ 
+    <figure class="gallery-item">
+        <a href="Day2/day2/19.jpeg">
+            <img src="Day2/day2/19.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 18" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/20.jpeg">
+            <img src="Day2/day2/20.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 19" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/21.jpeg">
+            <img src="Day2/day2/21.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 20" loading="lazy">
+        </a>
+    </figure>
+   <figure class="gallery-item">
+    <a href="Day2/day2/22.jpeg">
+        <img src="Day2/day2/22.jpeg"
+             alt="WWRF Huddle 2026 Day 2, photograph 21"
+             loading="lazy"
+             style="object-position:center 15%;">
+    </a>
+</figure>
+     <figure class="gallery-item">
+        <a href="Day2/day2/28.jpeg">
+            <img src="Day2/day2/28.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 27" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/24.jpeg">
+            <img src="Day2/day2/24.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 23" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/29.jpeg">
+            <img src="Day2/day2/29.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 28" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/26.jpeg">
+            <img src="Day2/day2/26.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 25" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/27.jpeg">
+            <img src="Day2/day2/27.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 26" loading="lazy">
+        </a>
+    </figure>
+      <figure class="gallery-item">
+        <a href="Day2/day2/23.jpeg">
+            <img src="Day2/day2/23.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 22" loading="lazy">
+        </a>
+    </figure>
+ <figure class="gallery-item">
+        <a href="Day2/day2/25.jpeg">
+            <img src="Day2/day2/25.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 24" loading="lazy">
+        </a>
+    </figure>
+    
+    <figure class="gallery-item">
+        <a href="Day2/day2/30.jpeg">
+            <img src="Day2/day2/30.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 29" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/31.jpeg">
+            <img src="Day2/day2/31.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 30" loading="lazy">
+        </a>
+    </figure>
+   
+    <figure class="gallery-item">
+        <a href="Day2/day2/33.jpeg">
+            <img src="Day2/day2/33.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 32" loading="lazy">
+        </a>
+    </figure>
+<figure class="gallery-item">
+    <a href="Day2/day2/34.jpeg">
+        <img src="Day2/day2/34.jpeg"
+             alt="WWRF Huddle 2026 Day 2, photograph 33"
+             loading="lazy"
+             style="object-position:center 15%;">
+    </a>
+</figure>
+    
+    <figure class="gallery-item">
+        <a href="Day2/day2/36.jpeg">
+            <img src="Day2/day2/36.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 35" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/37.jpeg">
+            <img src="Day2/day2/37.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 36" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/38.jpeg">
+            <img src="Day2/day2/38.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 37" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/39.jpeg">
+            <img src="Day2/day2/39.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 38" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/40.jpeg">
+            <img src="Day2/day2/40.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 39" loading="lazy">
+        </a>
+    </figure>
+  
+    <figure class="gallery-item">
+        <a href="Day2/day2/42.jpeg">
+            <img src="Day2/day2/42.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 41" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/43.jpeg">
+            <img src="Day2/day2/43.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 42" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/45.jpeg">
+            <img src="Day2/day2/45.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 43" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/46.jpeg">
+            <img src="Day2/day2/46.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 44" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/47.jpeg">
+            <img src="Day2/day2/47.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 45" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/48.jpeg">
+            <img src="Day2/day2/48.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 46" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/Screenshot 2026-09-17 190221.png">
+            <img src="Day2/day2/Screenshot 2026-09-17 190221.png" alt="WWRF Huddle 2026 Day 2, photograph 47" loading="lazy">
+        </a>
+    </figure>
+    
+    
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6150.jpg">
+            <img src="Day2/day2/IMG_6150.jpg" alt="WWRF Huddle 2026 Day 2, photograph 50" loading="lazy">
+        </a>
+    </figure>
+    
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6197.jpg">
+            <img src="Day2/day2/IMG_6197.jpg" alt="WWRF Huddle 2026 Day 2, photograph 52" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-18 at 5.04.39 AM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-18 at 5.04.39 AM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 53" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6164.jpg">
+            <img src="Day2/day2/IMG_6164.jpg" alt="WWRF Huddle 2026 Day 2, photograph 54" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 1.58.53 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 1.58.53 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 55" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6139.jpg">
+            <img src="Day2/day2/IMG_6139.jpg" alt="WWRF Huddle 2026 Day 2, photograph 56" loading="lazy">
+        </a>
+    </figure>
+       <figure class="gallery-item">
+        <a href="Day2/day2/7.png">
+            <img src="Day2/day2/7.png" alt="WWRF Huddle 2026 Day 2, photograph 7" loading="lazy">
+        </a>
+    </figure>
+    
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 1.46.49 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 1.46.49 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 58" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 5.01.10 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 5.01.10 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 59" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 4.52.04 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 4.52.04 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 60" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 4.47.47 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 4.47.47 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 61" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6073.jpg">
+            <img src="Day2/day2/IMG_6073.jpg" alt="WWRF Huddle 2026 Day 2, photograph 62" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 1.58.56 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 1.58.56 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 63" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 1.58.55 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 1.58.55 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 64" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 2.40.56 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 2.40.56 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 65" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 1.46.48 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 1.46.48 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 66" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6344.jpg">
+            <img src="Day2/day2/IMG_6344.jpg" alt="WWRF Huddle 2026 Day 2, photograph 67" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6227.jpg">
+            <img src="Day2/day2/IMG_6227.jpg" alt="WWRF Huddle 2026 Day 2, photograph 68" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6303.jpg">
+            <img src="Day2/day2/IMG_6303.jpg" alt="WWRF Huddle 2026 Day 2, photograph 69" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 1.02.40 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 1.02.40 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 70" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6151.jpg">
+            <img src="Day2/day2/IMG_6151.jpg" alt="WWRF Huddle 2026 Day 2, photograph 71" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6367.jpg">
+            <img src="Day2/day2/IMG_6367.jpg" alt="WWRF Huddle 2026 Day 2, photograph 72" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 4.47.49 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 4.47.49 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 73" loading="lazy">
+        </a>
+    </figure>
+    
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6385.jpg">
+            <img src="Day2/day2/IMG_6385.jpg" alt="WWRF Huddle 2026 Day 2, photograph 75" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6051.jpg">
+            <img src="Day2/day2/IMG_6051.jpg" alt="WWRF Huddle 2026 Day 2, photograph 76" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6088.jpg">
+            <img src="Day2/day2/IMG_6088.jpg" alt="WWRF Huddle 2026 Day 2, photograph 93" loading="lazy">
+        </a>
+    </figure>
+    
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 4.52.05 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 4.52.05 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 78" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 1.02.39 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 1.02.39 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 79" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 4.47.48 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 4.47.48 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 80" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/last second.jpg">
+            <img src="Day2/day2/last second.jpg" alt="WWRF Huddle 2026 Day 2, photograph 81" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 4.52.07 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 4.52.07 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 82" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 7.04.34 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 7.04.34 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 83" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/Screenshot 2026-09-17 115305.png">
+            <img src="Day2/day2/Screenshot 2026-09-17 115305.png" alt="WWRF Huddle 2026 Day 2, photograph 84" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Gallery/Day1/img/16.png">
+            <img src="Gallery/Day1/img/16.png" alt="WWRF Huddle 2026 Day 1, photograph 16" loading="lazy">
+        </a>
+    </figure>
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 1.02.36 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 1.02.36 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 88" loading="lazy">
+        </a>
+    </figure>
+  
+  
+      <figure class="gallery-item">
+        <a href="Day2/day2/IMG_6299.jpg">
+            <img src="Day2/day2/IMG_6299.jpg" alt="WWRF Huddle 2026 Day 2, photograph 92" loading="lazy">
+        </a>
+    </figure>
+    
+     <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 7.04.35 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 7.04.35 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 86" loading="lazy">
+        </a>
+    </figure>
+ 
+    <figure class="gallery-item">
+        <a href="Day2/day2/WhatsApp Image 2026-09-17 at 7.36.13 PM.jpeg">
+            <img src="Day2/day2/WhatsApp Image 2026-09-17 at 7.36.13 PM.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 90" loading="lazy">
+        </a>
+    </figure>
+      <figure class="gallery-item">
+        <a href="Day2/day2/10.jpeg">
+            <img src="Day2/day2/10.jpeg" alt="WWRF Huddle 2026 Day 2, photograph 10" loading="lazy">
+        </a>
+    </figure>
+   
+   
+  
+    
+</section>
+</main>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+    <span class="lightbox-close" aria-label="Close image">&times;</span>
+    <img class="lightbox-content" id="lightbox-img" alt="Zoomed in view">
+</div>
+
+<!-- Footer Divider -->
+<div class="line-divider-premium"></div>
+
+<!-- Footer -->
+<footer class="event-footer" id="contact">
+
+    <div class="footer-bg"></div>
+
+    <div class="footer-inner">
+
+        <p class="footer-website">
+            For more information on any aspect of this event,
+            please contact us using any of the details below.
+        </p>
+
+        <p class="footer-contact">
+            <strong>Nigel Jefferies, Chairman WWRF</strong>
+&#128231;
+<a href="mailto:nigel.jefferies@wwrf.ch">
+    nigel.jefferies@wwrf.ch
+</a>
+            <span class="divider">|</span>
+            &#128222; +44 7768 670282
+        </p>
+
+        <p class="footer-message">
+            We look forward to welcoming you in
+            <strong>T&uuml;rkiye</strong>
+            for a dynamic exchange shaping the future of 6G.
+        </p>
+
+        <div class="footer-social">
+            <a href="https://www.linkedin.com/company/wireless-world-research-forum/"
+               target="_blank"
+               rel="noopener">in</a>
+
+            <a href="https://x.com/WWRF"
+               target="_blank"
+               rel="noopener">X</a>
+        </div>
+
+        <p class="footer-sign">
+            <strong>Team WWRF Huddle 2026</strong>
+            <span class="divider"> | </span>
+            &#127760;
+            <a href="https://wwrf.ch/"
+               target="_blank"
+               rel="noopener">wwrf.ch</a>
+            <br>
+            <span>Wireless World Research Forum (WWRF)</span>
+        </p>
+
+    </div>
+</footer>
+
+<!-- Legal Footer -->
+<div class="legal"
+     style="
+        width: 100%;
+        margin: 0;
+        padding: 14px 20px;
+        box-sizing: border-box;
+        background: #0b3c5d;
+        color: #ffffff;
+        text-align: center;
+        font-size: 17px;
+        line-height: 1.6;
+        border-top: 1px solid rgba(255,255,255,0.25);
+     ">
+
+    &copy; Copyright Wireless World Research Forum (WWRF)
+    All rights reserved |
+    Privacy Policy |
+    Terms and Conditions |
+    Cookies Policy |
+    Booking Terms and Conditions
+
+</div>
+
+<!-- Scripts -->
+<script>
+// Day switcher - shows one day at a time.
+// Without JavaScript the tabs stay hidden and both days remain visible.
+// Deep links work too: Gallery.html#day-2
+(function () {
+    var root = document.documentElement;
+
+    function standDown() {
+        root.classList.remove("has-js");
+    }
+
+    var switcher = document.getElementById("daySwitcher");
+    if (!switcher) return standDown();
+
+    var tabs = Array.prototype.slice.call(switcher.querySelectorAll('[role="tab"]'));
+    var panels = tabs.map(function (tab) {
+        return document.getElementById(tab.getAttribute("aria-controls"));
+    });
+
+    if (!tabs.length || panels.indexOf(null) !== -1) return standDown();
+
+    function selectDay(index, opts) {
+        opts = opts || {};
+
+        tabs.forEach(function (tab, i) {
+            var isActive = i === index;
+            tab.setAttribute("aria-selected", isActive ? "true" : "false");
+            tab.tabIndex = isActive ? 0 : -1;
+            panels[i].hidden = !isActive;
+            panels[i].classList.toggle("is-active", isActive);
+        });
+
+        if (opts.focusTab) tabs[index].focus();
+
+        if (opts.updateHash && window.history && window.history.replaceState) {
+            window.history.replaceState(null, "", "#" + tabs[index].getAttribute("aria-controls"));
+        }
+    }
+
+    function indexFromHash() {
+        var id = (window.location.hash || "").replace("#", "");
+        if (!id) return -1;
+        return tabs.map(function (tab) {
+            return tab.getAttribute("aria-controls");
+        }).indexOf(id);
+    }
+
+    tabs.forEach(function (tab, i) {
+        tab.addEventListener("click", function () {
+            selectDay(i, { updateHash: true });
+        });
+
+        tab.addEventListener("keydown", function (e) {
+            var next = null;
+
+            if (e.key === "ArrowRight" || e.key === "ArrowDown") next = (i + 1) % tabs.length;
+            else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = (i - 1 + tabs.length) % tabs.length;
+            else if (e.key === "Home") next = 0;
+            else if (e.key === "End") next = tabs.length - 1;
+
+            if (next === null) return;
+
+            e.preventDefault();
+            selectDay(next, { focusTab: true, updateHash: true });
+        });
+    });
+
+    var startIndex = indexFromHash();
+    selectDay(startIndex === -1 ? 0 : startIndex);
+
+    window.addEventListener("hashchange", function () {
+        var i = indexFromHash();
+        if (i !== -1) selectDay(i);
+    });
+})();
+
+// Mobile Menu Logic
+(function () {
+    const menuToggle = document.getElementById("menuToggle");
+    const closeMenu = document.getElementById("closeMenu");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    if (!menuToggle || !closeMenu || !mobileMenu) return;
+
+    function openMenu() {
+        mobileMenu.classList.add("active");
+        menuToggle.setAttribute("aria-expanded", "true");
+        document.body.style.overflow = "hidden";
+    }
+
+    function hideMenu() {
+        mobileMenu.classList.remove("active");
+        menuToggle.setAttribute("aria-expanded", "false");
+        document.body.style.overflow = "";
+    }
+
+    menuToggle.addEventListener("click", openMenu);
+    closeMenu.addEventListener("click", hideMenu);
+
+    mobileMenu.querySelectorAll("a").forEach(function (a) {
+        a.addEventListener("click", hideMenu);
+    });
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") hideMenu();
+    });
+})();
+
+// Lightbox Logic
+(function () {
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const closeBtn = document.querySelector(".lightbox-close");
+    const galleryLinks = document.querySelectorAll(".gallery-item a");
+
+    if (!lightbox || !lightboxImg || !closeBtn) return;
+
+    function openLightbox(e) {
+        e.preventDefault(); // Prevents opening in a new tab
+        lightboxImg.src = this.href;
+        lightbox.classList.add("active");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden"; // Stops background scrolling
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove("active");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        
+        // Wait for the CSS fade-out transition to finish before removing the image source
+        setTimeout(() => {
+            lightboxImg.src = "";
+        }, 300);
+    }
+
+    // Attach click events to all gallery images
+    galleryLinks.forEach(link => {
+        link.addEventListener("click", openLightbox);
+    });
+
+    // Close on click of the "X" button
+    closeBtn.addEventListener("click", closeLightbox);
+
+    // Close when clicking anywhere on the dark overlay (outside the image)
+    lightbox.addEventListener("click", function(e) {
+        if (e.target !== lightboxImg) {
+            closeLightbox();
+        }
+    });
+
+    // Close when pressing the Escape key
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && lightbox.classList.contains("active")) {
+            closeLightbox();
+        }
+    });
+})();
+</script>
+
+</body>
+</html>
