@@ -2,12 +2,12 @@
    HEADER MENU
    Handles the mobile slide-in panel: open/close, Escape,
    body scroll lock, and auto-close on link click / resize.
-   Breakpoint must stay in sync with style.css (1024px).
+   Breakpoint must stay in sync with style.css (1249px).
 ================================ */
 (function () {
   "use strict";
 
-  var MOBILE_QUERY = "(max-width: 1024px)";
+  var MOBILE_QUERY = "(max-width: 1249px)";
 
   document.addEventListener("DOMContentLoaded", function () {
     var toggle     = document.querySelector(".menu-toggle");

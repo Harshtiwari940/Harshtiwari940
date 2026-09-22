@@ -20,12 +20,13 @@ html, body {
 ================================ */
 :root {
   --header-height: 72px;
-  /* Menu breakpoint is 1024px. It is repeated in the media queries below
-     (CSS cannot use a variable in a media query) and in menu.js - change all
-     of them together if you need a different switch-over width. */
+  /* Menu breakpoint is 1249px - the 9 nav labels need that much room
+     before they start colliding with the logo. It is repeated in the
+     media queries below (CSS cannot use a variable in a media query)
+     and in menu.js - change all of them together. */
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1249px) {
   :root {
     --header-height: 64px;
   }
@@ -71,7 +72,8 @@ body.menu-open {
 /* NAV CONTAINER */
 .nav-container {
   position: relative;          /* containing block for any absolute child */
-  max-width: 1400px;
+  max-width: 1680px;           /* wide enough that the logo never squeezes
+                                  the centre column off true centre */
   height: 100%;                /* fills the header so items centre properly */
   margin: 0 auto;
   padding: 0 20px;             /* no vertical padding - height + flex centres */
@@ -117,7 +119,7 @@ body.menu-open {
    DESKTOP NAV LINKS
 ================================ */
 .nav-links {
-  margin-left: auto;           /* pushes links + CTA to the right */
+  margin: 0 auto;              /* centres the links beside the logo */
   display: flex;
   align-items: center;
   gap: 22px;
@@ -126,7 +128,7 @@ body.menu-open {
 
 .nav-links a {
   position: relative;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 600;
   color: #0b2c4d;              /* deep navy - readable on the teal header */
   text-decoration: none;
@@ -143,13 +145,13 @@ body.menu-open {
   bottom: 0;
   width: 0;
   height: 2px;
-  background: #ffffff;
+  background: #6ec1ff;         /* matches the hover colour */
   transition: width 0.28s ease;
 }
 
 .nav-links a:hover,
 .nav-links a:focus-visible {
-  color: #ffffff;              /* white has far better contrast than #6EC1FF */
+  color: #6ec1ff;              /* light blue hover */
 }
 
 .nav-links a:hover::after,
@@ -308,10 +310,10 @@ body.menu-open {
 }
 
 /* ===============================
-   HEADER - MOBILE (<= 1024px)
-   Switches to the hamburger before the links can collide with the CTA.
+   HEADER - MOBILE (<= 1249px)
+   Switches to the hamburger before the 9 labels can collide with the logo.
 ================================ */
-@media (max-width: 1024px) {
+@media (max-width: 1249px) {
 
   .nav-links {
     display: none;
@@ -342,10 +344,39 @@ body.menu-open {
 }
 
 /* ===============================
-   HEADER - COMPACT DESKTOP (1025px - 1240px)
-   Laptop widths where the full nav fits only once it is tightened up.
+   DESKTOP NAV CENTRING
+   A 3-column grid (1fr | links | 1fr) puts the links in the true centre
+   of the header, because the two 1fr columns are equal by definition -
+   it does not matter that the logo is wide and the right side is empty.
+   If the logo ever outgrows its column the links slide right rather than
+   overlapping it, so this degrades safely instead of breaking.
 ================================ */
-@media (min-width: 1025px) and (max-width: 1240px) {
+@media (min-width: 1250px) {
+
+  .nav-container {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .logo {
+    justify-self: start;
+  }
+
+  .nav-links {
+    justify-self: center;
+    margin: 0;
+  }
+
+  .nav-cta-wrapper {
+    justify-self: end;
+  }
+}
+
+/* ===============================
+   HEADER - COMPACT DESKTOP (1250px - 1449px)
+   Laptop widths where all 9 labels fit only once they are tightened up.
+================================ */
+@media (min-width: 1250px) and (max-width: 1449px) {
 
   .nav-container {
     gap: 14px;
@@ -357,7 +388,7 @@ body.menu-open {
   }
 
   .nav-links a {
-    font-size: 15px;
+    font-size: 17px;
   }
 
   .nav-cta-wrapper {
@@ -376,7 +407,7 @@ body.menu-open {
 
 /* Safety net: the panel can never appear on desktop, even if JS leaves
    .active behind after a resize. */
-@media (min-width: 1025px) {
+@media (min-width: 1250px) {
   .mobile-menu {
     display: none;
   }

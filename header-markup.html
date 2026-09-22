@@ -1,50 +1,65 @@
 <!--
-  Reference markup for the header + menu in style.css / menu.js.
-  Copy the <header>, the <nav class="mobile-menu"> and the <script> tag
-  into your page; the class names are what the CSS and JS hook onto.
+  CORRECTED header + menu markup for index.html.
+
+  Three problems in the current index.html are fixed below:
+
+  1. <div class="nav-container"> was never closed. The </div> before
+     </header> closed .nav-cta-wrapper instead, so .nav-container was
+     left open and the browser had to guess where it ended.
+
+  2. The inline menu script must be DELETED. menu.js now does that job,
+     and running both makes the hamburger fight itself - menu.js toggles
+     the panel while the old script re-opens it on the same click.
+
+  3. In the smooth-scroll script there is a stray "r" on the line
+     "});r". It throws on the first loop pass, so only the FIRST nav
+     link ever gets a smooth-scroll handler. Delete the "r".
 -->
 
 <header class="site-header">
   <div class="nav-container">
 
-    <a href="index.html" class="logo">
-      <img src="logo.png" alt="Event logo">
-    </a>
-
-    <!-- Desktop links: hidden below 900px -->
-    <nav class="nav-links" aria-label="Main navigation">
-      <a href="#about">About</a>
-      <a href="#themes">Key Themes</a>
-      <a href="#venue">Venue</a>
-      <a href="#sponsorship">Sponsorship</a>
-      <a href="#visa">Visa &amp; Stay</a>
-      <a href="#contact">Contact</a>
-    </nav>
-
-    <!-- Only .nav-cta-register stays visible in the mobile header bar -->
-    <div class="nav-cta-wrapper">
-      <a href="last-year.html" class="nav-cta">Last Year Edition</a>
-      <a href="register.html" class="nav-cta nav-cta-register">Registration</a>
+    <div class="logo">
+      <a href="https://wwrf.ch/" target="_blank" rel="noopener noreferrer">
+        <img src="logo.png" alt="Wireless World Research Forum">
+      </a>
     </div>
 
-    <button class="menu-toggle" type="button" aria-label="Open menu">&#9776;</button>
+    <!-- Desktop Menu -->
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="https://huddle.wwrf.ch/Agenda.html">Programme</a>
+      <a href="Presentations.html">Presentations</a>
+      <a href="Gallery.html">Gallery</a>
+      <a href="#venue">Venue</a>
+      <a href="#Sponsorship">Partnership</a>
+      <a href="#Speakers">Speakers</a>
+      <a href="OrganizingCommittee.html" target="_blank" rel="noopener noreferrer">Organizing Committee</a>
+    </nav>
 
-  </div>
+    <!-- CTA Buttons Container (empty for now - the hamburger lives here) -->
+    <div class="nav-cta-wrapper">
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu">&#9776;</button>
+    </div>
+
+  </div><!-- /.nav-container  <-- THIS is the closing tag that was missing -->
 </header>
 
-<!-- Slide-in panel. Keep it OUTSIDE .site-header so it can cover the screen. -->
-<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
-  <button class="close-menu" type="button" aria-label="Close menu">&times;</button>
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-menu" id="closeMenu" type="button" aria-label="Close menu">&#10005;</button>
 
-  <a href="#about">About</a>
-  <a href="#themes">Key Themes</a>
-  <a href="#venue">Venue</a>
-  <a href="#sponsorship">Sponsorship</a>
-  <a href="#visa">Visa &amp; Stay</a>
-  <a href="#contact">Contact</a>
+  <a href="index.html#home">Home</a>
+  <a href="index.html#about">About</a>
+  <a href="https://huddle.wwrf.ch/Agenda.html">Programme</a>
+  <a href="Presentations.html">Presentations</a>
+  <a href="Gallery.html">Gallery</a>
+  <a href="index.html#venue">Venue</a>
+  <a href="index.html#Sponsorship">Partnership</a>
+  <a href="index.html#Speakers">Speakers</a>
+  <a href="OrganizingCommittee.html" target="_blank" rel="noopener noreferrer">Organizing Committee</a>
+</div>
 
-  <a href="last-year.html" class="nav-cta">Last Year Edition</a>
-  <a href="register.html" class="nav-cta nav-cta-register">Registration</a>
-</nav>
-
+<!-- Replaces the old inline menu script. Keep your slowScroll script. -->
 <script src="menu.js"></script>
