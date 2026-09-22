@@ -1,0 +1,50 @@
+<!--
+  Reference markup for the header + menu in style.css / menu.js.
+  Copy the <header>, the <nav class="mobile-menu"> and the <script> tag
+  into your page; the class names are what the CSS and JS hook onto.
+-->
+
+<header class="site-header">
+  <div class="nav-container">
+
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="Event logo">
+    </a>
+
+    <!-- Desktop links: hidden below 900px -->
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#themes">Key Themes</a>
+      <a href="#venue">Venue</a>
+      <a href="#sponsorship">Sponsorship</a>
+      <a href="#visa">Visa &amp; Stay</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- Only .nav-cta-register stays visible in the mobile header bar -->
+    <div class="nav-cta-wrapper">
+      <a href="last-year.html" class="nav-cta">Last Year Edition</a>
+      <a href="register.html" class="nav-cta nav-cta-register">Registration</a>
+    </div>
+
+    <button class="menu-toggle" type="button" aria-label="Open menu">&#9776;</button>
+
+  </div>
+</header>
+
+<!-- Slide-in panel. Keep it OUTSIDE .site-header so it can cover the screen. -->
+<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+  <button class="close-menu" type="button" aria-label="Close menu">&times;</button>
+
+  <a href="#about">About</a>
+  <a href="#themes">Key Themes</a>
+  <a href="#venue">Venue</a>
+  <a href="#sponsorship">Sponsorship</a>
+  <a href="#visa">Visa &amp; Stay</a>
+  <a href="#contact">Contact</a>
+
+  <a href="last-year.html" class="nav-cta">Last Year Edition</a>
+  <a href="register.html" class="nav-cta nav-cta-register">Registration</a>
+</nav>
+
+<script src="menu.js"></script>

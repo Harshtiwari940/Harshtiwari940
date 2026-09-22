@@ -1,0 +1,1544 @@
+/* ===============================
+   GLOBAL RESET
+================================ */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ===============================
+   DESIGN TOKENS
+   Header height lives in ONE variable so the fixed header,
+   the banner offset and anchor scrolling can never disagree.
+================================ */
+:root {
+  --header-height: 72px;
+  /* Menu breakpoint is 1024px. It is repeated in the media queries below
+     (CSS cannot use a variable in a media query) and in menu.js - change all
+     of them together if you need a different switch-over width. */
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --header-height: 64px;
+  }
+}
+
+/* Anchor links (#venue, #about...) must not land under the fixed header */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Body scroll lock while the mobile menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* ===============================
+   HEADER  -  SINGLE SOURCE OF TRUTH
+================================ */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--header-height);
+  z-index: 1000;
+
+  background: linear-gradient(
+    90deg,
+    #9fb28a 0%,    /* soft warm blend */
+    #5fb2a6 60%,   /* light teal-green */
+    #3aa39f 100%   /* fresh teal */
+  );
+}
+
+/* NAV CONTAINER */
+.nav-container {
+  position: relative;          /* containing block for any absolute child */
+  max-width: 1400px;
+  height: 100%;                /* fills the header so items centre properly */
+  margin: 0 auto;
+  padding: 0 20px;             /* no vertical padding - height + flex centres */
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+/* ===============================
+   LOGO
+================================ */
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.logo span {
+  font-weight: 400;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+  max-height: calc(var(--header-height) - 20px);
+  object-fit: contain;
+  display: block;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.logo img:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* ===============================
+   DESKTOP NAV LINKS
+================================ */
+.nav-links {
+  margin-left: auto;           /* pushes links + CTA to the right */
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: nowrap;
+}
+
+.nav-links a {
+  position: relative;
+  font-size: 17px;
+  font-weight: 600;
+  color: #0b2c4d;              /* deep navy - readable on the teal header */
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 6px 0;
+  transition: color 0.25s ease;
+}
+
+/* Animated underline (the original had position:relative but no ::after) */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: #ffffff;
+  transition: width 0.28s ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  color: #ffffff;              /* white has far better contrast than #6EC1FF */
+}
+
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after {
+  width: 100%;
+}
+
+/* Keyboard focus ring for every header control */
+.nav-links a:focus-visible,
+.nav-cta:focus-visible,
+.menu-toggle:focus-visible,
+.close-menu:focus-visible,
+.mobile-menu a:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ===============================
+   CTA BUTTONS
+================================ */
+.nav-cta-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #ffffff;
+
+  background: linear-gradient(135deg, #2ea66b, #f0a93c);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+/* ===============================
+   HAMBURGER BUTTON
+   Hidden on desktop, 44x44 tap target on mobile.
+================================ */
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ===============================
+   MOBILE SLIDE-IN MENU
+================================ */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+
+  background: linear-gradient(135deg, #0b5c6d, #1aa6a0, #f08a3c);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+
+  padding: 88px 24px 40px;
+  overflow-y: auto;                      /* long menus stay reachable */
+  -webkit-overflow-scrolling: touch;
+
+  transform: translateX(100%);
+  visibility: hidden;                    /* keeps links out of the tab order */
+
+  /* Closing: stay visible for the slide-out, then hide.
+     Opening (.active): become visible instantly, so the panel is
+     focusable in the same tick the class is added. */
+  transition: transform 0.45s ease, visibility 0s linear 0.45s;
+}
+
+.mobile-menu.active {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.45s ease, visibility 0s linear 0s;
+}
+
+.mobile-menu a {
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 10px 6px;                     /* comfortable tap target */
+}
+
+/* CTA spacing inside the mobile menu */
+.mobile-menu .nav-cta {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 16px;
+  padding: 12px 28px;
+}
+
+/* CLOSE BUTTON */
+.close-menu {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Short/landscape phones: centring would clip the top of a tall menu */
+@media (max-height: 520px) {
+  .mobile-menu {
+    justify-content: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu,
+  .mobile-menu.active {
+    transition: none;
+  }
+}
+
+/* ===============================
+   HEADER - MOBILE (<= 1024px)
+   Switches to the hamburger before the links can collide with the CTA.
+================================ */
+@media (max-width: 1024px) {
+
+  .nav-links {
+    display: none;
+  }
+
+  .logo img {
+    height: 30px;
+  }
+
+  /* Kept in normal flow - no absolute positioning, no magic offsets */
+  .nav-cta-wrapper {
+    margin-left: auto;
+  }
+
+  /* Only "Registration" stays in the header bar; the rest live in the menu */
+  .site-header .nav-cta-wrapper .nav-cta:not(.nav-cta-register) {
+    display: none;
+  }
+
+  .nav-cta {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+}
+
+/* ===============================
+   HEADER - COMPACT DESKTOP (1025px - 1240px)
+   Laptop widths where the full nav fits only once it is tightened up.
+================================ */
+@media (min-width: 1025px) and (max-width: 1240px) {
+
+  .nav-container {
+    gap: 14px;
+    padding: 0 14px;
+  }
+
+  .nav-links {
+    gap: 14px;
+  }
+
+  .nav-links a {
+    font-size: 15px;
+  }
+
+  .nav-cta-wrapper {
+    gap: 8px;
+  }
+
+  .nav-cta {
+    padding: 9px 16px;
+    font-size: 13px;
+  }
+
+  .logo img {
+    height: 34px;
+  }
+}
+
+/* Safety net: the panel can never appear on desktop, even if JS leaves
+   .active behind after a resize. */
+@media (min-width: 1025px) {
+  .mobile-menu {
+    display: none;
+  }
+}
+
+/* ===============================
+   RESPONSIVE HERO BANNER
+================================ */
+.top-banner {
+  width: 100%;
+  margin-top: var(--header-height);   /* always matches the fixed header */
+  overflow: hidden;
+}
+
+.top-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .top-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0f6f73;
+  }
+
+  .top-banner img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+}
+
+/* EVENT INFO */
+.event-info {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.event-info span {
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.date {
+  border: 2px solid #fff;
+}
+
+.location {
+  background: #1db954;
+  color: #fff;
+}
+
+/* PARTNERS */
+.partners {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.partners img {
+  height: 60px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* ===============================
+   SCROLL TO TOP BUTTON
+   Sits above the page, but BELOW the mobile menu (z-index 2000),
+   and hides entirely while the menu is open.
+================================ */
+.scroll-top {
+  position: fixed;
+  right: 25px;
+  bottom: 80px;
+
+  width: 48px;
+  height: 48px;
+
+  border: 2px solid #0a2a3a;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+  cursor: pointer;
+
+  z-index: 1500;
+  pointer-events: auto;
+}
+
+body.menu-open .scroll-top {
+  display: none;
+}
+
+/* Arrow */
+.arrow-up {
+  width: 10px;
+  height: 10px;
+  border-left: 3px solid #0a2a3a;
+  border-top: 3px solid #0a2a3a;
+  transform: rotate(45deg);
+}
+
+/* FIX: overlays must not block clicks */
+.about-event,
+.venue-overlay,
+.prev-overlay,
+.themes-slider,
+.themes-track {
+  pointer-events: auto;
+}
+
+/* BUT decorative overlays must NOT capture clicks */
+.about-event::before,
+.about-event::after,
+.venue-overlay::before,
+.venue-overlay::after {
+  pointer-events: none !important;
+}
+
+/* ===============================
+   ABOUT THE EVENT
+================================ */
+.center-text {
+  display: block;
+  text-align: center;
+  font-weight: 600;
+}
+
+.about-event {
+  padding: 20px 24px;
+  color: #ffffff;
+
+  background: linear-gradient(
+    90deg,
+    #0b4f6c 0%,
+    #1aa6a0 45%,
+    #f08a3c 100%
+  );
+
+  background-size: 200% 200%;
+  animation: aboutGradient 14s ease infinite;
+  overflow-x: hidden;
+}
+
+.about-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.about-container h2 {
+  margin: 10px 0 16px;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.about-container h3 {
+  margin: 10px 0 12px;
+  font-size: 22px;
+}
+
+.about-container p {
+  hyphens: auto;
+  text-align: justify;
+  max-width: 1200px;
+  margin: 12px auto;
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.registration-cta {
+  background: linear-gradient(135deg, #041e2c, #083344);
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.cta-text {
+  max-width: 800px;
+  margin: 0 auto 22px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #e5f3f3;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 14px 34px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+
+  background: linear-gradient(135deg, #14b8a6, #0ea5a4);
+  border-radius: 40px;
+
+  box-shadow: 0 8px 25px rgba(20, 184, 166, 0.35);
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(20, 184, 166, 0.55);
+  background: linear-gradient(135deg, #0ea5a4, #14b8a6);
+}
+
+.about-event.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes aboutGradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@media (max-width: 768px) {
+
+  .about-event {
+    padding: 32px 16px;
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .about-container h2 {
+    font-size: 26px;
+  }
+
+  .about-container h3 {
+    font-size: 20px;
+  }
+
+  .about-container p,
+  .about-container ul li {
+    font-size: 15px;
+    text-align: left;
+  }
+}
+
+/* ===============================
+   KEY THEMES - AUTO SCROLLER
+================================ */
+.key-themes {
+  padding: 1px 20px;
+  text-align: center;
+}
+
+.key-themes h2 {
+  font-size: 36px;
+  color: #0b5c6d;
+  margin-bottom: 20px;
+}
+
+.themes-slider {
+  max-width: 1100px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.themes-track {
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+}
+
+.theme-item {
+  flex: 0 0 33.333%;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.theme-item img {
+  width: 120px;
+  margin-bottom: 20px;
+}
+
+.theme-item h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0b5c6d;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .theme-item {
+    flex: 0 0 100%;
+  }
+
+  .key-themes h2 {
+    font-size: 28px;
+  }
+
+  .theme-item img {
+    width: 100px;
+  }
+}
+
+/* ===============================
+   TWO BOX PREMIUM SECTION
+================================ */
+.info-section {
+  padding: 25px 10px;
+  background: linear-gradient(135deg, #071a2b, #0b2f3a);
+}
+
+.info-container {
+  max-width: 1400px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.info-box {
+  padding: 20px 35px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+}
+
+.info-box h3 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #f5faff;
+}
+
+.info-text {
+  max-width: 650px;
+}
+
+.info-box ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.info-box ul li {
+  position: relative;
+  margin-bottom: 14px;
+  color: #d6e4ec;
+  line-height: 1.6;
+  text-align: left;
+  font-size: 17px;
+}
+
+.info-box.highlight {
+  background: linear-gradient(
+    145deg,
+    rgba(22, 101, 101, 0.85),
+    rgba(12, 45, 66, 0.9)
+  );
+  border-left: 6px solid #22d3ee;
+}
+
+.info-box p {
+  color: #e1edf4;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.info-container.single {
+  max-width: 1400px;
+  margin: auto;
+}
+
+.info-box.with-image {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+  gap: 40px;
+}
+
+.info-text h3 {
+  font-size: 30px;
+  margin-bottom: 22px;
+}
+
+.info-image img {
+  width: 100%;
+  height: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 900px) {
+  .info-box.with-image {
+    grid-template-columns: 1fr;
+  }
+
+  .info-text {
+    max-width: 100%;
+  }
+
+  .info-image img {
+    max-height: 260px;
+  }
+}
+
+/* ===============================
+   SPONSORSHIP SECTION
+================================ */
+.sponsorship-section {
+  padding: 40px 20px 50px;
+  text-align: center;
+  position: relative;
+  color: #f4f7fb;
+  overflow: hidden;
+
+  background: linear-gradient(
+    135deg,
+    #0f1c2a 0%,
+    #1b2b3d 50%,
+    #0f1c2a 100%
+  );
+}
+
+.sponsorship-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18%;
+  width: 64%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(120, 180, 220, 0.55),
+    transparent
+  );
+}
+
+.sponsorship-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 30% 40%,
+      rgba(120, 180, 220, 0.14),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      rgba(160, 200, 255, 0.10),
+      transparent 60%
+    );
+  pointer-events: none;
+}
+
+.sponsorship-section h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #ffffff;
+  letter-spacing: 0.4px;
+}
+
+.sponsorship-text {
+  max-width: 920px;
+  margin: 0 auto 20px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #d6e1ee;
+}
+
+.sponsorship-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 15px 38px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.35s ease;
+  position: relative;
+}
+
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    #a8c3dc,
+    #7fa6c8
+  );
+  color: #0b1620;
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 38px rgba(0, 0, 0, 0.55),
+    0 0 20px rgba(140, 190, 235, 0.45);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(160, 200, 240, 0.6);
+  color: #e6f0fb;
+  backdrop-filter: blur(6px);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(180, 220, 255, 0.8);
+}
+
+/* ===============================
+   VENUE & UNIVERSITY SECTION
+================================ */
+#venue.venue-university {
+  background-image: url("university-bg2.jpg");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+}
+
+#venue .venue-overlay {
+  padding: 20px 20px;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+#venue .venue-container {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 55% 45%;
+  gap: 40px;
+
+  align-items: flex-start;
+}
+
+#venue .venue-map {
+  width: 100%;
+}
+
+#venue .venue-map h2 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+#venue .venue-address {
+  font-size: 16px;
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+#venue .venue-map iframe {
+  width: 100%;
+  height: 260px;
+  display: block;
+  border-radius: 12px;
+  border: none;
+}
+
+#venue .university-info {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 26px;
+  border-radius: 14px;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+#venue .university-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+#venue .university-header img {
+  height: 88px;
+  width: auto;
+  background: #ffffff;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+#venue .university-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+#venue .university-info p {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+#venue,
+#venue h2,
+#venue h3,
+#venue p,
+#venue span {
+  color: #ffffff;
+}
+
+#venue p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 768px) {
+  #venue .venue-container {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  #venue .venue-overlay {
+    padding: 30px 16px;
+  }
+
+  #venue .venue-map iframe {
+    height: 220px;
+  }
+
+  #venue .university-info {
+    padding: 18px;
+  }
+
+  #venue .university-header img {
+    height: 64px;
+  }
+
+  #venue .university-header h2 {
+    font-size: 22px;
+  }
+}
+
+/* ===============================
+   PREVIOUS EDITIONS
+================================ */
+.previous-editions {
+  padding: 40px 20px;
+  background: linear-gradient(
+    135deg,
+    #0b5c6d 0%,
+    #1aa6a0 45%,
+    #f08a3c 100%
+  );
+  color: #ffffff;
+}
+
+.prev-overlay {
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+}
+
+.previous-editions h2 {
+  margin-bottom: 10px;
+}
+
+.previous-editions p {
+  margin-bottom: 22px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prev-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.prev-text {
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 1100px;
+  margin: 0 auto 40px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.slider {
+  position: relative;
+  overflow: hidden;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.slides {
+  display: flex;
+  gap: 25px;
+  transition: transform 0.6s ease-in-out;
+}
+
+.slides img {
+  width: calc(25% - 18px);
+  height: 220px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+}
+
+.dots {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.dot {
+  height: 8px;
+  width: 8px;
+  margin: 0 6px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.dot.active {
+  background: #ffffff;
+  transform: scale(1.4);
+}
+
+@media (max-width: 992px) {
+  .slides img {
+    width: calc(50% - 15px);
+  }
+}
+
+@media (max-width: 600px) {
+  .slides img {
+    width: 100%;
+  }
+}
+
+.prev-btn {
+  margin-top: 20px;
+  position: relative;
+  display: inline-block;
+  padding: 14px 32px;
+  background: #0b2d3a;
+  color: #ffffff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prev-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.prev-btn span {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35) 10%, transparent 10%);
+  background-size: 300% 300%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.prev-btn:hover span {
+  opacity: 1;
+}
+
+/* ===============================
+   PREMIUM ANIMATED LINE DIVIDER
+================================ */
+.line-divider-premium {
+  width: 100%;
+  height: 8px;
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(
+    90deg,
+    #0b5c6d,
+    #1aa6a0,
+    #f08a3c
+  );
+
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
+}
+
+.line-divider-premium::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -30%;
+  width: 30%;
+  height: 100%;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+
+  animation: dividerShimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes dividerShimmer {
+  0%   { left: -30%; }
+  50%  { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* ===============================
+   FOOTER SECTION
+================================ */
+.event-footer {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(11, 92, 109, 0.10) 0%,
+      rgba(26, 166, 160, 0.10) 45%,
+      rgba(240, 138, 60, 0.10) 100%
+    ),
+    url("bannerbackground2.png");
+
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+
+  padding: 20px 20px;
+  min-height: 280px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.event-footer p,
+.event-footer a {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.event-footer a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 10px;
+}
+
+.footer-social a {
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.footer-social a:hover {
+  transform: translateY(-4px) scale(1.05);
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.45);
+}
+
+.event-footer p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.footer-contact {
+  font-weight: 600;
+}
+
+.footer-highlight {
+  margin-top: 18px;
+  font-size: 17px;
+}
+
+.footer-signoff {
+  margin-top: 26px;
+}
+
+.footer-team {
+  font-weight: 700;
+}
+
+.footer-org {
+  opacity: 0.9;
+  font-size: 15px;
+}
+
+@media (max-width: 768px) {
+  .event-footer {
+    padding: 36px 16px;
+    background-size: cover;
+    background-position: center top;
+  }
+
+  .footer-inner {
+    max-width: 100%;
+  }
+
+  .event-footer p {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .footer-social {
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .footer-social a {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+}
+
+/* ===============================
+   VISA / ACCOMMODATION SECTION
+================================ */
+.visa-section {
+  background-image: url('bannerbackground2.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px 20px;
+  position: relative;
+}
+
+.visa-overlay {
+  background: rgba(0, 0, 0, 0.55);
+  padding: 20px 20px;
+  border-radius: 16px;
+  max-width: 1200px;
+  margin: auto;
+  color: #ffffff;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 16px;
+  max-width: 700px;
+  margin: 0 auto 50px auto;
+  opacity: 0.9;
+}
+
+.visa-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.visa-card {
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  padding: 30px;
+  border-radius: 14px;
+}
+
+.visa-card h3,
+.visa-card p,
+.visa-card strong,
+.visa-card a {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.visa-card h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.visa-card p {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.contact-info {
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+@media (max-width: 768px) {
+  .visa-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+}
+
+.visa-btn {
+  display: inline-block;
+  padding: 12px 30px;
+  background: linear-gradient(135deg, #ff9800, #ff5722);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 30px;
+  letter-spacing: 0.4px;
+  transition: all 0.3s ease;
+}
+
+.visa-btn:hover {
+  background: linear-gradient(135deg, #ffa726, #ff7043);
+  transform: translateY(-2px);
+}
+
+.visa-section a,
+.visa-section a:visited {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.visa-section a:hover {
+  text-decoration: underline;
+}
+
+.visa-popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.visa-popup-content {
+  background: #0f2b3a;
+  color: #ffffff;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 12px;
+  position: relative;
+  overflow: visible;
+}
+
+.visa-popup-content h2,
+.visa-popup-content h3 {
+  color: #ff9800;
+}
+
+.visa-popup-content a {
+  color: #ffcc80;
+  text-decoration: underline;
+}
+
+.visa-popup-content ul {
+  padding-left: 20px;
+}
+
+.visa-close {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 42px;
+  height: 42px;
+  background: #ff9800;
+  color: #0f2b3a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.visa-close:hover {
+  transform: rotate(90deg) scale(1.05);
+  background: #ffa726;
+}
+
+.visa-highlight-box {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 22px 25px;
+  border-radius: 14px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.visa-highlight-box:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
+}
+
+.visa-highlight-box h3 {
+  color: #ff9800;
+  font-size: 20px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.visa-highlight-box p {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 15px;
+  line-height: 1.6;
+}
