@@ -1,0 +1,708 @@
+/* ===============================
+   GLOBAL RESET
+================================ */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ===============================
+   DESIGN TOKENS
+   Header height lives in ONE variable so the fixed header,
+   the banner offset and anchor scrolling can never disagree.
+================================ */
+:root {
+  --header-height: 72px;
+  /* Menu breakpoint is 1249px - the 9 nav labels need that much room
+     before they start colliding with the logo. It is repeated in the
+     media queries below (CSS cannot use a variable in a media query)
+     and in menu.js - change all of them together. */
+}
+
+@media (max-width: 1249px) {
+  :root {
+    --header-height: 64px;
+  }
+}
+
+/* Anchor links (#venue, #about...) must not land under the fixed header */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Body scroll lock while the mobile menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* ===============================
+   HEADER  -  SINGLE SOURCE OF TRUTH
+================================ */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--header-height);
+  z-index: 1000;
+
+  background: linear-gradient(
+    90deg,
+    #9fb28a 0%,    /* soft warm blend */
+    #5fb2a6 60%,   /* light teal-green */
+    #3aa39f 100%   /* fresh teal */
+  );
+}
+
+/* NAV CONTAINER */
+.nav-container {
+  position: relative;          /* containing block for any absolute child */
+  max-width: 1680px;           /* wide enough that the logo never squeezes
+                                  the centre column off true centre */
+  height: 100%;                /* fills the header so items centre properly */
+  margin: 0 auto;
+  padding: 0 20px;             /* no vertical padding - height + flex centres */
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+/* ===============================
+   LOGO
+================================ */
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.logo span {
+  font-weight: 400;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+  max-height: calc(var(--header-height) - 20px);
+  object-fit: contain;
+  display: block;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.logo img:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+/* ===============================
+   DESKTOP NAV LINKS
+================================ */
+.nav-links {
+  /* Centres the links in the space beside the logo, so the gap to the
+     left of "Home" and the gap to the right of the last link are equal.
+
+     This is deliberately NOT the exact middle of the screen. The 9
+     labels are ~1280px wide and the logo takes ~310px on the left, so
+     pinning the links to the true screen centre leaves ~30px of space
+     on the left and ~270px on the right - which reads as off-centre
+     even though it is mathematically centred. Balanced gaps look
+     centred; dead-centre does not.
+
+     To switch to true screen centre anyway, see NAV CENTRING OPTIONS
+     at the bottom of this file. */
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: nowrap;
+}
+
+.nav-links a {
+  position: relative;
+  font-size: 20px;
+  font-weight: 600;
+  color: #0b2c4d;              /* deep navy - readable on the teal header */
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 6px 0;
+  transition: color 0.25s ease;
+}
+
+/* Animated underline (the original had position:relative but no ::after) */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: #6ec1ff;         /* matches the hover colour */
+  transition: width 0.28s ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  color: #6ec1ff;              /* light blue hover */
+}
+
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after {
+  width: 100%;
+}
+
+/* Keyboard focus ring for every header control */
+.nav-links a:focus-visible,
+.nav-cta:focus-visible,
+.menu-toggle:focus-visible,
+.close-menu:focus-visible,
+.mobile-menu a:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ===============================
+   CTA BUTTONS
+================================ */
+.nav-cta-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #ffffff;
+
+  background: linear-gradient(135deg, #2ea66b, #f0a93c);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+/* ===============================
+   HAMBURGER BUTTON
+   Hidden on desktop, 44x44 tap target on mobile.
+================================ */
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ===============================
+   MOBILE SLIDE-IN MENU
+================================ */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+
+  background: linear-gradient(135deg, #0b5c6d, #1aa6a0, #f08a3c);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+
+  padding: 88px 24px 40px;
+  overflow-y: auto;                      /* long menus stay reachable */
+  -webkit-overflow-scrolling: touch;
+
+  transform: translateX(100%);
+  visibility: hidden;                    /* keeps links out of the tab order */
+
+  /* Closing: stay visible for the slide-out, then hide.
+     Opening (.active): become visible instantly, so the panel is
+     focusable in the same tick the class is added. */
+  transition: transform 0.45s ease, visibility 0s linear 0.45s;
+}
+
+.mobile-menu.active {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.45s ease, visibility 0s linear 0s;
+}
+
+.mobile-menu a {
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 10px 6px;                     /* comfortable tap target */
+}
+
+/* CTA spacing inside the mobile menu */
+.mobile-menu .nav-cta {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 16px;
+  padding: 12px 28px;
+}
+
+/* CLOSE BUTTON */
+.close-menu {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Short/landscape phones: centring would clip the top of a tall menu */
+@media (max-height: 520px) {
+  .mobile-menu {
+    justify-content: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu,
+  .mobile-menu.active {
+    transition: none;
+  }
+}
+
+/* ===============================
+   HEADER - MOBILE (<= 1249px)
+   Switches to the hamburger before the 9 labels can collide with the logo.
+================================ */
+@media (max-width: 1249px) {
+
+  .nav-links {
+    display: none;
+  }
+
+  .logo img {
+    height: 30px;
+  }
+
+  /* Kept in normal flow - no absolute positioning, no magic offsets */
+  .nav-cta-wrapper {
+    margin-left: auto;
+  }
+
+  /* Only "Registration" stays in the header bar; the rest live in the menu */
+  .site-header .nav-cta-wrapper .nav-cta:not(.nav-cta-register) {
+    display: none;
+  }
+
+  .nav-cta {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+}
+
+/* ===============================
+   HEADER - COMPACT DESKTOP (1250px - 1449px)
+   Laptop widths where all 9 labels fit only once they are tightened up.
+================================ */
+@media (min-width: 1250px) and (max-width: 1449px) {
+
+  .nav-container {
+    gap: 14px;
+    padding: 0 14px;
+  }
+
+  .nav-links {
+    gap: 14px;
+  }
+
+  .nav-links a {
+    font-size: 17px;
+  }
+
+  .nav-cta-wrapper {
+    gap: 8px;
+  }
+
+  .nav-cta {
+    padding: 9px 16px;
+    font-size: 13px;
+  }
+
+  .logo img {
+    height: 34px;
+  }
+}
+
+/* Safety net: the panel can never appear on desktop, even if JS leaves
+   .active behind after a resize. */
+@media (min-width: 1250px) {
+  .mobile-menu {
+    display: none;
+  }
+}
+
+
+/* ===============================
+   FIXED-HEADER OFFSET
+   The header is position:fixed, so it sits on top of the page. This
+   file has no .top-banner to carry the offset (index.html's stylesheet
+   does), so the body carries it instead and the first section starts
+   below the header rather than underneath it.
+   Remove this if the page's first section already reserves the space.
+================================ */
+body {
+  padding-top: var(--header-height);
+}
+
+/* ===============================
+   PREMIUM ANIMATED LINE DIVIDER
+================================ */
+.line-divider-premium {
+  width: 100%;
+  height: 8px;
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(
+    90deg,
+    #0b5c6d,
+    #1aa6a0,
+    #f08a3c
+  );
+
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
+}
+
+.line-divider-premium::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -30%;
+  width: 30%;
+  height: 100%;
+
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+
+  animation: dividerShimmer 2.5s ease-in-out infinite;
+}
+
+@keyframes dividerShimmer {
+  0%   { left: -30%; }
+  50%  { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* ===============================
+   FOOTER SECTION
+================================ */
+.event-footer {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(11, 92, 109, 0.10) 0%,
+      rgba(26, 166, 160, 0.10) 45%,
+      rgba(240, 138, 60, 0.10) 100%
+    ),
+    url("../images/brand/banner-background.png");
+
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+
+  padding: 20px 20px;
+  min-height: 280px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.event-footer p,
+.event-footer a {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* Content */
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.event-footer a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* SOCIAL ICONS */
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 10px;
+}
+
+.footer-social a {
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.footer-social a:hover {
+  transform: translateY(-4px) scale(1.05);
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.45);
+}
+
+/* TEXT */
+.event-footer p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.footer-contact {
+  font-weight: 600;
+}
+
+.footer-highlight {
+  margin-top: 18px;
+  font-size: 17px;
+}
+
+.footer-signoff {
+  margin-top: 26px;
+}
+
+.footer-team {
+  font-weight: 700;
+}
+
+.footer-org {
+  opacity: 0.9;
+  font-size: 15px;
+}
+
+@media (max-width: 768px) {
+  .event-footer {
+    padding: 36px 16px;
+    background-size: cover;
+    background-position: center top;
+  }
+
+  .footer-inner {
+    max-width: 100%;
+  }
+
+  .event-footer p {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .footer-social {
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .footer-social a {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+}
+
+/* ===============================
+   ORGANIZING COMMITTEE
+================================ */
+.organizing-committee {
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.section-title {
+  font-size: 42px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 70px;
+  position: relative;
+}
+
+/* Elegant underline */
+.section-title::after {
+  content: "";
+  width: 80px;
+  height: 3px;
+  background: #ffb26b;
+  display: block;
+  margin: 18px auto 0;
+  border-radius: 5px;
+}
+
+/* GRID layout */
+.committee-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 40px;
+  max-width: 1300px;
+  margin: auto;
+}
+
+/* CARD */
+.profile-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+}
+
+/* IMAGE */
+.profile-image {
+  height: 300px;
+  overflow: hidden;
+}
+
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;   /* keep faces in frame when cropping */
+  transition: transform 0.4s ease;
+}
+
+.profile-card:hover img {
+  transform: scale(1.05);
+}
+
+/* TEXT CONTENT */
+.profile-info {
+  padding: 25px;
+  text-align: center;
+}
+
+.profile-info h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1c1c1c;
+  margin-bottom: 6px;
+}
+
+.designation {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f4c5c;
+  margin-bottom: 6px;
+}
+
+.organization {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 32px;
+  }
+
+  /* Portrait frame matches the actual head-shots, so faces are no
+     longer cropped top & bottom by the wide 300px landscape box */
+  .profile-image {
+    height: auto;
+    aspect-ratio: 4 / 5;
+  }
+}
+
+/* ===============================
+   NAV CENTRING OPTIONS
+   The header centres the links in the space beside the logo (balanced
+   gaps). If you would rather pin them to the exact middle of the
+   screen, uncomment the block below. Be aware that at ~1900px wide the
+   links then sit about 30px from the logo with ~270px of empty space on
+   the right, and on a narrower window they will reach the logo.
+================================ */
+/*
+@media (min-width: 1250px) {
+  .nav-container {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+  }
+  .logo            { justify-self: start;  }
+  .nav-links       { justify-self: center; margin: 0; }
+  .nav-cta-wrapper { justify-self: end;    }
+}
+*/
