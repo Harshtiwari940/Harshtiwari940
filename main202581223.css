@@ -335,8 +335,15 @@ body.menu-open {
     height: 30px;
   }
 
-  /* Kept in normal flow - no absolute positioning, no magic offsets */
-  .nav-cta-wrapper {
+  /* Push whatever sits on the right of the bar to the right edge.
+     Both are set because the pages differ: on some the hamburger is
+     wrapped in .nav-cta-wrapper, on others it is a direct child of
+     .nav-container. Setting only the wrapper left the button stranded
+     next to the logo on the pages that have no wrapper. Whichever
+     element is the first one after the logo takes the free space; the
+     auto margin is a harmless no-op on the other. */
+  .nav-cta-wrapper,
+  .menu-toggle {
     margin-left: auto;
   }
 
