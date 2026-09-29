@@ -184,18 +184,22 @@
 }
 
 /* Conference Banner */
+/* The banner takes its height from the (already cropped) image,
+   so the photo is shown whole - never stretched or re-cropped. */
 .conference-banner {
     position: relative;
     width: 100%;
-    height: 500px;
     overflow: hidden;
 }
 
 .conference-banner > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
     display: block;
+    width: 100%;
+    height: auto;
+    /* Only kicks in on smaller screens, where the wide photo would be
+       too short for the heading and tabs; wide screens show it whole. */
+    min-height: 340px;
+    object-fit: cover;
 }
 
 /* Dark overlay */
@@ -236,8 +240,11 @@
 }
 
 @media (max-width: 768px) {
-    .conference-banner {
-        height: 550px;
+    /* On narrow screens the wide photo gets too short to hold the
+       heading and stacked tabs, so give it a minimum height here. */
+    .conference-banner > img {
+        height: 420px;
+        object-fit: cover;
     }
 
     .conference-overlay h1 {
@@ -352,7 +359,7 @@
 <!-- Conference Hero / Gallery Banner -->
 <section class="conference-banner">
 
-    <img src="halidox-turkey-630385.jpg"
+    <img src="halidox-turkey.jpg"
          alt="WWRF Huddle 2026">
 
     <div class="conference-overlay">
